@@ -1,0 +1,57 @@
+﻿<views:GenreFitting
+	x:Class="LitRes.Views.Genre"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+	xmlns:ControlsToolkit="clr-namespace:System.Windows.Controls" 
+	xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:litrescontrols="clr-namespace:LitRes.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+	xmlns:mvvm="clr-namespace:Digillect.Mvvm.UI;assembly=Digillect.Mvvm.WindowsPhone"
+	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+	xmlns:viewModels="clr-namespace:LitRes.ViewModels"
+	xmlns:views="clr-namespace:LitRes.Views"
+	
+	mc:Ignorable="d"
+	FontFamily="{StaticResource PhoneFontFamilyNormal}"
+	FontSize="{StaticResource PhoneFontSizeNormal}"
+	Foreground="{StaticResource PhoneForegroundBrush}"
+	SupportedOrientations="Portrait" Orientation="Portrait"
+	shell:SystemTray.IsVisible="False">
+
+	<!--<phone:PhoneApplicationPage.ApplicationBar>
+		<shell:ApplicationBar IsVisible="True" Opacity="0.88" BackgroundColor="{StaticResource LitResAppBarBackgroundColor}" ForegroundColor="{StaticResource LitResAppBarForegroundColor}">
+			<shell:ApplicationBar.Buttons>
+								<shell:ApplicationBarIconButton Text="следить за новинками" IconUri="/assets/appbar/like.png" Click="appbarLike_Click" ></shell:ApplicationBarIconButton>
+			</shell:ApplicationBar.Buttons>
+		</shell:ApplicationBar>
+	</phone:PhoneApplicationPage.ApplicationBar>-->
+
+	<!--LayoutRoot is the root grid where all page content is placed-->
+	<Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}" >
+		<Grid.RowDefinitions>
+			<RowDefinition Height="24"></RowDefinition>
+			<RowDefinition Height="auto"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+
+		<TextBlock Grid.Row="1" Margin="24,0,0,0" Text="{Binding ViewModel.Entity.Title, Converter={StaticResource ToUpperConverter}}" Style="{StaticResource TextBlockHeaderStyle}" ></TextBlock>
+		<ScrollViewer Grid.Row="2" Margin="24,24,0,0" >
+			<StackPanel Margin="0,0,0,0"><!--<StackPanel Margin="0,0,0,72">-->
+				<ListBox x:Name="Genres" ItemsSource="{Binding ViewModel.Entity.Children}" ItemTemplate="{StaticResource ListBox_Genre_Template}"
+					 ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" >
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="Tap">
+							<i:InvokeCommandAction Command="{Binding ViewModel.GenreSelected}" CommandParameter="{Binding SelectedItem, ElementName=Genres}"></i:InvokeCommandAction>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</ListBox>
+			</StackPanel>
+		</ScrollViewer>
+
+				<litrescontrols:PageHeader x:Name="pageHeader"/>
+	</Grid>
+
+</views:GenreFitting>

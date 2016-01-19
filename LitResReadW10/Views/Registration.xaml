@@ -1,0 +1,140 @@
+﻿<views1:RegistrationFitting
+	x:Class="LitRes.Views.Registration"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:views="clr-namespace:LitRes.Views"
+	xmlns:views1="using:LitRes.Views"
+	xmlns:ui="using:Digillect.Mvvm.UI"
+	xmlns:controls="using:LitRes.Controls"
+
+	mc:Ignorable="d"
+	FontFamily="{StaticResource PhoneFontFamilyNormal}"
+	FontSize="{StaticResource PhoneFontSizeNormal}"
+	Foreground="{StaticResource LitResForegroundBrush}">
+
+    <!--<phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" Opacity="0.88" BackgroundColor="{StaticResource LitResAppBarBackgroundColor}" ForegroundColor="{StaticResource LitResAppBarForegroundColor}">
+            <shell:ApplicationBar.Buttons>
+                <shell:ApplicationBarIconButton Text="создать" IconUri="/assets/appbar/register.png" Click="Registration_Click" ></shell:ApplicationBarIconButton>
+            </shell:ApplicationBar.Buttons>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>-->
+
+   <ui:WindowsRTPage.Resources>
+        <Storyboard x:Name="MoveUp">
+            <DoubleAnimation Duration="0:0:0.5"
+									 To="-160"
+									 Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)"
+									 Storyboard.TargetName="InnerRoot">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Name="MoveDown">
+            <DoubleAnimation Duration="0:0:0.5"
+									 To="0"
+									 Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)"
+									 Storyboard.TargetName="InnerRoot">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </ui:WindowsRTPage.Resources>
+
+        <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot">
+      <ScrollViewer
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            HorizontalScrollMode="Disabled"
+            VerticalScrollMode="Auto"
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto">
+        <Grid x:Name="InnerRoot" Style="{StaticResource LayoutRoot}" >
+          <Grid.RowDefinitions>
+            <RowDefinition Height="24"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+          </Grid.RowDefinitions>
+          <Grid.RenderTransform>
+            <CompositeTransform/>
+          </Grid.RenderTransform>
+
+          <TextBlock Grid.Row="1" x:Name="ProfileTitle" Margin="24,0,0,0" Text="Профиль" Style="{StaticResource BigNormalSemiBoldBlackTextStyle}" />
+          <TextBlock Grid.Row="2" Margin="24,12,0,0" Text="Регистрация" Style="{StaticResource BigNormalBlackTextStyle}" />
+          <StackPanel Grid.Row="3" Margin="24,12,24,0">
+            <TextBox x:Name="tbLogin" Margin="0,0,0,0" PlaceholderText="Логин" LostFocus="TextBoxLostFocus" GotFocus="TextBoxGotFocus" InputScope="EmailNameOrAddress" KeyUp="TbLogin_OnKeyUp" Style="{StaticResource LitresTextBoxStyle}" />
+            <PasswordBox x:Name="tbPassword" Margin="0,10,0,0" PlaceholderText="Пароль" LostFocus="TextBoxLostFocus" GotFocus="TextBoxGotFocus" KeyUp="TbPassword_OnKeyUp" Style="{StaticResource LitresPasswordBoxStyle}" />
+            <TextBox x:Name="tbPhone" Margin="0,10,0,0" PlaceholderText="Номер телефона" Style="{StaticResource LitresTextBoxStyle}" GotFocus="TextBoxGotFocus"  LostFocus="TextBoxLostFocus" InputScope="TelephoneNumber" />
+            <Button x:Name="SignUpButton" Margin="0,16,0,0" HorizontalAlignment="Stretch" Style="{StaticResource OrangeButtonStyle}" Content="РЕГИСТРАЦИЯ" Click="SignUp" />
+          </StackPanel>
+          <Grid Grid.Row="5" Margin="24,16,24,24">
+            <RichTextBlock Margin="0,0,0,0" 
+                           HorizontalAlignment="Left" 
+                           FontSize="{StaticResource LitresFontSizeSmall}" 
+                           FontWeight="Medium" 
+                           KeyUp="TbPhone_OnKeyUp" 
+                           TextWrapping="Wrap" 
+                           Foreground="{StaticResource LitresBlackBrush}">
+                  <Paragraph>
+                      <Run Text="Нажимая на кнопку &quot;зарегистрироваться&quot;, вы автоматически соглашаетесь с текущими"/>
+                      <Hyperlink NavigateUri="http://www.litres.ru/pages/litres_oferta/" 
+                                 Foreground="{StaticResource LitresOrangeBrush}">Условиями обслуживания</Hyperlink>
+                  </Paragraph>
+              </RichTextBlock> 
+          </Grid>
+          <controls:PageHeader x:Name="pageHeader"/>
+        </Grid>
+      </ScrollViewer>
+        <!--<Grid x:Name="InnerRoot" Style="{StaticResource LayoutRoot}" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="24"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.RenderTransform>
+                <CompositeTransform/>
+            </Grid.RenderTransform>
+
+            <TextBlock Grid.Row="1" Margin="24,0,0,0" Text="ПРОФИЛЬ" Style="{StaticResource TextBlockHeaderStyle}" ></TextBlock>
+            <TextBlock Grid.Row="2" Margin="24,12,0,0" Text="регистрация" Style="{StaticResource TextBlockHeaderStyle}" FontSize="{StaticResource PhoneFontSizePanoramaItemHeader}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" Foreground="{StaticResource LitResAccentBrush}" />
+            <StackPanel Grid.Row="4" Margin="12,12,12,0">
+                <TextBlock x:Name="toCreateShopAccountText" TextWrapping="Wrap"  Margin="12,0,0,0" FontFamily="{StaticResource PhoneFontFamilyNormal}" Visibility="Collapsed">
+				<Run Text="Для использования функций магазина, Вам необходимо зарегистрироваться"></Run>
+                </TextBlock>
+                <TextBlock Margin="12,12,0,-6" FontFamily="{StaticResource PhoneFontFamilySemiLight}" >
+				<Run Text="Логин (email)"></Run>
+                </TextBlock>
+                <TextBox x:Name="tbLogin" Margin="0,0,0,0" Style="{StaticResource SearchTextBox}" GotFocus="TextBoxGotFocus"  LostFocus="TextBoxLostFocus" InputScope="EmailUserName" ></TextBox>
+                <TextBlock Margin="12,12,0,-6" FontFamily="{StaticResource PhoneFontFamilySemiLight}" >
+				<Run Text="Пароль"></Run>
+                </TextBlock>
+                <PasswordBox x:Name="tbPassword" Margin="0,0,0,0" LostFocus="TextBoxLostFocus" GotFocus="TextBoxGotFocus" Style="{StaticResource PasswordBox}" >
+                </PasswordBox>
+                <TextBlock Margin="12,12,0,-6" FontFamily="{StaticResource PhoneFontFamilySemiLight}" >
+				<Run Text="Номер телефона"></Run>
+                </TextBlock>
+                <TextBox x:Name="tbPhone" Margin="0,0,0,0" Style="{StaticResource SearchTextBox}" GotFocus="TextBoxGotFocus"  LostFocus="TextBoxLostFocus" InputScope="TelephoneNumber" ></TextBox>
+                <RichTextBox Margin="0,12,0,0" TextWrapping="Wrap" Foreground="{StaticResource LitResForegroundBrush}">
+                    <Paragraph>
+                        <Run Text="Нажимая на кнопку &quot;зарегистрироваться&quot;, вы автоматически соглашаетесь с текущими"/>
+                        <Hyperlink NavigateUri="http://www.litres.ru/pages/litres_oferta/" TargetName="_blank" Foreground="{StaticResource LitResAccentBrush}">условиями обслуживания</Hyperlink>
+                    </Paragraph>
+                </RichTextBox>
+            </StackPanel>
+
+            <controls:PageHeader x:Name="pageHeader"/>
+        </Grid>-->
+    </Grid>
+
+</views1:RegistrationFitting>

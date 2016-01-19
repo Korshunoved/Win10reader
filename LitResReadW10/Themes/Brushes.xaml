@@ -1,0 +1,21 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Colors.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <SolidColorBrush x:Key="LitresMainBackgroundBrush" Color="{StaticResource LitresMainBackgroundColor}"/>
+    <SolidColorBrush x:Key="LitresPaneBackgroundBrush" Color="{StaticResource LitresPaneBackgroundColor}"/>
+    <!--<ImageBrush x:Name="ReadButtonImageBrush" x:Key="ReadButtonImageBrush" ImageSource="../Assets/Buttons/bookButton.png" />-->
+
+    <SolidColorBrush x:Key="LitresWhiteBrush" Color="{StaticResource LitresWhiteColor}"/>
+    <SolidColorBrush x:Key="LitresOrangeBrush" Color="{StaticResource LitresOrangeColor}"/>
+    <SolidColorBrush x:Key="LitresBlackBrush" Color="{StaticResource LitresBlackColor}"/>
+    <SolidColorBrush x:Key="LitresGreyBrush" Color="{StaticResource LitresGreyColor}"/>
+    <SolidColorBrush x:Key="LitresLightGreyBrush" Color="{StaticResource LitresLightGreyColor}"/>
+    <SolidColorBrush x:Key="LitresGreyTextBoxBorderBrush" Color="{StaticResource LitresGreyTextBoxBorderColor}"/>
+
+    
+</ResourceDictionary>

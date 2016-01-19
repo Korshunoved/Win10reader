@@ -1,0 +1,210 @@
+﻿<views:PersonFitting
+	x:Class="LitRes.Views.Person"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:controls="using:LitRes.Controls"
+	xmlns:views="using:LitRes.Views"
+	x:Name="View"
+	mc:Ignorable="d">
+
+
+	<!--LayoutRoot is the root grid where all page content is placed-->
+	<Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}" >
+    <Pivot x:Name="PivotControl"
+               SelectionChanged="PivotControl_OnSelectionChanged">
+     
+      <PivotItem Header="Книги" Padding="0" Margin="10">
+        <controls:PartialLoadedListView x:Name="AuthorBooks"
+                                        ItemsSource="{Binding ViewModel.PersonBooks}"
+                                        Tapped="AuthorBooks_OnTapped"
+                                        ItemTemplate="{StaticResource BookMinicartTemplate}"
+                                        ItemContainerStyle="{StaticResource ListViewStretchStyle}"  />
+      </PivotItem>
+ 
+      <PivotItem Header="Отзывы"
+                 Padding="0"
+                 Tag="123456"
+                 Margin="10">
+        <Grid Margin="0,0,0,0">
+          <StackPanel Orientation="Vertical"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Center"
+                      Visibility="{Binding ViewModel.PersonRecenses.Count, 
+                                                    Converter={StaticResource VisibilityConverter}, 
+                                                    ConverterParameter=inverse,
+                                                    FallbackValue=Collapsed}">
+            <Image
+                x:Name="TypeWriterImage"
+                HorizontalAlignment="Center"
+                Stretch="None"
+                Source="../Assets/W10Icons/TypeWriter/ill_typewriter_small.png"/>
+            <TextBlock
+                Margin="0,20,0,15"
+                HorizontalAlignment="Center"
+                Style="{StaticResource BigNormalSemiBoldBlackTextStyle}"
+                Text="Напишите отзыв первым"/>
+
+            <TextBox HorizontalAlignment="Stretch"
+                     x:Name="RecenseTextBlock"
+                     Background="White"
+                     Height="100"
+                     TextWrapping="Wrap"
+                     BorderThickness="2"
+                     BorderBrush="{StaticResource LitresLightGreyBrush}"
+                     PlaceholderText="Этот автор..."/>
+
+            <TextBlock HorizontalAlignment="Center"
+                       x:Name="UsernameTextBlock"
+                       Style="{StaticResource SmallBlackTextStyle}"
+                       FontWeight="Medium"
+                       Margin="0,5,0,15"
+                       Text=""/>
+            <Button HorizontalAlignment="Stretch"
+                    x:Name="AddRecenseButton"
+                    Style="{StaticResource BlackButtonStyle}"
+                    Tapped="AddRecenseButton_OnTapped"
+                    Content="ОСТАВИТЬ ОТЗЫВ"/>
+          </StackPanel>
+
+          <controls:PartialLoadedListView x:Name="BookRecenses"
+                                          ItemsSource="{Binding ViewModel.PersonRecenses}"
+                          ItemContainerStyle="{StaticResource ListViewStretchStyle}">
+            <controls:PartialLoadedListView.ItemTemplate>
+              <DataTemplate>
+                <Grid Background="{StaticResource LitresWhiteBrush}"
+                          Padding="15,15,15,15"
+                          Margin="0,0,0,10">
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                  </Grid.RowDefinitions>
+
+                  <StackPanel Orientation="Horizontal"
+                                  Grid.Row="0"
+                                  Margin="0,0,0,10">
+                    <TextBlock Margin="0,0,5,0"
+                                   Style="{StaticResource SmallLightGrayTextStyle}"
+                                   FontWeight="Medium"
+                                   TextWrapping="Wrap"
+                                   TextTrimming="WordEllipsis"
+                                   Visibility="{Binding Path=Login, 
+                                                                            Converter={StaticResource VisibilityConverter}, 
+                                                                            FallbackValue=Collapsed}"
+                                   Text="{Binding Path=Login, 
+                                                                    Converter={StaticResource StringCharTrimConverter}, 
+                                                                    ConverterParameter=@}"/>
+
+                    <TextBlock Style="{StaticResource SmallLightGrayTextStyle}"
+                               FontWeight="Normal"
+                               TextWrapping="Wrap"
+                               TextTrimming="WordEllipsis">
+                      <Run Text="{Binding Path=Added, 
+                                                                  Converter={StaticResource DateTimeStringFormatter}, 
+                                                                  ConverterParameter=\{0:d MMMM yyyy\, HH:mm \}}" />
+                    </TextBlock>
+                  </StackPanel>
+
+                  <TextBlock Grid.Row="1"
+                                 Margin="0"
+                                 Style="{StaticResource SmallBlackTextStyle}"
+                                 FontWeight="Medium"
+                                 MaxHeight="160"
+                                 TextTrimming="WordEllipsis"
+         Text="{Binding Path=TextRecense.Text, Converter={StaticResource HtmlConverter}}"
+                                 TextWrapping="Wrap"
+         Tapped="RecenseText_OnTapped" />
+                </Grid>
+              </DataTemplate>
+            </controls:PartialLoadedListView.ItemTemplate>
+          </controls:PartialLoadedListView>
+        </Grid>
+      </PivotItem>
+
+      <PivotItem Header="Биография" Padding="0" Margin="10">
+        <Grid
+            Margin="0"
+            Padding="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+          <ScrollViewer
+            x:Name="RootScrollViewer"
+            HorizontalAlignment="Stretch"
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto">
+              <Grid Margin="0"
+                    Padding="12,0,12,13"
+                    VerticalAlignment="Top" 
+                    HorizontalAlignment="Stretch" 
+                    Background="Transparent" >
+                  <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="auto"></ColumnDefinition>
+                      <ColumnDefinition Width="*"></ColumnDefinition>
+                  </Grid.ColumnDefinitions>
+                            
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition/>
+                </Grid.RowDefinitions>
+                                
+                  <Image x:Name="AuthorImage" Grid.Column="0" Grid.Row="0" Stretch="None" Source="../Assets/W10Images/Person/Person.png"/>
+                  <Image 
+                    Width="{Binding ElementName=AuthorImage, Path=Width}" 
+                    Height="{Binding ElementName=AuthorImage, Path=Height}" 
+                    Grid.Column="0" 
+                    Grid.Row="0" 
+                    Stretch="UniformToFill"
+                    Source="{Binding ViewModel.Entity.Photo, Converter={StaticResource UrlToImageConverter}}">
+                    
+                  </Image>
+                
+                  <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="12,0,0,0" Orientation="Vertical">
+                      <TextBlock Text="{Binding ViewModel.Entity.FirstName}" Style="{StaticResource SmallSemiBoldBlackTextStyle}"/>
+                      <TextBlock Text="{Binding ViewModel.Entity.LastName}" Style="{StaticResource SmallSemiBoldBlackTextStyle}"/>
+                      <TextBlock Style="{StaticResource SmallNormalLightGrayTextStyle}">
+                          <Run Text="{Binding ViewModel.Entity.ArtsCount, Converter={StaticResource ToStringConverter}}"/>
+                          <Run>книг</Run>
+                      </TextBlock>
+                  </StackPanel>
+                          
+                  <Grid  Grid.Column="0" 
+                          Grid.ColumnSpan="2"
+                          Grid.Row="1" 
+                          Margin="0,12,0,0"
+                          HorizontalAlignment="Stretch" 
+                          VerticalAlignment="Stretch">
+                                
+                    <TextBlock
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Margin="0,0,0,0"
+                      TextAlignment="Center"
+                      Foreground="{StaticResource LitresLightGreyBrush}"
+                      FontSize="{StaticResource LitresFontSizeBigNormal}"
+                      Visibility="{Binding ViewModel.IsBioExists, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse ,FallbackValue=Collapsed}"
+                      Text="Биография отсутствует"/>
+                                
+                  <TextBlock
+                            Text="{Binding Path=ViewModel.Entity.TextDescription.Text, Converter={StaticResource HtmlConverter}}"
+                            TextWrapping="Wrap" 
+                            Style="{StaticResource SmallNormalBlackTextStyle}"
+                            LineStackingStrategy="BlockLineHeight" 
+                            LineHeight="28" 
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top" 
+                            Margin="0,0,0,50"
+                            Visibility="{Binding ViewModel.Entity.TextDescription.Text, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}"
+                        />
+                              
+                  </Grid>
+              </Grid>
+          </ScrollViewer>
+        </Grid>
+      </PivotItem>
+    </Pivot>
+    
+		<controls:PageHeader x:Name="pageHeader"/>
+	</Grid>
+
+</views:PersonFitting>

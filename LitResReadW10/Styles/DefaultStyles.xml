@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Stylesheets>
+  <Stylesheet Name="Text">
+	<Style Name="Normal"
+				FontFace="Sans"
+				FontSize="16"
+				BackColor="White"
+				ForeColor="Black"
+				Bold="Off"
+				Italic="Off"
+				Underline="Off"
+				Alignment="Justify"
+				FirstLineIndent="10"
+		  SpacingBefore="15" SpacingAfter="0"
+		 LeftIndent="5"
+		 RightIndent="5"
+		   />
+	
+	<Style Name="Sub" FontSize="12" />
+	<Style Name="Sup" FontSize="12" />
+	
+	<Style Name="Strikethrough" Strikethrough="On" />
+
+	<Style Name="Strong" Bold="On"/>
+	<Style Name="Emphasis" Italic="On" />
+	<Style Name="Link" />
+
+	<Style Name="Section"/>
+
+	<Style Name="Title" FontSize="20" Bold="On" Alignment="Center" ForeColor="Red" />
+	<Style Name="Subtitle" FontSize="16" ForeColor="Red" Bold="On" Alignment="Center" SpacingBefore="2" SpacingAfter="2"/>
+
+	<Style Name="Cite" Italic="On" ForeColor="Green" LeftIndent="5" RightIndent="5"/>
+
+	<Style Name="Poem" LeftIndent="5" FirstLineIndent="0"/>
+	<Style Name="Stanza" ForeColor="Blue" Alignment="Left" FirstLineIndent="0" SpacingBefore="2" SpacingAfter="2"/>
+	<Style Name="Verse" SpacingBefore="-15"/>
+	
+	<Style Name="TextAuthor" Italic="On" Bold="On" FontSize="12" ForeColor="Olive" SpacingBefore="-15"/>
+
+	<Style Name="Epigraph" FontSize="16" ForeColor="Blue" Italic="On" Alignment="Right" LeftIndent="15" SpacingBefore="5" SpacingAfter="5"/>
+  </Stylesheet>
+
+  <Stylesheet Name="Notes">
+	<Style Name="Normal"
+				FontFace="Times New Roman"
+				FontSize="10"
+				BackColor="White"
+				ForeColor="Black"
+				Bold="Off"
+				Italic="Off"
+				Underline="Off"
+				Alignment="Left"
+				FirstLineIndent="5"/>
+
+	<Style Name="Strong" Bold="On"/>
+	<Style Name="Emphasis" Italic="On"/>
+	<Style Name="Link" ForeColor="Blue" Underline="On"/>
+
+	<Style Name="Section"/>
+
+	<Style Name="Title" FontSize="+3" Bold="On" Alignment="Center"/>
+	<Style Name="Subtitle" FontSize="+1" ForeColor="Red" Bold="On" Alignment="Center" SpacingBefore="2" SpacingAfter="2"/>
+
+	<Style Name="Cite" FontSize="-1" ForeColor="Green" LeftIndent="5" RightIndent="5"/>
+
+	<Style Name="Poem" LeftIndent="5" FirstLineIndent="0"/>
+	<Style Name="Stanza" ForeColor="Blue" Alignment="Left" FirstLineIndent="0" SpacingBefore="2" SpacingAfter="2"/>
+	<Style Name="Verse"/>
+
+	<Style Name="Epigraph" FontSize="-2" ForeColor="Blue" Alignment="Left" LeftIndent="15" SpacingBefore="5" SpacingAfter="5"/>
+  </Stylesheet>
+
+  <Stylesheet Name="Table Of Content">
+	<Style Name="Normal"
+				FontFace="Times New Roman"
+				FontSize="16"
+				BackColor="White"
+				ForeColor="Black"
+				Bold="Off"
+				Italic="Off"
+				Underline="Off"
+				Alignment="Left"
+				FirstLineIndent="0"/>
+
+	<Style Name="Strong" Bold="On"/>
+	<Style Name="Emphasis" Italic="On"/>
+	<Style Name="Link"/>
+
+	<Style Name="Section" FontSize="-1" LeftIndent="+5"/>
+
+	<Style Name="Title" Bold="On" Alignment="Left"/>
+	<Style Name="Subtitle"/>
+
+	<Style Name="Cite"/>
+
+	<Style Name="Poem" LeftIndent="+5" FirstLineIndent="0"/>
+	<Style Name="Stanza" ForeColor="Blue" Alignment="Left" SpacingBefore="2" SpacingAfter="2"/>
+	<Style Name="Verse"/>
+
+	<Style Name="Epigraph" FontSize="-2" ForeColor="Blue" Alignment="Left" LeftIndent="15" SpacingBefore="5" SpacingAfter="5"/>
+  </Stylesheet>
+
+  <Stylesheet Name="Description">
+	<Style Name="Normal"
+				FontFace="Tahoma"
+				FontSize="13"
+				BackColor="White"
+				ForeColor="Black"
+				Bold="Off"
+				Italic="Off"
+				Underline="Off"
+				Alignment="Left"
+				FirstLineIndent="5"/>
+
+	<Style Name="Strong" Bold="On"/>
+	<Style Name="Emphasis" Italic="On"/>
+	<Style Name="Link" ForeColor="Blue" Underline="On"/>
+
+	<Style Name="Section"/>
+
+	<Style Name="Title" FontSize="+3" Bold="On" Alignment="Center"/>
+	<Style Name="Subtitle" FontSize="+1" ForeColor="Red" Bold="On" Alignment="Center" SpacingBefore="2" SpacingAfter="2"/>
+
+	<Style Name="Cite" FontSize="-1" ForeColor="Green" LeftIndent="5" RightIndent="5"/>
+
+	<Style Name="Poem" LeftIndent="5" FirstLineIndent="0"/>
+	<Style Name="Stanza" ForeColor="Blue" Alignment="Left" FirstLineIndent="0" SpacingBefore="2" SpacingAfter="2"/>
+	<Style Name="Verse"/>
+
+	<Style Name="Epigraph" FontSize="-2" ForeColor="Blue" Alignment="Left" LeftIndent="15" SpacingBefore="5" SpacingAfter="5"/>
+  </Stylesheet>
+</Stylesheets>

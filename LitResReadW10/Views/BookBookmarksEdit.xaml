@@ -1,0 +1,60 @@
+﻿<views:BookBookmarksEditFitting
+	x:Class="LitRes.Views.BookBookmarksEdit"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+	xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:LitResControls="clr-namespace:LitRes.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+	xmlns:mvvm="clr-namespace:Digillect.Mvvm.UI;assembly=Digillect.Mvvm.WindowsPhone"
+	xmlns:views="clr-namespace:LitRes.Views"
+	
+	x:Name="View"
+	mc:Ignorable="d"
+	FontFamily="{StaticResource PhoneFontFamilyNormal}"
+	FontSize="{StaticResource PhoneFontSizeNormal}"
+	Foreground="{StaticResource PhoneForegroundBrush}"
+	SupportedOrientations="Portrait" Orientation="Portrait"
+	shell:SystemTray.IsVisible="False" >
+
+	<phone:PhoneApplicationPage.ApplicationBar>
+		<shell:ApplicationBar IsVisible="True" Opacity="0.88" BackgroundColor="{StaticResource LitResAppBarBackgroundColor}" ForegroundColor="{StaticResource LitResAppBarForegroundColor}">
+			<shell:ApplicationBar.Buttons>
+				<shell:ApplicationBarIconButton Text="готово" IconUri="/assets/appbar/save.png" Click="Update_Click" ></shell:ApplicationBarIconButton>
+            </shell:ApplicationBar.Buttons>
+		</shell:ApplicationBar>
+	</phone:PhoneApplicationPage.ApplicationBar>
+
+	<Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}" >
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="24"></RowDefinition>
+			<RowDefinition Height="auto"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+
+		<TextBlock Grid.Row="1" Margin="24,0,0,0" Text="{Binding Path=ViewModel.Entity.Description.Hidden.TitleInfo.BookTitle, Converter={StaticResource ToUpperConverter}}" Style="{StaticResource TextBlockHeaderStyle}" ></TextBlock>
+		<ScrollViewer Grid.Row="2" Margin="12,12,12,0">
+			<ListBox x:Name="Bookmarks" ItemsSource="{Binding ViewModel.Bookmarks}" Margin="0,0,0,0" Foreground="{StaticResource LitResForegroundBrush}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemContainerStyle="{StaticResource ListboxStretchStyle}" >
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<CheckBox IsChecked="true" VerticalContentAlignment="Top">
+							<StackPanel Margin="0,-3,0,0">
+								<TextBlock Text="{Binding Path=Title}" Margin="0,0,0,0" TextWrapping="Wrap" TextTrimming="WordEllipsis" FontSize="{StaticResource PhoneFontSizeExtraLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" MaxHeight="96" LineStackingStrategy="BlockLineHeight" LineHeight="43"/>
+                                <TextBlock Text="{Binding Converter={StaticResource BookmarksTextCoverter}}" TextWrapping="Wrap" TextTrimming="WordEllipsis" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" MaxHeight="80"/>
+								<TextBlock Text="{Binding LastUpdate, Converter={StaticResource DateTimeStringFormatter}, ConverterParameter=\{0:d MMMM yyyy\, HH:mm \}, ConverterCulture=ru-RU}" 
+											 Margin="0,4,0,0" Foreground="{StaticResource LitResAccentBrush}"  TextWrapping="NoWrap" TextTrimming="WordEllipsis" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" />
+							</StackPanel>
+						</CheckBox>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</ScrollViewer>
+
+		<LitResControls:PageHeader x:Name="pageHeader" />
+	</Grid>
+
+</views:BookBookmarksEditFitting>

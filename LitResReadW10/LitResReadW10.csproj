@@ -1,0 +1,1046 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{26AE8B0C-9563-445D-AB92-EEEB4DBCF790}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LitResReadW10</RootNamespace>
+    <AssemblyName>LitResReadW10</AssemblyName>
+    <DefaultLanguage>ru-ru</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PackageCertificateKeyFile>LitResReadW10_StoreKey.pfx</PackageCertificateKeyFile>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundlePlatforms>x86|arm</AppxBundlePlatforms>
+    <AppxBundle>Always</AppxBundle>
+    <PackageCertificateThumbprint>31013A5D5A78D5A34462CFF0FE3BA657B9A1C7B5</PackageCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\app.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\app.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\Bookmarks\FB3Bookmarks.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\DataProvider\AjaxGenerator\FB2_2_json.xsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\DataProvider\AjaxGenerator\FB2_2_json_meta.xsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\DataProvider\FB3AjaxDataProvider.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\default.htm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\DOM\FB3DOM.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\DOM\FB3DOMBlock.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\FB3Reader.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\FB3ReaderHeaders.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\PagesPositionsCache\PPCache.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\plugins\lz-string.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\plugins\moment.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\Reader\FB3Reader.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\Reader\FB3ReaderPage.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\roadmap.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\Site\FB3ReaderSite.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\Site\LocalBookmarks.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FB3Reader\z.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Icons\about_black.png" />
+    <Content Include="Assets\Icons\about_orange.png" />
+    <Content Include="Assets\Icons\about_white.png" />
+    <Content Include="Assets\Icons\follolw_black.png" />
+    <Content Include="Assets\Icons\follow_orange.png" />
+    <Content Include="Assets\Icons\follow_white.png" />
+    <Content Include="Assets\Icons\menu_black.png" />
+    <Content Include="Assets\Icons\menu_orange.png" />
+    <Content Include="Assets\Icons\menu_white.png" />
+    <Content Include="Assets\Icons\mybooks_black.png" />
+    <Content Include="Assets\Icons\mybooks_orange.png" />
+    <Content Include="Assets\Icons\mybooks_white.png" />
+    <Content Include="Assets\Icons\options_black.png" />
+    <Content Include="Assets\Icons\options_orange.png" />
+    <Content Include="Assets\Icons\options_white.png" />
+    <Content Include="Assets\Icons\profile_black.png" />
+    <Content Include="Assets\Icons\profile_orange.png" />
+    <Content Include="Assets\Icons\profile_white.png" />
+    <Content Include="Assets\Icons\search_black.png" />
+    <Content Include="Assets\Icons\search_orange.png" />
+    <Content Include="Assets\Icons\search_white.png" />
+    <Content Include="Assets\Icons\setting_black.png" />
+    <Content Include="Assets\Icons\setting_orange.png" />
+    <Content Include="Assets\Icons\setting_white.png" />
+    <Content Include="Assets\Icons\shop_black.png" />
+    <Content Include="Assets\Icons\shop_orange.png" />
+    <Content Include="Assets\Icons\shop_white.png" />
+    <Content Include="Assets\Icons\support_black.png" />
+    <Content Include="Assets\Icons\support_orabge.png" />
+    <Content Include="Assets\Icons\support_white.png" />
+    <Content Include="Assets\Rating.scale-100.png" />
+    <Content Include="Assets\Rating.scale-125.png" />
+    <Content Include="Assets\Rating.scale-150.png" />
+    <Content Include="Assets\Rating.scale-200.png" />
+    <Content Include="Assets\Rating.scale-400.png" />
+    <Content Include="Assets\RatingBlack.scale-100.png" />
+    <Content Include="Assets\RatingBlack.scale-125.png" />
+    <Content Include="Assets\RatingBlack.scale-150.png" />
+    <Content Include="Assets\RatingBlack.scale-200.png" />
+    <Content Include="Assets\RatingBlack.scale-400.png" />
+    <Content Include="Assets\RatingDisabled.scale-100.png" />
+    <Content Include="Assets\RatingDisabled.scale-125.png" />
+    <Content Include="Assets\RatingDisabled.scale-150.png" />
+    <Content Include="Assets\RatingDisabled.scale-200.png" />
+    <Content Include="Assets\RatingDisabled.scale-400.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\Square44x44Logo.scale-125.png" />
+    <Content Include="Assets\Square44x44Logo.scale-150.png" />
+    <Content Include="Assets\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\StoreImages\read_150%401,25x.png" />
+    <Content Include="Assets\StoreImages\read_150%401,5x.png" />
+    <Content Include="Assets\StoreImages\read_150%402x.png" />
+    <Content Include="Assets\StoreImages\read_150%403x.png" />
+    <Content Include="Assets\StoreImages\read_150.png" />
+    <Content Include="Assets\StoreImages\read_16.png" />
+    <Content Include="Assets\StoreImages\read_24%401,25x.png" />
+    <Content Include="Assets\StoreImages\read_24%401,5x.png" />
+    <Content Include="Assets\StoreImages\read_24%402x.png" />
+    <Content Include="Assets\StoreImages\read_24%404x.png" />
+    <Content Include="Assets\StoreImages\read_24.scale-100.png" />
+    <Content Include="Assets\StoreImages\read_24.scale-125.png" />
+    <Content Include="Assets\StoreImages\read_24.scale-150.png" />
+    <Content Include="Assets\StoreImages\read_24.scale-200.png" />
+    <Content Include="Assets\StoreImages\read_24.scale-400.png" />
+    <Content Include="Assets\StoreImages\read_256.png" />
+    <Content Include="Assets\StoreImages\read_310%401,25x.png" />
+    <Content Include="Assets\StoreImages\read_310%401,5x.png" />
+    <Content Include="Assets\StoreImages\read_310%402x.png" />
+    <Content Include="Assets\StoreImages\read_310%404x.png" />
+    <Content Include="Assets\StoreImages\read_310.png" />
+    <Content Include="Assets\StoreImages\read_310x310%401,25x.png" />
+    <Content Include="Assets\StoreImages\read_310x310%401,5x.png" />
+    <Content Include="Assets\StoreImages\read_310x310%402x.png" />
+    <Content Include="Assets\StoreImages\read_310x310%404x.png" />
+    <Content Include="Assets\StoreImages\read_310x310.scale-100.png" />
+    <Content Include="Assets\StoreImages\read_310x310.scale-125.png" />
+    <Content Include="Assets\StoreImages\read_310x310.scale-150.png" />
+    <Content Include="Assets\StoreImages\read_310x310.scale-200.png" />
+    <Content Include="Assets\StoreImages\read_310x310.scale-400.png" />
+    <Content Include="Assets\StoreImages\read_44%401,25x.png" />
+    <Content Include="Assets\StoreImages\read_44%401,5x.png" />
+    <Content Include="Assets\StoreImages\read_44%402x.png" />
+    <Content Include="Assets\StoreImages\read_44%404x.png" />
+    <Content Include="Assets\StoreImages\read_44.png" />
+    <Content Include="Assets\StoreImages\read_48.png" />
+    <Content Include="Assets\StoreImages\read_50%401,25x.png" />
+    <Content Include="Assets\StoreImages\read_50%401,5x.png" />
+    <Content Include="Assets\StoreImages\read_50%402x.png" />
+    <Content Include="Assets\StoreImages\read_50%404x.png" />
+    <Content Include="Assets\StoreImages\read_50.png" />
+    <Content Include="Assets\StoreImages\read_620%401,25x.png" />
+    <Content Include="Assets\StoreImages\read_620%401,5x.png" />
+    <Content Include="Assets\StoreImages\read_620%402x.png" />
+    <Content Include="Assets\StoreImages\read_620%404x.png" />
+    <Content Include="Assets\StoreImages\read_620.png" />
+    <Content Include="Assets\StoreImages\read_71%401,25x.png" />
+    <Content Include="Assets\StoreImages\read_71%401,5x.png" />
+    <Content Include="Assets\StoreImages\read_71%402x.png" />
+    <Content Include="Assets\StoreImages\read_71%404x.png" />
+    <Content Include="Assets\StoreImages\read_71.scale-100.png" />
+    <Content Include="Assets\StoreImages\read_71.scale-125.png" />
+    <Content Include="Assets\StoreImages\read_71.scale-150.png" />
+    <Content Include="Assets\StoreImages\read_71.scale-200.png" />
+    <Content Include="Assets\StoreImages\read_71.scale-400.png" />
+    <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Assets\StoreLogo.scale-125.png" />
+    <Content Include="Assets\StoreLogo.scale-150.png" />
+    <Content Include="Assets\StoreLogo.scale-200.png" />
+    <Content Include="Assets\StoreLogo.scale-400.png" />
+    <Content Include="Assets\W10Icons\About\about_orange.scale-100.png" />
+    <Content Include="Assets\W10Icons\About\about_orange.scale-125.png" />
+    <Content Include="Assets\W10Icons\About\about_orange.scale-150.png" />
+    <Content Include="Assets\W10Icons\About\about_orange.scale-200.png" />
+    <Content Include="Assets\W10Icons\About\about_orange.scale-400.png" />
+    <Content Include="Assets\W10Icons\About\about_white.scale-100.png" />
+    <Content Include="Assets\W10Icons\About\about_white.scale-125.png" />
+    <Content Include="Assets\W10Icons\About\about_white.scale-150.png" />
+    <Content Include="Assets\W10Icons\About\about_white.scale-200.png" />
+    <Content Include="Assets\W10Icons\About\about_white.scale-400.png" />
+    <Content Include="Assets\W10Icons\BookmarkAdded\bookmark_added.scale-100.png" />
+    <Content Include="Assets\W10Icons\BookmarkAdded\bookmark_added.scale-125.png" />
+    <Content Include="Assets\W10Icons\BookmarkAdded\bookmark_added.scale-150.png" />
+    <Content Include="Assets\W10Icons\BookmarkAdded\bookmark_added.scale-200.png" />
+    <Content Include="Assets\W10Icons\Bookmarks\bookmarks_icon.scale-100.png" />
+    <Content Include="Assets\W10Icons\Bookmarks\bookmarks_icon.scale-125.png" />
+    <Content Include="Assets\W10Icons\Bookmarks\bookmarks_icon.scale-150.png" />
+    <Content Include="Assets\W10Icons\Bookmarks\bookmarks_icon.scale-200.png" />
+    <Content Include="Assets\W10Icons\Bookmark\bookmark_gray.scale-100.png" />
+    <Content Include="Assets\W10Icons\Bookmark\bookmark_gray.scale-125.png" />
+    <Content Include="Assets\W10Icons\Bookmark\bookmark_gray.scale-150.png" />
+    <Content Include="Assets\W10Icons\Bookmark\bookmark_gray.scale-200.png" />
+    <Content Include="Assets\W10Icons\Bookmark\bookmark_orange.scale-100.png" />
+    <Content Include="Assets\W10Icons\Bookmark\bookmark_orange.scale-125.png" />
+    <Content Include="Assets\W10Icons\Bookmark\bookmark_orange.scale-150.png" />
+    <Content Include="Assets\W10Icons\Bookmark\bookmark_orange.scale-200.png" />
+    <Content Include="Assets\W10Icons\EmptyNotifications\empty_podpiski.scale-100.png" />
+    <Content Include="Assets\W10Icons\EmptyNotifications\empty_podpiski.scale-125.png" />
+    <Content Include="Assets\W10Icons\EmptyNotifications\empty_podpiski.scale-150.png" />
+    <Content Include="Assets\W10Icons\EmptyNotifications\empty_podpiski.scale-200.png" />
+    <Content Include="Assets\W10Icons\EmptyNotifications\empty_podpiski.scale-400.png" />
+    <Content Include="Assets\W10Icons\Follow\follow_orange.scale-100.png" />
+    <Content Include="Assets\W10Icons\Follow\follow_orange.scale-125.png" />
+    <Content Include="Assets\W10Icons\Follow\follow_orange.scale-150.png" />
+    <Content Include="Assets\W10Icons\Follow\follow_orange.scale-200.png" />
+    <Content Include="Assets\W10Icons\Follow\follow_orange.scale-400.png" />
+    <Content Include="Assets\W10Icons\Follow\follow_white.scale-100.png" />
+    <Content Include="Assets\W10Icons\Follow\follow_white.scale-125.png" />
+    <Content Include="Assets\W10Icons\Follow\follow_white.scale-150.png" />
+    <Content Include="Assets\W10Icons\Follow\follow_white.scale-200.png" />
+    <Content Include="Assets\W10Icons\Follow\follow_white.scale-400.png" />
+    <Content Include="Assets\W10Icons\Koshelek\koshelek.scale-100.png" />
+    <Content Include="Assets\W10Icons\Koshelek\koshelek.scale-125.png" />
+    <Content Include="Assets\W10Icons\Koshelek\koshelek.scale-150.png" />
+    <Content Include="Assets\W10Icons\Koshelek\koshelek.scale-200.png" />
+    <Content Include="Assets\W10Icons\Koshelek\koshelek.scale-400.png" />
+    <Content Include="Assets\W10Icons\Light\LightMax.scale-100.png" />
+    <Content Include="Assets\W10Icons\Light\LightMax.scale-125.png" />
+    <Content Include="Assets\W10Icons\Light\LightMax.scale-150.png" />
+    <Content Include="Assets\W10Icons\Light\LightMax.scale-200.png" />
+    <Content Include="Assets\W10Icons\Light\LightMin.scale-100.png" />
+    <Content Include="Assets\W10Icons\Light\LightMin.scale-125.png" />
+    <Content Include="Assets\W10Icons\Light\LightMin.scale-150.png" />
+    <Content Include="Assets\W10Icons\Light\LightMin.scale-200.png" />
+    <Content Include="Assets\W10Icons\MenuTriangleButton\TriangleDown.scale-100.png" />
+    <Content Include="Assets\W10Icons\MenuTriangleButton\TriangleDown.scale-125.png" />
+    <Content Include="Assets\W10Icons\MenuTriangleButton\TriangleDown.scale-150.png" />
+    <Content Include="Assets\W10Icons\MenuTriangleButton\TriangleDown.scale-200.png" />
+    <Content Include="Assets\W10Icons\MenuTriangleButton\TriangleDown.scale-400.png" />
+    <Content Include="Assets\W10Icons\MenuTriangleButton\TriangleUp.scale-100.png" />
+    <Content Include="Assets\W10Icons\MenuTriangleButton\TriangleUp.scale-125.png" />
+    <Content Include="Assets\W10Icons\MenuTriangleButton\TriangleUp.scale-150.png" />
+    <Content Include="Assets\W10Icons\MenuTriangleButton\TriangleUp.scale-200.png" />
+    <Content Include="Assets\W10Icons\MenuTriangleButton\TriangleUp.scale-400.png" />
+    <Content Include="Assets\W10Icons\MyBooks\mybooks_orange.scale-100.png" />
+    <Content Include="Assets\W10Icons\MyBooks\mybooks_orange.scale-125.png" />
+    <Content Include="Assets\W10Icons\MyBooks\mybooks_orange.scale-150.png" />
+    <Content Include="Assets\W10Icons\MyBooks\mybooks_orange.scale-200.png" />
+    <Content Include="Assets\W10Icons\MyBooks\mybooks_orange.scale-400.png" />
+    <Content Include="Assets\W10Icons\MyBooks\mybooks_white.scale-100.png" />
+    <Content Include="Assets\W10Icons\MyBooks\mybooks_white.scale-125.png" />
+    <Content Include="Assets\W10Icons\MyBooks\mybooks_white.scale-150.png" />
+    <Content Include="Assets\W10Icons\MyBooks\mybooks_white.scale-200.png" />
+    <Content Include="Assets\W10Icons\MyBooks\mybooks_white.scale-400.png" />
+    <Content Include="Assets\W10Icons\Options\options_black.scale-100.png" />
+    <Content Include="Assets\W10Icons\Options\options_black.scale-125.png" />
+    <Content Include="Assets\W10Icons\Options\options_black.scale-150.png" />
+    <Content Include="Assets\W10Icons\Options\options_black.scale-200.png" />
+    <Content Include="Assets\W10Icons\Profile\profile_black.scale-100.png" />
+    <Content Include="Assets\W10Icons\Profile\profile_black.scale-125.png" />
+    <Content Include="Assets\W10Icons\Profile\profile_black.scale-150.png" />
+    <Content Include="Assets\W10Icons\Profile\profile_black.scale-200.png" />
+    <Content Include="Assets\W10Icons\Profile\profile_black.scale-400.png" />
+    <Content Include="Assets\W10Icons\Profile\profile_orange.scale-100.png" />
+    <Content Include="Assets\W10Icons\Profile\profile_orange.scale-125.png" />
+    <Content Include="Assets\W10Icons\Profile\profile_orange.scale-150.png" />
+    <Content Include="Assets\W10Icons\Profile\profile_orange.scale-200.png" />
+    <Content Include="Assets\W10Icons\Profile\profile_orange.scale-400.png" />
+    <Content Include="Assets\W10Icons\Profile\profile_white.scale-100.png" />
+    <Content Include="Assets\W10Icons\Profile\profile_white.scale-125.png" />
+    <Content Include="Assets\W10Icons\Profile\profile_white.scale-150.png" />
+    <Content Include="Assets\W10Icons\Profile\profile_white.scale-200.png" />
+    <Content Include="Assets\W10Icons\Profile\profile_white.scale-400.png" />
+    <Content Include="Assets\W10Icons\ReaderFontSize\FontSize.scale-100.png" />
+    <Content Include="Assets\W10Icons\ReaderFontSize\FontSize.scale-125.png" />
+    <Content Include="Assets\W10Icons\ReaderFontSize\FontSize.scale-150.png" />
+    <Content Include="Assets\W10Icons\ReaderFontSize\FontSize.scale-200.png" />
+    <Content Include="Assets\W10Icons\ReaderLineSpacing\LineSpacingMax.scale-100.png" />
+    <Content Include="Assets\W10Icons\ReaderLineSpacing\LineSpacingMax.scale-125.png" />
+    <Content Include="Assets\W10Icons\ReaderLineSpacing\LineSpacingMax.scale-150.png" />
+    <Content Include="Assets\W10Icons\ReaderLineSpacing\LineSpacingMax.scale-200.png" />
+    <Content Include="Assets\W10Icons\ReaderLineSpacing\LineSpacingMin.scale-100.png" />
+    <Content Include="Assets\W10Icons\ReaderLineSpacing\LineSpacingMin.scale-125.png" />
+    <Content Include="Assets\W10Icons\ReaderLineSpacing\LineSpacingMin.scale-150.png" />
+    <Content Include="Assets\W10Icons\ReaderLineSpacing\LineSpacingMin.scale-200.png" />
+    <Content Include="Assets\W10Icons\ReaderSideIndent\MaxIndent.scale-100.png" />
+    <Content Include="Assets\W10Icons\ReaderSideIndent\MaxIndentscale-125.png" />
+    <Content Include="Assets\W10Icons\ReaderSideIndent\MaxIndentscale-150.png" />
+    <Content Include="Assets\W10Icons\ReaderSideIndent\MaxIndentscale-200.png" />
+    <Content Include="Assets\W10Icons\ReaderSideIndent\MinIndent.scale-100.png" />
+    <Content Include="Assets\W10Icons\ReaderSideIndent\MinIndent.scale-125.png" />
+    <Content Include="Assets\W10Icons\ReaderSideIndent\MinIndent.scale-150.png" />
+    <Content Include="Assets\W10Icons\ReaderSideIndent\MinIndent.scale-200.png" />
+    <Content Include="Assets\W10Icons\Search\search_black copy.scale-100.png" />
+    <Content Include="Assets\W10Icons\Search\search_black copy.scale-125.png" />
+    <Content Include="Assets\W10Icons\Search\search_black copy.scale-150.png" />
+    <Content Include="Assets\W10Icons\Search\search_black copy.scale-200.png" />
+    <Content Include="Assets\W10Icons\Search\search_black copy.scale-400.png" />
+    <Content Include="Assets\W10Icons\Search\search_black.scale-100.png" />
+    <Content Include="Assets\W10Icons\Search\search_black.scale-125.png" />
+    <Content Include="Assets\W10Icons\Search\search_black.scale-150.png" />
+    <Content Include="Assets\W10Icons\Search\search_black.scale-200.png" />
+    <Content Include="Assets\W10Icons\Search\search_black.scale-400.png" />
+    <Content Include="Assets\W10Icons\Search\search_white.scale-100.png" />
+    <Content Include="Assets\W10Icons\Search\search_white.scale-125.png" />
+    <Content Include="Assets\W10Icons\Search\search_white.scale-150.png" />
+    <Content Include="Assets\W10Icons\Search\search_white.scale-200.png" />
+    <Content Include="Assets\W10Icons\Search\search_white.scale-400.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_black.scale-100.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_black.scale-125.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_black.scale-150.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_black.scale-200.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_orange.scale-100.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_orange.scale-125.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_orange.scale-150.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_orange.scale-200.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_orange.scale-400.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_white.scale-100.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_white.scale-125.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_white.scale-150.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_white.scale-200.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_white.scale-400.png" />
+    <Content Include="Assets\W10Icons\Shop\shop_orange.scale-100.png" />
+    <Content Include="Assets\W10Icons\Shop\shop_orange.scale-125.png" />
+    <Content Include="Assets\W10Icons\Shop\shop_orange.scale-150.png" />
+    <Content Include="Assets\W10Icons\Shop\shop_orange.scale-200.png" />
+    <Content Include="Assets\W10Icons\Shop\shop_orange.scale-400.png" />
+    <Content Include="Assets\W10Icons\Shop\shop_white.scale-100.png" />
+    <Content Include="Assets\W10Icons\Shop\shop_white.scale-125.png" />
+    <Content Include="Assets\W10Icons\Shop\shop_white.scale-150.png" />
+    <Content Include="Assets\W10Icons\Shop\shop_white.scale-200.png" />
+    <Content Include="Assets\W10Icons\Shop\shop_white.scale-400.png" />
+    <Content Include="Assets\W10Icons\Support\support_orabge.scale-100.png" />
+    <Content Include="Assets\W10Icons\Support\support_orabge.scale-125.png" />
+    <Content Include="Assets\W10Icons\Support\support_orabge.scale-150.png" />
+    <Content Include="Assets\W10Icons\Support\support_orabge.scale-200.png" />
+    <Content Include="Assets\W10Icons\Support\support_orabge.scale-400.png" />
+    <Content Include="Assets\W10Icons\Support\support_white.scale-100.png" />
+    <Content Include="Assets\W10Icons\Support\support_white.scale-125.png" />
+    <Content Include="Assets\W10Icons\Support\support_white.scale-150.png" />
+    <Content Include="Assets\W10Icons\Support\support_white.scale-200.png" />
+    <Content Include="Assets\W10Icons\Support\support_white.scale-400.png" />
+    <Content Include="Assets\W10Icons\Toc\toc.scale-100.png" />
+    <Content Include="Assets\W10Icons\Toc\toc.scale-125.png" />
+    <Content Include="Assets\W10Icons\Toc\toc.scale-150.png" />
+    <Content Include="Assets\W10Icons\Toc\toc.scale-200.png" />
+    <Content Include="Assets\W10Icons\TypeWriter\ill_typewriter.scale-100.png" />
+    <Content Include="Assets\W10Icons\TypeWriter\ill_typewriter.scale-125.png" />
+    <Content Include="Assets\W10Icons\TypeWriter\ill_typewriter.scale-150.png" />
+    <Content Include="Assets\W10Icons\TypeWriter\ill_typewriter.scale-200.png" />
+    <Content Include="Assets\W10Icons\TypeWriter\ill_typewriter.scale-400.png" />
+    <Content Include="Assets\W10Icons\TypeWriter\ill_typewriter_small.scale-100.png" />
+    <Content Include="Assets\W10Icons\TypeWriter\ill_typewriter_small.scale-125.png" />
+    <Content Include="Assets\W10Icons\TypeWriter\ill_typewriter_small.scale-150.png" />
+    <Content Include="Assets\W10Icons\TypeWriter\ill_typewriter_small.scale-200.png" />
+    <Content Include="Assets\W10Icons\TypeWriter\ill_typewriter_small.scale-400.png" />
+    <Content Include="Assets\W10Images\MyBookColor\MyBookColor.scale-100.png" />
+    <Content Include="Assets\W10Images\MyBookColor\MyBookColor.scale-125.png" />
+    <Content Include="Assets\W10Images\MyBookColor\MyBookColor.scale-150.png" />
+    <Content Include="Assets\W10Images\MyBookColor\MyBookColor.scale-200.png" />
+    <Content Include="Assets\W10Images\MyBookColor\MyBookColor.scale-400.png" />
+    <Content Include="Assets\W10Images\MyBooksEmpty\Group Copy.scale-100.png" />
+    <Content Include="Assets\W10Images\MyBooksEmpty\Group Copy.scale-125.png" />
+    <Content Include="Assets\W10Images\MyBooksEmpty\Group Copy.scale-150.png" />
+    <Content Include="Assets\W10Images\MyBooksEmpty\Group Copy.scale-200.png" />
+    <Content Include="Assets\W10Images\MyBooksEmpty\Group Copy.scale-400.png" />
+    <Content Include="Assets\W10Images\Person\Person.scale-100.png" />
+    <Content Include="Assets\W10Images\Person\Person.scale-125.png" />
+    <Content Include="Assets\W10Images\Person\Person.scale-150.png" />
+    <Content Include="Assets\W10Images\Person\Person.scale-200.png" />
+    <Content Include="Assets\W10Images\SearchResult\big_search.scale-100.png" />
+    <Content Include="Assets\W10Images\SearchResult\big_search.scale-125.png" />
+    <Content Include="Assets\W10Images\SearchResult\big_search.scale-150.png" />
+    <Content Include="Assets\W10Images\SearchResult\big_search.scale-200.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-125.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-150.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <None Include="Assets\FB3Reader\Bookmarks\FB3Bookmarks.js.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\FB3Reader\DataProvider\AjaxGenerator\fb2json.pl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\FB3Reader\DataProvider\AjaxGenerator\Hyphenate.pm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\FB3Reader\DataProvider\FB3AjaxDataProvider.js.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\FB3Reader\DOM\FB3DOM.js.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\FB3Reader\DOM\FB3DOMBlock.js.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\FB3Reader\PagesPositionsCache\PPCache.js.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\FB3Reader\Reader\FB3Reader.js.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\FB3Reader\Reader\FB3ReaderPage.js.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\FB3Reader\README.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\FB3Reader\Site\FB3ReaderSite.js.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\FB3Reader\Site\LocalBookmarks.js.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\FB3Reader\web.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\FB3Reader\web.Debug.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\FB3Reader\web.Release.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="LitResReadW10_StoreKey.pfx" />
+    <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Styles\DefaultStyles.xml" />
+    <Content Include="Assets\Fonts\common_descriptor.txt" />
+    <Content Include="Assets\Fonts\common_spritefont.txt" />
+    <None Include="Fonts\common.descriptor" />
+    <None Include="Fonts\common.spritefont" />
+    <None Include="project.json" />
+    <PRIResource Include="Strings\ru-ru\Resources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\LongListGroup.cs" />
+    <Compile Include="Controls\BannerControl.cs" />
+    <Compile Include="Controls\ControlPanel.cs" />
+    <Compile Include="Controls\HDLitresSettingsSlider.cs" />
+    <Compile Include="Controls\BookmarkProgressBar.cs" />
+    <Compile Include="Controls\ImageProgressBar.cs" />
+    <Compile Include="Controls\LitresSettingsSlider.cs" />
+    <Compile Include="Controls\PageHeader.xaml.cs">
+      <DependentUpon>PageHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PartialLoadedListView.cs" />
+    <Compile Include="Controls\ProgressRing.xaml.cs" />
+    <Compile Include="Controls\ReaderPageHeader.xaml.cs">
+      <DependentUpon>ReaderPageHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ScrollableTextBlock.cs" />
+    <Compile Include="Controls\ScrollViewerIncremental.cs" />
+    <Compile Include="Controls\ThicknessWrapper.cs" />
+    <Compile Include="Controls\TileCanvas.cs" />
+    <Compile Include="Controls\WatermarkedTextBox.cs" />
+    <Compile Include="Crypto\EncryptionProvider.cs" />
+    <Compile Include="Helpers\EmailHelper.cs" />
+    <Compile Include="Helpers\LocalBroadcastReciver.cs" />
+    <Compile Include="Helpers\ResolutionHelper.cs" />
+    <Compile Include="Helpers\SystemInfoHelper.cs" />
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Selectors\BookCartTemplateSelector.cs" />
+    <Compile Include="Selectors\BestResultTemplateSelector.cs" />
+    <Compile Include="Selectors\BookMinicartButtonTemplateSelector.cs" />
+    <Compile Include="Selectors\GenreAndTagTemplateSelector.cs" />
+    <Compile Include="Selectors\BookTemplateSelector.cs" />
+    <Compile Include="Selectors\SliderTemplateSelector.cs" />
+    <Compile Include="Selectors\WelcomeScreenTemplateSelector.cs" />
+    <Compile Include="Services\DeviceInfoService.cs" />
+    <Compile Include="Services\InAppPurchaseService.cs" />
+    <Compile Include="Services\IsolatedStorageDataCacheService.cs" />
+    <Compile Include="Services\IsolatedStorageFileCacheService.cs" />
+    <Compile Include="Services\NetworkAvailabilityServiceDecorator.cs" />
+    <Compile Include="Services\PurchaseServiceDecorator.cs" />
+    <Compile Include="Services\PushNotificationsService.cs" />
+    <Compile Include="Services\ViewModelExceptionHandlingService.cs" />
+    <Compile Include="ValueConverters\AuthorToFullStringConverter.cs" />
+    <Compile Include="ValueConverters\AuthorToShortStringConverter.cs" />
+    <Compile Include="ValueConverters\BookAuthorConverter.cs" />
+    <Compile Include="ValueConverters\BookAuthorsConverter.cs" />
+    <Compile Include="ValueConverters\BookmarksTextCoverter.cs" />
+    <Compile Include="ValueConverters\BookOpacityConverter.cs" />
+    <Compile Include="ValueConverters\BooleanToColorConverter.cs" />
+    <Compile Include="ValueConverters\BuyBookButtonEnableConverter.cs" />
+    <Compile Include="ValueConverters\BuyBookButtonVisibleConverter.cs" />
+    <Compile Include="ValueConverters\CommaListConverter.cs" />
+    <Compile Include="ValueConverters\ConverterBase.cs" />
+    <Compile Include="ValueConverters\CoverConverter.cs" />
+    <Compile Include="ValueConverters\DateTimeStringFormatter.cs" />
+    <Compile Include="ValueConverters\DiscountVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\DrmBookOpacityConverter.cs" />
+    <Compile Include="ValueConverters\EnableBrushConverter.cs" />
+    <Compile Include="ValueConverters\EnumCategoryTemplateConverter.cs" />
+    <Compile Include="ValueConverters\EnumCategoryTitleConverter.cs" />
+    <Compile Include="ValueConverters\EnumVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\GenreBrushConverter.cs" />
+    <Compile Include="ValueConverters\HtmlConverter.cs" />
+    <Compile Include="ValueConverters\StringToDoubleConverter.cs" />
+    <Compile Include="ValueConverters\IntegerToBooleanConverter.cs" />
+    <Compile Include="ValueConverters\IsFileExistsConverter.cs" />
+    <Compile Include="ValueConverters\MenuItemTextConverter.cs" />
+    <Compile Include="ValueConverters\ObjectToVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\PluralTextConverter.cs" />
+    <Compile Include="ValueConverters\ReadBookButtonEnableConverter.cs" />
+    <Compile Include="ValueConverters\SecondAuthorVisibleConverter.cs" />
+    <Compile Include="ValueConverters\StringCharTrimConverter.cs" />
+    <Compile Include="ValueConverters\StringFormatConverter.cs" />
+    <Compile Include="ValueConverters\ToLowerConverter.cs" />
+    <Compile Include="ValueConverters\ToCurrentPageConverter.cs" />
+    <Compile Include="ValueConverters\ToStringConverter.cs" />
+    <Compile Include="ValueConverters\ToUpperConverter.cs" />
+    <Compile Include="ValueConverters\TranslatorsConverter.cs" />
+    <Compile Include="ValueConverters\UrlToImageConverter.cs" />
+    <Compile Include="ValueConverters\WordEndConverter.cs" />
+    <Compile Include="Views\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountDeposit.xaml.cs">
+      <DependentUpon>AccountDeposit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountInfo.xaml.cs">
+      <DependentUpon>AccountInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddRecense.xaml.cs">
+      <DependentUpon>AddRecense.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Authorization.xaml.cs">
+      <DependentUpon>Authorization.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Book.xaml.cs">
+      <DependentUpon>Book.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BookBookmarks.xaml.cs">
+      <DependentUpon>BookBookmarks.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BookChapters.xaml.cs">
+      <DependentUpon>BookChapters.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BooksByCategory.xaml.cs">
+      <DependentUpon>BooksByCategory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChangePassword.xaml.cs">
+      <DependentUpon>ChangePassword.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CreditCardPurchase.xaml.cs">
+      <DependentUpon>CreditCardPurchase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GenreBooks.xaml.cs">
+      <DependentUpon>GenreBooks.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Main.xaml.cs">
+      <DependentUpon>Main.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MyBooks.xaml.cs">
+      <DependentUpon>MyBooks.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notifications.xaml.cs">
+      <DependentUpon>Notifications.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Person.xaml.cs">
+      <DependentUpon>Person.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reader.xaml.cs">
+      <DependentUpon>Reader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GeneralSettings.xaml.cs">
+      <DependentUpon>GeneralSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Registration.xaml.cs">
+      <DependentUpon>Registration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Search.xaml.cs">
+      <DependentUpon>Search.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SearchResults.xaml.cs">
+      <DependentUpon>SearchResults.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserInfo.xaml.cs">
+      <DependentUpon>UserInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Web.xaml.cs">
+      <DependentUpon>Web.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <None Include="LitResReadW10_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\AboutLogo.png" />
+    <Content Include="Assets\AlignmentGrid.png" />
+    <Content Include="Assets\AppBar\cancel.png" />
+    <Content Include="Assets\AppBar\done.png" />
+    <Content Include="Assets\AppBar\like.png" />
+    <Content Include="Assets\AppBar\ok.png" />
+    <Content Include="Assets\AppBar\refresh.png" />
+    <Content Include="Assets\AppBar\register.png" />
+    <Content Include="Assets\AppBar\save.png" />
+    <Content Include="Assets\AppBar\share.png" />
+    <Content Include="Assets\AppBar\signin.png" />
+    <Content Include="Assets\AppBar\unlike.png" />
+    <Content Include="Assets\AppBar\write.png" />
+    <Content Include="Assets\ApplicationIcon.png" />
+    <Content Include="Assets\Background.jpg" />
+    <Content Include="Assets\Background.png" />
+    <Content Include="Assets\BackgroundDay.png" />
+    <Content Include="Assets\BackgroundNight.png" />
+    <Content Include="Assets\BackgroundSepia.png" />
+    <Content Include="Assets\BadgeLogo.png" />
+    <Content Include="Assets\balance.png" />
+    <Content Include="Assets\Drag.png" />
+    <Content Include="Assets\FileAssociations\file_176x176.png" />
+    <Content Include="Assets\FileAssociations\file_33x33.png" />
+    <Content Include="Assets\FileAssociations\file_69x69.png" />
+    <Content Include="Assets\FontsExamples\mono_1280.png" />
+    <Content Include="Assets\FontsExamples\mono_800.png" />
+    <Content Include="Assets\FontsExamples\sans_1280.png" />
+    <Content Include="Assets\FontsExamples\sans_800.png" />
+    <Content Include="Assets\FontsExamples\serif_1280.png" />
+    <Content Include="Assets\FontsExamples\serif_800.png" />
+    <Content Include="Assets\GridBackground.png" />
+    <Content Include="Assets\Icons\About.png" />
+    <Content Include="Assets\Icons\account.png" />
+    <Content Include="Assets\Icons\Arrow.png" />
+    <Content Include="Assets\Icons\Bookmarks.png" />
+    <Content Include="Assets\Icons\Franchise.png" />
+    <Content Include="Assets\Icons\genres_icn.png" />
+    <Content Include="Assets\Icons\Help.png" />
+    <Content Include="Assets\Icons\hot_icn.png" />
+    <Content Include="Assets\Icons\icn_bestseller.png" />
+    <Content Include="Assets\Icons\icn_time.png" />
+    <Content Include="Assets\Icons\library_icn.png" />
+    <Content Include="Assets\Icons\Money.png" />
+    <Content Include="Assets\Icons\Notification.png" />
+    <Content Include="Assets\Icons\Pages.png" />
+    <Content Include="Assets\Icons\Profile.png" />
+    <Content Include="Assets\Icons\Publisher.png" />
+    <Content Include="Assets\Icons\rate_icn.png" />
+    <Content Include="Assets\Icons\Search.png" />
+    <Content Include="Assets\Icons\Settings.png" />
+    <Content Include="Assets\Icons\sync_icn.png" />
+    <Content Include="Assets\icon_bought.png" />
+    <Content Include="Assets\icon_foler.png" />
+    <Content Include="Assets\litres_icon_listen.png" />
+    <Content Include="Assets\Logo.png" />
+    <Content Include="Assets\RegistrationHelpIcon1.png" />
+    <Content Include="Assets\RegistrationHelpIcon2.png" />
+    <Content Include="Assets\RegistrationHelpIcon3.png" />
+    <Content Include="Assets\SquareTile150x150.png" />
+    <Content Include="Assets\SquareTile71x71.png" />
+    <Content Include="Assets\Stub.png" />
+    <Content Include="Assets\Tiles\FlipCycleTileLarge.png" />
+    <Content Include="Assets\Tiles\FlipCycleTileLargeOp.png" />
+    <Content Include="Assets\Tiles\FlipCycleTileMedium.png" />
+    <Content Include="Assets\Tiles\FlipCycleTileMediumOp.png" />
+    <Content Include="Assets\Tiles\FlipCycleTileSmall.png" />
+    <Content Include="Assets\Tiles\FlipCycleTileSmallOp.png" />
+    <Content Include="Assets\Tiles\IconicTileMediumLarge.png" />
+    <Content Include="Assets\Tiles\IconicTileSmall.png" />
+    <Content Include="Assets\Tiles\LargeLogo.png" />
+    <Content Include="Assets\tmp\Book1.png" />
+    <Content Include="Assets\tmp\Book2.png" />
+    <Content Include="Assets\tmp\Book3.png" />
+    <Content Include="Assets\Vignette.png" />
+    <Content Include="Assets\welcome_back.png" />
+    <Content Include="Assets\WideLogo.png" />
+    <Content Include="Properties\Default.rd.xml" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="Controls\PageHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ReaderPageHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Templates\ListBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Templates\LongListSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Templates\MessageBoxTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Brushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Themes\Colors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Themes\BookmarkProgressBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ImageProgressBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\LitRes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\LitResW10.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Themes\ThemeResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Wp8Themes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\About.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AccountDeposit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AccountInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AddRecense.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Authorization.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Book.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BookBookmarks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BookChapters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BooksByCategory.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ChangePassword.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CreditCardPurchase.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GenreBooks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Main.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MyBooks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Notifications.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Person.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Reader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GeneralSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Registration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Search.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SearchResults.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Web.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Diggilect.Mvvm.Windows10\Diggilect.Mvvm.Windows10.csproj">
+      <Project>{92559e26-743c-44fc-af14-a017c68e6879}</Project>
+      <Name>Diggilect.Mvvm.Windows10</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Digillect.Mvvm\Digillect.Mvvm.csproj">
+      <Project>{f0374c62-e283-48ed-8a66-7b2439de6fe5}</Project>
+      <Name>Digillect.Mvvm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Digillect.ObjectModel\Digillect.ObjectModel.csproj">
+      <Project>{c580ed86-6891-4db9-9e28-c30859f0d8c3}</Project>
+      <Name>Digillect.ObjectModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LitRes.Models\LitRes.Models\LitRes.Models.csproj">
+      <Project>{4f9813d6-17f1-458a-9651-013969a02932}</Project>
+      <Name>LitRes.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LitRes.ViewModels\LitRes.ViewModels.csproj">
+      <Project>{49d2b278-9dbe-40c5-9ce1-f886ec69efbd}</Project>
+      <Name>LitRes.ViewModels</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Assets\FB3Reader\app.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\FB3Reader\Bookmarks\FB3Bookmarks.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\FB3Reader\Bookmarks\FB3BookmarksHead.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\FB3Reader\DataProvider\FB3AjaxDataProvider.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\FB3Reader\DataProvider\FB3DataProviderHead.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\FB3Reader\DOM\FB3DOM.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\FB3Reader\DOM\FB3DOMBlock.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\FB3Reader\DOM\FB3DOMHead.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\FB3Reader\FB3ReaderHeaders.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\FB3Reader\PagesPositionsCache\PPCache.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\FB3Reader\PagesPositionsCache\PPCacheHead.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\FB3Reader\plugins\lz-string.d.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\FB3Reader\plugins\moment.d.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\FB3Reader\Reader\FB3Reader.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\FB3Reader\Reader\FB3ReaderHead.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\FB3Reader\Reader\FB3ReaderPage.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\FB3Reader\Site\FB3ReaderSite.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\FB3Reader\Site\FB3ReaderSiteHead.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\FB3Reader\Site\LocalBookmarks.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

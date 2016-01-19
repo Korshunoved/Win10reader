@@ -1,0 +1,479 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Model Namespace="LitRes.Models" defaultEntitySerialization="xml" defaultPropertySerialization="attribute" xmlns="http://schemas.digillect.com/development/datamodel" xmlns:s="http://schemas.digillect.com/development/datamodel-xml-serialization">
+	<Using Namespace="System.Xml.Serialization"/>
+
+	<Entity Name="CatalitCredentials" BaseType="XObject">
+		<Property Name="Login" Type="string"/>
+		<Property Name="Password" Type="string"/>
+		<Property Name="Phone" Type="string"/>
+		<Property Name="IsRealAccount" Type="bool"/>
+	</Entity>
+	
+	<Entity Name="SearchQuery" BaseType="XObject" XKeyProperties="SearchString">
+		<Property Name="SearchString" Type="string"/>
+		<Property Name="Date" Type="DateTime"/>
+	</Entity>
+	
+	<Entity Name="Purchase" BaseType="XObject">
+		<Property Name="Win8Inapp" Type="string"/>
+		<Property Name="Art" Type="int"/>
+		<Property Name="PurchaseId" Type="string"/>
+		<Property Name="ProductId" Type="string"/>
+	</Entity>
+  
+  <Entity Name="BannersResponse" BaseType="XObject" SerializationName="catalit-banners">
+		<Property Name="Banners" Type="XCollection" TypeGenericArguments="Banner" Serialization="element" SerializationName="banner"/>
+	</Entity>
+  
+  <Entity Name="Banner" BaseType="XObject" XKeyProperties="Id" SerializationName="banner" Interfaces="IXIdentified&lt;int&gt;">
+		<Property Name="Id" Type="int" SerializationName="id"/>
+  	<Property Name="Type" Type="string" SerializationName="type"/>
+		<Property Name="ContentId" Type="string" SerializationName="content-id"/>
+		<Property Name="Image" Type="string" SerializationName="image"/>
+   </Entity>
+	
+  <Entity Name="SmsResponse" BaseType="XObject" SerializationName="catalit-sms-payments-info">
+		<Property Name="Countries" Type="XCollection" TypeGenericArguments="Country" Serialization="element" SerializationName="country"/>
+	</Entity>
+  
+  <Entity Name="Country" BaseType="XObject" XKeyProperties="Caption" SerializationName="country">
+    <Property Name="Caption" Type="string" SerializationName="caption"/>
+    <Property Name="CountryCode" Type="string" SerializationName="country_code"/>
+    <Property Name="Money" Type="string" SerializationName="money"/>
+		<Property Name="Operators" Type="XCollection" TypeGenericArguments="Operator" Serialization="element" SerializationName="operator"/>
+	</Entity>
+  
+  <Entity Name="Operator" BaseType="XObject" XKeyProperties="Caption" SerializationName="operator">
+    <Property Name="Caption" Type="string" SerializationName="caption"/>
+    <Property Name="Mnc" Type="int" SerializationName="mnc"/>
+		<Property Name="Numbers" Type="XCollection" TypeGenericArguments="Number" Serialization="element" SerializationName="num"/>
+	</Entity>
+  
+  <Entity Name="Number" BaseType="XObject" XKeyProperties="PhoneNumber" SerializationName="num">
+		<Property Name="PhoneNumber" Type="int" SerializationName="number"/>
+  	<Property Name="Subprefix" Type="string" SerializationName="subprefix"/>
+		<Property Name="Prefix" Type="string" SerializationName="prefix"/>
+		<Property Name="Summ" Type="double" SerializationName="summ"/>
+    <Property Name="Cost" Type="double" SerializationName="cost"/>
+   </Entity>
+
+  <Entity Name="CreditCardInitResponse" BaseType="XObject" SerializationName="catalit-paycard-processing">
+    <Property Name="Url" Type="string" SerializationName="url"/>
+    <Property Name="Method" Type="string" SerializationName="method"/>
+    <Property Name="Name" Type="string" SerializationName="name"/>
+    <Property Name="Homepage" Type="string" SerializationName="homepage"/>
+    <Property Name="Params" Type="XCollection" TypeGenericArguments="CreditCardParam" Serialization="element" SerializationName="param"/>
+  </Entity>
+
+  <Entity Name="CreditCardParam" BaseType="XObject" XKeyProperties="Name" SerializationName="param">
+    <Property Name="Name" Type="string" SerializationName="name"/>
+    <Property Name="Substitute" Type="string" SerializationName="substitute"/>
+    <Property Name="Value" Type="string"/>
+  </Entity>
+  
+  <Entity Name="CustomResponse" BaseType="XObject">
+  </Entity>
+    
+	<Entity Name="RawFile" BaseType="XObject">
+		<Property Name="Raw" Type="byte[]"/>
+		<Property Name="Zipped" Type="bool"/>
+	</Entity>
+
+	<Entity Name="BookForLayout" BaseType="XObject" BaseTypeGenericArguments="int">
+		<Property Name="Image" Type="string"/>
+		<Property Name="Author" Type="string"/>
+		<Property Name="Name" Type="string"/>
+		<Property Name="Rating" Type="double"/>
+		<Property Name="Price" Type="double"/>
+	</Entity>
+
+	<Entity Name="BookIndex" BaseType="XObject">
+		<Property Name="BookId" Type="int"/>
+		<Property Name="BlockIndex" Type="string"/>
+		<Property Name="SaveDateTime" Type="DateTime"/>
+	</Entity>
+
+	<Entity Name="ReaderSettings" BaseType="XObject">
+		<Property Name="LastUpdate" Type="DateTime"/>
+		<Property Name="Autorotate" Type="bool"/>
+		<Property Name="FitWidth" Type="bool"/>
+		<Property Name="Theme" Type="int"/>
+		<Property Name="Font" Type="int"/>
+		<Property Name="FontSize" Type="int"/>
+		<Property Name="Margin" Type="int"/>
+		<Property Name="CharacterSpacing" Type="int"/>
+		<Property Name="Brightness" Type="float"/>
+		<Property Name="Hyphenate" Type="bool"/>
+    <Property Name="AnimationMoveToPage" Type="bool"/>
+	</Entity>
+
+	<Entity Name="UpdateUserResponse" BaseType="XObject" SerializationName="catalit-updateuser-ok">
+	</Entity>
+
+	<Entity Name="CollectionsResponse" BaseType="XObject" SerializationName="catalit-collections">
+		<Property Name="Collections" Type="XCollection" TypeGenericArguments="Collection" Serialization="element" SerializationName="collection"/>
+
+		<Entity Name="Collection" BaseType="XObject" XKeyProperties="Id" Interfaces="IXIdentified&lt;int&gt;">
+			<Property Name="Id" Type="int" SerializationName="id"/>
+			<Property Name="Name" Type="string" SerializationName="name"/>
+			<Property Name="ItemsLeft" Type="int" SerializationName="items_left"/>
+			<Property Name="Text" Type="Hidden" SerializationName="text_html" Serialization="element"/>
+		</Entity>
+	</Entity>
+	
+	<Entity Name="TakeCollectionBookResponse" BaseType="XObject" SerializationName="catalit-get-collection-book-ok">
+	</Entity>
+
+	<Entity Name="ActivateCouponeResponse" BaseType="XObject" SerializationName="catalit-activate-coupone-ok">
+		<Property Name="Account" Type="string" SerializationName="account"/>
+		<Property Name="CouponeClass" Type="string" SerializationName="coupone_class"/>
+	</Entity>
+
+	<Entity Name="PurchaseResponse" BaseType="XObject" SerializationName="catalit-inapp-processing">
+		<Property Name="Account" Type="string" SerializationName="account"/>
+		<Property Name="State" Type="string" SerializationName="state"/>
+	</Entity>
+
+  <Entity Name="LitresPurchaseResponse" BaseType="XObject" SerializationName="catalit-purchase-ok">
+    <Property Name="Account" Type="string" SerializationName="account"/>
+    <Property Name="Art" Type="string" SerializationName="art"/>
+  </Entity>
+
+  <Entity Name="MobileCommerceResponse" BaseType="XObject" SerializationName="catalit-mcommerce-init">
+    <Property Name="OrderId" Type="string" SerializationName="order_id"/>
+    <Property Name="State" Type="string" SerializationName="success"/>
+    <Property Name="Price" Type="double" SerializationName="price"/>
+    <Property Name="Error" Type="int" SerializationName="error"/>
+  </Entity>
+
+	<Entity Name="NotificationsResponce" BaseType="XObject" SerializationName="catalit_author_subscr">
+		<Property Name="Notifications" Type="XCollection" TypeGenericArguments="Notification" SerializationName="author" Serialization="element"/>
+	</Entity>
+
+	<Entity Name="Notification" BaseType="XObject">
+		<Property Name="NotifiedPerson" Type="string" SerializationName="name"/>
+	</Entity>
+	
+	<Entity Name="PurchaseStateResponse" BaseType="XObject" SerializationName="catalit-payorder-processing-check">
+		<Property Name="Order" Type="string" SerializationName="order"/>
+		<Property Name="State" Type="string" SerializationName="state"/>
+		<Property Name="Account" Type="string" SerializationName="account"/>
+	</Entity>
+
+	<Entity Name="BookmarksResponse" BaseType="XObject" SerializationName="http://www.gribuser.ru/xml/fictionbook/2.0/markup,FictionBookMarkup">
+		<Property Name="LockId" Type="string" SerializationName="lock-id"/>
+		<Property Name="Bookmarks" Type="XCollection" TypeGenericArguments="Bookmark" Serialization="element" SerializationName="Selection"/>
+	</Entity>
+
+	<Entity Name="AddBookmarkResponse" BaseType="XObject" SerializationName="catalit-store-bookmarks-ok">
+	</Entity>
+
+	<Entity Name="Bookmark" BaseType="XObject" XKeyProperties="Id" Interfaces="IXIdentified&lt;string&gt;">
+		<Property Name="Id" Type="string" SerializationName="id"/>
+		<Property Name="Class" Type="string" SerializationName="class"/>
+		<Property Name="Title" Type="string" SerializationName="title"/>
+		<Property Name="Group" Type="string" SerializationName="group"/>
+		<Property Name="Selection" Type="string" SerializationName="selection"/>
+		<Property Name="ArtId" Type="string" SerializationName="art-id"/>
+		<Property Name="LastUpdate" Type="string" SerializationName="last-update"/>
+    <Property Name="Percent" Type="string" SerializationName="percent"/>
+
+		<Property Name="Note" Type="Hidden" SerializationName="Note" Serialization="element"/>
+		<Property Name="ExtractInfo" Type="Extract" SerializationName="Extract" Serialization="element"/>
+
+		<Entity Name="Extract" BaseType="XObject">
+			<Property Name="OriginalLocation" Type="string" SerializationName="original-location"/>
+			<Property Name="Selection" Type="string" SerializationName="selection"/>
+			<Property Name="SelectionText" Type="string" SerializationName="selection-text"/>
+
+			<Property Name="ExtractText" Type="XCollection" TypeGenericArguments="ExtractTextElement" Serialization="element" SerializationName="p"/>
+
+			<Entity Name="ExtractTextElement" BaseType="XObject" Interfaces="IXmlSerializable">
+			</Entity>
+		</Entity>
+	</Entity>
+
+	<Entity Name="Genre" BaseType="XObject" SerializationName="catalit-genres" XKeyProperties="Id" Interfaces="IXIdentified&lt;int&gt;">
+		<Property Name="Id" Type="int" SerializationName="id"/>
+		<Property Name="Title" Type="string" SerializationName="title"/>
+		<Property Name="Token" Type="string" SerializationName="token"/>
+
+		<Property Name="Children" Type="XCollection" TypeGenericArguments="Genre" Serialization="element" SerializationName="genre"/>
+	</Entity>
+		
+	<Entity Name="AddRecenseResponse" BaseType="XObject" SerializationName="catalit-add-recenses-ok">
+	</Entity>
+		
+	<Entity Name="RecensesResponse" BaseType="XObject" SerializationName="catalit-recenses">
+		<Property Name="RecensesInfo" Type="RecensesInfo" SerializationName="book-recenses" Serialization="element"/>
+	</Entity>
+		
+	<Entity Name="RecensesInfo" BaseType="XObject">
+		<Property Name="Recenses" Type="XCollection" TypeGenericArguments="Recense" Serialization="element" SerializationName="recense"/>
+	</Entity>
+
+	<Entity Name="Recense" BaseType="XObject" XKeyProperties="Id" Interfaces="IXIdentified&lt;int&gt;">
+		<Property Name="Id" Type="int" SerializationName="id"/>
+		<Property Name="Added" Type="string" SerializationName="added"/>
+		<Property Name="Login" Type="string" SerializationName="login"/>
+		<Property Name="User" Type="string" SerializationName="user"/>
+		<Property Name="AnswerTo" Type="string" SerializationName="answer_to"/>
+		<Property Name="Caption" Type="string" SerializationName="caption"/>
+		<Property Name="TextRecense" Type="Hidden" SerializationName="text_recense" Serialization="element"/>
+	</Entity>
+
+	<Entity Name="PersonsResponse" BaseType="XObject" SerializationName="catalit-persons">
+		<Property Name="Persons" Type="XCollection" TypeGenericArguments="Person" Serialization="element" SerializationName="subject"/>
+	</Entity>
+
+	<Entity Name="Person" BaseType="XObject" XKeyProperties="Id" Interfaces="IXIdentified&lt;string&gt;">
+		<Property Name="Id" Type="string" SerializationName="id"/>
+		<Property Name="Title" Type="PersonTitle" SerializationName="title" Serialization="element"/>
+		<Property Name="FirstName" Type="string" SerializationName="first-name" Serialization="element"/>
+		<Property Name="MiddleName" Type="string" SerializationName="middle-name" Serialization="element"/>
+		<Property Name="LastName" Type="string" SerializationName="last-name" Serialization="element"/>
+		<Property Name="Photo" Type="string" SerializationName="photo" Serialization="element"/>
+		<Property Name="TextDescription" Type="Hidden" SerializationName="text_descr_html" Serialization="element"/>
+		
+		<Entity Name="PersonTitle" BaseType="XObject">
+			<Property Name="Main" Type="string" SerializationName="main" Serialization="element"/>
+		</Entity>
+	</Entity>
+
+	<Entity Name="Hidden" BaseType="XObject" Interfaces="IXmlSerializable">
+		<Property Name="Text" Type="string" Serialization="none"/>
+	</Entity>
+
+	<Entity Name="CatalogSearchResponse" BaseType="XObject" SerializationName="catalit-fb2-books">
+		<Property Name="Now" Type="string" SerializationName="now"/>
+		<Property Name="Account" Type="double" SerializationName="account"/>
+		<Property Name="Pages" Type="int" SerializationName="pages"/>
+		<Property Name="Records" Type="int" SerializationName="records"/>
+		<Property Name="Books" Type="XCollection" TypeGenericArguments="Book" Serialization="element" SerializationName="fb2-book"/>
+	</Entity>
+
+	<Entity Name="TileBook" BaseType="XObject">
+		<Property Name="Cover" Type="string" SerializationName="cover"/>
+		<Property Name="BookTitle" Type="string" SerializationName="book-title"/>
+	</Entity>
+	
+	<Entity Name="Book" BaseType="XObject" XKeyProperties="Id" SerializationName="fb2-book" Interfaces="IXIdentified&lt;int&gt;">
+		<Property Name="Id" Type="int" SerializationName="hub_id"/>
+		<Property Name="IsMyBook" Type="bool" Serialization="none">
+			<Code>
+				<![CDATA[get { return this._isMyBook; }
+				set
+				{
+					if( this._isMyBook != value )
+					{
+						OnPropertyChanging( "IsMyBook", this._isMyBook, value );
+						this._isMyBook = value;
+						OnPropertyChanged( "IsMyBook" );
+						OnPropertyChanged( "StoreProductPurchaseValue" );
+					}
+				}]]>
+			</Code>
+		</Property>
+		<Property Name="IsInPurchase" Type="bool" Serialization="none"/>
+		<Property Name="IsEmptyElement" Type="bool" Serialization="none"/>
+		<Property Name="InappName" Type="string" SerializationName="inapp_name"/>
+		<Property Name="InappPrice" Type="double" SerializationName="inapp_price"/>
+		<Property Name="StoreProductPurchaseValue" Type="string" CreateStorage="false" Serialization="none">
+			<Code><![CDATA[get { return isFreeBook ? "" : (IsMyBook? ExpiredDateStr!=null?"абонемент":"куплено" : Price.ToString()); }]]></Code>
+		</Property>
+		<Property Name="Added" Type="string" SerializationName="added"/>
+		<Property Name="UpdatedTime" Type="string" SerializationName="updated"/>
+		<Property Name="BasePrice" Type="double" SerializationName="base_price"/>
+		<Property Name="Price" Type="double" SerializationName="price"/>
+		<Property Name="Chars" Type="string" SerializationName="chars"/>
+		<Property Name="Pages" Type="int" CreateStorage="false" Serialization="none">
+			<Code><![CDATA[get { return (int) Math.Ceiling(((string.IsNullOrEmpty(Chars) ? 0 : Convert.ToInt32(Chars)) / 1600 + ((string.IsNullOrEmpty(Images) ? 1 : Convert.ToInt32(Images)) - 1) * 0.6) / 10) * 10; }]]></Code>
+		</Property>
+		<Property Name="BookmarksCount" Type="int" Serialization="none"/>
+		<Property Name="Images" Type="string" SerializationName="images"/>
+		<Property Name="ZipSize" Type="string" SerializationName="zip_size"/>
+		<Property Name="HasTrial" Type="string" SerializationName="has_trial"/>
+		<Property Name="Cover" Type="string" SerializationName="cover"/>
+		<Property Name="CoverPreview" Type="string" SerializationName="cover_preview"/>
+		<Property Name="CoverPreviewSized" Type="string" CreateStorage="false" Serialization="none">
+			<Code><![CDATA[get { return ( !string.IsNullOrEmpty( CoverPreview ) && CoverPreview.Contains( '_' ) ) ? CoverPreview.Substring( 0, CoverPreview.LastIndexOf( '_' ) ) + "_123.jpg" : CoverPreview; }]]></Code>
+		</Property>
+		<Property Name="Url" Type="string" SerializationName="url"/>
+		<Property Name="Rating" Type="string" SerializationName="rating"/>
+    <Property Name="Recenses" Type="string" SerializationName="recenses"/>
+		<Property Name="Type" Type="string" SerializationName="type"/>
+		<Property Name="Drm" Type="string" SerializationName="drm"/>
+		<Property Name="Copyright" Type="string" SerializationName="copyright"/>
+    <Property Name="ReadedPercentStr" Type="string" SerializationName="readed_percent"/>
+		<Property Name="TrialId" Type="string" SerializationName="trial_id"/>
+		<Property Name="Basket" Type="string" SerializationName="basket"/>
+    <Property Name="InGifts" Type="string" SerializationName="in_gifts"/>
+		<Property Name="ItemsLeft" Type="string" SerializationName="items_left"/>    
+    <Property Name="Files" Type="FilesInfo" SerializationName="files" Serialization="element"/>
+    <Property Name="Categories" Type="CategoriesInfo" SerializationName="categories" Serialization="element"/>
+    <Property Name="Sequences" Type="SequencesInfo" SerializationName="sequences" Serialization="element"/>
+
+		<Property Name="Tags" Type="TagsInfo" SerializationName="art_tags" Serialization="element"/>
+		<Property Name="Description" Type="TextDescription" SerializationName="text_description" Serialization="element"/>
+    
+    <Property Name="ExpiredDate" Type="string" SerializationName="valid_till"/>
+    
+    <Property Name="SelfService" Type="string" SerializationName="biblio_selfservice"/>
+    <Property Name="SelfServiceMyRequest" Type="string" SerializationName="biblio_my_request"/>
+    <Property Name="SelfServiceQueueSize" Type="string" SerializationName="biblio_queue_size"/>
+    <Property Name="SelfServiceBusy" Type="string" SerializationName="biblio_busy"/>
+    <Property Name="SelfServiceBooksCount" Type="string" SerializationName="biblio_fund"/>
+
+    <Entity Name="TextDescription" BaseType="XObject">
+			<Property Name="Hidden" Type="Hidden" SerializationName="hidden" Serialization="element"/>
+		</Entity>
+		
+		<Entity Name="Hidden" BaseType="XObject">
+			<Property Name="TitleInfo" Type="TitleInfo" SerializationName="title-info" Serialization="element"/>
+			<Property Name="PublishInfo" Type="PublishInfo" SerializationName="publish-info" Serialization="element"/>
+			<Property Name="DocumentInfo" Type="DocumentInfo" SerializationName="document-info" Serialization="element"/>
+		</Entity>
+		
+		<Entity Name="TitleInfo" BaseType="XObject">
+			<Property Name="BookTitle" Type="string" SerializationName="book-title" Serialization="element"/>
+			<Property Name="Annotation" Type="Annotation" SerializationName="annotation" Serialization="element"/>
+			<Property Name="Year" Type="string" SerializationName="date" Serialization="element"/>
+			<Property Name="Language" Type="string" SerializationName="lang" Serialization="element"/>
+			<Property Name="SourceLanguage" Type="string" SerializationName="src-lang" Serialization="element"/>
+			<Property Name="Author" Type="AuthorInfo[]" SerializationName="author" Serialization="element"/>
+			<Property Name="Sequence" Type="SequenceInfo" SerializationName="sequence" Serialization="element"/>
+			<Property Name="Coverpage" Type="CoverpageInfo" SerializationName="coverpage" Serialization="element"/>
+			<Property Name="Genres" Type="string[]" SerializationName="genre" Serialization="element"/>
+			<Property Name="Translators" Type="XCollection" TypeGenericArguments="AuthorInfo" SerializationName="translator" Serialization="element"/>
+
+			<Entity Name="AuthorInfo" BaseType="XObject" XKeyProperties="Id">
+				<Property Name="Id" Type="string" SerializationName="id" Serialization="element"/>
+				<Property Name="FirstName" Type="string" SerializationName="first-name" Serialization="element"/>
+				<Property Name="MiddleName" Type="string" SerializationName="middle-name" Serialization="element"/>
+				<Property Name="LastName" Type="string" SerializationName="last-name" Serialization="element"/>
+			</Entity>
+			
+			<Entity Name="CoverpageInfo" BaseType="XObject">
+				<Property Name="Image" Type="ImageInfo" SerializationName="image" Serialization="element"/>
+				
+				<Entity Name="ImageInfo" BaseType="XObject">
+					<Property Name="Href" Type="string" SerializationName="href"/>
+				</Entity>
+			</Entity>
+		</Entity>
+
+		<Entity Name="Annotation" BaseType="XObject" Interfaces="IXmlSerializable">
+			<Property Name="Text" Type="string" Serialization="none"/>
+		</Entity>
+		
+		<Entity Name="PublishInfo" BaseType="XObject">
+			<Property Name="BookName" Type="string" SerializationName="book-name" Serialization="element"/>
+			<Property Name="Publisher" Type="string" SerializationName="publisher" Serialization="element"/>
+			<Property Name="City" Type="string" SerializationName="city" Serialization="element"/>
+			<Property Name="Year" Type="int" SerializationName="year" Serialization="element"/>
+			<Property Name="Isbn" Type="string" SerializationName="isbn" Serialization="element"/>
+			<Property Name="Sequence" Type="SequenceInfo" SerializationName="sequence" Serialization="element"/>
+		</Entity>
+		
+		<Entity Name="DocumentInfo" BaseType="XObject">
+			<Property Name="Id" Type="string" SerializationName="id" Serialization="element"/>
+		</Entity>
+
+		<Entity Name="SequenceInfo" BaseType="XObject">
+      <Property Name="Id" Type="int" SerializationName="id"/>
+			<Property Name="Number" Type="int" SerializationName="number"/>
+			<Property Name="Name" Type="string" SerializationName="name"/>
+		</Entity>
+
+		<Entity Name="TagsInfo" BaseType="XObject">
+			<Property Name="Tags" Type="XCollection" TypeGenericArguments="Tag" SerializationName="tag" Serialization="element"/>
+		</Entity>
+		
+		<Entity Name="Tag" BaseType="XObject" XKeyProperties="Id">
+			<Property Name="Id" Type="int" SerializationName="id"/>
+			<Property Name="Title" Type="string" SerializationName="tag_title" />
+		</Entity>
+
+		<Entity Name="FilesInfo" BaseType="XObject">
+			<Property Name="Files" Type="XCollection" TypeGenericArguments="File" SerializationName="file" Serialization="element"/>
+      <Property Name="Groups" Type="XCollection" TypeGenericArguments="Group" SerializationName="group" Serialization="element"/>
+		</Entity>
+
+		<Entity Name="File" BaseType="XObject" XKeyProperties="Type">
+			<Property Name="Type" Type="string" SerializationName="type"/>
+			<Property Name="Size" Type="int" SerializationName="size"/>
+		</Entity>
+
+    <Entity Name="Group" BaseType="XObject" XKeyProperties="GroupId">
+      <Property Name="Title" Type="string" SerializationName="value"/>
+      <Property Name="GroupId" Type="int" SerializationName="group_id"/>
+      <Property Name="Files" Type="XCollection" TypeGenericArguments="File" SerializationName="file" Serialization="element"/>
+    </Entity>
+
+    <Entity Name="SequencesInfo" BaseType="XObject">
+      <Property Name="Sequences" Type="XCollection" TypeGenericArguments="SequenceInfo" SerializationName="sequence" Serialization="element"/>
+    </Entity>
+
+    <Entity Name="CategoriesInfo" BaseType="XObject">
+      <Property Name="Categories" Type="XCollection" TypeGenericArguments="Categorie" SerializationName="categorie" Serialization="element"/>
+    </Entity>
+
+    <Entity Name="Categorie" BaseType="XObject" XKeyProperties="Type">
+      <Property Name="Id" Type="string" SerializationName="_id"/>
+      <Property Name="Name" Type="string" SerializationName="_name"/>
+    </Entity>
+    
+	</Entity>
+  
+
+	<Entity Name="UniteInformation" BaseType="UserInformation" SerializationName="catalit-unite-user-ok">
+	</Entity>
+		
+	<Entity Name="UserInformation" BaseType="XObject" SerializationName="catalit-authorization-ok">
+		<Property Name="SessionId" Type="string" SerializationName="sid"/>
+		<Property Name="UserId" Type="string" SerializationName="user-id"/>
+		<Property Name="FirstName" Type="string" SerializationName="first-name"/>
+		<Property Name="LastName" Type="string" SerializationName="last-name"/>
+		<Property Name="MiddleName" Type="string" SerializationName="middle-name"/>
+		<Property Name="Email" Type="string" SerializationName="mail"/>
+		<Property Name="Web" Type="string" SerializationName="www"/>
+		<Property Name="Phone" Type="string" SerializationName="phone"/>
+		<Property Name="City" Type="string" SerializationName="city"/>
+		<Property Name="BooksCount" Type="string" SerializationName="books-cnt"/>
+		<Property Name="AuthorsCount" Type="string" SerializationName="authors-cnt"/>
+		<Property Name="UsersCount" Type="string" SerializationName="users-cnt"/>
+		<Property Name="NewPassword" Type="string" SerializationName="new_pwd1"/>
+		<Property Name="CanRebill" Type="string" SerializationName="can-rebill"/>
+    <Property Name="Account" Type="double" SerializationName="account"/>
+    <Property Name="AccountType" Type="int" SerializationName="hide_shop_feautures"/>
+	</Entity>
+
+  <Entity Name="ServerTimeResponse" BaseType="XObject" SerializationName="catalit-fb2-books">
+		<Property Name="Now" Type="string" SerializationName="now"/>
+	</Entity>
+
+  <Entity Name="SelfServiceBookResponse" BaseType="XObject">
+    <Property Name="BookRequestOk" Type="string"/>
+  </Entity>
+
+  <Entity Name="PurgeRebillsResponse" BaseType="XObject" SerializationName="catalit-purge-rebills">
+    <Property Name="Result" Type="string" SerializationName="result"/>
+  </Entity>
+
+  <Entity Name="ProcessingResponse" BaseType="XObject" SerializationName="transaction">
+    <Property Name="Id" Type="long" SerializationName="id"/>
+    <Property Name="Operation" Type="string" SerializationName="operation"/>
+    <Property Name="Result" Type="string" SerializationName="result"/>
+    <Property Name="Code" Type="int" SerializationName="code"/>
+    <Property Name="Status" Type="string" SerializationName="status"/>
+    <Property Name="ErrorCode" Type="int" SerializationName="errorCode"/>
+    <Property Name="Secure" Type="ThreedSecure" SerializationName="threedSecure"/>
+  </Entity>
+
+  <Entity Name="ThreedSecure" BaseType="XObject" SerializationName="threedSecure">
+    <Property Name="Pareq" Type="string" SerializationName="pareq"/>
+    <Property Name="Acsurl" Type="string" SerializationName="acsurl"/>
+    <Property Name="Pd" Type="string" SerializationName="pd"/>
+  </Entity>
+  
+</Model>

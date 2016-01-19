@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{49D2B278-9DBE-40C5-9CE1-F886EC69EFBD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LitRes.ViewModels</RootNamespace>
+    <AssemblyName>LitRes.ViewModels</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Analytics\Analytics.cs" />
+    <Compile Include="Builders\BookBuilder.cs" />
+    <Compile Include="LibraryTools\ExpirationGuardian.cs" />
+    <Compile Include="LibraryTools\IExpirationGuardian.cs" />
+    <Compile Include="LibraryTools\IExpiredCallBack.cs" />
+    <Compile Include="MD5.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BookmarksProvider.cs" />
+    <Compile Include="Services\BookProvider.cs" />
+    <Compile Include="Services\CatalogProvider.cs" />
+    <Compile Include="Services\CollectionsProvider.cs" />
+    <Compile Include="Services\CredentialsProvider.cs" />
+    <Compile Include="Services\FileDownloadService.cs" />
+    <Compile Include="Services\GenresProvider.cs" />
+    <Compile Include="Services\IBookmarksProvider.cs" />
+    <Compile Include="Services\IBookProvider.cs" />
+    <Compile Include="Services\ICatalogProvider.cs" />
+    <Compile Include="Services\ICollectionsProvider.cs" />
+    <Compile Include="Services\IDataCacheService.cs" />
+    <Compile Include="Services\IFileCacheService.cs" />
+    <Compile Include="Services\IFileDownloadService.cs" />
+    <Compile Include="Services\IGenresProvider.cs" />
+    <Compile Include="Services\IInAppPurchaseService.cs" />
+    <Compile Include="Services\ILitresPurchaseService.cs" />
+    <Compile Include="Services\INotificationsProvider.cs" />
+    <Compile Include="Services\IPersonsProvider.cs" />
+    <Compile Include="Services\IProfileProvider.cs" />
+    <Compile Include="Services\IPurchaseServiceDecorator.cs" />
+    <Compile Include="Services\IPushNotificationsService.cs" />
+    <Compile Include="Services\IRecensesProvider.cs" />
+    <Compile Include="Services\ISearchHistoryProvider.cs" />
+    <Compile Include="Services\ISettingsService.cs" />
+    <Compile Include="Services\LitresPurchaseService.cs" />
+    <Compile Include="Services\NotificationsProvider.cs" />
+    <Compile Include="Services\PersonsProvider.cs" />
+    <Compile Include="Services\ProfileProvider.cs" />
+    <Compile Include="Services\RecensesProvider.cs" />
+    <Compile Include="Services\SearchHistoryProvider.cs" />
+    <Compile Include="Services\SettingsService.cs" />
+    <Compile Include="ViewModelsModule.cs" />
+    <Compile Include="ViewModels\AccountDepositViewModel.cs" />
+    <Compile Include="ViewModels\AccountInfoViewModel.cs" />
+    <Compile Include="ViewModels\AddRecenseViewModel.cs" />
+    <Compile Include="ViewModels\AuthorizationViewModel.cs" />
+    <Compile Include="ViewModels\BookBookmarksViewModel.cs" />
+    <Compile Include="ViewModels\BookChaptersViewModel.cs" />
+    <Compile Include="ViewModels\BooksByCategoryViewModel.cs" />
+    <Compile Include="ViewModels\BookViewModel.cs" />
+    <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
+    <Compile Include="ViewModels\ChangeUserInfoViewModel.cs" />
+    <Compile Include="ViewModels\CreditCardPurchaseViewModel.cs" />
+    <Compile Include="ViewModels\GenreBooksViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\MyBooksViewModel.cs" />
+    <Compile Include="ViewModels\NotificationsViewModel.cs" />
+    <Compile Include="ViewModels\PersonViewModel.cs" />
+    <Compile Include="ViewModels\PushNotificationsViewModel.cs" />
+    <Compile Include="ViewModels\ReaderSettingsViewModel.cs" />
+    <Compile Include="ViewModels\ReaderViewModel.cs" />
+    <Compile Include="ViewModels\RegistrationViewModel.cs" />
+    <Compile Include="ViewModels\SearchHistoryViewModel.cs" />
+    <Compile Include="ViewModels\SearchViewModel.cs" />
+    <Content Include="Properties\LitRes.ViewModels.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Diggilect.Mvvm.Windows10\Diggilect.Mvvm.Windows10.csproj">
+      <Project>{92559e26-743c-44fc-af14-a017c68e6879}</Project>
+      <Name>Diggilect.Mvvm.Windows10</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Digillect.Mvvm\Digillect.Mvvm.csproj">
+      <Project>{f0374c62-e283-48ed-8a66-7b2439de6fe5}</Project>
+      <Name>Digillect.Mvvm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Digillect.ObjectModel\Digillect.ObjectModel.csproj">
+      <Project>{c580ed86-6891-4db9-9e28-c30859f0d8c3}</Project>
+      <Name>Digillect.ObjectModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LitRes.Models\LitRes.Models\LitRes.Models.csproj">
+      <Project>{4f9813d6-17f1-458a-9651-013969a02932}</Project>
+      <Name>LitRes.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

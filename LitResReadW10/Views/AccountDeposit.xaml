@@ -1,0 +1,55 @@
+﻿<views:AccountDepositFitting
+	x:Class="LitRes.Views.AccountDeposit"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:views="using:LitRes.Views"
+	mc:Ignorable="d"
+	FontFamily="{StaticResource PhoneFontFamilyNormal}"
+	FontSize="{StaticResource PhoneFontSizeNormal}"
+	Foreground="{StaticResource PhoneForegroundBrush}">
+
+      <Grid Margin="0" Padding="0" Background="{StaticResource LitresMainBackgroundBrush}">
+          <ScrollViewer Background="{StaticResource LitresMainBackgroundBrush}"
+                  Margin="10,0,10,0"
+                  Padding="0"
+                  HorizontalAlignment="Stretch"
+                  IsVerticalRailEnabled="True"
+                  VerticalScrollBarVisibility="Auto"
+                  VerticalScrollMode="Enabled"
+                  HorizontalScrollMode="Disabled">
+            <Grid x:Name="LayoutRoot"  Padding="0" Margin="0">
+        
+            <Grid.RowDefinitions>
+               <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+        
+          
+            <StackPanel Grid.Row="0" HorizontalAlignment="Left" Orientation="Vertical">
+                <TextBlock Margin="15,15,15,0" Text="{Binding Title}" Style="{StaticResource BigNormalSemiBoldBlackTextStyle}"/>
+            </StackPanel>
+
+              <StackPanel Margin="0,32,0,32" Grid.Row="1" HorizontalAlignment="Center" Orientation="Vertical">
+                  <ProgressBar HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-25,0,0" Width="450"  IsIndeterminate="True" Foreground="#ff6200"/>
+                   <TextBlock x:Name="bodyTextBlock" 
+                                 MaxWidth="400" 
+                                 TextWrapping="Wrap" 
+                                 Foreground="Black"
+                                 HorizontalAlignment="Center" 
+                                 VerticalAlignment="Bottom" 
+                                 Margin="0,0,0,0" 
+                                 Text="Подождите, идёт оплата." />
+                  <Button Content="отмена" Width="443" Margin="3,25,0,0" BorderBrush="Black" Foreground="Black" Tapped="Cancel"/>
+              </StackPanel>
+            <WebView Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch" 
+                           VerticalAlignment="Stretch" Visibility="Collapsed" 
+                           DefaultBackgroundColor="Transparent"
+                           x:Name="webView" 
+                           LoadCompleted="WebBrowser_OnLoadCompleted"  
+                           NavigationCompleted="WebView_OnNavigationCompleted"/>
+          </Grid>
+      </ScrollViewer>
+    </Grid>
+</views:AccountDepositFitting>

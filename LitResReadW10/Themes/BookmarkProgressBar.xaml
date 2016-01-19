@@ -1,0 +1,23 @@
+﻿    <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:controls="using:LitRes.Controls">
+    <Style TargetType="controls:BookmarkProgressBar">
+            <Setter Property="Template">
+                <Setter.Value>
+                <ControlTemplate TargetType="controls:BookmarkProgressBar">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Margin="{TemplateBinding Margin}"
+                                Background="{TemplateBinding Background}"   
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}">
+                        <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="{TemplateBinding Height}" ZIndex="100">
+                            <Image Stretch="None" x:Name="CLIPRECTANGLE" Source="../Assets/W10Icons/BookmarkAdded/bookmark_added.png"/>
+                        </Canvas>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </ResourceDictionary>
