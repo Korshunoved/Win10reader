@@ -80,7 +80,7 @@ namespace LitRes.Views
             Debug.WriteLine("Reader()");
             _lastThemeIndex = -1;
             
-            PhoneApplicationService.Current.Activated += CurrentOnActivated;
+          //  PhoneApplicationService.Current.Activated += CurrentOnActivated;
             PhoneApplicationService.Current.Deactivated += Current_Deactivated;
             InitializeComponent();
 
