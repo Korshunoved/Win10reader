@@ -638,7 +638,7 @@ namespace LitRes.Views
         }
     }
 
-    public class ReaderFitting : ViewModelPage<ReaderViewModel>
+    public partial class ReaderFitting : ViewModelPage<ReaderViewModel>
     {
     }
 

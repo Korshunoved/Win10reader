@@ -122,6 +122,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BookmarksProvider.cs" />
     <Compile Include="Services\BookProvider.cs" />
+    <Compile Include="Services\BookReadingContext.cs" />
+    <Compile Include="Services\BookReadingContextService.cs" />
     <Compile Include="Services\CatalogProvider.cs" />
     <Compile Include="Services\CollectionsProvider.cs" />
     <Compile Include="Services\CredentialsProvider.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="Services\GenresProvider.cs" />
     <Compile Include="Services\IBookmarksProvider.cs" />
     <Compile Include="Services\IBookProvider.cs" />
+    <Compile Include="Services\IBookReadingContextService.cs" />
     <Compile Include="Services\ICatalogProvider.cs" />
     <Compile Include="Services\ICollectionsProvider.cs" />
     <Compile Include="Services\IDataCacheService.cs" />
@@ -178,6 +181,10 @@
     <Content Include="Properties\LitRes.ViewModels.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Athenaeum.Formatter\Athenaeum.Formatter.csproj">
+      <Project>{2ac0baaf-eeae-4f62-a18d-3ea51e06a707}</Project>
+      <Name>Athenaeum.Formatter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Diggilect.Mvvm.Windows10\Diggilect.Mvvm.Windows10.csproj">
       <Project>{92559e26-743c-44fc-af14-a017c68e6879}</Project>
       <Name>Diggilect.Mvvm.Windows10</Name>
