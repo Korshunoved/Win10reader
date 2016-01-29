@@ -84,8 +84,15 @@ namespace Digillect.Mvvm.Services
 					Name = viewName,
 					Type = type,
 				};
-
-				_views.Add( viewName, descriptor );
+			    try
+			    {
+                    _views.Add(viewName, descriptor);
+                }
+			    catch (Exception)
+			    {
+			        //
+			    }
+				
 			}
 
 			var app = (WindowsRTApplication) Application.Current;

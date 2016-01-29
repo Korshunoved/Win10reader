@@ -712,7 +712,7 @@ namespace FictionBook
 
 		public ParagraphElement( string text )
 		{
-			Children.Add( new TextElement( text ) );
+			Children.Add( new TextElement( text, "paragraph" ) );
 		}
 		#endregion
 
@@ -768,15 +768,18 @@ namespace FictionBook
 	{
 		private string _text;
 
+	    private string _type;
+
 		#region Constructors/Disposer
 		public TextElement()
-			: this( string.Empty )
+			: this( string.Empty, string.Empty)
 		{
 		}
 
-		public TextElement( string text )
+		public TextElement( string text, string type )
 		{
 			_text = text;
+		    _type = type;
 		}
 		#endregion
 
@@ -786,7 +789,14 @@ namespace FictionBook
 			get { return _text; }
 			set { SetProperty( ref _text, value, "Text" ); }
 		}
-		#endregion
+
+	    public string Type
+	    {
+	        get { return _type; }
+	        set { SetProperty(ref _type, value, "Type"); }
+	    }
+
+	    #endregion
 
 		#region Element Overrides
 		protected override bool ValidateChildInsertion( int index, Element child )
@@ -813,6 +823,7 @@ namespace FictionBook
 			TextElement clone = (TextElement) base.Clone();
 
 			clone._text = _text;
+		    clone._type = _type;
 
 			return clone;
 		}
@@ -866,7 +877,7 @@ namespace FictionBook
 
 		public StrongElement( string text )
 		{
-			Children.Add( new TextElement( text ) );
+			Children.Add( new TextElement( text, "strong" ) );
 		}
 		#endregion
 	}
@@ -882,7 +893,7 @@ namespace FictionBook
 
 		public EmphasisElement( string text )
 		{
-			Children.Add( new TextElement( text ) );
+			Children.Add( new TextElement( text, "emphasis" ) );
 		}
 		#endregion
 	}
@@ -892,7 +903,7 @@ namespace FictionBook
 	public class StrikethroughElement : MarkupElement
 	{
 		public StrikethroughElement() { }
-		public StrikethroughElement( string text ) { Children.Add( new TextElement( text ) ); }
+		public StrikethroughElement( string text ) { Children.Add( new TextElement( text, "Strikethrough") ); }
 	}
 	#endregion
 
@@ -906,7 +917,7 @@ namespace FictionBook
 
 		public SubElement( string text )
 		{
-			Children.Add( new TextElement( text ) );
+			Children.Add( new TextElement( text, "sub" ) );
 		}
 		#endregion
 	}
@@ -922,7 +933,7 @@ namespace FictionBook
 
 		public SupElement( string text )
 		{
-			Children.Add( new TextElement( text ) );
+			Children.Add( new TextElement( text,  "sup" ) );
 		}
 		#endregion
 	}
@@ -947,7 +958,7 @@ namespace FictionBook
 		{
 			_linkReference = linkReference;
 
-			Children.Add( new TextElement( text ) );
+			Children.Add( new TextElement( text, "link" ) );
 		}
 		#endregion
 

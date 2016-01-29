@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -12,28 +14,35 @@ using LitRes.Models;
 using LitRes.ValueConverters;
 using LitRes.ViewModels;
 using System.ComponentModel;
+using System.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Graphics.Display;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Windows.Web;
 using Autofac;
 using Digillect;
 using Digillect.Mvvm.Services;
+using FictionBook;
 using LitRes.Services;
 using LitResReadW10;
 using LitResReadW10.Controls;
 using LitResReadW10.Crypto;
 using LitResReadW10.Helpers;
+using TextElement = FictionBook.TextElement;
 
 namespace LitRes.Views
 {
@@ -48,7 +57,7 @@ namespace LitRes.Views
         private bool _menuVisible;
         private bool _fullVisible;
         private int _moveCount;
-
+        private double _fractionRead;
         private bool _syncInProgress;
         private readonly Object _thisLock = new object();
         private bool _isBuyShowed;
@@ -367,6 +376,7 @@ namespace LitRes.Views
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
+                    throw;
                 }
             }
             _isSliderManipulationStarted = false;
@@ -535,9 +545,19 @@ namespace LitRes.Views
                 ChangeSliderValue(double.Parse(currentPage));
         }
 
-        private async void LoadBookToWebReader()
+        private ObservableCollection<BookElement> _bookList;
+        private ObservableCollection<ObservableCollection<BookElement>> _pagesList;
+        private ObservableCollection<string> _pagesCollection; 
+
+        private void LoadBookToWebReader()
         {
-            ReaderWebView.Visibility = Visibility.Visible;
+            var book = ViewModel.Document;
+            _pagesList = new ObservableCollection<ObservableCollection<BookElement>>();
+            GeneratePages(book);
+            ReformatPages();  
+            FlipView.Visibility = Visibility.Visible;
+            
+            /*ReaderWebView.Visibility = Visibility.Visible;
             try
             {
 
@@ -552,6 +572,76 @@ namespace LitRes.Views
             {
                 Debug.WriteLine(ex.Message);
                 _navigationService.GoBack();
+            }*/
+        }
+
+        private void ReformatPages()
+        {
+            _pagesCollection = new ObservableCollection<string>();
+
+            foreach (var obj in _pagesList)
+            {
+                var pageText = "";
+                var index = 0;
+                foreach (var bookElement in obj)
+                {
+                    switch (bookElement.Type)
+                    {
+                        case "FictionBook.ParagraphElement":
+                            pageText += bookElement.Text;
+                            if (index > 0 && index < obj.Count - 1 && !obj[index - 1].Type.Contains("EmphasisElement") && !obj[index + 1].Type.Contains("EmphasisElement"))
+                                pageText += "\r\n";
+                            break;
+                        case "FictionBook.EmphasisElement":
+                            pageText += bookElement.Text;
+                            break;
+                    }
+                    index++;
+                }
+                _pagesCollection.Add(pageText);
+            }
+        }
+
+        private void GeneratePages(Document bookDocument)
+        {
+            _bookList = new ObservableCollection<BookElement>();
+            foreach (var body in bookDocument.Bodies)
+            {
+                foreach (var child in body.Children)
+                {
+                    GetString(child);
+                }
+            }
+            var tmpList = new ObservableCollection<BookElement>();
+            var i = 0;
+            foreach (var elem in _bookList)
+            {
+                if (i >= 50)
+                {
+                    _pagesList.Add(tmpList);
+                    i = 0;
+                    tmpList = new ObservableCollection<BookElement>();
+                }
+                tmpList.Add(elem);
+                i++;
+            }
+        }
+
+        private void GetString(Element element)
+        {
+            if (element.Children.Count > 0)
+            {
+                foreach (var child in element.Children)
+                {
+                    GetString(child);
+                }
+            }
+            else
+            {
+                var elem = element as TextElement;
+                if (elem == null) return;
+                var bookElement = new BookElement {Text = elem.Text, Type = elem.Type};
+                _bookList.Add(bookElement);
             }
         }
 
@@ -636,6 +726,155 @@ namespace LitRes.Views
         {
            // await AddBookmark(false);
         }
+
+        private void FlipView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int pageNum = FlipView.SelectedIndex + 1;
+            pageNumber.Text = pageNum.ToString();
+            _fractionRead = (pageNum - 1.0) / FlipView.Items.Count;
+            //CurrentPageSlider.Value = pageNum;
+            if (FlipView.SelectedIndex == FlipView.Items.Count - 1 && richTextBlockOverflow != null)
+            {
+                RichTextBlockOverflow newRichTextBlockOverflow = new RichTextBlockOverflow();
+                richTextBlockOverflow.OverflowContentTarget = newRichTextBlockOverflow;
+                richTextBlockOverflow = newRichTextBlockOverflow;
+                FlipView.Items.Add(richTextBlockOverflow);
+                richTextBlockOverflow.Measure(containerSize);
+            }
+        }
+
+        private RichTextBlockOverflow richTextBlockOverflow;
+
+        private Size containerSize;
+
+        private void FlipView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            // Get the size of the FlipView
+            containerSize = e.NewSize;
+
+            // Actual value gets modified during processing here, so save it
+            double saveFractionRead = _fractionRead;
+
+            // First time through after program is launched
+            if (FlipView.Items.Count == 0)
+            {
+                // Load book resource
+                var bookLines = _bookList;
+
+                // Create RichTextBlock
+                RichTextBlock richTextBlock = new RichTextBlock
+                {
+                    FontSize = 22,
+                    Foreground = new SolidColorBrush(Colors.Black)
+                };
+
+                // Create paragraphs
+                Paragraph paragraph = new Paragraph();
+                paragraph.Margin = new Thickness(12);
+                richTextBlock.Blocks.Add(paragraph);
+
+                foreach (var line in bookLines)
+                {
+                    // End of paragraph, make new Paragraph
+                    if (line.Text.Length == 0)
+                    {
+                        paragraph = new Paragraph();
+                        paragraph.Margin = new Thickness(12);
+                        richTextBlock.Blocks.Add(paragraph);
+                    }
+                    // Continue the paragraph
+                    else
+                    {
+                        string textLine = line.Text;
+                        char lastChar = line.Text[line.Text.Length - 1];
+
+                        if (lastChar != ' ')
+                            textLine += "\r\n";
+
+                        if (line.Text[0] == ' ')
+                            paragraph.Inlines.Add(new LineBreak());
+                        paragraph.Inlines.Add(line.Type.Contains("Emphasis")
+                            ? new Run {Text = textLine, FontStyle = FontStyle.Italic}
+                            : new Run {Text = textLine});
+                    }
+                }
+
+                // Make RichTextBlock the same size as the FlipView
+                FlipView.Items.Add(richTextBlock);
+                richTextBlock.Measure(containerSize);
+
+                // Generate RichTextBlockOverflow elements
+                if (richTextBlock.HasOverflowContent)
+                {
+                    // Add the first one
+                    richTextBlockOverflow = new RichTextBlockOverflow();
+                    richTextBlock.OverflowContentTarget = richTextBlockOverflow;
+                    FlipView.Items.Add(richTextBlockOverflow);
+                    richTextBlockOverflow.Measure(containerSize);
+
+                    // Add subsequent ones
+                    while (richTextBlockOverflow.HasOverflowContent && FlipView.Items.Count < 3)
+                    {
+                        RichTextBlockOverflow newRichTextBlockOverflow = new RichTextBlockOverflow();
+                        richTextBlockOverflow.OverflowContentTarget = newRichTextBlockOverflow;
+                        richTextBlockOverflow = newRichTextBlockOverflow;
+                        FlipView.Items.Add(richTextBlockOverflow);
+                        richTextBlockOverflow.Measure(containerSize);
+                    }
+                }
+            }
+            // Subsequent SizeChanged events
+            else
+            {
+                // Resize all the items in the FlipView
+                foreach (object obj in FlipView.Items)
+                {
+                    (obj as FrameworkElement).Measure(containerSize);
+                }
+
+                // Generate new RichTextBlockOverflow elements if needed
+                while ((FlipView.Items[FlipView.Items.Count - 1]
+                                    as RichTextBlockOverflow).HasOverflowContent)
+                {
+                    RichTextBlockOverflow richTextBlockOverflow =
+                            FlipView.Items[FlipView.Items.Count - 1] as RichTextBlockOverflow;
+                    RichTextBlockOverflow newRichTextBlockOverflow = new RichTextBlockOverflow();
+                    richTextBlockOverflow.OverflowContentTarget = newRichTextBlockOverflow;
+                    richTextBlockOverflow = newRichTextBlockOverflow;
+                    FlipView.Items.Add(richTextBlockOverflow);
+                    richTextBlockOverflow.Measure(e.NewSize);
+                }
+                // Remove superfluous RichTextBlockOverflow elements
+                while (!(FlipView.Items[FlipView.Items.Count - 2]
+                                    as RichTextBlockOverflow).HasOverflowContent)
+                {
+                    FlipView.Items.RemoveAt(FlipView.Items.Count - 1);
+                }
+            }
+
+            // Initialize the header and Slider
+            int count = FlipView.Items.Count;
+            pageNumber.Text = "1";              // probably modified soon
+            pageCount.Text = count.ToString();
+          //  CurrentPageSlider.Minimum = 1;
+          //  CurrentPageSlider.Maximum = FlipView.Items.Count;
+          //  CurrentPageSlider.Value = 1;               // probably modified soon
+
+            // Go to approximate page
+            _fractionRead = saveFractionRead;
+            FlipView.SelectedIndex = (int)Math.Min(count - 1, _fractionRead * count);
+        }
+
+        private void CurrentPageSlider_ValueChanged_1(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            FlipView.SelectedIndex = Math.Min(FlipView.Items.Count, (int)e.NewValue) - 1;
+        }
+    }
+
+    public class BookElement
+    {
+        public string Text { get; set; }
+        public string Type { get; set; }
     }
 
     public partial class ReaderFitting : ViewModelPage<ReaderViewModel>

@@ -76,8 +76,15 @@ namespace Digillect.Mvvm.Services
 						RequiresAuthentication = typeInfo.GetCustomAttributes( typeof( ViewRequiresAuthenticationAttribute ), false ).Any(),
 						PartOfAuthentication = typeInfo.GetCustomAttributes( typeof( ViewIsPartOfAuthenticationFlowAttribute ), false ).Any()
 					};
-
-				_views.Add( viewName, descriptor );
+			    try
+			    {
+                    _views.Add(viewName, descriptor);
+                }
+			    catch (Exception)
+			    {
+			       //
+			    }
+				
 			}
 		}
 		#endregion

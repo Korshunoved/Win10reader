@@ -552,7 +552,7 @@ namespace FictionBook
 
 			ParseBodyElement(_reader, section);
 
-			return ProcessNodes<SectionElement>(delegate(SectionElement b)
+			return ProcessNodes(delegate
 			{
 				if(_reader.NodeType == XmlNodeType.Element)
 				{
@@ -640,7 +640,7 @@ namespace FictionBook
 			{
 				if(_reader.NodeType == XmlNodeType.Text)
 				{
-					markup.Children.Add(new TextElement(_reader.ReadContentAsString()));
+					markup.Children.Add(new TextElement(_reader.ReadContentAsString(), type.ToString()));
 				}
 
 				if(_reader.NodeType == XmlNodeType.Element)

@@ -7,7 +7,8 @@ namespace LitRes.Services
 {
     public interface IBookProvider
     {
-        Task<string> GetFullBook(Book book, CancellationToken token);
+        //Task<string> GetFullBook(Book book, CancellationToken token);
+        Task<FictionBook.Document> GetFullBook(Book book, CancellationToken token);
         //Task<FictionBook.Document> GetLocalFullBook(string filetoken, Book book, CancellationToken token);
         Task<string> GetTrialBook(Book book, CancellationToken token);
         Task<XCollection<Book>> GetExistBooks(CancellationToken token);

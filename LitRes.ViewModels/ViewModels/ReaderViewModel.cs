@@ -55,7 +55,7 @@ namespace LitRes.ViewModels
         private readonly IFileCacheService _fileCacheService;
 
         private string _bookFolderName;
-        //private FictionBook.Document _document;
+        private FictionBook.Document _document;
 #if PDF_ENABLED
         private pdftron.PDF.PDFDoc _pdfDocument;
 #endif
@@ -198,6 +198,12 @@ namespace LitRes.ViewModels
         {
             get { return _status; }
             set { SetProperty(ref _status, value, "Status"); }
+        }
+
+        public FictionBook.Document Document
+        {
+            get { return _document; }
+            set { SetProperty(ref _document, value, "Document"); }
         }
 
         public Exception LoadingException
@@ -423,6 +429,8 @@ namespace LitRes.ViewModels
 
         private async Task LoadFb2BookFile(Session session, Book book)
         {
+            FictionBook.Document document = null;
+
             string bookFolderName = null;
 
             Exception exception = null;
@@ -435,8 +443,10 @@ namespace LitRes.ViewModels
             {
                 try
                 {
-                    bookFolderName = await _bookProvider.GetFullBook(book, session.Token);
-                    status = LoadingStatus.FullBookLoaded;
+                    // bookFolderName = await _bookProvider.GetFullBook(book, session.Token);
+                    //  status = LoadingStatus.FullBookLoaded;
+                    document = await _bookProvider.GetFullBook(book, session.Token);
+                    if (document != null) Status = LoadingStatus.FullBookLoaded;
                 }
                 catch (Exception e)
                 {
@@ -460,6 +470,7 @@ namespace LitRes.ViewModels
             }
 
             LoadingException = exception;
+            Document = document;
             BookFolderName = bookFolderName;
             Status = status;
             OnPropertyChanged(new PropertyChangedEventArgs("LoadBookProcessCompleted"));

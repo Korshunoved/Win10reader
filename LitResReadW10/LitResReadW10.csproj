@@ -528,6 +528,7 @@
     <Content Include="Assets\Fonts\common_spritefont.txt" />
     <None Include="Fonts\common.descriptor" />
     <None Include="Fonts\common.spritefont" />
+    <None Include="packages.config" />
     <None Include="project.json" />
     <PRIResource Include="Strings\ru-ru\Resources.resw" />
   </ItemGroup>
@@ -675,8 +676,8 @@
     <Compile Include="Views\GeneralSettings.xaml.cs">
       <DependentUpon>GeneralSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ReaderTest.xaml.cs">
-      <DependentUpon>ReaderTest.xaml</DependentUpon>
+    <Compile Include="Views\ReaderNew.xaml.cs">
+      <DependentUpon>ReaderNew.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Registration.xaml.cs">
       <DependentUpon>Registration.xaml</DependentUpon>
@@ -925,7 +926,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ReaderTest.xaml">
+    <Page Include="Views\ReaderNew.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1054,6 +1055,11 @@
     <TypeScriptCompile Include="Assets\FB3Reader\Site\LocalBookmarks.ts">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </TypeScriptCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FB2Library">
+      <HintPath>..\3rdParty\FB2Library.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
