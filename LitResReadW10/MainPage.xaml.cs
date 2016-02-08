@@ -305,8 +305,8 @@ namespace LitResReadW10
                 var lastReaded = _dataCacheService.GetItem<Book>("lastreadedbook");
                 if (lastReaded != null)
                 {
-                    //   _navigationService.Navigate("Reader", XParameters.Create("BookEntity", lastReaded));
-                    _navigationService.Navigate("ReaderNew", XParameters.Create("BookEntity", lastReaded));
+                       _navigationService.Navigate("Reader", XParameters.Create("BookEntity", lastReaded));
+                   // _navigationService.Navigate("ReaderNew", XParameters.Create("BookEntity", lastReaded));
                 }
             }
             catch (Exception ex)

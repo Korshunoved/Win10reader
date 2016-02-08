@@ -24,7 +24,7 @@ namespace LitRes.Views
 
         void MyBooks_Loaded(object sender, RoutedEventArgs e)
         {
-           ViewModel.LoadMyBooks();
+            ViewModel.LoadMyBooks();
             Analytics.Instance.sendMessage(Analytics.ViewMyBooks);
         }
 

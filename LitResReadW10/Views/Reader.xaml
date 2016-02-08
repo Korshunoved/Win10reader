@@ -18,7 +18,6 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
         <Grid x:Name="Top"
               Grid.Row="0"
               VerticalAlignment="Top"
@@ -194,7 +193,9 @@
                 <TextBlock Text="&#x00A0;of&#x00A0;" />
                 <TextBlock Name="pageCount" />
             </StackPanel>
-            <FlipView Name="FlipView" Visibility="Collapsed" UseTouchAnimationsForAllNavigation="False"
+            <FlipView Name="FlipView" Visibility="Collapsed"
+                      Opacity="{Binding Brightness}"
+                      UseTouchAnimationsForAllNavigation="False"
                   Background="White" SelectionChanged="FlipView_SelectionChanged" SizeChanged="FlipView_SizeChanged" Margin="0,0,0,80">
                 <FlipView.ItemsPanel>
                     <ItemsPanelTemplate>

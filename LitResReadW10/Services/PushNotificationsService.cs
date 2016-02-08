@@ -4,8 +4,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Networking.PushNotifications;
+using Windows.UI.Notifications;
 using Autofac;
 using LitRes.Services.Connectivity;
+using Microsoft.QueryStringDotNET;
+using NotificationsExtensions.Toasts;
 
 namespace LitRes.Services
 {
@@ -49,6 +52,81 @@ namespace LitRes.Services
                        {
                            OpenNotification(args);
                        };
+
+                       string title = "Автор";
+                       string content = "Какие-то там обновления у автора";
+
+
+                       ToastVisual visual = new ToastVisual()
+                       {
+                           TitleText = new ToastText()
+                           {
+                               Text = title
+                           },
+
+                           BodyTextLine1 = new ToastText()
+                           {
+                               Text = content
+                           }
+                       };
+
+                       int conversationId = 384928;
+
+                       ToastActionsCustom actions = new ToastActionsCustom()
+                       {
+                           Buttons =
+                           {
+                               new ToastButton("Открыть", new QueryString()
+                               {
+                                   {"action", "reply"},
+                                   {"conversationId", conversationId.ToString()}
+
+                               }.ToString())
+                               {
+                                   ActivationType = ToastActivationType.Background,
+                                   ImageUri = "Assets/Reply.png",
+
+                                   // Reference the text box's ID in order to
+                                   // place this button next to the text box
+                                   TextBoxId = "tbReply"
+                               },
+
+                               new ToastButton("Отмена", new QueryString()
+                               {
+                                   {"action", "like"},
+                                   {"conversationId", conversationId.ToString()}
+
+                               }.ToString())
+                               {
+                                   ActivationType = ToastActivationType.Background
+                               },
+                           }
+                       };
+
+                       ToastContent toastContent = new ToastContent()
+                       {
+                           Visual = visual,
+                           Actions = actions,
+
+                           // Arguments when the user taps body of toast
+                           Launch = new QueryString()
+                           {
+                               {"action", "viewConversation"},
+                               {"conversationId", conversationId.ToString()}
+
+                           }.ToString()
+                       };
+
+                       // And create the toast notification
+                       var toast = new ToastNotification(toastContent.GetXml());
+
+                       toast.ExpirationTime = DateTime.Now.AddMinutes(1);
+
+                       toast.Tag = "1";
+
+                       toast.Group = "Author push";
+
+                       ToastNotificationManager.CreateToastNotifier().Show(toast);
 
                        Debug.WriteLine($"URI: {channel.Uri}");
                        await _notificationsProvider.SubscribeDevice(channel.Uri, CancellationToken.None);

@@ -66,6 +66,12 @@ namespace LitRes.Views
 
         public bool IsHardwareBack => ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons");
 
+        public static Reader Instance;
+
+        public FlipView CurrentFlipView;
+
+        private BackgroundWorker bw;
+
         #region Constructors/Disposer
         public Reader()
         {
@@ -82,7 +88,7 @@ namespace LitRes.Views
             LocalBroadcastReciver.Instance.PropertyChanging += Instance_PropertyChanging;
             DisplayInformation.GetForCurrentView().OrientationChanged += OnOrientationChanged;
             Window.Current.SizeChanged += Current_SizeChanged;
-
+            Instance = this;
             if (ExpirationGuardian.Instance != null) ExpirationGuardian.Instance.AddCallBack(this);
         }
 
@@ -107,6 +113,7 @@ namespace LitRes.Views
         {
             _moveCount = 0;
             await ViewModel.LoadSettings();
+            CurrentFlipView = FlipView;
         }
         #endregion
 
@@ -229,7 +236,7 @@ namespace LitRes.Views
         }
 
         private void ApplyReaderSettings()
-        {
+        {            
             //PaintingContext.Settings.Face = (Faces)ViewModel.ReaderSettings.Font;
             //PaintingContext.Settings.Scale = (Scales)ViewModel.ReaderSettings.FontSize;
             //PaintingContext.Settings.Theme = (Themes)ViewModel.ReaderSettings.Theme;
@@ -555,8 +562,7 @@ namespace LitRes.Views
             _pagesList = new ObservableCollection<ObservableCollection<BookElement>>();
             GeneratePages(book);
             ReformatPages();  
-            FlipView.Visibility = Visibility.Visible;
-            
+            FlipView.Visibility = Visibility.Visible;            
             /*ReaderWebView.Visibility = Visibility.Visible;
             try
             {
@@ -732,7 +738,11 @@ namespace LitRes.Views
             int pageNum = FlipView.SelectedIndex + 1;
             pageNumber.Text = pageNum.ToString();
             _fractionRead = (pageNum - 1.0) / FlipView.Items.Count;
-            //CurrentPageSlider.Value = pageNum;
+            int cnt = FlipView.Items.Count;
+            pageCount.Text = cnt.ToString();
+            CurrentPageSlider.Minimum = 1;
+            CurrentPageSlider.Maximum = FlipView.Items.Count;
+            CurrentPageSlider.Value = pageNum;
             if (FlipView.SelectedIndex == FlipView.Items.Count - 1 && richTextBlockOverflow != null)
             {
                 RichTextBlockOverflow newRichTextBlockOverflow = new RichTextBlockOverflow();
@@ -747,32 +757,44 @@ namespace LitRes.Views
 
         private Size containerSize;
 
-        private void FlipView_SizeChanged(object sender, SizeChangedEventArgs e)
+        public void ChangeFont()
         {
-            // Get the size of the FlipView
-            containerSize = e.NewSize;
-
-            // Actual value gets modified during processing here, so save it
-            double saveFractionRead = _fractionRead;
-
-            // First time through after program is launched
-            if (FlipView.Items.Count == 0)
+            var fontSize = ViewModel.ReaderSettings.FontSize;
+            if (fontSize < 20) fontSize = 20;
+            if (FlipView.Items == null) return;
+            foreach (var item in FlipView.Items)
             {
-                // Load book resource
-                var bookLines = _bookList;
+                var richText = item as RichTextBlock;
+                if (richText != null) richText.FontSize = fontSize;
+            }
+        }
 
+        private async void FlipView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            CurrentPageSlider.Visibility = Visibility.Visible;            
+            // Actual value gets modified during processing here, so save it
+            double saveFractionRead = _fractionRead;            
+            // First time through after program is launched
+            if (FlipView.Items != null)
+            {           
+                FlipView.Items.Clear();     
+                // Load book resource
+                var bookLines = _bookList;            
                 // Create RichTextBlock
+                var fontSize = ViewModel.ReaderSettings.FontSize;
+                if (fontSize < 20) fontSize = 20;
                 RichTextBlock richTextBlock = new RichTextBlock
                 {
-                    FontSize = 22,
+                    FontSize = fontSize,
+                    FontFamily = new FontFamily("PT Sans"),
                     Foreground = new SolidColorBrush(Colors.Black)
                 };
-
+                
                 // Create paragraphs
                 Paragraph paragraph = new Paragraph();
                 paragraph.Margin = new Thickness(12);
                 richTextBlock.Blocks.Add(paragraph);
-
+                containerSize = richTextBlock.RenderSize;
                 foreach (var line in bookLines)
                 {
                     // End of paragraph, make new Paragraph
@@ -799,6 +821,21 @@ namespace LitRes.Views
                     }
                 }
 
+                var deviceInfo = new DeviceInfoService();
+
+
+               /* var listGrid = new Grid
+                {
+                    Width = FlipView.Width,
+                    Height = FlipView.Height
+                };
+
+                listGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                listGrid.ColumnDefinitions.Add(new ColumnDefinition());
+
+                Grid.SetColumn(richTextBlock, 0);
+
+                containerSize = listGrid.RenderSize;*/
                 // Make RichTextBlock the same size as the FlipView
                 FlipView.Items.Add(richTextBlock);
                 richTextBlock.Measure(containerSize);
@@ -806,67 +843,90 @@ namespace LitRes.Views
                 // Generate RichTextBlockOverflow elements
                 if (richTextBlock.HasOverflowContent)
                 {
+                   
+
                     // Add the first one
                     richTextBlockOverflow = new RichTextBlockOverflow();
                     richTextBlock.OverflowContentTarget = richTextBlockOverflow;
                     FlipView.Items.Add(richTextBlockOverflow);
                     richTextBlockOverflow.Measure(containerSize);
 
-                    // Add subsequent ones
-                    while (richTextBlockOverflow.HasOverflowContent && FlipView.Items.Count < 3)
+                    // Add subsequent ones        
+                    if (bw == null)
+                        bw = new BackgroundWorker();             
+                    bw.DoWork += delegate {
+                        while (richTextBlockOverflow.HasOverflowContent)
+                        {
+                            RichTextBlockOverflow newRichTextBlockOverflow = new RichTextBlockOverflow();
+                            richTextBlockOverflow.OverflowContentTarget = newRichTextBlockOverflow;
+                            richTextBlockOverflow = newRichTextBlockOverflow;
+                            FlipView.Items.Add(richTextBlockOverflow);
+                            richTextBlockOverflow.Measure(containerSize);
+                            int cnt = FlipView.Items.Count;
+                            pageNumber.Visibility = Visibility.Visible;
+                            pageNumber.Text = "1";              // probably modified soon
+                            pageCount.Text = cnt.ToString();
+                            CurrentPageSlider.Minimum = 1;
+                            CurrentPageSlider.Maximum = FlipView.Items.Count;
+                        }
+                    };
+                }
+            }
+            // Subsequent SizeChanged events
+            /*else
+            {
+                // Resize all the items in the FlipView
+                if (FlipView.Items != null)
+                {
+                    foreach (object obj in FlipView.Items)
                     {
+                        var frameworkElement = obj as FrameworkElement;
+                        frameworkElement?.Measure(containerSize);
+                    }
+
+                    // Generate new RichTextBlockOverflow elements if needed
+                    var textBlockOverflow = FlipView.Items[FlipView.Items.Count - 1]
+                        as RichTextBlockOverflow;
+                    while (textBlockOverflow != null && textBlockOverflow.HasOverflowContent)
+                    {
+                        RichTextBlockOverflow richTextBlockOverflow =
+                            FlipView.Items[FlipView.Items.Count - 1] as RichTextBlockOverflow;
                         RichTextBlockOverflow newRichTextBlockOverflow = new RichTextBlockOverflow();
                         richTextBlockOverflow.OverflowContentTarget = newRichTextBlockOverflow;
                         richTextBlockOverflow = newRichTextBlockOverflow;
                         FlipView.Items.Add(richTextBlockOverflow);
-                        richTextBlockOverflow.Measure(containerSize);
+                        richTextBlockOverflow.Measure(e.NewSize);
+                    }
+                    // Remove superfluous RichTextBlockOverflow elements
+                    var blockOverflow = FlipView.Items[FlipView.Items.Count - 2]
+                        as RichTextBlockOverflow;
+                    while (blockOverflow != null && !blockOverflow.HasOverflowContent)
+                    {
+                        FlipView.Items.RemoveAt(FlipView.Items.Count - 1);
                     }
                 }
-            }
-            // Subsequent SizeChanged events
-            else
-            {
-                // Resize all the items in the FlipView
-                foreach (object obj in FlipView.Items)
-                {
-                    (obj as FrameworkElement).Measure(containerSize);
-                }
-
-                // Generate new RichTextBlockOverflow elements if needed
-                while ((FlipView.Items[FlipView.Items.Count - 1]
-                                    as RichTextBlockOverflow).HasOverflowContent)
-                {
-                    RichTextBlockOverflow richTextBlockOverflow =
-                            FlipView.Items[FlipView.Items.Count - 1] as RichTextBlockOverflow;
-                    RichTextBlockOverflow newRichTextBlockOverflow = new RichTextBlockOverflow();
-                    richTextBlockOverflow.OverflowContentTarget = newRichTextBlockOverflow;
-                    richTextBlockOverflow = newRichTextBlockOverflow;
-                    FlipView.Items.Add(richTextBlockOverflow);
-                    richTextBlockOverflow.Measure(e.NewSize);
-                }
-                // Remove superfluous RichTextBlockOverflow elements
-                while (!(FlipView.Items[FlipView.Items.Count - 2]
-                                    as RichTextBlockOverflow).HasOverflowContent)
-                {
-                    FlipView.Items.RemoveAt(FlipView.Items.Count - 1);
-                }
-            }
+            }*/
 
             // Initialize the header and Slider
-            int count = FlipView.Items.Count;
+           /* int count = FlipView.Items.Count;
+            pageNumber.Visibility = Visibility.Visible;
             pageNumber.Text = "1";              // probably modified soon
             pageCount.Text = count.ToString();
-          //  CurrentPageSlider.Minimum = 1;
-          //  CurrentPageSlider.Maximum = FlipView.Items.Count;
-          //  CurrentPageSlider.Value = 1;               // probably modified soon
-
+            CurrentPageSlider.Minimum = 1;
+            CurrentPageSlider.Maximum = FlipView.Items.Count;
+            CurrentPageSlider.Value = 1;               // probably modified soon
+            */
             // Go to approximate page
-            _fractionRead = saveFractionRead;
-            FlipView.SelectedIndex = (int)Math.Min(count - 1, _fractionRead * count);
+            _fractionRead = saveFractionRead;            
+            bw.RunWorkerAsync();
         }
 
         private void CurrentPageSlider_ValueChanged_1(object sender, RangeBaseValueChangedEventArgs e)
         {
+            int cnt = FlipView.Items.Count;
+            pageCount.Text = cnt.ToString();
+            CurrentPageSlider.Minimum = 1;
+            CurrentPageSlider.Maximum = FlipView.Items.Count;
             FlipView.SelectedIndex = Math.Min(FlipView.Items.Count, (int)e.NewValue) - 1;
         }
     }
