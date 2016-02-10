@@ -44,9 +44,9 @@ namespace LitRes.Services
         }
         #endregion
 
-       public async Task<string> GetTrialBook(Book book, CancellationToken token)
+       public async Task<FictionBook.Document> GetTrialBook(Book book, CancellationToken token)
         {
-            /*var exists = await GetExistBooks(CancellationToken.None);
+            var exists = await GetExistBooks(CancellationToken.None);
             var exist = exists.FirstOrDefault(x => x.Id == book.Id);
 
             if (exist != null)
@@ -61,14 +61,13 @@ namespace LitRes.Services
 
             var bookname = book.Id.ToString(CultureInfo.InvariantCulture) + ".trial";
             string id = string.Format("{0:00000000}", book.Id);
-            string url = string.Format("trials/{0}/{1}/{2}/{3}.jbk", id.Substring(0, 2), id.Substring(2, 2), id.Substring(4, 2), id);
+            string url = string.Format("trials/{0}/{1}/{2}/{3}.fb2.zip", id.Substring(0, 2), id.Substring(2, 2), id.Substring(4, 2), id);
 
             return await GetDocument(
                 cancellationToken => _awareConnection.ProcessStaticSecureRequest<RawFile>(url, cancellationToken),
                 token,
                 Path.Combine(CatalogPath, book.Id.ToString(CultureInfo.InvariantCulture)), Path.Combine(CatalogPath, bookname)
-                );*/
-           return null;
+                );
         }
 
        /* public async Task<string> GetFullBook(Book book, CancellationToken token)

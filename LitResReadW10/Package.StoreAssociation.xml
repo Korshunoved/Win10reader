@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <StoreAssociation xmlns="http://schemas.microsoft.com/appx/2010/storeassociation">
-  <Publisher>CN=F8315E25-0B77-4C6A-906F-DD9D4DAECDD6</Publisher>
-  <PublisherDisplayName>Loround</PublisherDisplayName>
+  <Publisher>CN=5EB928D3-3ECB-436F-80E8-6D32C420944A</Publisher>
+  <PublisherDisplayName>doITfast</PublisherDisplayName>
   <GeneratePackageHash>http://www.w3.org/2001/04/xmlenc#sha256</GeneratePackageHash>
   <SupportedLocales>
     <Language Code="af" InMinimumRequirementSet="true" />
@@ -358,13 +358,11 @@
     <Language Code="zu-za" InMinimumRequirementSet="true" />
   </SupportedLocales>
   <ProductReservedInfo>
-    <MainPackageIdentityName>54110Loround.TestReadTest</MainPackageIdentityName>
+    <MainPackageIdentityName>13724doITfast.LitresWin10new</MainPackageIdentityName>
     <ReservedNames>
-      <ReservedName>TestReadTest</ReservedName>
+      <ReservedName>LitresWin10new</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
-  <AccountPackageIdentityNames>
-    <MainPackageIdentityName>54110Loround.testreadwp8</MainPackageIdentityName>
-  </AccountPackageIdentityNames>
-  <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9NBLGGH6BMV8" />
+  <AccountPackageIdentityNames />
+  <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9NBLGGH5L54C" />
 </StoreAssociation>

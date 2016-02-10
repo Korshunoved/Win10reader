@@ -18,7 +18,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid x:Name="Top"
+        <Grid x:Name="Top"              
               Grid.Row="0"
               VerticalAlignment="Top"
               Height="40">
@@ -79,13 +79,8 @@
                                 </Style>
                             </Flyout.FlyoutPresenterStyle>
                             <Frame
-                                Width="350"
-                                MinHeight="200"
-                                MaxHeight="600"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center"
-                                Padding="0"
-                                Margin="0"
+                                VerticalAlignment="Stretch"
+                                HorizontalAlignment="Stretch"
                                 BorderThickness="1"
                                 BorderBrush="Black"
                                 x:Name="SettingsFrame"/>
@@ -196,7 +191,7 @@
             <FlipView Name="FlipView" Visibility="Collapsed"
                       Opacity="{Binding Brightness}"
                       UseTouchAnimationsForAllNavigation="False"
-                  Background="White" SelectionChanged="FlipView_SelectionChanged" SizeChanged="FlipView_SizeChanged" Margin="0,0,0,80">
+                  Background="White" SelectionChanged="FlipView_SelectionChanged" SizeChanged="FlipView_SizeChanged" Margin="0,0,0,80" ManipulationCompleted="FlipView_ManipulationCompleted">
                 <FlipView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" />

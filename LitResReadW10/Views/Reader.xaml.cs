@@ -20,6 +20,7 @@ using Windows.Foundation.Metadata;
 using Windows.Graphics.Display;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.System.Threading;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
@@ -167,7 +168,7 @@ namespace LitRes.Views
             }
             else if (e.PropertyName == "LoadBookProcessCompleted")
             {
-                pageHeader.ProgressIndicatorVisible = false;
+               
                 InitWebReader();
 
                 if (ViewModel.Status == ReaderViewModel.LoadingStatus.FullBookLoaded) Analytics.Instance.sendMessage(Analytics.ActionReadFull);
@@ -230,7 +231,7 @@ namespace LitRes.Views
                 _navigationService.GoBack();
             }
 
-            BookCoverBack.Visibility = Visibility.Collapsed;
+           // BookCoverBack.Visibility = Visibility.Collapsed;
 
             ShowMenu();
         }
@@ -561,8 +562,8 @@ namespace LitRes.Views
             var book = ViewModel.Document;
             _pagesList = new ObservableCollection<ObservableCollection<BookElement>>();
             GeneratePages(book);
-            ReformatPages();  
-            FlipView.Visibility = Visibility.Visible;            
+            ReformatPages();
+            FlipView.Visibility = Visibility.Visible;
             /*ReaderWebView.Visibility = Visibility.Visible;
             try
             {
@@ -600,6 +601,9 @@ namespace LitRes.Views
                             break;
                         case "FictionBook.EmphasisElement":
                             pageText += bookElement.Text;
+                            break;
+                        case "FictionBook.LinkElement":
+                            pageText += " " + bookElement.Text;
                             break;
                     }
                     index++;
@@ -696,12 +700,12 @@ namespace LitRes.Views
 
         private void SettingsButton_OnTapped(object sender, TappedRoutedEventArgs e)
         {
-            if (SystemInfoHelper.IsDesktop())
+            //if (SystemInfoHelper.IsDesktop())
             {
                 FlyoutBase.ShowAttachedFlyout((Button)sender);
                 SettingsFrame.Navigate(typeof(Settings));
             }
-            else _navigationService.Navigate("Settings");
+           // else _navigationService.Navigate("Settings");
         }
 
         private void BookmarsButton_OnTapped(object sender, TappedRoutedEventArgs e)
@@ -751,22 +755,60 @@ namespace LitRes.Views
                 FlipView.Items.Add(richTextBlockOverflow);
                 richTextBlockOverflow.Measure(containerSize);
             }
+            BookCoverBack.Visibility = Visibility.Collapsed;
+            pageHeader.ProgressIndicatorVisible = false;
         }
 
         private RichTextBlockOverflow richTextBlockOverflow;
 
         private Size containerSize;
 
-        public void ChangeFont()
+        public void ChangeFontSize()
         {
             var fontSize = ViewModel.ReaderSettings.FontSize;
             if (fontSize < 20) fontSize = 20;
             if (FlipView.Items == null) return;
-            foreach (var item in FlipView.Items)
+            var richText = FlipView.SelectedItem as RichTextBlock;
+            if (richText != null) richText.FontSize = fontSize;           
+        }
+
+        public void ChangeFont()
+        {
+            var intFont = ViewModel.ReaderSettings.Font;
+            switch (intFont)
             {
-                var richText = item as RichTextBlock;
-                if (richText != null) richText.FontSize = fontSize;
+                case 1:
+                    var richText = FlipView.SelectedItem as RichTextBlock;
+                    if (richText != null) richText.FontFamily = new FontFamily("/Fonts/PT Sans.ttf#PT Sans");
+                    break;
+                case 2:
+                    richText = FlipView.SelectedItem as RichTextBlock;
+                    if (richText != null) richText.FontFamily = new FontFamily("PT Serif");
+                    break;
+                case 3:
+                    richText = FlipView.SelectedItem as RichTextBlock;
+                    if (richText != null) richText.FontFamily = new FontFamily("/Fonts/PT Mono.ttf#PT Mono");
+                    break;
             }
+        }
+
+        private FontFamily GetCurrentFont()
+        {
+            var intFont = ViewModel.ReaderSettings.Font;
+            FontFamily currentFont = null;
+            switch (intFont)
+            {
+                case 1:
+                    currentFont = new FontFamily("/Fonts/PT Sans.ttf#PT Sans");
+                    break;
+                case 2:
+                    currentFont = new FontFamily("PT Serif");
+                    break;
+                case 3:
+                    currentFont = new FontFamily("/Fonts/PT Mono.ttf#PT Mono");
+                    break;
+            }
+            return currentFont;
         }
 
         private async void FlipView_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -776,20 +818,20 @@ namespace LitRes.Views
             double saveFractionRead = _fractionRead;            
             // First time through after program is launched
             if (FlipView.Items != null)
-            {           
-                FlipView.Items.Clear();     
+            {
+                FlipView.Items.Clear();
                 // Load book resource
-                var bookLines = _bookList;            
+                var bookLines = _bookList;
                 // Create RichTextBlock
                 var fontSize = ViewModel.ReaderSettings.FontSize;
                 if (fontSize < 20) fontSize = 20;
                 RichTextBlock richTextBlock = new RichTextBlock
                 {
                     FontSize = fontSize,
-                    FontFamily = new FontFamily("PT Sans"),
+                    FontFamily = GetCurrentFont(),
                     Foreground = new SolidColorBrush(Colors.Black)
                 };
-                
+
                 // Create paragraphs
                 Paragraph paragraph = new Paragraph();
                 paragraph.Margin = new Thickness(12);
@@ -824,7 +866,7 @@ namespace LitRes.Views
                 var deviceInfo = new DeviceInfoService();
 
 
-               /* var listGrid = new Grid
+                /* var listGrid = new Grid
                 {
                     Width = FlipView.Width,
                     Height = FlipView.Height
@@ -843,34 +885,30 @@ namespace LitRes.Views
                 // Generate RichTextBlockOverflow elements
                 if (richTextBlock.HasOverflowContent)
                 {
-                   
-
                     // Add the first one
                     richTextBlockOverflow = new RichTextBlockOverflow();
                     richTextBlock.OverflowContentTarget = richTextBlockOverflow;
                     FlipView.Items.Add(richTextBlockOverflow);
                     richTextBlockOverflow.Measure(containerSize);
-
-                    // Add subsequent ones        
-                    if (bw == null)
-                        bw = new BackgroundWorker();             
-                    bw.DoWork += delegate {
-                        while (richTextBlockOverflow.HasOverflowContent)
-                        {
-                            RichTextBlockOverflow newRichTextBlockOverflow = new RichTextBlockOverflow();
-                            richTextBlockOverflow.OverflowContentTarget = newRichTextBlockOverflow;
-                            richTextBlockOverflow = newRichTextBlockOverflow;
-                            FlipView.Items.Add(richTextBlockOverflow);
-                            richTextBlockOverflow.Measure(containerSize);
-                            int cnt = FlipView.Items.Count;
-                            pageNumber.Visibility = Visibility.Visible;
-                            pageNumber.Text = "1";              // probably modified soon
-                            pageCount.Text = cnt.ToString();
-                            CurrentPageSlider.Minimum = 1;
-                            CurrentPageSlider.Maximum = FlipView.Items.Count;
-                        }
-                    };
                 }
+
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                 {
+                     while (richTextBlockOverflow.HasOverflowContent && FlipView.Items.Count < 10)
+                     {
+                         RichTextBlockOverflow newRichTextBlockOverflow = new RichTextBlockOverflow();
+                         richTextBlockOverflow.OverflowContentTarget = newRichTextBlockOverflow;
+                         richTextBlockOverflow = newRichTextBlockOverflow;
+                         FlipView.Items.Add(richTextBlockOverflow);
+                         richTextBlockOverflow.Measure(containerSize);
+                         int cnt = FlipView.Items.Count;
+                         pageNumber.Visibility = Visibility.Visible;
+                         pageCount.Text = cnt.ToString();
+                         CurrentPageSlider.Minimum = 1;
+                         CurrentPageSlider.Maximum = FlipView.Items.Count;
+                     }
+                 });
+
             }
             // Subsequent SizeChanged events
             /*else
@@ -918,7 +956,11 @@ namespace LitRes.Views
             */
             // Go to approximate page
             _fractionRead = saveFractionRead;            
-            bw.RunWorkerAsync();
+        }
+
+        private async Task LoadRestBook()
+        {
+            
         }
 
         private void CurrentPageSlider_ValueChanged_1(object sender, RangeBaseValueChangedEventArgs e)
@@ -928,6 +970,11 @@ namespace LitRes.Views
             CurrentPageSlider.Minimum = 1;
             CurrentPageSlider.Maximum = FlipView.Items.Count;
             FlipView.SelectedIndex = Math.Min(FlipView.Items.Count, (int)e.NewValue) - 1;
+        }
+
+        private void FlipView_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            
         }
     }
 
@@ -940,6 +987,7 @@ namespace LitRes.Views
     public partial class ReaderFitting : ViewModelPage<ReaderViewModel>
     {
     }
+
 
     public sealed class StreamUriWinRTResolver : IUriToStreamResolver
     {

@@ -26,6 +26,7 @@ namespace LitRes.ViewModels
 		private int _margins;
 		private int _interlineage;
         private bool _systemTile;
+	    private float _brightness;
 
         public enum DeffaultSettingsType
         {
@@ -89,7 +90,13 @@ namespace LitRes.ViewModels
             set { SetProperty(ref _animate, value, "AnimationMoveToPage"); }
 		}
 
-		public int Theme
+	    public float Brightness
+	    {
+	        get { return _brightness; }
+	        set { SetProperty(ref _brightness, value, "Brightness"); }
+	    }
+
+	    public int Theme
 		{
 			get { return _theme; }
 			set { SetProperty( ref _theme, value, "Theme" ); }
@@ -126,10 +133,17 @@ namespace LitRes.ViewModels
 		{
 			await Load( new Session( SaveSettingsPart ) );
 		}
-		#endregion
+        #endregion
 
-		#region LoadSettings
-		private async Task LoadSettings( Session session )
+        #region Load
+        public async Task Load()
+        {
+            await Load(new Session(LoadSettingsPart));
+        }
+        #endregion
+
+        #region LoadSettings
+        private async Task LoadSettings( Session session )
 		{
 			var settings = await _settingsService.GetSettings();
 
@@ -142,11 +156,12 @@ namespace LitRes.ViewModels
 				Hyphenate = settings.Hyphenate;
                 AnimationMoveToPage = Settings.AnimationMoveToPage;
 				Theme = settings.Theme;
-				Font = settings.Font;
+				Font = settings.Font;                
 				FontSize = settings.FontSize;
 				Margins = settings.Margin;
 				Interlineage = settings.CharacterSpacing;
 			    SystemTile = settings.SystemTiles;
+			    Brightness = settings.Brightness;
 			}
 		}
 		#endregion
@@ -166,6 +181,7 @@ namespace LitRes.ViewModels
 			_settings.Margin = _margins;
 			_settings.CharacterSpacing = _interlineage;
 		    _settings.SystemTiles = SystemTile;
+		    _settings.Brightness = _brightness;
 			if( !settings.Equals( _settings ) )
 			{
 				_settings.LastUpdate = DateTime.Now;

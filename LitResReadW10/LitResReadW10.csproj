@@ -19,7 +19,7 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>LitResReadW10_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <AppxBundlePlatforms>x86|arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <AppxBundle>Always</AppxBundle>
     <PackageCertificateThumbprint>31013A5D5A78D5A34462CFF0FE3BA657B9A1C7B5</PackageCertificateThumbprint>
   </PropertyGroup>
@@ -520,14 +520,17 @@
     <None Include="Assets\FB3Reader\web.Release.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="Fonts\PT Sans.ttf" />
+    <Content Include="Fonts\PT Mono.ttf" />
+    <None Include="LitResReadW10_StoreKey.pfx" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Styles\DefaultStyles.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Assets\Fonts\common_descriptor.txt" />
     <Content Include="Assets\Fonts\common_spritefont.txt" />
-    <None Include="Fonts\common.descriptor" />
-    <None Include="Fonts\common.spritefont" />
+    <Content Include="Fonts\common.descriptor" />
+    <Content Include="Fonts\common.spritefont" />
     <None Include="packages.config" />
     <None Include="project.json" />
     <PRIResource Include="Strings\ru-ru\Resources.resw" />

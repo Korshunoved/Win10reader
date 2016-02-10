@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="54110Loround.TestReadTest" Publisher="CN=F8315E25-0B77-4C6A-906F-DD9D4DAECDD6" Version="1.1.55.0" />
+  <Identity Name="13724doITfast.LitresWin10new" Publisher="CN=5EB928D3-3ECB-436F-80E8-6D32C420944A" Version="1.1.1.0" />
   <mp:PhoneIdentity PhoneProductId="8a41bba4-68d1-47ba-9748-17dc204fc217" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>TestReadTest</DisplayName>
-    <PublisherDisplayName>Loround</PublisherDisplayName>
+    <DisplayName>LitresWin10new</DisplayName>
+    <PublisherDisplayName>doITfast</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="LitResReadW10.App">
-      <uap:VisualElements DisplayName="TestReadTest" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="один клик до книг" BackgroundColor="transparent">
+      <uap:VisualElements DisplayName="LitresWin10new" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="один клик до книг" BackgroundColor="transparent">
         <uap:LockScreen Notification="badgeAndTileText" BadgeLogo="Assets\StoreImages\read_24.png" />
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\StoreImages\read_71.png" ShortName="ЛитРес: Читай!" Square310x310Logo="Assets\StoreImages\read_310x310.png">
           <uap:ShowNameOnTiles>

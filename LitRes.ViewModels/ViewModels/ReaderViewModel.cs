@@ -459,7 +459,7 @@ namespace LitRes.ViewModels
             {
                 try
                 {
-                    bookFolderName = await _bookProvider.GetTrialBook(book, session.Token);
+                    document = await _bookProvider.GetTrialBook(book, session.Token);
                     status = LoadingStatus.TrialBookLoaded;
                 }
                 catch (Exception e)

@@ -5,6 +5,7 @@ using System.Linq;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Athenaeum.Formatter.DrawingContext
@@ -61,7 +62,8 @@ namespace Athenaeum.Formatter.DrawingContext
 			var target = _targetPool.Count > 0 ? _targetPool.Dequeue() : new WriteableBitmap( width, height );
 #else
             //return new WriteableBitmap(width, height, 300, 300, PixelFormats.Pbgra32, null);
-            var target = _targetPool.Count > 0 ? _targetPool.Dequeue() : new WriteableBitmap(width, height, 300, 300, PixelFormat.Pbgra32, null);
+            // var target = _targetPool.Count > 0 ? _targetPool.Dequeue() : new WriteableBitmap(width, height, 300, 300, PixelFormat.Pbgra32, null);
+            var target = _targetPool.Count > 0 ? _targetPool.Dequeue() : new WriteableBitmap(width, height);
 #endif
 
             return target;
@@ -104,7 +106,7 @@ namespace Athenaeum.Formatter.DrawingContext
 
         internal static WriteableBitmap LoadImage(string uri)
         {
-            using (Stream stream = Application.GetResourceStream(new Uri(uri, UriKind.Relative)).Stream)
+            using (Stream stream = Application(new Uri(uri, UriKind.Relative)).Stream)
                 return LoadImage(stream);
         }
 
@@ -113,13 +115,17 @@ namespace Athenaeum.Formatter.DrawingContext
             BitmapImage image = new BitmapImage();
 #if WINDOWS_PHONE
 			image.SetSource( stream );
-			return new WriteableBitmap( image );
+			return new WriteableBitmap( image.PixelWidth, image.PixelHeight );
 #else
-            image.BeginInit();
+            /*image.BeginInit();
             image.StreamSource = stream;
             image.EndInit();
             WriteableBitmap bmp = new WriteableBitmap(image);
-            return BitmapFactory.ConvertToPbgra32Format(bmp);
+            return BitmapFactory.ConvertToPbgra32Format(bmp);*/
+            image.SetSource(stream);
+            var ab = new FontFamily("PT Sans");
+            
+            return new WriteableBitmap(image.PixelWidth, image.PixelHeight);
 #endif
         }
 
@@ -297,7 +303,7 @@ namespace Athenaeum.Formatter.DrawingContext
                     }
                 }
             }
-            reader.Close();
+            reader.Dispose();
             return size;
         }
 
