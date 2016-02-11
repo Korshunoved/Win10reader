@@ -13,7 +13,7 @@
 	FontSize="{StaticResource PhoneFontSizeNormal}"
 	Foreground="{StaticResource LitResForegroundBrush}">
 
-    <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}" Margin="0,0,0,-325" >
+    <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}" Margin="0,0,0,0" Height="600">
         <!-- 325-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -57,8 +57,7 @@
                             Margin="0,0,0,0"
                             Padding="0,0,0,0"
                             HorizontalAlignment="Stretch"
-                            Grid.Column="1"
-					        Value="{Binding ViewModel.Settings.Brightness, Mode=TwoWay}" 
+                            Grid.Column="1"					        
                             Minimum="20" 
                             Maximum="100" 
                             SmallChange="5" 
@@ -83,7 +82,7 @@
                     Margin="0,20,0,10"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Выравнивание по ширине"/>
-                <ToggleSwitch Margin="0,0,0,10" x:Name="JustificationSwither" IsOn="{Binding ViewModel.FitWidth, Mode=TwoWay}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" />
+                <ToggleSwitch Margin="0,0,0,10" x:Name="JustificationSwither" IsOn="{Binding ViewModel.FitWidth, Mode=TwoWay}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" Toggled="JustificationSwither_Toggled"  />
 
                 <TextBlock
                     Margin="0,20,0,10"

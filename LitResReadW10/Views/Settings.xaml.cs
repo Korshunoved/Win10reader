@@ -50,7 +50,8 @@ namespace LitRes.Views
                 _readerPage = Reader.Instance;
 		    try
 		    {
-		        var font = _readerPage.ViewModel.ReaderSettings.Font;
+		        LightSlider.Value = (1 - _readerPage.ViewModel.ReaderSettings.Brightness)*100;
+                var font = _readerPage.ViewModel.ReaderSettings.Font;
 		        switch (font)
 		        {
                     case 1:
@@ -72,8 +73,7 @@ namespace LitRes.Views
 
 	    protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
 	    {
-            await ViewModel.Save();
-	        _readerPage.ViewModel.SaveSettings();
+            await ViewModel.Save();	      
             base.OnNavigatingFrom(e);
         }
 
@@ -95,6 +95,7 @@ namespace LitRes.Views
             var slider = sender as Slider;
             if (slider == null) return;
             _readerPage.ViewModel.ReaderSettings.Brightness = 1 - (float) slider.Value/100;
+            _readerPage.ViewModel.SaveSettings();
             
         }
 
@@ -105,6 +106,7 @@ namespace LitRes.Views
             var toggle = sender as ToggleSwitch;
             if (toggle == null) return;
             _readerPage.CurrentFlipView.UseTouchAnimationsForAllNavigation = toggle.IsOn;
+            _readerPage.ViewModel.SaveSettings();
         }
 
         private void FontSizeSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
@@ -117,6 +119,7 @@ namespace LitRes.Views
             _readerPage.ViewModel.ReaderSettings.FontSize = (int) slider.Value + 20;
             CurrentFontSize = (int)FontSizeSlider.Value;
             _readerPage.ChangeFontSize();
+            _readerPage.ViewModel.SaveSettings();
         }
 
         private void FontRadioButton_Checked(object sender, RoutedEventArgs e)
@@ -126,6 +129,7 @@ namespace LitRes.Views
             {
                 radioButton.Style = (Style)Application.Current.Resources["LitResRadioButtonStyle1"];
                 _readerPage.ViewModel.ReaderSettings.Font = int.Parse(Regex.Match(radioButton.Name, @"\d+").Value);
+                _readerPage.ViewModel.SaveSettings();
                 _readerPage.ChangeFont();
             }
         }
@@ -135,7 +139,18 @@ namespace LitRes.Views
             var radioButton = sender as RadioButton;
             if (radioButton != null) radioButton.Style = null;
         }
-	}
+
+        private void JustificationSwither_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (_readerPage == null)
+                _readerPage = Reader.Instance;
+            var toggle = sender as ToggleSwitch;
+            if (toggle == null) return;
+            _readerPage.ViewModel.ReaderSettings.FitWidth = toggle.IsOn;
+            _readerPage.ViewModel.SaveSettings();
+            _readerPage.ChangeJustification();
+        }
+    }
 
     public class SettingsFitting : ViewModelPage<ReaderSettingsViewModel>
 	{

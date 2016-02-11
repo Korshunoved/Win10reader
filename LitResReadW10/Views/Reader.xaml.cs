@@ -700,12 +700,12 @@ namespace LitRes.Views
 
         private void SettingsButton_OnTapped(object sender, TappedRoutedEventArgs e)
         {
-            //if (SystemInfoHelper.IsDesktop())
+            if (SystemInfoHelper.IsDesktop())
             {
                 FlyoutBase.ShowAttachedFlyout((Button)sender);
                 SettingsFrame.Navigate(typeof(Settings));
             }
-           // else _navigationService.Navigate("Settings");
+            else _navigationService.Navigate("Settings");
         }
 
         private void BookmarsButton_OnTapped(object sender, TappedRoutedEventArgs e)
@@ -747,6 +747,14 @@ namespace LitRes.Views
             CurrentPageSlider.Minimum = 1;
             CurrentPageSlider.Maximum = FlipView.Items.Count;
             CurrentPageSlider.Value = pageNum;
+            var richText = FlipView.Items[0] as RichTextBlock;
+            if (richText != null)
+            {
+                ChangeFontSize();
+                ChangeFont();
+                ChangeJustification();
+            }
+
             if (FlipView.SelectedIndex == FlipView.Items.Count - 1 && richTextBlockOverflow != null)
             {
                 RichTextBlockOverflow newRichTextBlockOverflow = new RichTextBlockOverflow();
@@ -768,8 +776,16 @@ namespace LitRes.Views
             var fontSize = ViewModel.ReaderSettings.FontSize;
             if (fontSize < 20) fontSize = 20;
             if (FlipView.Items == null) return;
-            var richText = FlipView.SelectedItem as RichTextBlock;
-            if (richText != null) richText.FontSize = fontSize;           
+            try
+            {
+                var richText = FlipView.Items[0] as RichTextBlock;
+                richText.FontSize = fontSize;
+            }
+            catch (Exception)
+            {
+                                
+            }
+            
         }
 
         public void ChangeFont()
@@ -778,18 +794,34 @@ namespace LitRes.Views
             switch (intFont)
             {
                 case 1:
-                    var richText = FlipView.SelectedItem as RichTextBlock;
+                    var richText = FlipView.Items[0] as RichTextBlock;
                     if (richText != null) richText.FontFamily = new FontFamily("/Fonts/PT Sans.ttf#PT Sans");
                     break;
                 case 2:
-                    richText = FlipView.SelectedItem as RichTextBlock;
+                    richText = FlipView.Items[0] as RichTextBlock;
                     if (richText != null) richText.FontFamily = new FontFamily("PT Serif");
                     break;
                 case 3:
-                    richText = FlipView.SelectedItem as RichTextBlock;
+                    richText = FlipView.Items[0] as RichTextBlock;
                     if (richText != null) richText.FontFamily = new FontFamily("/Fonts/PT Mono.ttf#PT Mono");
                     break;
             }
+        }
+
+        public void ChangeJustification()
+        {
+            var richText = FlipView.Items[0] as RichTextBlock;
+            if (richText == null) return;
+                switch (ViewModel.ReaderSettings.FitWidth)
+            {
+                case false:
+                    richText.TextAlignment = TextAlignment.Left;
+                    break;
+                case true:
+                    richText.TextAlignment = TextAlignment.Justify;
+                    break;
+            }
+             
         }
 
         private FontFamily GetCurrentFont()
