@@ -1,25 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Networking.PushNotifications;
-using Windows.UI.Notifications;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Autofac;
 using LitRes.Services.Connectivity;
-using Microsoft.QueryStringDotNET;
-using NotificationsExtensions.Toasts;
 
 namespace LitRes.Services
 {
 	public class PushNotificationsService : IPushNotificationsService, IStartable
 	{
-		private const string PushChannelName = "LitresPushChannel";
+	    public static string PushChannelName { get; } = "LitresPushChannel";
 
-		private readonly INotificationsProvider _notificationsProvider;
+	    private readonly INotificationsProvider _notificationsProvider;
 		private readonly ICredentialsProvider _credentialsProvider;
 
-        PushNotificationChannel channel = null;
+	    private PushNotificationChannel _channel;
 
         public PushNotificationsService(INotificationsProvider notificationsProvider, ICredentialsProvider credentialsProvider)
 		{
@@ -47,89 +47,14 @@ namespace LitRes.Services
 
                    try
                    {
-                       channel = await PushNotificationChannelManager.CreatePushNotificationChannelForApplicationAsync();
-                       channel.PushNotificationReceived += (sender, args) =>
+                       _channel = await PushNotificationChannelManager.CreatePushNotificationChannelForApplicationAsync();
+                       _channel.PushNotificationReceived += (sender, args) =>
                        {
                            OpenNotification(args);
                        };
 
-                       string title = "Автор";
-                       string content = "Какие-то там обновления у автора";
-
-
-                       ToastVisual visual = new ToastVisual()
-                       {
-                           TitleText = new ToastText()
-                           {
-                               Text = title
-                           },
-
-                           BodyTextLine1 = new ToastText()
-                           {
-                               Text = content
-                           }
-                       };
-
-                       int conversationId = 384928;
-
-                       ToastActionsCustom actions = new ToastActionsCustom()
-                       {
-                           Buttons =
-                           {
-                               new ToastButton("Открыть", new QueryString()
-                               {
-                                   {"action", "reply"},
-                                   {"conversationId", conversationId.ToString()}
-
-                               }.ToString())
-                               {
-                                   ActivationType = ToastActivationType.Background,
-                                   ImageUri = "Assets/Reply.png",
-
-                                   // Reference the text box's ID in order to
-                                   // place this button next to the text box
-                                   TextBoxId = "tbReply"
-                               },
-
-                               new ToastButton("Отмена", new QueryString()
-                               {
-                                   {"action", "like"},
-                                   {"conversationId", conversationId.ToString()}
-
-                               }.ToString())
-                               {
-                                   ActivationType = ToastActivationType.Background
-                               },
-                           }
-                       };
-
-                       ToastContent toastContent = new ToastContent()
-                       {
-                           Visual = visual,
-                           Actions = actions,
-
-                           // Arguments when the user taps body of toast
-                           Launch = new QueryString()
-                           {
-                               {"action", "viewConversation"},
-                               {"conversationId", conversationId.ToString()}
-
-                           }.ToString()
-                       };
-
-                       // And create the toast notification
-                       var toast = new ToastNotification(toastContent.GetXml());
-
-                       toast.ExpirationTime = DateTime.Now.AddMinutes(1);
-
-                       toast.Tag = "1";
-
-                       toast.Group = "Author push";
-
-                       ToastNotificationManager.CreateToastNotifier().Show(toast);
-
-                       Debug.WriteLine($"URI: {channel.Uri}");
-                       await _notificationsProvider.SubscribeDevice(channel.Uri, CancellationToken.None);
+                       Debug.WriteLine($"URI: {_channel.Uri}");
+                       await _notificationsProvider.SubscribeDevice(_channel.Uri, CancellationToken.None);
                    }
 
                    catch (Exception ex)
@@ -159,8 +84,22 @@ namespace LitRes.Services
             return string.Empty;
 	    }
 
-	    private void OpenNotification(PushNotificationReceivedEventArgs args)
+	    private async void OpenNotification(PushNotificationReceivedEventArgs args)
 	    {
+            //TODO Возможно добавить другие типы пушей
+	        if (args.ToastNotification != null)
+	        {
+	            args.Cancel = true;
+	            var content = args.ToastNotification.Content;
+	            var node = content.FirstChild;
+	            if (node == null) return;
+	            var parametrs = node.Attributes.ToDictionary(attribute => attribute.NodeName, attribute => attribute.NodeValue.ToString());
+	            //await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+	            //{
+	                //Debug.WriteLine(parametrs.ToString());
+	                ViewModels.PushNotificationsViewModel.Instance.ShowToast(parametrs);
+	            //});
+	        }
             //          var sb = new System.Text.StringBuilder();
             //          foreach (string key in e.Collection.Keys){
             //              sb.AppendFormat("{0}:{1}\n", key, e.Collection[key]);

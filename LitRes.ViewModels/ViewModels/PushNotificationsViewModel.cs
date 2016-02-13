@@ -1,12 +1,11 @@
-﻿using LitRes.Services;
-using System;
+﻿using System;
+using LitRes.Services;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Notifications;
+using Microsoft.QueryStringDotNET;
+using NotificationsExtensions.Toasts;
 
 
 namespace LitRes.ViewModels
@@ -40,11 +39,135 @@ namespace LitRes.ViewModels
         {
             set { _notificationsProvider = value; }
         }
-#warning PUSH_NOTIFICATIONS_VIEW_MODEL_SHOW_TOAST_NOT_IMPLEMENTED
+//#warning PUSH_NOTIFICATIONS_VIEW_MODEL_SHOW_TOAST_NOT_IMPLEMENTED
         public void ShowToast(IDictionary<string,string> parametrs)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-            
+            var visual = new ToastVisual();
+            var actions = new ToastActionsCustom();
+
+            switch (parametrs["type"])
+            {
+                case "a":
+                {
+                    visual.TitleText = new ToastText { Text = "Обновления автора" };
+                    visual.BodyTextLine1 = new ToastText() {Text = parametrs["text"]};
+
+                    var openButton = new ToastButton("Открыть", new QueryString
+                    {
+                        {"action", "openAuthor"},
+                        {"internalId", parametrs["internal_id"]}
+                    }.ToString()) {ActivationType = ToastActivationType.Foreground};
+                    actions.Buttons.Add(openButton);
+
+                    break;
+                }
+                case "b":
+                {
+                    visual.TitleText = new ToastText { Text = "Обновления книги" };
+                    visual.BodyTextLine1 = new ToastText() {Text = parametrs["text"]};
+
+                    var openButton = new ToastButton("Открыть", new QueryString
+                    {
+                        {"action", "openBook"},
+                        {"internalId", parametrs["internal_id"]}
+                    }.ToString()) {ActivationType = ToastActivationType.Foreground};
+                    var holdButton = new ToastButton("Отложить", new QueryString()
+                    {
+                        {"action", "holdBook"},
+                        {"internalId", parametrs["internal_id"]}
+                    }.ToString()) {ActivationType = ToastActivationType.Background};
+                    actions.Buttons.Add(openButton);
+                    actions.Buttons.Add(holdButton);
+                    
+                    break;
+                }
+                case "c":
+                {
+                    visual.TitleText = new ToastText { Text = "Обновления коллекции" };
+                    visual.BodyTextLine1 = new ToastText() {Text = parametrs["text"]};
+
+                    var openButton = new ToastButton("Открыть", new QueryString
+                    {
+                        {"action", "openCollection"},
+                        {"internalId", parametrs["internal_id"]}
+                    }.ToString()) {ActivationType = ToastActivationType.Foreground};
+                    actions.Buttons.Add(openButton);
+
+                    break;
+                }
+            }
+
+            var content = new ToastContent()
+            {
+                Visual = visual,
+                Actions = actions
+            };
+
+            var toast = new ToastNotification(content.GetXml())
+            {
+                ExpirationTime = DateTime.Now.AddMinutes(1),
+                Tag = parametrs["spam_pack_id"],
+            };
+
+            ToastNotificationManager.CreateToastNotifier().Show(toast);
+
+            //ToastActionsCustom actions = new ToastActionsCustom()
+            //{
+            //    Buttons =
+            //    {
+            //        new ToastButton("Открыть", new QueryString()
+            //        {
+            //            {"action", "reply"},
+            //            {"conversationId", conversationId.ToString()}
+
+            //        }.ToString())
+            //        {
+            //            ActivationType = ToastActivationType.Background,
+            //            ImageUri = "Assets/Reply.png",
+
+            //            // Reference the text box's ID in order to
+            //            // place this button next to the text box
+            //            TextBoxId = "tbReply"
+            //        },
+
+            //        new ToastButton("Отмена", new QueryString()
+            //        {
+            //            {"action", "like"},
+            //            {"conversationId", conversationId.ToString()}
+
+            //        }.ToString())
+            //        {
+            //            ActivationType = ToastActivationType.Background
+            //        },
+            //    }
+            //};
+
+            //ToastContent toastContent = new ToastContent()
+            //{
+            //    Visual = visual,
+            //    Actions = actions,
+
+            //    // Arguments when the user taps body of toast
+            //    Launch = new QueryString()
+            //    {
+            //        {"action", "viewConversation"},
+            //        {"conversationId", conversationId.ToString()}
+
+            //    }.ToString()
+            //};
+
+            //// And create the toast notification
+            //var toast = new ToastNotification(toastContent.GetXml());
+
+            //toast.ExpirationTime = DateTime.Now.AddMinutes(1);
+
+            //toast.Tag = "1";
+
+            //toast.Group = "Author push";
+
+            //ToastNotificationManager.CreateToastNotifier().Show(toast);
+            //Frame rootFrame = Window.Current.Content as Frame;
+
             //var screen = (Application.Current.RootVisual as Microsoft.Phone.Controls.PhoneApplicationFrame).CurrentSource;
             //if(screen.OriginalString.Contains("Reader")) return;
 

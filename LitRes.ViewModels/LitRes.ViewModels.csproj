@@ -206,6 +206,11 @@
       <Name>LitRes.Models</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="QueryString.NETCore">
+      <HintPath>C:\Users\himselfego\.nuget\packages\QueryString.NET\1.0.0\lib\dotnet\QueryString.NETCore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
