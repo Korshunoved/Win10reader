@@ -25,7 +25,7 @@
     <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}" >
         <Grid>
             <Pivot Margin="0,0,0,10" x:Name="PivotMenu">
-                <PivotItem Margin="0,0,0,0" 
+                <PivotItem Margin="0" 
                            x:Name="RecomendedPivotItem">
                     <PivotItem.Header>
                         <TextBlock x:Name="RecomendedTextBox" Margin="0,0,0,0">Рекомендуем</TextBlock>
@@ -75,46 +75,6 @@
 										            Visibility="{Binding ViewModel.PopularBooks.Count, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}" >
                                                 <TextBlock 
                                                         Text="ВСЕ ПОПУЛЯРНЫЕ" 
-                                                        Margin="10" 
-                                                        FontSize="16" 
-                                                        Foreground="{StaticResource LitResOrangeBrush}"
-                                                        FontWeight="SemiBold"
-                                                        TextAlignment="Center"
-                                                        HorizontalAlignment="Center" 
-                                                        VerticalAlignment="Center" />
-                                            </Button>
-                                        </ListView.Footer>
-                                    </ListView>
-
-                                    <ListView x:Name="NoveltyBooks"  
-                                              Margin="10,10,10,0"
-                                              Padding="0,0,0,0"
-                                              BorderThickness="0"
-                                              HorizontalAlignment="Stretch"
-                                              HorizontalContentAlignment="Stretch"
-                                              ItemsSource="{Binding ViewModel.NoveltyBooks}" 
-                                              ItemTemplateSelector="{StaticResource ListBoxBookTemplate}"
-                                              ItemContainerStyle="{StaticResource ListViewStretchStyle}"
-                                              Tapped="Body_Tap"
-                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                                              ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                                        <ListView.Header>
-                                            <TextBlock 
-                                                    Margin="0,0,0,10" 
-                                                    Padding="0,0,0,0" 
-                                                    HorizontalAlignment="Left"
-                                                    Text="Новинки" 
-                                                    Visibility="{Binding ViewModel.NoveltyBooks.Count, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}"
-                                                    Style="{StaticResource TextBlockRecomendedListViewHeader}"/>
-                                        </ListView.Header>
-                                        <ListView.Footer>
-                                            <Button 
-                                                HorizontalAlignment="Stretch"
-                                                Command="{Binding ViewModel.ShowNewBooks}" 
-                                                Style="{StaticResource PromotedButton}"
-										        Visibility="{Binding ViewModel.NoveltyBooks.Count, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}" >
-                                                <TextBlock 
-                                                        Text="ВСЕ НОВИНКИ" 
                                                         Margin="10" 
                                                         FontSize="16" 
                                                         Foreground="{StaticResource LitResOrangeBrush}"
@@ -226,55 +186,7 @@
                                         </GridView.Footer>
                                     </GridView>
 
-                                    <GridView                
-                                            x:Name="NoveltyBooksGridView"                    
-                                            AutomationProperties.AutomationId="ItemNoveltyBooksGridView"
-                                            AutomationProperties.Name="Grouped NoveltyBooksGridView"
-                                            Margin="10,0,10,0"
-                                            Padding="0,0,0,0"
-                                            BorderThickness="0"
-                                            HorizontalAlignment="Left"
-                                            HorizontalContentAlignment="Stretch"
-                                            ItemsSource="{Binding ViewModel.NoveltyBooks}" 
-                                            ItemTemplateSelector="{StaticResource GridViewBookTemplate}"
-                                            ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                                            ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                            ItemClick="Body_Click"
-                                            SelectionMode="None"
-                                            IsSwipeEnabled="false"
-                                            IsItemClickEnabled="True" >
-                                        <GridView.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <ItemsWrapGrid Orientation="Horizontal"/>
-                                            </ItemsPanelTemplate>
-                                        </GridView.ItemsPanel>
-                                        <GridView.Header>
-                                            <TextBlock 
-                                                    Margin="0,10,0,10" 
-                                                    Padding="0,0,0,0" 
-                                                    HorizontalAlignment="Left"
-                                                    Text="Новинки" 
-                                                    Visibility="{Binding ViewModel.NoveltyBooks.Count, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}"
-                                                    Style="{StaticResource TextBlockRecomendedListViewHeader}"/>
-                                        </GridView.Header>
-                                        <GridView.Footer>
-                                            <Button 
-                                                    HorizontalAlignment="Stretch"
-                                                    Command="{Binding ViewModel.ShowNewBooks}" 
-                                                    Style="{StaticResource PromotedButton}"
-										            Visibility="{Binding ViewModel.NoveltyBooks.Count, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}" >
-                                                <TextBlock 
-                                                        Text="ВСЕ НОВИНКИ" 
-                                                        Margin="10" 
-                                                        FontSize="16" 
-                                                        Foreground="{StaticResource LitResOrangeBrush}"
-                                                        FontWeight="SemiBold"
-                                                        TextAlignment="Center"
-                                                        HorizontalAlignment="Center" 
-                                                        VerticalAlignment="Center" />
-                                            </Button>
-                                        </GridView.Footer>
-                                    </GridView>
+                                   
 
                                     <GridView                
                                             x:Name="InterestingBooksGridView"                    
@@ -332,8 +244,8 @@
                         </ScrollViewer>
                     </Grid>
                 </PivotItem>
-                <PivotItem
-                               Margin="0">
+                <PivotItem Margin="0"
+                           x:Name="GenresPivotItem">
                     <PivotItem.Header>
                         <TextBlock x:Name="GenresTextBox" Margin="0,0,0,0">Жанры</TextBlock>
                     </PivotItem.Header>
@@ -392,6 +304,129 @@
                     </ScrollViewer>
 
                 </PivotItem>
+                <PivotItem Margin="0"
+                           x:Name="NoveltyPivotItem">
+                    <PivotItem.Header>
+                        <TextBlock x:Name="NoveltyTextBox" Margin="0,0,0,0">Новинки</TextBlock>
+                    </PivotItem.Header>
+                    <Grid Margin="0,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                            <ScrollViewer Grid.Row="0" 
+                                              Padding="0,0,0,0"
+                                              Margin="0,10,0,0"
+                                              x:Name="NoveltyScrollViewer"
+                                              HorizontalContentAlignment="Stretch"
+                                              HorizontalScrollMode="Disabled"
+                                              HorizontalScrollBarVisibility="Disabled"
+                                              VerticalScrollBarVisibility="Hidden">
+                                <StackPanel Margin="0" Padding="0">
+                                    <StackPanel x:Name="PhoneNoveltyStackPanelWithListViews" Margin="0" Padding="0">
+                                        <ListView x:Name="NoveltyBooks"  
+                                                      Margin="10,10,10,0"
+                                                      Padding="0,0,0,0"
+                                                      BorderThickness="0"
+                                                      HorizontalAlignment="Stretch"
+                                                      HorizontalContentAlignment="Stretch"
+                                                      ItemsSource="{Binding ViewModel.NoveltyBooks}" 
+                                                      ItemTemplateSelector="{StaticResource ListBoxBookTemplate}"
+                                                      ItemContainerStyle="{StaticResource ListViewStretchStyle}"
+                                                      Tapped="Body_Tap"
+                                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                            <ListView.Header>
+                                                <TextBlock 
+                                                            Margin="0,0,0,10" 
+                                                            Padding="0,0,0,0" 
+                                                            HorizontalAlignment="Left"
+                                                            Text="Новинки" 
+                                                            Visibility="{Binding ViewModel.NoveltyBooks.Count, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}"
+                                                            Style="{StaticResource TextBlockRecomendedListViewHeader}"/>
+                                            </ListView.Header>
+                                            <ListView.Footer>
+                                                <Button 
+                                                            HorizontalAlignment="Stretch"
+                                                            Command="{Binding ViewModel.ShowNewBooks}" 
+                                                            Style="{StaticResource PromotedButton}"
+										                    Visibility="{Binding ViewModel.NoveltyBooks.Count, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}" >
+                                                    <TextBlock 
+                                                                    Text="ВСЕ НОВИНКИ" 
+                                                                    Margin="10" 
+                                                                    FontSize="16" 
+                                                                    Foreground="{StaticResource LitResOrangeBrush}"
+                                                                    FontWeight="SemiBold"
+                                                                    TextAlignment="Center"
+                                                                    HorizontalAlignment="Center" 
+                                                                    VerticalAlignment="Center" />
+                                                </Button>
+                                            </ListView.Footer>
+                                        </ListView>
+                                    </StackPanel>
+                                <StackPanel x:Name="WideNoveltyStackPanelWithListViews" 
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Stretch"
+                                                    Margin="10,0,10,0" 
+                                                    Padding="0"
+                                                    Orientation="Vertical"
+                                                    Visibility="Collapsed">
+                                    <GridView                
+                                            x:Name="NoveltyBooksGridView"                    
+                                            AutomationProperties.AutomationId="ItemNoveltyBooksGridView"
+                                            AutomationProperties.Name="Grouped NoveltyBooksGridView"
+                                            Margin="10,0,10,0"
+                                            Padding="0,0,0,0"
+                                            BorderThickness="0"
+                                            HorizontalAlignment="Left"
+                                            HorizontalContentAlignment="Stretch"
+                                            ItemsSource="{Binding ViewModel.NoveltyBooks}" 
+                                            ItemTemplateSelector="{StaticResource GridViewBookTemplate}"
+                                            ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                            ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                            ItemClick="Body_Click"
+                                            SelectionMode="None"
+                                            IsSwipeEnabled="false"
+                                            IsItemClickEnabled="True" >
+                                        <GridView.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <ItemsWrapGrid Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </GridView.ItemsPanel>
+                                        <GridView.Header>
+                                            <TextBlock 
+                                                    Margin="0,10,0,10" 
+                                                    Padding="0,0,0,0" 
+                                                    HorizontalAlignment="Left"
+                                                    Text="Новинки" 
+                                                    Visibility="{Binding ViewModel.NoveltyBooks.Count, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}"
+                                                    Style="{StaticResource TextBlockRecomendedListViewHeader}"/>
+                                        </GridView.Header>
+                                        <GridView.Footer>
+                                            <Button 
+                                                    HorizontalAlignment="Stretch"
+                                                    Command="{Binding ViewModel.ShowNewBooks}" 
+                                                    Style="{StaticResource PromotedButton}"
+										            Visibility="{Binding ViewModel.NoveltyBooks.Count, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}" >
+                                                <TextBlock 
+                                                        Text="ВСЕ НОВИНКИ" 
+                                                        Margin="10" 
+                                                        FontSize="16" 
+                                                        Foreground="{StaticResource LitResOrangeBrush}"
+                                                        FontWeight="SemiBold"
+                                                        TextAlignment="Center"
+                                                        HorizontalAlignment="Center" 
+                                                        VerticalAlignment="Center" />
+                                            </Button>
+                                        </GridView.Footer>
+                                    </GridView>
+
+                                </StackPanel>
+                            </StackPanel>
+                                
+                            </ScrollViewer>
+                                
+                    </Grid>
+                 </PivotItem>
             </Pivot>
         </Grid>
 
@@ -405,7 +440,9 @@
                     <VisualState.Setters>
 
                         <Setter Target="PhoneShopStackPanelWithListViews.Visibility" Value="Collapsed" />
+                        <Setter Target="PhoneNoveltyStackPanelWithListViews.Visibility" Value="Collapsed" />
                         <Setter Target="WideShopStackPanelWithListViews.Visibility" Value="Visible" />
+                        <Setter Target="WideNoveltyStackPanelWithListViews.Visibility" Value="Visible"/>
                         <Setter Target="GenresListView.Visibility" Value="Collapsed" />
                         <Setter Target="GenresGridView.Visibility" Value="Visible" />
                     </VisualState.Setters>
@@ -419,7 +456,9 @@
                     <VisualState.Setters>
 
                         <Setter Target="PhoneShopStackPanelWithListViews.Visibility" Value="Collapsed" />
+                        <Setter Target="PhoneNoveltyStackPanelWithListViews.Visibility" Value="Collapsed" />
                         <Setter Target="WideShopStackPanelWithListViews.Visibility" Value="Visible" />
+                        <Setter Target="WideNoveltyStackPanelWithListViews.Visibility" Value="Visible"/>
 
                         <Setter Target="GenresListView.Visibility" Value="Collapsed" />
                         <Setter Target="GenresGridView.Visibility" Value="Visible" />

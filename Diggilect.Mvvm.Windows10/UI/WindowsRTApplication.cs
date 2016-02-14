@@ -89,42 +89,39 @@ namespace Digillect.Mvvm.UI
 		/// <param name="args">Event data for the event.</param>
 		protected override void OnLaunched( LaunchActivatedEventArgs args )
 		{
-            //RootFrame = CreateRootFrame();
+            RootFrame = CreateRootFrame();
 
-            //InitializeIoC();
-            //HandleLaunch( args );
+            InitializeIoC();
+            HandleLaunch(args);
 
-            //RootFrame.NavigationFailed += RootFrame_NavigationFailed;
+            RootFrame.NavigationFailed += OnNavigationFailed;
 
-            //Window.Current.Content = RootFrame;
-            //Window.Current.Activate();
-
-
-            
+            Window.Current.Content = RootFrame;
+            NavigateRootFrame(args);
+            Window.Current.Activate();
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            if (RootFrame == null)
-            {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                RootFrame = CreateRootFrame();
-                InitializeIoC();
-                
-                HandleLaunch(args);
-                RootFrame.NavigationFailed += OnNavigationFailed;
+            //if (RootFrame == null)
+            //{
+            //    // Create a Frame to act as the navigation context and navigate to the first page
+            //    RootFrame = CreateRootFrame();
+            //    InitializeIoC();
 
-                if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    //TODO: Load state from previously suspended application
-                }
+            //    HandleLaunch(args);
+            //    RootFrame.NavigationFailed += OnNavigationFailed;
 
-                // Place the frame in the current Window
-                Window.Current.Content = RootFrame;
-            }
-            NavigateRootFrame(args);
+            //    if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+            //    {
+            //        //TODO: Load state from previously suspended application
+            //    }
+
+            //    // Place the frame in the current Window
+            //    Window.Current.Content = RootFrame;
+            //}
+            //NavigateRootFrame(args);
             // Ensure the current window is active
-            Window.Current.Activate();
-
+            //Window.Current.Activate();
         }
 
 		protected override void OnSearchActivated( SearchActivatedEventArgs args )

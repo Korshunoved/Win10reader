@@ -33,7 +33,8 @@ namespace LitResReadW10
 
         public MainPage()
         {
-            MainControlPanel = ControlPanel.Instance;
+            if (MainControlPanel == null)
+                MainControlPanel = ControlPanel.Instance;
 
             this.InitializeComponent();
 
