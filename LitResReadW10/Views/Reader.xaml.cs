@@ -36,6 +36,7 @@ using Windows.UI.Xaml.Navigation;
 using Windows.Web;
 using Autofac;
 using Digillect;
+//using Digillect.ComponentModel;
 using Digillect.Mvvm.Services;
 using FictionBook;
 using LitRes.Services;
@@ -114,6 +115,8 @@ namespace LitRes.Views
         {
             _moveCount = 0;
             await ViewModel.LoadSettings();
+            var currentOrientation = DisplayInformation.GetForCurrentView().CurrentOrientation;
+            DisplayInformation.AutoRotationPreferences = ViewModel.ReaderSettings.Autorotate ? DisplayOrientations.None : currentOrientation;
             CurrentFlipView = FlipView;
         }
         #endregion
@@ -238,38 +241,15 @@ namespace LitRes.Views
 
         private void ApplyReaderSettings()
         {            
-            //PaintingContext.Settings.Face = (Faces)ViewModel.ReaderSettings.Font;
-            //PaintingContext.Settings.Scale = (Scales)ViewModel.ReaderSettings.FontSize;
-            //PaintingContext.Settings.Theme = (Themes)ViewModel.ReaderSettings.Theme;
-
-            //PaintingContext.Settings.Indent = (Indents)ViewModel.ReaderSettings.Margin;
-            //PaintingContext.Settings.LineSpacing = (LineSpacings)ViewModel.ReaderSettings.CharacterSpacing;
-            //PaintingContext.Settings.Justify = ViewModel.ReaderSettings.FitWidth;
-            //PaintingContext.Settings.ParagraphSpacing = ParagraphSpacing.Normal;
-
-            //PaintingContext.Settings.Brightness = ViewModel.ReaderSettings.Brightness;
-            //PaintingContext.Settings.UseKerning = true;
-            //PaintingContext.Settings.Hyphenate = ViewModel.ReaderSettings.Hyphenate;
-            //PaintingContext.Settings.Dencity = ResolutionHelper.CurrentResolution == Resolutions.WVGA ? Dencities.Low : Dencities.Medium;
-
-      //      (ReadingPaneImage2.RenderTransform as TranslateTransform).Y = ViewModel.ReaderSettings.Margin * 10;
-        //    (ReadingPaneImage.RenderTransform as TranslateTransform).Y = ViewModel.ReaderSettings.Margin * 10;
-
-           // BrightnessSlider.Value = ViewModel.ReaderSettings.Brightness;
-
-            //int fontSize = 18 + (int)PaintingContext.Settings.Scale * 4;
-         //   ReadingPaneTextBottom.FontSize = fontSize;
-         //   ReadingPaneTextBottom2.FontSize = fontSize;
-
             if (ViewModel.ReaderSettings.Autorotate)
             {
                 //SupportedOrientations = SupportedPageOrientation.PortraitOrLandscape;
+                
             }
             else
             {
                 //SupportedOrientations = SupportedPageOrientation.Portrait;
             }
-            
             Center.Visibility = Visibility.Collapsed;
         }
 
@@ -753,6 +733,7 @@ namespace LitRes.Views
                 ChangeFontSize();
                 ChangeFont();
                 ChangeJustification();
+                ChangeTheme();
             }
 
             if (FlipView.SelectedIndex == FlipView.Items.Count - 1 && richTextBlockOverflow != null)
@@ -770,6 +751,28 @@ namespace LitRes.Views
         private RichTextBlockOverflow richTextBlockOverflow;
 
         private Size containerSize;
+
+        public void ChangeTheme()
+        {
+            var theme = ViewModel.ReaderSettings.Theme;
+            var richText = FlipView.Items?[0] as RichTextBlock;
+            if (richText == null) return;            
+            switch (theme)
+            {
+                case 1:
+                    richText.Foreground = new SolidColorBrush(Colors.Black);
+                    FlipView.Background = new SolidColorBrush(Colors.White);
+                    break;
+                case 2:
+                    richText.Foreground = new SolidColorBrush(Colors.Black);
+                    FlipView.Background = new SolidColorBrush(Colors.Wheat);
+                    break;
+                case 3:
+                    richText.Foreground = new SolidColorBrush(Colors.White);
+                    FlipView.Background = new SolidColorBrush(Colors.Black);
+                    break;
+            }
+        }
 
         public void ChangeFontSize()
         {
@@ -812,7 +815,7 @@ namespace LitRes.Views
         {
             var richText = FlipView.Items[0] as RichTextBlock;
             if (richText == null) return;
-                switch (ViewModel.ReaderSettings.FitWidth)
+            switch (ViewModel.ReaderSettings.FitWidth)
             {
                 case false:
                     richText.TextAlignment = TextAlignment.Left;
@@ -830,6 +833,7 @@ namespace LitRes.Views
             FontFamily currentFont = null;
             switch (intFont)
             {
+                case 0:
                 case 1:
                     currentFont = new FontFamily("/Fonts/PT Sans.ttf#PT Sans");
                     break;
@@ -849,9 +853,17 @@ namespace LitRes.Views
             // Actual value gets modified during processing here, so save it
             double saveFractionRead = _fractionRead;            
             // First time through after program is launched
-            if (FlipView.Items != null)
+            if (FlipView.Items != null && _bookList != null)
             {
-                FlipView.Items.Clear();
+                try
+                {
+                    FlipView.Items.Clear();
+                }
+                catch (Exception)
+                {
+                  //
+                }
+               
                 // Load book resource
                 var bookLines = _bookList;
                 // Create RichTextBlock
@@ -911,7 +923,15 @@ namespace LitRes.Views
 
                 containerSize = listGrid.RenderSize;*/
                 // Make RichTextBlock the same size as the FlipView
-                FlipView.Items.Add(richTextBlock);
+                try
+                {
+                    FlipView.Items.Add(richTextBlock);
+                }
+                catch (Exception)
+                {
+                    //
+                }
+              
                 richTextBlock.Measure(containerSize);
 
                 // Generate RichTextBlockOverflow elements

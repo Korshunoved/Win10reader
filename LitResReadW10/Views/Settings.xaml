@@ -13,7 +13,7 @@
 	FontSize="{StaticResource PhoneFontSizeNormal}"
 	Foreground="{StaticResource LitResForegroundBrush}">
 
-    <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}" Margin="0,0,0,0" Height="600">
+    <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}">
         <!-- 325-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -61,10 +61,10 @@
                             Minimum="20" 
                             Maximum="100" 
                             SmallChange="5" 
-                            LargeChange="10"
+                            LargeChange="10"                      
                             ManipulationMode="All"
                             VerticalAlignment="Center"
-                            Template="{StaticResource LitresSlider}" ValueChanged="LightSlider_ValueChanged" />
+                            Template="{StaticResource LitresSlider}" ValueChanged="LightSlider_ValueChanged" Loaded="LightSlider_Loaded" />
                     <Image Grid.Column="2"
                            Margin="10,0,10,5"
                            VerticalAlignment="Center"
@@ -100,7 +100,21 @@
                     Margin="0,20,0,10"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Тема оформления"/>
-
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <RadioButton x:Name="LightThemeRadioButton" Grid.Row="0" Content="Светлая" GroupName="ThemeGroup" Loaded="ThemeRadioButton_Loaded" Checked="ThemeRadioButton_Checked" Unchecked="ThemeRadioButton_Unchecked"></RadioButton>
+                    <RadioButton x:Name="SepiaThemeRadioButton" Grid.Row="1" Content="Сепия" GroupName="ThemeGroup" Loaded="ThemeRadioButton_Loaded" Checked="ThemeRadioButton_Checked" Unchecked="ThemeRadioButton_Unchecked"></RadioButton>
+                    <RadioButton x:Name="DarkThemeRadioButton"  Grid.Row="2" Content="Темная" GroupName="ThemeGroup" Loaded="ThemeRadioButton_Loaded" Checked="ThemeRadioButton_Checked" Unchecked="ThemeRadioButton_Unchecked"></RadioButton>
+                </Grid>
                 <TextBlock
                     Margin="0,20,0,10"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
@@ -116,13 +130,13 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <RadioButton x:Name="SansFont1"   GroupName="FontRadio" Checked="FontRadioButton_Checked" HorizontalAlignment="Right" Unchecked="Font_Unchecked">
+                    <RadioButton x:Name="SansFont1"   GroupName="FontRadio" Checked="FontRadioButton_Checked" HorizontalAlignment="Right" Unchecked="Font_Unchecked" Loaded="RadioButton_Loaded">
                         <Image Source="/Assets/FontsExamples/sans_1280.png" Stretch="Fill" Width="105" Height="13" VerticalAlignment="Center" Margin="0,4,0,0"/>
                     </RadioButton>
-                    <RadioButton x:Name="SerifFont2"  Grid.Row="1" Grid.Column="0"  GroupName="FontRadio" Checked="FontRadioButton_Checked" Unchecked="Font_Unchecked">
+                    <RadioButton x:Name="SerifFont2"  Grid.Row="1" Grid.Column="0"  GroupName="FontRadio" Checked="FontRadioButton_Checked" Unchecked="Font_Unchecked" Loaded="RadioButton_Loaded">
                         <Image Source="/Assets/FontsExamples/serif_1280.png" Stretch="Fill" Width="105" Height="12" VerticalAlignment="Center" Margin="0,5,0,0"/>
                     </RadioButton>
-                    <RadioButton x:Name="MonoFont3" FontFamily="PT Mono" Grid.Row="2" Grid.Column="0" GroupName="FontRadio" Checked="FontRadioButton_Checked" Unchecked="Font_Unchecked">
+                    <RadioButton x:Name="MonoFont3" FontFamily="PT Mono" Grid.Row="2" Grid.Column="0" GroupName="FontRadio" Checked="FontRadioButton_Checked" Unchecked="Font_Unchecked" Loaded="RadioButton_Loaded">
                         <Image Source="/Assets/FontsExamples/mono_1280.png" Stretch="Fill" Width="105" Height="10" VerticalAlignment="Center" Margin="0,6,0,0"/>
                     </RadioButton>
                 </Grid>
@@ -251,7 +265,7 @@
 
 
 
-        <controls:PageHeader x:Name="pageHeader"/>
+        <controls:PageHeader x:Name="pageHeader" Margin="0,-2,-14,0"/>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

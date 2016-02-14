@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Digillect.Mvvm;
 using Digillect.Mvvm.Services;
@@ -145,7 +146,38 @@ namespace LitRes.ViewModels
         #region LoadSettings
         private async Task LoadSettings( Session session )
 		{
-			var settings = await _settingsService.GetSettings();
+          
+            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            //rsModel.LastUpdate = DateTime.Parse(localSettings.Values["LastUpdate"].ToString()); 
+            try
+            {
+                _autorotate = (bool)localSettings.Values["AutoRotate"];
+                _fitWidth = (bool)localSettings.Values["FitWidth"];
+                _theme = (int)localSettings.Values["Theme"];
+                _font = (int)localSettings.Values["Font"];
+                _fontSize = (int)localSettings.Values["FontSize"] - 20;
+                _margins = (int)localSettings.Values["Margin"];
+                _brightness = (float)localSettings.Values["Brightness"];
+                _hyphenate = (bool)localSettings.Values["Hyphernate"];
+                _animate = (bool)localSettings.Values["AnimationMoveToPage"];
+                _interlineage = (int)localSettings.Values["CharacterSpacing"];
+            }
+            catch (Exception)
+            {
+                _autorotate = false;
+                _fitWidth = false;
+                _theme = 1;
+                _font = 1;
+                _fontSize = 21;
+                _margins = 0;
+                _brightness = 0;
+                _hyphenate = false;
+                _animate = false;
+                _interlineage = 0;
+            }
+        
+
+            /*var settings = await _settingsService.GetSettings();
 
 			if( settings != null )
 			{
@@ -162,14 +194,34 @@ namespace LitRes.ViewModels
 				Interlineage = settings.CharacterSpacing;
 			    SystemTile = settings.SystemTiles;
 			    Brightness = settings.Brightness;
-			}
-		}
-		#endregion
+			}*/
+        }
+        #endregion
 
-		#region SaveSettings
-		private async Task SaveSettings( Session session )
+        #region SaveSettings
+        private async Task SaveSettings( Session session )
 		{
-			var settings = await _settingsService.GetSettings();
+            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            try
+            {
+               // localSettings.Values["LastUpdate"] = readerSettings.LastUpdate.ToString(CultureInfo.InvariantCulture);
+                localSettings.Values["AutoRotate"] = _autorotate;
+                localSettings.Values["FitWidth"] = _fitWidth;
+                localSettings.Values["Theme"] = _theme;
+                localSettings.Values["Font"] = _font;
+                localSettings.Values["FontSize"] = _fontSize + 20;
+                localSettings.Values["Margin"] = _margins;
+                localSettings.Values["CharacterSpacing"] = _interlineage;
+                localSettings.Values["Brightness"] = _brightness;
+                localSettings.Values["Hyphernate"] = _hyphenate;
+                localSettings.Values["AnimationMoveToPage"] = _animate;
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+
+            /*var settings = await _settingsService.GetSettings();
 
 			_settings.Autorotate = _autorotate;
 			_settings.FitWidth = _fitWidth;
@@ -186,8 +238,8 @@ namespace LitRes.ViewModels
 			{
 				_settings.LastUpdate = DateTime.Now;
 				_settingsService.SetSettings( _settings );
-			}
-		}
-		#endregion
-	}
+			}*/
+        }
+        #endregion
+    }
 }

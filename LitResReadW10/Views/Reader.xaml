@@ -7,10 +7,7 @@
 	xmlns:controls="using:LitRes.Controls"
 	Foreground="{StaticResource LitResReaderBarForegroundBrush}">
 
-    <ui:WindowsRTPage.Resources>
-    </ui:WindowsRTPage.Resources>
-
-    <!--LayoutRoot is the root grid where all page content is placed-->
+   <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="{StaticResource LitResReaderBarForegroundBrush}">
 
         <Grid.RowDefinitions>
@@ -188,10 +185,16 @@
                 <TextBlock Text="&#x00A0;of&#x00A0;" />
                 <TextBlock Name="pageCount" />
             </StackPanel>
-            <FlipView Name="FlipView" Visibility="Collapsed"
-                      Opacity="{Binding Brightness}"
-                      UseTouchAnimationsForAllNavigation="False"
-                  Background="White" SelectionChanged="FlipView_SelectionChanged" SizeChanged="FlipView_SizeChanged" Margin="0,0,0,80" ManipulationCompleted="FlipView_ManipulationCompleted">
+            <FlipView Name="FlipView"
+                      Visibility="Collapsed"
+                      Opacity="{Binding Brightness}"                      
+                      UseTouchAnimationsForAllNavigation="{Binding AnimationMoveToPage}"
+                      Background="White" 
+                      SelectionChanged="FlipView_SelectionChanged" 
+                      SizeChanged="FlipView_SizeChanged" 
+                      Margin="0,0,0,80" 
+                      ManipulationCompleted="FlipView_ManipulationCompleted" 
+                     >
                 <FlipView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" />
