@@ -193,7 +193,7 @@
                       SelectionChanged="FlipView_SelectionChanged" 
                       SizeChanged="FlipView_SizeChanged" 
                       Margin="0,0,0,80" 
-                      ManipulationCompleted="FlipView_ManipulationCompleted" 
+                      ManipulationCompleted="FlipView_ManipulationCompleted" Style="{StaticResource LitResFlipViewStyle}" 
                      >
                 <FlipView.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -285,6 +285,7 @@
         <Border Grid.Row="0" 
                 Grid.RowSpan="3" 
                 Background="Black" 
+                Visibility="Visible"
                 IsHitTestVisible="False"
                 HorizontalAlignment="Stretch" 
                 Opacity="{Binding ViewModel.ReaderSettings.Brightness}"

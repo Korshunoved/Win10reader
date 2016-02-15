@@ -734,8 +734,8 @@ namespace LitRes.Views
                 ChangeFont();
                 ChangeJustification();
                 ChangeTheme();
+                ChangeMargins();
             }
-
             if (FlipView.SelectedIndex == FlipView.Items.Count - 1 && richTextBlockOverflow != null)
             {
                 RichTextBlockOverflow newRichTextBlockOverflow = new RichTextBlockOverflow();
@@ -774,10 +774,26 @@ namespace LitRes.Views
             }
         }
 
+        public void ChangeMargins()
+        {
+            var margin = ViewModel.ReaderSettings.Margin;
+            switch (margin)
+            {
+                case 1:
+                    FlipView.Margin = new Thickness(0, 0, 0, 80);
+                    break;
+                case 2:
+                    FlipView.Margin = new Thickness(20, 0, 20, 80);
+                    break;
+                case 3:
+                    FlipView.Margin = new Thickness(40, 0, 40, 80);
+                    break;
+            }
+        }
+
         public void ChangeFontSize()
         {
-            var fontSize = ViewModel.ReaderSettings.FontSize;
-            if (fontSize < 20) fontSize = 20;
+            var fontSize = ViewModel.ReaderSettings.FontSize + 20;            
             if (FlipView.Items == null) return;
             try
             {

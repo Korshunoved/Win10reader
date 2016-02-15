@@ -120,7 +120,7 @@ namespace LitRes.Views
                 _readerPage = Reader.Instance;
             var slider = sender as Slider;
             if (slider == null) return;
-            _readerPage.ViewModel.ReaderSettings.FontSize = (int) slider.Value + 20;
+            _readerPage.ViewModel.ReaderSettings.FontSize = (int) slider.Value;
             CurrentFontSize = (int)FontSizeSlider.Value;
             if (ViewModel != null)
                 ViewModel.FontSize = (int)slider.Value;
@@ -227,6 +227,19 @@ namespace LitRes.Views
         {
             var radioButton = sender as RadioButton;
             if (radioButton != null) radioButton.Style = null;
+        }
+
+        private void SideIndentSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {            
+            if (_readerPage == null)
+                _readerPage = Reader.Instance;
+            var slider = sender as Slider;
+            if (slider == null) return;
+            _readerPage.ViewModel.ReaderSettings.Margin = (int)slider.Value;            
+            if (ViewModel != null)
+                ViewModel.Margins = (int)slider.Value;
+            _readerPage.ChangeMargins();
+            _readerPage.ViewModel.SaveSettings();
         }
     }
 

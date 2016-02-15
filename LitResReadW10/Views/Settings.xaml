@@ -212,7 +212,7 @@
                             LargeChange="1"
                             ManipulationMode="All"
                             VerticalAlignment="Center"
-                            Template="{StaticResource LitresSlider}" />
+                            Template="{StaticResource LitresSlider}" ValueChanged="SideIndentSlider_ValueChanged" />
                     <Image Grid.Column="2"
                            Margin="10,0,10,5"
                            VerticalAlignment="Center"

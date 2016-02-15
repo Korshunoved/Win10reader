@@ -262,8 +262,8 @@ namespace LitRes.ViewModels
                         ReaderSettings.FitWidth = false;
                         ReaderSettings.Theme = 1;
                         ReaderSettings.Font = 1;
-                        ReaderSettings.FontSize = 21;
-                        ReaderSettings.Margin = 0;
+                        ReaderSettings.FontSize = 1;
+                        ReaderSettings.Margin = 1;
                         ReaderSettings.Brightness = 0;
                         ReaderSettings.Hyphenate = false;
                         ReaderSettings.AnimationMoveToPage = false;

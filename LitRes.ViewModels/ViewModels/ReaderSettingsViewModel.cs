@@ -155,7 +155,7 @@ namespace LitRes.ViewModels
                 _fitWidth = (bool)localSettings.Values["FitWidth"];
                 _theme = (int)localSettings.Values["Theme"];
                 _font = (int)localSettings.Values["Font"];
-                _fontSize = (int)localSettings.Values["FontSize"] - 20;
+                _fontSize = (int)localSettings.Values["FontSize"];
                 _margins = (int)localSettings.Values["Margin"];
                 _brightness = (float)localSettings.Values["Brightness"];
                 _hyphenate = (bool)localSettings.Values["Hyphernate"];
@@ -168,8 +168,8 @@ namespace LitRes.ViewModels
                 _fitWidth = false;
                 _theme = 1;
                 _font = 1;
-                _fontSize = 21;
-                _margins = 0;
+                _fontSize = 1;
+                _margins = 1;
                 _brightness = 0;
                 _hyphenate = false;
                 _animate = false;
