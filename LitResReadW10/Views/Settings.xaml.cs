@@ -241,6 +241,19 @@ namespace LitRes.Views
             _readerPage.ChangeMargins();
             _readerPage.ViewModel.SaveSettings();
         }
+
+        private void LineSpacingSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            if (_readerPage == null)
+                _readerPage = Reader.Instance;
+            var slider = sender as Slider;
+            if (slider == null) return;
+            _readerPage.ViewModel.ReaderSettings.CharacterSpacing = (int)slider.Value;
+            if (ViewModel != null)
+                ViewModel.Interlineage = (int)slider.Value;
+            _readerPage.ChangeCharacterSpacing();
+            _readerPage.ViewModel.SaveSettings();
+        }
     }
 
     public class SettingsFitting : ViewModelPage<ReaderSettingsViewModel>

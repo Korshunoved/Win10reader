@@ -209,7 +209,7 @@ namespace LitRes.ViewModels
                 localSettings.Values["FitWidth"] = _fitWidth;
                 localSettings.Values["Theme"] = _theme;
                 localSettings.Values["Font"] = _font;
-                localSettings.Values["FontSize"] = _fontSize + 20;
+                localSettings.Values["FontSize"] = _fontSize;
                 localSettings.Values["Margin"] = _margins;
                 localSettings.Values["CharacterSpacing"] = _interlineage;
                 localSettings.Values["Brightness"] = _brightness;

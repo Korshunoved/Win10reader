@@ -267,7 +267,7 @@ namespace LitRes.ViewModels
                         ReaderSettings.Brightness = 0;
                         ReaderSettings.Hyphenate = false;
                         ReaderSettings.AnimationMoveToPage = false;
-                        ReaderSettings.CharacterSpacing = 0;
+                        ReaderSettings.CharacterSpacing = 2;
                     }
                   
                 }

@@ -735,6 +735,7 @@ namespace LitRes.Views
                 ChangeJustification();
                 ChangeTheme();
                 ChangeMargins();
+                ChangeCharacterSpacing();
             }
             if (FlipView.SelectedIndex == FlipView.Items.Count - 1 && richTextBlockOverflow != null)
             {
@@ -787,6 +788,21 @@ namespace LitRes.Views
                     break;
                 case 3:
                     FlipView.Margin = new Thickness(40, 0, 40, 80);
+                    break;
+            }
+        }
+
+        public void ChangeCharacterSpacing()
+        {
+            var characterSpacing = ViewModel.ReaderSettings.CharacterSpacing;
+            var richText = FlipView.Items[0] as RichTextBlock;
+            switch (characterSpacing)
+            {
+                case 1:
+                    richText.LineHeight = 25;
+                    break;
+                case 2:
+                    richText.LineHeight = 35;
                     break;
             }
         }
@@ -884,7 +900,6 @@ namespace LitRes.Views
                 var bookLines = _bookList;
                 // Create RichTextBlock
                 var fontSize = ViewModel.ReaderSettings.FontSize;
-                if (fontSize < 20) fontSize = 20;
                 RichTextBlock richTextBlock = new RichTextBlock
                 {
                     FontSize = fontSize,
