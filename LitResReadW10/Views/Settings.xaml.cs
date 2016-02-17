@@ -1,27 +1,24 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
-using Windows.UI;
-using Windows.UI.Input;
+using Windows.Devices.Enumeration;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Digillect.Mvvm;
 using Digillect.Mvvm.UI;
-using LitRes.Models;
 using LitRes.ViewModels;
 
+// ReSharper disable CheckNamespace
 namespace LitRes.Views
+    // ReSharper restore CheckNamespace
 {
 	[View( "Settings" )]
-	public partial class Settings : SettingsFitting
+	public partial class Settings
 	{
-		private bool _loaded;
 
 	    private Reader _readerPage;
 
-	    private int CurrentFontSize = 0;
+	    private int _currentFontSize;
 
 	    public static Settings Instance;
 
@@ -41,16 +38,20 @@ namespace LitRes.Views
 	    }
 
 		void Settings_Loaded( object sender, RoutedEventArgs e )
-		{
-			_loaded = true;
+		{			
 		    Instance = this;
-		    CurrentFontSize = (int)FontSizeSlider.Value;
+		    _currentFontSize = (int)FontSizeSlider.Value;
             Analytics.Instance.sendMessage(Analytics.ViewSettingsReader);
+		    var deviceFamily = Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily;
+		    if (deviceFamily.Contains("Desktop"))
+		    {
+		        AutorotateTextBlock.Visibility = Visibility.Collapsed;
+                AutorotateSwither.Visibility = Visibility.Collapsed;		        
+		    }
             if (_readerPage == null)
                 _readerPage = Reader.Instance;
 		    try
-		    {
-		        LightSlider.Value = (1 - _readerPage.ViewModel.ReaderSettings.Brightness)*100;
+		    {		       
                 var font = _readerPage.ViewModel.ReaderSettings.Font;
 		        switch (font)
 		        {
@@ -69,24 +70,31 @@ namespace LitRes.Views
 		    {
 		       //
 		    }
-		}
+
+            LightSlider.ValueChanged -= LightSlider_ValueChanged;
+            LightSlider.ValueChanged += LightSlider_ValueChanged;
+
+            AnimationSwither.Toggled -= AnimationSwither_Toggled;
+            AnimationSwither.Toggled += AnimationSwither_Toggled;
+
+		    FontSizeSlider.ValueChanged -= FontSizeSlider_ValueChanged;
+            FontSizeSlider.ValueChanged += FontSizeSlider_ValueChanged;		  
+
+		    JustificationSwither.Toggled -= JustificationSwither_Toggled;
+            JustificationSwither.Toggled += JustificationSwither_Toggled;
+
+		    SideIndentSlider.ValueChanged -= SideIndentSlider_ValueChanged;
+            SideIndentSlider.ValueChanged += SideIndentSlider_ValueChanged;
+
+		    LineSpacingSlider.ValueChanged -= LineSpacingSlider_ValueChanged;
+            LineSpacingSlider.ValueChanged += LineSpacingSlider_ValueChanged;
+        }
 
 	    protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
 	    {
             await ViewModel.Save();	      
             base.OnNavigatingFrom(e);
         }
-
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            //await ViewModel.Load();
-            base.OnNavigatedTo(e);
-        }
-
-        private void SliderManipulationCompleted( object sender, ManipulationCompletedEventArgs e )
-		{
-			( ( Slider ) sender ).Value = Math.Round( ( ( Slider ) sender ).Value );
-		}
 
         private void LightSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
@@ -98,7 +106,6 @@ namespace LitRes.Views
             ViewModel.Brightness = 1 - (float)slider.Value / 100;
             _readerPage.ViewModel.ReaderSettings.Brightness = 1 - (float) slider.Value/100;
             _readerPage.ViewModel.SaveSettings();
-            
         }
 
         private void AnimationSwither_Toggled(object sender, RoutedEventArgs e)
@@ -115,13 +122,13 @@ namespace LitRes.Views
 
         private void FontSizeSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
-            if (CurrentFontSize == (int) FontSizeSlider.Value) return;
+            if (_currentFontSize == (int) FontSizeSlider.Value) return;
             if (_readerPage == null)
                 _readerPage = Reader.Instance;
             var slider = sender as Slider;
             if (slider == null) return;
             _readerPage.ViewModel.ReaderSettings.FontSize = (int) slider.Value;
-            CurrentFontSize = (int)FontSizeSlider.Value;
+            _currentFontSize = (int)FontSizeSlider.Value;
             if (ViewModel != null)
                 ViewModel.FontSize = (int)slider.Value;
             _readerPage.ChangeFontSize();
@@ -175,6 +182,10 @@ namespace LitRes.Views
                 fontValue = ViewModel.Font;
             var radioButton = sender as RadioButton;
             if (radioButton == null) return;
+            radioButton.Checked -= FontRadioButton_Checked;
+            radioButton.Checked += FontRadioButton_Checked;
+            radioButton.Unchecked -= Font_Unchecked;
+            radioButton.Unchecked += Font_Unchecked;
             var settingsFont = int.Parse(Regex.Match(radioButton.Name, @"\d+").Value);
             if (settingsFont != fontValue) return;
             radioButton.Style = (Style)Application.Current.Resources["LitResRadioButtonStyle1"];
@@ -186,12 +197,16 @@ namespace LitRes.Views
 
         private void ThemeRadioButton_Loaded(object sender, RoutedEventArgs e)
         {
-            var theme = 0;
+            int theme;
             var settingsTheme = 0;
             if (ViewModel != null)
                 settingsTheme = ViewModel.Theme;
             var radiobutton = sender as RadioButton;
             if (radiobutton == null) return;
+            radiobutton.Checked -= ThemeRadioButton_Checked;
+            radiobutton.Checked += ThemeRadioButton_Checked;
+            radiobutton.Unchecked -= ThemeRadioButton_Unchecked;
+            radiobutton.Unchecked += ThemeRadioButton_Unchecked;
             var name = radiobutton.Name;
             if (name.Contains("Light"))
                 theme = 1;
@@ -209,7 +224,7 @@ namespace LitRes.Views
             var radioButton = sender as RadioButton;
             if (radioButton?.IsChecked != true) return;
             radioButton.Style = (Style)Application.Current.Resources["LitResRadioButtonStyle1"];
-            var theme = 0;
+            int theme;
             var name = radioButton.Name;
             if (name.Contains("Light"))
                 theme = 1;

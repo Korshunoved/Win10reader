@@ -64,7 +64,7 @@
                             LargeChange="10"                      
                             ManipulationMode="All"
                             VerticalAlignment="Center"
-                            Template="{StaticResource LitresSlider}" ValueChanged="LightSlider_ValueChanged" Loaded="LightSlider_Loaded" />
+                            Template="{StaticResource LitresSlider}" Loaded="LightSlider_Loaded" />
                     <Image Grid.Column="2"
                            Margin="10,0,10,5"
                            VerticalAlignment="Center"
@@ -73,6 +73,7 @@
                 </Grid>
 
                 <TextBlock
+                    Name="AutorotateTextBlock"
                     Margin="0,20,0,10"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Автоповорот"/>
@@ -82,7 +83,7 @@
                     Margin="0,20,0,10"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Выравнивание по ширине"/>
-                <ToggleSwitch Margin="0,0,0,10" x:Name="JustificationSwither" IsOn="{Binding ViewModel.FitWidth, Mode=TwoWay}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" Toggled="JustificationSwither_Toggled"  />
+                <ToggleSwitch Margin="0,0,0,10" x:Name="JustificationSwither" IsOn="{Binding ViewModel.FitWidth, Mode=TwoWay}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}"   />
 
                 <TextBlock
                     Margin="0,20,0,10"
@@ -94,7 +95,7 @@
                     Margin="0,20,0,10"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Анимация листания"/>
-                <ToggleSwitch Margin="0,0,0,10" x:Name="AnimationSwither" IsOn="{Binding ViewModel.AnimationMoveToPage, Mode=TwoWay}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" Toggled="AnimationSwither_Toggled"/>
+                <ToggleSwitch Margin="0,0,0,10" x:Name="AnimationSwither" IsOn="{Binding ViewModel.AnimationMoveToPage, Mode=TwoWay}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" />
 
                 <TextBlock
                     Margin="0,20,0,10"
@@ -111,9 +112,9 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <RadioButton x:Name="LightThemeRadioButton" Grid.Row="0" Content="Светлая" GroupName="ThemeGroup" Loaded="ThemeRadioButton_Loaded" Checked="ThemeRadioButton_Checked" Unchecked="ThemeRadioButton_Unchecked"></RadioButton>
-                    <RadioButton x:Name="SepiaThemeRadioButton" Grid.Row="1" Content="Сепия" GroupName="ThemeGroup" Loaded="ThemeRadioButton_Loaded" Checked="ThemeRadioButton_Checked" Unchecked="ThemeRadioButton_Unchecked"></RadioButton>
-                    <RadioButton x:Name="DarkThemeRadioButton"  Grid.Row="2" Content="Темная" GroupName="ThemeGroup" Loaded="ThemeRadioButton_Loaded" Checked="ThemeRadioButton_Checked" Unchecked="ThemeRadioButton_Unchecked"></RadioButton>
+                    <RadioButton x:Name="LightThemeRadioButton" Grid.Row="0" Content="Светлая" GroupName="ThemeGroup" Loaded="ThemeRadioButton_Loaded" ></RadioButton>
+                    <RadioButton x:Name="SepiaThemeRadioButton" Grid.Row="1" Content="Сепия" GroupName="ThemeGroup" Loaded="ThemeRadioButton_Loaded" ></RadioButton>
+                    <RadioButton x:Name="DarkThemeRadioButton"  Grid.Row="2" Content="Темная" GroupName="ThemeGroup" Loaded="ThemeRadioButton_Loaded" ></RadioButton>
                 </Grid>
                 <TextBlock
                     Margin="0,20,0,10"
@@ -130,13 +131,13 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <RadioButton x:Name="SansFont1"   GroupName="FontRadio" Checked="FontRadioButton_Checked" HorizontalAlignment="Right" Unchecked="Font_Unchecked" Loaded="RadioButton_Loaded">
+                    <RadioButton x:Name="SansFont1"   GroupName="FontRadio" HorizontalAlignment="Right" Loaded="RadioButton_Loaded">
                         <Image Source="/Assets/FontsExamples/sans_1280.png" Stretch="Fill" Width="105" Height="13" VerticalAlignment="Center" Margin="0,4,0,0"/>
                     </RadioButton>
-                    <RadioButton x:Name="SerifFont2"  Grid.Row="1" Grid.Column="0"  GroupName="FontRadio" Checked="FontRadioButton_Checked" Unchecked="Font_Unchecked" Loaded="RadioButton_Loaded">
+                    <RadioButton x:Name="SerifFont2"  Grid.Row="1" Grid.Column="0"  GroupName="FontRadio"  Loaded="RadioButton_Loaded">
                         <Image Source="/Assets/FontsExamples/serif_1280.png" Stretch="Fill" Width="105" Height="12" VerticalAlignment="Center" Margin="0,5,0,0"/>
                     </RadioButton>
-                    <RadioButton x:Name="MonoFont3" FontFamily="PT Mono" Grid.Row="2" Grid.Column="0" GroupName="FontRadio" Checked="FontRadioButton_Checked" Unchecked="Font_Unchecked" Loaded="RadioButton_Loaded">
+                    <RadioButton x:Name="MonoFont3" FontFamily="PT Mono" Grid.Row="2" Grid.Column="0" GroupName="FontRadio" Loaded="RadioButton_Loaded">
                         <Image Source="/Assets/FontsExamples/mono_1280.png" Stretch="Fill" Width="105" Height="10" VerticalAlignment="Center" Margin="0,6,0,0"/>
                     </RadioButton>
                 </Grid>
@@ -172,7 +173,7 @@
                             LargeChange="1"
                             ManipulationMode="All"
                             VerticalAlignment="Center"
-                            Template="{StaticResource LitresSlider}" ValueChanged="FontSizeSlider_ValueChanged" />
+                            Template="{StaticResource LitresSlider}" />
                     <Image Grid.Column="2"
                            Margin="10,0,10,5"
                            VerticalAlignment="Center"
@@ -212,7 +213,7 @@
                             LargeChange="1"
                             ManipulationMode="All"
                             VerticalAlignment="Center"
-                            Template="{StaticResource LitresSlider}" ValueChanged="SideIndentSlider_ValueChanged" />
+                            Template="{StaticResource LitresSlider}" />
                     <Image Grid.Column="2"
                            Margin="10,0,10,5"
                            VerticalAlignment="Center"
@@ -252,7 +253,7 @@
                             Maximum="2"
                             ManipulationMode="All"
                             VerticalAlignment="Center"
-                            Template="{StaticResource LitresSlider}" ValueChanged="LineSpacingSlider_ValueChanged" />
+                            Template="{StaticResource LitresSlider}"  />
                     <Image Grid.Column="2"
                            Margin="10,0,10,5"
                            VerticalAlignment="Center"

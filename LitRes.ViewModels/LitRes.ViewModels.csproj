@@ -181,10 +181,6 @@
     <Content Include="Properties\LitRes.ViewModels.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Athenaeum.Formatter\Athenaeum.Formatter.csproj">
-      <Project>{2ac0baaf-eeae-4f62-a18d-3ea51e06a707}</Project>
-      <Name>Athenaeum.Formatter</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Diggilect.Mvvm.Windows10\Diggilect.Mvvm.Windows10.csproj">
       <Project>{92559e26-743c-44fc-af14-a017c68e6879}</Project>
       <Name>Diggilect.Mvvm.Windows10</Name>

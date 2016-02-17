@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -14,13 +13,11 @@ using LitRes.Models;
 using LitRes.ValueConverters;
 using LitRes.ViewModels;
 using System.ComponentModel;
-using System.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Graphics.Display;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.System.Threading;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
@@ -54,7 +51,7 @@ namespace LitRes.Views
     [ViewParameter("BookEntity", typeof(Models.Book), Required = true)]
     [ViewParameter("filetoken", Required = false)]
 
-    public partial class Reader : ReaderFitting, IExpiredCallBack
+    public partial class Reader : IExpiredCallBack
     {
         private bool _menuVisible;
         private bool _fullVisible;
@@ -762,14 +759,17 @@ namespace LitRes.Views
             {
                 case 1:
                     richText.Foreground = new SolidColorBrush(Colors.Black);
+                    LayoutRoot.Background = new SolidColorBrush(Colors.White);
                     FlipView.Background = new SolidColorBrush(Colors.White);
                     break;
                 case 2:
                     richText.Foreground = new SolidColorBrush(Colors.Black);
-                    FlipView.Background = new SolidColorBrush(Colors.Wheat);
+                    LayoutRoot.Background = new SolidColorBrush(Colors.Wheat);
+                     FlipView.Background = new SolidColorBrush(Colors.Wheat);
                     break;
                 case 3:
                     richText.Foreground = new SolidColorBrush(Colors.White);
+                    LayoutRoot.Background = new SolidColorBrush(Colors.Black);
                     FlipView.Background = new SolidColorBrush(Colors.Black);
                     break;
             }

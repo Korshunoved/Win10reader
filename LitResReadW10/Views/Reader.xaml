@@ -5,9 +5,10 @@
 	xmlns:views="using:LitRes.Views"
 	xmlns:ui="using:Digillect.Mvvm.UI"
 	xmlns:controls="using:LitRes.Controls"
-	Foreground="{StaticResource LitResReaderBarForegroundBrush}">
+	Foreground="{StaticResource LitResReaderBarForegroundBrush}"
+>
 
-   <!--LayoutRoot is the root grid where all page content is placed-->
+    <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="{StaticResource LitResReaderBarForegroundBrush}">
 
         <Grid.RowDefinitions>
