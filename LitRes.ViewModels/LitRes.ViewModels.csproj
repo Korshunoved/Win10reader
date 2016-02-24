@@ -181,6 +181,14 @@
     <Content Include="Properties\LitRes.ViewModels.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BookParser\BookParser.csproj">
+      <Project>{be0fdfd7-81d8-47df-acfc-918056592bdd}</Project>
+      <Name>BookParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BookRender\BookRender.csproj">
+      <Project>{663e2954-2742-4c8b-8449-61b5bd1b6d6e}</Project>
+      <Name>BookRender</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Diggilect.Mvvm.Windows10\Diggilect.Mvvm.Windows10.csproj">
       <Project>{92559e26-743c-44fc-af14-a017c68e6879}</Project>
       <Name>Diggilect.Mvvm.Windows10</Name>

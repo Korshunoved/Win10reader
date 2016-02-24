@@ -58,6 +58,7 @@ namespace LitRes.ViewModels
                         {"internalId", parametrs["internal_id"]}
                     }.ToString()) {ActivationType = ToastActivationType.Foreground};
                     actions.Buttons.Add(openButton);
+                    
 
                     break;
                 }

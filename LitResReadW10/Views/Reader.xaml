@@ -5,11 +5,12 @@
 	xmlns:views="using:LitRes.Views"
 	xmlns:ui="using:Digillect.Mvvm.UI"
 	xmlns:controls="using:LitRes.Controls"
+	xmlns:controls1="using:LitResReadW10.Controls"
 	Foreground="{StaticResource LitResReaderBarForegroundBrush}"
 >
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="{StaticResource LitResReaderBarForegroundBrush}">
+    <Grid x:Name="LayoutRoot" Background="{StaticResource LitResReaderBarForegroundBrush}" SizeChanged="LayoutRoot_SizeChanged">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -44,7 +45,6 @@
                     </Button>
                     <Button 
                     x:Name="AddBookmarkButton"
-                    Tapped="AddBookmarkButton_OnTapped"
                     Margin="0"
                     Height="40"
                     Width="40"
@@ -122,7 +122,7 @@
                     x:Name="ContentsButton"
                     RelativePanel.LeftOf="BookmarsButton" 
                     RelativePanel.AlignHorizontalCenterWithPanel="True"
-                    Tapped="ContentsButton_OnTapped"
+          
                     Height="40"
                     Width="40"
                     Style="{StaticResource ReaderButtonStyle}">
@@ -162,13 +162,6 @@
                 </Button>
             </RelativePanel>
         </Grid>
-        <WebView x:Name="ReaderWebView" 
-                 Grid.Row="1" 
-                 Visibility="Collapsed" 
-                 DOMContentLoaded="ReaderWebView_OnDOMContentLoaded" 
-                 DefaultBackgroundColor="Transparent"   
-                 HorizontalAlignment="Stretch"
-                 VerticalAlignment="Stretch" />
 
         <Grid Grid.Row="1" Grid.RowSpan="2">
             <StackPanel Grid.Row="0"
@@ -186,22 +179,6 @@
                 <TextBlock Text="&#x00A0;of&#x00A0;" />
                 <TextBlock Name="pageCount" />
             </StackPanel>
-            <FlipView Name="FlipView"
-                      Visibility="Collapsed"
-                      Opacity="{Binding Brightness}"                      
-                      UseTouchAnimationsForAllNavigation="{Binding AnimationMoveToPage}"
-                      Background="White" 
-                      SelectionChanged="FlipView_SelectionChanged" 
-                      SizeChanged="FlipView_SizeChanged" 
-                      Margin="0,0,0,80" 
-                      ManipulationCompleted="FlipView_ManipulationCompleted" Style="{StaticResource LitResFlipViewStyle}" 
-                     >
-                <FlipView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </FlipView.ItemsPanel>
-            </FlipView>
         </Grid>
         <Grid x:Name="Center"
               Grid.Row="1"
@@ -242,12 +219,12 @@
                 </StackPanel>
             </Grid>
             <Slider x:Name="CurrentPageSlider"
-                    Visibility="Collapsed"
+                    Visibility="Visible"
 					Minimum="1" SmallChange="1" LargeChange="10"
                     ManipulationMode="All"
                     Margin="15,0,15,0" 
                     VerticalAlignment="Bottom"
-                    Template="{StaticResource LitresSlider}" ValueChanged="CurrentPageSlider_ValueChanged_1" />
+                    Template="{StaticResource LitresSlider}"  />
         </Grid>
 
         <controls:ReaderPageHeader Grid.Row="0" x:Name="pageHeader" />
@@ -283,14 +260,19 @@
             </RelativePanel>
         </Grid>
 
-        <Border Grid.Row="0" 
+        <Border 
+            x:Name="BrightnessBorder"
+            Grid.Row="0" 
                 Grid.RowSpan="3" 
                 Background="Black" 
-                Visibility="Visible"
+                Visibility="Collapsed"
                 IsHitTestVisible="False"
                 HorizontalAlignment="Stretch" 
                 Opacity="{Binding ViewModel.ReaderSettings.Brightness}"
                 VerticalAlignment="Stretch"/>
+        <Grid Margin="0,0,0,50" Grid.Row="0" Grid.RowSpan="2">
+            <controls1:ThreePagePanel Grid.Row="0" x:Name="PageCanvas" Tapped="PageCanvas_Tapped" Margin="10,0"/>
+        </Grid>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

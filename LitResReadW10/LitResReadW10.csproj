@@ -98,66 +98,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\FB3Reader\app.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\app.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\Bookmarks\FB3Bookmarks.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\DataProvider\AjaxGenerator\FB2_2_json.xsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\DataProvider\AjaxGenerator\FB2_2_json_meta.xsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\DataProvider\FB3AjaxDataProvider.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\default.htm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\DOM\FB3DOM.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\DOM\FB3DOMBlock.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\FB3Reader.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\FB3ReaderHeaders.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\PagesPositionsCache\PPCache.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\plugins\lz-string.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\plugins\moment.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\Reader\FB3Reader.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\Reader\FB3ReaderPage.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\roadmap.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\Site\FB3ReaderSite.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\Site\LocalBookmarks.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\FB3Reader\z.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Assets\Icons\about_black.png" />
     <Content Include="Assets\Icons\about_orange.png" />
     <Content Include="Assets\Icons\about_white.png" />
@@ -475,51 +415,6 @@
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
-    <None Include="Assets\FB3Reader\Bookmarks\FB3Bookmarks.js.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\FB3Reader\DataProvider\AjaxGenerator\fb2json.pl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\FB3Reader\DataProvider\AjaxGenerator\Hyphenate.pm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\FB3Reader\DataProvider\FB3AjaxDataProvider.js.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\FB3Reader\DOM\FB3DOM.js.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\FB3Reader\DOM\FB3DOMBlock.js.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\FB3Reader\PagesPositionsCache\PPCache.js.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\FB3Reader\Reader\FB3Reader.js.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\FB3Reader\Reader\FB3ReaderPage.js.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\FB3Reader\README.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\FB3Reader\Site\FB3ReaderSite.js.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\FB3Reader\Site\LocalBookmarks.js.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\FB3Reader\web.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\FB3Reader\web.Debug.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\FB3Reader\web.Release.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <Content Include="Fonts\PT Sans.ttf" />
     <Content Include="Fonts\PT Mono.ttf" />
     <None Include="LitResReadW10_StoreKey.pfx" />
@@ -539,17 +434,25 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BookReader\BookReaderBuilder.cs" />
-    <Compile Include="BookReader\Fb2BookReader.cs" />
     <Compile Include="BookReader\IBookReader.cs" />
     <Compile Include="BookReader\PdfBookReader.cs" />
     <Compile Include="Common\LongListGroup.cs" />
+    <Compile Include="Common\Screen.cs" />
+    <Compile Include="Controllers\IBookView.cs" />
+    <Compile Include="Controllers\ReadController.cs" />
     <Compile Include="Controls\BannerControl.cs" />
     <Compile Include="Controls\ControlPanel.cs" />
     <Compile Include="Controls\HDLitresSettingsSlider.cs" />
     <Compile Include="Controls\BookmarkProgressBar.cs" />
     <Compile Include="Controls\ImageProgressBar.cs" />
     <Compile Include="Controls\LitresSettingsSlider.cs" />
+    <Compile Include="Controls\Manipulators\ContinuousDragPageManipulation.cs" />
+    <Compile Include="Controls\Manipulators\DragManipulationBase.cs" />
+    <Compile Include="Controls\Manipulators\FlipDirection.cs" />
+    <Compile Include="Controls\Manipulators\ManipulatorFactory.cs" />
+    <Compile Include="Controls\Manipulators\OverlappingDragPageManipulation.cs" />
+    <Compile Include="Controls\Manipulators\PageManipulatorBase.cs" />
+    <Compile Include="Controls\Manipulators\StaticDragPageManipulation.cs" />
     <Compile Include="Controls\PageHeader.xaml.cs">
       <DependentUpon>PageHeader.xaml</DependentUpon>
     </Compile>
@@ -561,6 +464,9 @@
     <Compile Include="Controls\ScrollableTextBlock.cs" />
     <Compile Include="Controls\ScrollViewerIncremental.cs" />
     <Compile Include="Controls\ThicknessWrapper.cs" />
+    <Compile Include="Controls\ThreePagePanel.xaml.cs">
+      <DependentUpon>ThreePagePanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TileCanvas.cs" />
     <Compile Include="Controls\WatermarkedTextBox.cs" />
     <Compile Include="Crypto\EncryptionProvider.cs" />
@@ -568,6 +474,8 @@
     <Compile Include="Helpers\LocalBroadcastReciver.cs" />
     <Compile Include="Helpers\ResolutionHelper.cs" />
     <Compile Include="Helpers\SystemInfoHelper.cs" />
+    <Compile Include="Interaction\ManipulationListener.cs" />
+    <Compile Include="Interaction\PointManipulationEventArgs.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -802,6 +710,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\ThreePagePanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -952,6 +864,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BookParser\BookParser.csproj">
+      <Project>{be0fdfd7-81d8-47df-acfc-918056592bdd}</Project>
+      <Name>BookParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BookRender\BookRender.csproj">
+      <Project>{663e2954-2742-4c8b-8449-61b5bd1b6d6e}</Project>
+      <Name>BookRender</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Diggilect.Mvvm.Windows10\Diggilect.Mvvm.Windows10.csproj">
       <Project>{92559e26-743c-44fc-af14-a017c68e6879}</Project>
       <Name>Diggilect.Mvvm.Windows10</Name>
@@ -988,65 +908,6 @@
     <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Assets\FB3Reader\app.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Assets\FB3Reader\Bookmarks\FB3Bookmarks.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Assets\FB3Reader\Bookmarks\FB3BookmarksHead.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Assets\FB3Reader\DataProvider\FB3AjaxDataProvider.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Assets\FB3Reader\DataProvider\FB3DataProviderHead.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Assets\FB3Reader\DOM\FB3DOM.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Assets\FB3Reader\DOM\FB3DOMBlock.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Assets\FB3Reader\DOM\FB3DOMHead.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Assets\FB3Reader\FB3ReaderHeaders.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Assets\FB3Reader\PagesPositionsCache\PPCache.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Assets\FB3Reader\PagesPositionsCache\PPCacheHead.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Assets\FB3Reader\plugins\lz-string.d.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Assets\FB3Reader\plugins\moment.d.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Assets\FB3Reader\Reader\FB3Reader.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Assets\FB3Reader\Reader\FB3ReaderHead.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Assets\FB3Reader\Reader\FB3ReaderPage.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Assets\FB3Reader\Site\FB3ReaderSite.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Assets\FB3Reader\Site\FB3ReaderSiteHead.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Assets\FB3Reader\Site\LocalBookmarks.ts">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </TypeScriptCompile>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

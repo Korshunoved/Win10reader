@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="13724doITfast.LitresWin10new" Publisher="CN=5EB928D3-3ECB-436F-80E8-6D32C420944A" Version="1.1.5.0" />
+  <Identity Name="13724doITfast.LitresWin10new" Publisher="CN=5EB928D3-3ECB-436F-80E8-6D32C420944A" Version="1.1.6.0" />
   <mp:PhoneIdentity PhoneProductId="8a41bba4-68d1-47ba-9748-17dc204fc217" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>LitresWin10new</DisplayName>

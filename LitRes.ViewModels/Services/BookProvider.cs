@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BookParser;
+using BookParser.Common.ExtensionMethods;
+using BookParser.Models;
+using BookParser.Parsers;
+using BookRender.Tools;
 using Digillect.Collections;
+using ICSharpCode.SharpZipLib;
 using LitRes.Models;
 using LitRes.Services.Connectivity;
 using ICSharpCode.SharpZipLib.Zip;
@@ -16,7 +23,7 @@ namespace LitRes.Services
 {
     internal class BookProvider : IBookProvider
     {
-        const string CatalogPath = "MyBooks";
+        const string CatalogPath = "MyBooks/";
         const string StorageSettingName = "ExistBooks";
         const string DKey = "D(Fdskfd9i34987w7r7*8sd-hfuUF*73rksdf#E(DFijF(D*]${";
         const string DKey1 = "Z2OD63E9885BBE98";
@@ -66,63 +73,9 @@ namespace LitRes.Services
             return await GetDocument(
                 cancellationToken => _awareConnection.ProcessStaticSecureRequest<RawFile>(url, cancellationToken),
                 token,
-                Path.Combine(CatalogPath, book.Id.ToString(CultureInfo.InvariantCulture)), Path.Combine(CatalogPath, bookname)
+                book
                 );
         }
-
-       /* public async Task<string> GetFullBook(Book book, CancellationToken token)
-        {
-            var document = await GetDocument(async cancellationToken =>
-            {
-                var parameters = new Dictionary<string, object>
-                        {
-                            { "art", book.Id },
-                            { "type", "jbk" }
-                        };
-
-                if (book.IsUnpackedDrm)//book.Id == 6883340)
-                {
-                    var timeResp = await _awareConnection.ProcessRequest<ServerTimeResponse>("catalit_browser", false, true, token, new Dictionary<string, object> { { "art", 0 } });
-                    var umd5 = MD5.GetMd5String($"{timeResp.UnixTime}:{book.Description.Hidden.DocumentInfo.Id}:{"6193449b38c80b4f50bc3bdab32c61a8c95068bb"}");
-                    parameters = new Dictionary<string, object>
-                        {
-                            {"uuid", book.Description.Hidden.DocumentInfo.Id},
-                            {"libapp", 6},
-                            {"timestamp", timeResp.UnixTime},
-                            {"umd5", umd5}
-                        };
-                }
-                else if ((!book.IsExpiredBook && !string.IsNullOrEmpty(book.ExpiredDateStr)))
-                {
-                    var timeResp = await _awareConnection.ProcessRequest<ServerTimeResponse>("catalit_browser", false, true, token, new Dictionary<string, object> { { "art", 0 } });
-                    var umd5 = MD5.GetMd5String($"{timeResp.UnixTime}:{book.Description.Hidden.DocumentInfo.Id}:{DKey}");
-                    parameters = new Dictionary<string, object>
-                    {
-                        {"uuid", book.Description.Hidden.DocumentInfo.Id},
-                        {"libapp", _deviceInfoService.LibAppId},
-                        {"timestamp", timeResp.UnixTime},
-                        {"umd5", umd5}
-                    };                     
-                }
-                if (book.isFreeBook) Analytics.Instance.sendMessage(Analytics.ActionGetFree);
-                return await _awareConnection.ProcessRequest<RawFile>("catalit_download_book", true, true, token, parameters);
-            },
-                token,
-                Path.Combine(CatalogPath, book.Id.ToString(CultureInfo.InvariantCulture)));
-
-            if (!string.IsNullOrEmpty(document))
-            {
-                var exists = await GetExistBooks(CancellationToken.None);
-
-                if (exists.All(x => x.Id != book.Id))
-                {
-                    exists.Insert(0, book);
-                    _dataCacheService.PutItem(exists, StorageSettingName, CancellationToken.None);
-                }
-            }
-
-            return document;
-        }*/
 
         public async Task<FictionBook.Document> GetFullBook(Book book, CancellationToken token)
         {
@@ -163,7 +116,7 @@ namespace LitRes.Services
                 return await _awareConnection.ProcessRequest<RawFile>("catalit_download_book", true, true, token, parameters);
             },
                 token,
-                Path.Combine(CatalogPath, book.Id.ToString(CultureInfo.InvariantCulture)));
+                book);
 
             if (document != null)
             {
@@ -179,55 +132,22 @@ namespace LitRes.Services
             return document;
         }
 
-        public async Task<FictionBook.Document> GetDocument(Func<CancellationToken, Task<RawFile>> loader,
-            CancellationToken token, params string[] paths)
+        private static void SaveToFile(string path, byte[] bytes)
         {
-            FictionBook.Document document = null;
-            foreach (string path in paths)
+            Stream stream = new MemoryStream(bytes);
+            using (var storeForApplication = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                if (_fileCacheService.FileExists(path))
+                stream.Position = 0L;
+                using (var storageFileStream = storeForApplication.OpenFile(path, FileMode.CreateNew, FileAccess.Write))
                 {
-                    using (var stream = await _fileCacheService.OpenFile(path, token))
-                    {
-                        try
-                        {
-                            var decStream = Decrypt((MemoryStream) stream, _deviceInfoService.DeviceId);
-                            using (ZipInputStream zipInputStream = new ZipInputStream(decStream))
-                            {
-                                ZipEntry zipEntry = zipInputStream.GetNextEntry();
-
-                                if (zipEntry != null)
-                                {
-                                    var reader = new FictionBook.DocumentReader(zipInputStream);
-                                    document = reader.ReadDocument();
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine("ZipEntry not found.");
-                            try
-                            {
-                                var reader =
-                                    new FictionBook.DocumentReader(Decrypt((MemoryStream) stream,
-                                        _deviceInfoService.DeviceId));
-                                document = reader.ReadDocument();
-                            }
-                            catch (Exception Ex)
-                            {
-                                Debug.WriteLine("Can't read fb2");
-                            }
-                        }
-                    }
-
-                    break;
+                    stream.CopyTo(storageFileStream);
                 }
             }
+        }
 
-            if (document != null)
-            {
-                return document;
-            }
+        public async Task<FictionBook.Document> GetDocument(Func<CancellationToken, Task<RawFile>> loader,
+            CancellationToken token, Book book)
+        {
             RawFile file = null;
             try
             {
@@ -236,150 +156,147 @@ namespace LitRes.Services
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-               /* BugSense.BugSenseHandler.Instance.LogException(ex,
-                                                               "BookProvider.GetDocument",
-                                                               "Can't load file from the server. Server error.");*/
                 return null;
             }
+            if (file?.Raw == null) return null;
+            SaveToFile(PrepareFilePath(book, IsolatedStorageFile.GetUserStoreForApplication()), file.Raw);
+            ParseBook(book);
 
+            return null;
+        }
 
-            if (file?.Raw != null)
+        private void ParseBook(Book item)
+        {
+            try
             {
-                var originalStream = new MemoryStream(file.Raw);
-
-                if (file.Zipped)
+                using (var storeForApplication = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    try
+                    using (var bookStorageFileStream = new IsolatedStorageFileStream(CreateBookPath(item), FileMode.Open, storeForApplication))
                     {
-                        var zipInputStream = new ZipInputStream(originalStream);
-                        var zipEntry = zipInputStream.GetNextEntry();
-
-                        if (zipEntry != null)
-                        {
-                            var reader = new FictionBook.DocumentReader(zipInputStream);
-                            document = reader.ReadDocument();
-                        }
-
-                        originalStream.Seek(0, SeekOrigin.Begin);
-
-                        var encryptedStream = Encrypt(originalStream, _deviceInfoService.DeviceId);
-                        _fileCacheService.SaveFile(encryptedStream, paths.Last(), token);
-
-                        //  _fileCacheService.SaveFile(originalStream, paths.Last(), token);
+                        var previewGenerator = BookFactory.GetPreviewGenerator(item.TypeBook.ToString(), item.BookTitle, bookStorageFileStream);
+                        var bookSummary = previewGenerator.GetBookPreview();
+                        SaveBook(item, bookSummary, previewGenerator, storeForApplication);
                     }
-                    catch (Exception ex)
-                    {
-                        originalStream.Dispose();
-                    }
-                }
-                else
-                {
-                    //var outputStream = new MemoryStream();
-                    var reader = new FictionBook.DocumentReader(originalStream);
-
-                    document = reader.ReadDocument();
-
-                    originalStream.Seek(0, SeekOrigin.Begin);
-
-                    await Task.Run(() =>
-                    {
-                        //var zipStream = new ZipOutputStream( outputStream );
-                        //ZipEntry newEntry = new ZipEntry( "zipfile" );
-
-                        //zipStream.SetLevel( 5 );
-                        //zipStream.PutNextEntry( newEntry );
-
-                        //StreamUtils.Copy( originalStream, zipStream, new byte[4096] );
-
-                        //zipStream.CloseEntry();
-
-                        //zipStream.IsStreamOwner = false;
-
-                        //outputStream.Seek( 0, SeekOrigin.Begin );
-                        var encryptedStream = Encrypt(originalStream, _deviceInfoService.DeviceId);
-                        _fileCacheService.SaveFile(encryptedStream, paths.Last(), token);
-
-                        //_fileCacheService.SaveFile( outputStream, paths.Last(), token );
-                    });
                 }
             }
+            catch (SharpZipBaseException)
+            {
+                //SetItemStatus(item, DownloadStatus.Error);
+            }
+            catch (Exception)
+            {
+               // SetItemStatus(item, DownloadStatus.Error);
+            }
+        }
 
-            return document;
+        private static string PrepareFilePath(Book item, IsolatedStorageFile storage)
+        {
+            if (!storage.DirectoryExists(item.Id.ToString()))
+            {
+                storage.CreateDirectory(Path.Combine(CatalogPath,item.Id.ToString()));
+            }
+
+            var bookPath = CreateBookPath(item);
+            if (storage.FileExists(bookPath))
+            {
+                storage.DeleteFile(bookPath);
+            }
+
+            return bookPath;
+        }
+
+        private static string CreateBookPath(Book item)
+        {
+            return Path.Combine(CatalogPath + item.Id + ModelConstants.BOOK_FILE_DATA_PATH);
+        }
+
+        private static string CreateImagesPath(Book item)
+        {
+            return Path.Combine(CatalogPath + item.Id + ModelConstants.BOOK_IMAGES_FILE_NAME);
+        }
+
+        private void SaveBook(Book item, BookSummary bookSummary, IBookSummaryParser previewGenerator, IsolatedStorageFile storeForApplication)
+        {
+            using (var imageStorageFileStream = new IsolatedStorageFileStream(CreateImagesPath(item), FileMode.Create, storeForApplication))
+            {
+                previewGenerator.SaveImages(imageStorageFileStream);
+            }
+
+           // previewGenerator.SaveCover(item.BookID.ToString());
+
+            var book = CreateBook(item, bookSummary);
+
+            try
+            {
+               // _bookService.Add(book);
+                TokensTool.SaveTokens(book, previewGenerator);
+                book.Hidden = book.Trial;
+               // _bookService.Save(book);                
+            }
+            catch (Exception)
+            {
+                //_bookService.Remove(book.BookID);
+                throw;
+            }
+            AppSettings.Default.CurrentBook = book;
+        }
+
+        private static BookModel CreateBook(Book item, BookSummary bookSummary)
+        {
+            var book = new BookModel
+            {
+                BookID = item.Id.ToString(),
+                Title = bookSummary.Title.SafeSubstring(1024),
+                Author = bookSummary.AuthorName.SafeSubstring(1024),
+                Type = item.Type,
+                Hidden = true,
+                Trial = bookSummary.IsTrial,
+                Deleted = false,
+                CreatedDate = DateTime.Now.ToFileTimeUtc(),
+                UniqueID = bookSummary.UniqueId.SafeSubstring(1024),
+                Description = bookSummary.Description,
+                Language = bookSummary.Language,
+                Url = item.Url,
+               // CatalogItemId = item.CatalogItemId
+            };
+
+            return book;
         }
 
         public MemoryStream Encrypt(MemoryStream dataToEncrypt, string password, string salt = "jklkljasb)0_3;22A,xA")
         {
-            //AesManaged aes = null;
             MemoryStream memoryStream = null;
-          //  CryptoStream cryptoStream = null;
+            memoryStream = new MemoryStream();
 
-            try
+            do
             {
-               // Rfc2898DeriveBytes rfc2898 = new Rfc2898DeriveBytes(password, Encoding.UTF8.GetBytes(salt));
-
-               // aes = new AesManaged();
-              //  aes.Key = rfc2898.GetBytes(aes.KeySize / 8);
-              //  aes.IV = rfc2898.GetBytes(aes.BlockSize / 8);
-
-                memoryStream = new MemoryStream();
-              //  cryptoStream = new CryptoStream(memoryStream, aes.CreateEncryptor(), CryptoStreamMode.Write);
-
-                do
+                var data = new byte[1024];
+                int readBytes = dataToEncrypt.Read(data, 0, 1024);
+                if (readBytes != 0)
                 {
-                    var data = new byte[1024];
-                    int readBytes = dataToEncrypt.Read(data, 0, 1024);
-                    if (readBytes != 0)
-                    {
-                      //  cryptoStream.Write(data, 0, readBytes);
-                    }
-                    else
-                    {
-                        break;
-                    }
 
-                } while (true);
+                }
+                else
+                {
+                    break;
+                }
 
-               // cryptoStream.FlushFinalBlock();
+            } while (true);
 
-                memoryStream.Seek(0, SeekOrigin.Begin);
-                return memoryStream;
-            }
-            finally
-            {
-               // if (aes != null)
-                  //  aes.Clear();
-            }
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            return memoryStream;
         }
 
         public MemoryStream Decrypt(MemoryStream dataToDecrypt, string password, string salt = "jklkljasb)0_3;22A,xA")
         {
-           // AesManaged aes = null;
             MemoryStream memoryStream = null;
-           // CryptoStream cryptoStream = null;
 
-            try
-            {
-              //  Rfc2898DeriveBytes rfc2898 = new Rfc2898DeriveBytes(password, Encoding.UTF8.GetBytes(salt));
+            memoryStream = new MemoryStream();
 
-               // aes = new AesManaged();
-               // aes.Key = rfc2898.GetBytes(aes.KeySize / 8);
-              //  aes.IV = rfc2898.GetBytes(aes.BlockSize / 8);
+            byte[] data = dataToDecrypt.ToArray();
 
-                memoryStream = new MemoryStream();
-              //  cryptoStream = new CryptoStream(memoryStream, aes.CreateDecryptor(), CryptoStreamMode.Write);
-
-                byte[] data = dataToDecrypt.ToArray();
-               // cryptoStream.Write(data, 0, data.Length);
-               // cryptoStream.FlushFinalBlock();
-
-                memoryStream.Seek(0, SeekOrigin.Begin);
-                return memoryStream;
-            }
-            finally
-            {
-              //  if (aes != null)
-                  //  aes.Clear();
-            }
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            return memoryStream;
         }
 
         public bool FullBookExistsInLocalStorage(int bookId)

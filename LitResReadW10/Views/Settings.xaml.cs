@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Windows.Devices.Enumeration;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using BookParser;
 using Digillect.Mvvm;
 using Digillect.Mvvm.UI;
 using LitRes.ViewModels;
@@ -71,13 +71,18 @@ namespace LitRes.Views
 		       //
 		    }
 
+		    HyphenationSwither.IsOn = AppSettings.Default.Hyphenation;
+
             LightSlider.ValueChanged -= LightSlider_ValueChanged;
             LightSlider.ValueChanged += LightSlider_ValueChanged;
 
             AnimationSwither.Toggled -= AnimationSwither_Toggled;
             AnimationSwither.Toggled += AnimationSwither_Toggled;
 
-		    FontSizeSlider.ValueChanged -= FontSizeSlider_ValueChanged;
+            HyphenationSwither.Toggled -= HyphenationSwitherOnToggled;
+            HyphenationSwither.Toggled += HyphenationSwitherOnToggled;
+
+            FontSizeSlider.ValueChanged -= FontSizeSlider_ValueChanged;
             FontSizeSlider.ValueChanged += FontSizeSlider_ValueChanged;		  
 
 		    JustificationSwither.Toggled -= JustificationSwither_Toggled;
@@ -89,6 +94,13 @@ namespace LitRes.Views
 		    LineSpacingSlider.ValueChanged -= LineSpacingSlider_ValueChanged;
             LineSpacingSlider.ValueChanged += LineSpacingSlider_ValueChanged;
         }
+
+	    private void HyphenationSwitherOnToggled(object sender, RoutedEventArgs routedEventArgs)
+	    {
+            var toggle = sender as ToggleSwitch;
+            if (toggle == null) return;
+	        AppSettings.Default.Hyphenation = toggle.IsOn;
+	    }
 
 	    protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
 	    {
@@ -116,7 +128,6 @@ namespace LitRes.Views
             if (toggle == null) return;
             if (ViewModel != null)
                 ViewModel.AnimationMoveToPage = toggle.IsOn;
-            _readerPage.CurrentFlipView.UseTouchAnimationsForAllNavigation = toggle.IsOn;            
             _readerPage.ViewModel.SaveSettings();
         }
 

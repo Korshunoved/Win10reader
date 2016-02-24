@@ -491,8 +491,8 @@ namespace LitRes.ViewModels
             {
                 try
                 {
-                    // bookFolderName = await _bookProvider.GetFullBook(book, session.Token);
-                    //  status = LoadingStatus.FullBookLoaded;
+                    //bookFolderName = book.Id.ToString();
+                    status = LoadingStatus.FullBookLoaded;
                     document = await _bookProvider.GetFullBook(book, session.Token);
                     if (document != null) Status = LoadingStatus.FullBookLoaded;
                 }

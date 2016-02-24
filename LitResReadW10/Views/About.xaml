@@ -39,10 +39,10 @@
                    Margin="15,34,15,0"/>-->
 
         <StackPanel Grid.Row="0" HorizontalAlignment="Left" Orientation="Vertical">
-            <TextBlock Margin="15,15,15,0" Text="{Binding AboutTitle}" Style="{StaticResource BigNormalSemiBoldBlackTextStyle}"/>
+            <TextBlock Margin="15,0,15,0" Text="{Binding AboutTitle}" Style="{StaticResource BigNormalSemiBoldBlackTextStyle}"/>
         </StackPanel>
 
-            <StackPanel Margin="0,32,0,32" Grid.Row="1" HorizontalAlignment="Center" Orientation="Vertical" Background="White">
+            <StackPanel Margin="0,0,0,32" Grid.Row="1" HorizontalAlignment="Center" Orientation="Vertical" Background="White">
             <Image Source="/Assets/W10Images/MyBookColor/MyBookColor.png" 
                     VerticalAlignment="Top"
                     HorizontalAlignment="Center"
