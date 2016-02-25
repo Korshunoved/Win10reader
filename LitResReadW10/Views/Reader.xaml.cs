@@ -63,6 +63,7 @@ namespace LitRes.Views
         private BookModel _book;
         private ReadController _readController;
         private int _tokenOffset;
+        public int CurrentPage;
 
         private readonly INavigationService _navigationService = ((App)App.Current).Scope.Resolve<INavigationService>();
 
@@ -119,6 +120,19 @@ namespace LitRes.Views
             if (BrightnessBorder.Visibility == Visibility.Collapsed)
                 BrightnessBorder.Visibility = Visibility.Visible;
             await ViewModel.LoadSettings();
+            var margin = AppSettings.Default.MarginIndex;
+            switch (margin)
+            {
+                case 1:
+                    AppSettings.Default.Margin = new Thickness(18);
+                    break;
+                case 2:
+                    AppSettings.Default.Margin = new Thickness(12);
+                    break;
+                case 3:
+                    AppSettings.Default.Margin = new Thickness(8);
+                    break;
+            }
             var currentOrientation = DisplayInformation.GetForCurrentView().CurrentOrientation;
             DisplayInformation.AutoRotationPreferences = ViewModel.ReaderSettings.Autorotate ? DisplayOrientations.None : currentOrientation;
      
@@ -178,9 +192,11 @@ namespace LitRes.Views
                 if (ViewModel.Status == ReaderViewModel.LoadingStatus.FullBookLoaded) Analytics.Instance.sendMessage(Analytics.ActionReadFull);
                 else if (ViewModel.Status == ReaderViewModel.LoadingStatus.TrialBookLoaded) Analytics.Instance.sendMessage(Analytics.ActionReadFragment);
                 _isLoaded = true;
+
                 _book = AppSettings.Default.CurrentBook;
                 if (_book == null) return;
                 activeFontHelper = BookFactory.GetActiveFontMetrics(AppSettings.Default.FontSettings.FontFamily.Source);
+                AppSettings.Default.FontSettings.FontHelper = activeFontHelper;
                 Redraw();
                 _isSliderMoving = false; 
                 CurrentPageSlider.ManipulationStarted += CurrentPageSliderOnManipulationStarted;    
@@ -198,7 +214,7 @@ namespace LitRes.Views
 
         public async void UpdateBook()
         {
-            pageHeader.ProgressIndicatorVisible = false;
+            PageHeader.ProgressIndicatorVisible = false;
             await ViewModel.Reload();
             await HandleLoadedBook();
         }
@@ -238,7 +254,7 @@ namespace LitRes.Views
             }
             else if (ViewModel.LoadingException != null)
             {
-                pageHeader.ProgressIndicatorVisible = false;
+                PageHeader.ProgressIndicatorVisible = false;
                 await new MessageDialog("Ошибка получения книги. Попробуйте попозже.").ShowAsync();
                 _navigationService.GoBack();
             }
@@ -270,16 +286,16 @@ namespace LitRes.Views
             {
                 BookCover.Width = BookCoverBack.Width = 310.0 / 1.5;
                 BookCover.Height = BookCoverBack.Height = 474.0 / 1.5;
-                pageHeader.Margin = new Thickness(0, 0, 0, 40);
+                PageHeader.Margin = new Thickness(0, 0, 0, 40);
             }
             else
             {
                 BookCover.Width = BookCoverBack.Width = 310;
                 BookCover.Height = BookCoverBack.Height = 474;
-                pageHeader.Margin = new Thickness(0, 0, 0, 75);
+                PageHeader.Margin = new Thickness(0, 0, 0, 75);
             }
 
-            if (pageHeader.Visibility == Visibility.Collapsed)
+            if (PageHeader.Visibility == Visibility.Collapsed)
             {
                 
             }
@@ -386,13 +402,13 @@ namespace LitRes.Views
         
         private void HideMenu()
         {
-            Bottom.Visibility = Visibility.Collapsed;
+            CurrentPageSlider.Visibility = Visibility.Collapsed;
             TopRelativePanel.Visibility = Visibility.Collapsed;
         }
 
         private void ShowMenu()
         {
-            Bottom.Visibility = Visibility.Visible;
+            CurrentPageSlider.Visibility = Visibility.Visible;
             TopRelativePanel.Visibility = Visibility.Visible;
         }
 
@@ -467,13 +483,27 @@ namespace LitRes.Views
 
         }
 
-        public void ChangeMargins()
+        public async void ChangeMargins()
         {
+            var margin = AppSettings.Default.MarginIndex;
+            switch (margin)
+            {
+                case 1:
+                    AppSettings.Default.Margin = new Thickness(18);
+                    break;
+                case 2:
+                    AppSettings.Default.Margin = new Thickness(12);
+                    break;
+                case 3:
+                    AppSettings.Default.Margin = new Thickness(8);
+                    break;
+            }
+            await CreateController();
         }
 
-        public void ChangeCharacterSpacing()
+        public async void ChangeCharacterSpacing()
         {
-            
+            await CreateController();
         }
 
         public void ChangeFontSize()
@@ -481,34 +511,16 @@ namespace LitRes.Views
             
         }
 
-        public void ChangeFont()
+        public async void ChangeFont()
         {
-            
+            activeFontHelper = BookFactory.GetActiveFontMetrics(AppSettings.Default.FontSettings.FontFamily.Source);
+            AppSettings.Default.FontSettings.FontHelper = activeFontHelper;
+            await CreateController();
         }
 
         public void ChangeJustification()
         {
             
-        }
-
-        private FontFamily GetCurrentFont()
-        {
-            var intFont = ViewModel.ReaderSettings.Font;
-            FontFamily currentFont = null;
-            switch (intFont)
-            {
-                case 0:
-                case 1:
-                    currentFont = new FontFamily("/Fonts/PT Sans.ttf#PT Sans");
-                    break;
-                case 2:
-                    currentFont = new FontFamily("PT Serif");
-                    break;
-                case 3:
-                    currentFont = new FontFamily("/Fonts/PT Mono.ttf#PT Mono");
-                    break;
-            }
-            return currentFont;
         }
 
         public async void Redraw()
@@ -523,7 +535,7 @@ namespace LitRes.Views
                 Background = AppSettings.Default.ColorScheme.BackgroundBrush;
 
                 PageCanvas.Clear();
-                PageCanvas.SetSize(PageCanvas.ActualWidth, PageCanvas.ActualHeight, PageCanvas.ActualWidth, PageCanvas.ActualHeight);
+                PageCanvas.SetSize(ReaderGrid.ActualWidth, ReaderGrid.ActualHeight, ReaderGrid.ActualWidth, ReaderGrid.ActualHeight);
                 PageCanvas.Manipulator = new ManipulatorFactory(PageCanvas).CreateManipulator(AppSettings.Default.FlippingStyle, AppSettings.Default.FlippingMode);
 
                 await CreateController();
@@ -537,7 +549,7 @@ namespace LitRes.Views
 
                 Bottom.Visibility = Visibility.Visible;
 
-                pageHeader.ProgressIndicatorVisible = false;
+                PageHeader.ProgressIndicatorVisible = false;
             }
         }
 
@@ -554,7 +566,17 @@ namespace LitRes.Views
             if (_preSelectionOffset == null)
                 _preSelectionOffset = _tokenOffset;
             int page = (int)CurrentPageSlider.Value;
+            CurrentPage = page;
             int tokenOffset = (page - 1) * 200;
+            _tokenOffset = tokenOffset;
+            await CreateController();
+        }
+
+        public async void GoToChapter()
+        {
+            if (_preSelectionOffset == null)
+                _preSelectionOffset = _tokenOffset;        
+            int tokenOffset = (CurrentPage - 1) * 200;
             _tokenOffset = tokenOffset;
             await CreateController();
         }
@@ -565,16 +587,20 @@ namespace LitRes.Views
             {
                 return;
             }
-            var settings = ViewModel.ReaderSettings;
-            _readController = new ReadController(PageCanvas, _book, _book.BookID, settings, _tokenOffset);
-
+                      
+            _readController = new ReadController(PageCanvas, _book, _book.BookID, _tokenOffset);
+           
             await _readController.ShowNextPage();
+            CurrentPageSlider.ValueChanged -= CurrentPageSliderOnValueChanged;
+            CurrentPageSlider.ManipulationCompleted -= CurrentPageSliderOnManipulationCompleted;
+            CurrentPageSlider.Value = _readController.CurrentPage;
+            CurrentPageSlider.ValueChanged += CurrentPageSliderOnValueChanged;
+            CurrentPageSlider.ManipulationCompleted += CurrentPageSliderOnManipulationCompleted;
             PageCanvas.Manipulator.UpdatePanelsVisibility();
             PageCanvas.Manipulator.IsFirstPage = _readController.IsFirst;
             PageCanvas.Manipulator.IsLastPage = _readController.IsLast;
 
             CurrentPageSlider.Maximum = _readController.TotalPages;
-            pageNumber.Text = _readController.CurrentPage.ToString();
         }
 
         private int? _oldOffset;
@@ -595,8 +621,14 @@ namespace LitRes.Views
            _tokenOffset = _readController.Offset;
 
             _isSliderMoving = true;
+            CurrentPageSlider.ValueChanged -= CurrentPageSliderOnValueChanged;
+            CurrentPageSlider.ManipulationCompleted -= CurrentPageSliderOnManipulationCompleted;
             CurrentPageSlider.Value = _readController.CurrentPage;
+            CurrentPage = (int) CurrentPageSlider.Value;
+            PagesText.Text = _readController.CurrentPage + "/" + _readController.TotalPages;
             _isSliderMoving = false;
+            CurrentPageSlider.ValueChanged += CurrentPageSliderOnValueChanged;
+            CurrentPageSlider.ManipulationCompleted += CurrentPageSliderOnManipulationCompleted;
             PageCanvas.Manipulator.IsFirstPage = _readController.IsFirst;
             PageCanvas.Manipulator.IsLastPage = _readController.IsLast;
             PageCanvas.Manipulator.UpdatePanelsVisibility();
@@ -607,16 +639,25 @@ namespace LitRes.Views
         private async void PageCanvas_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Point pt = e.GetPosition(sender as Canvas);
+            var clickOffset = 100;
             var width = ActualWidth;
+            var height = ActualHeight;
             if (pt.X < (width/2 - width/4))
                 await TurnPage(false);
-            else if (pt.X > (width / 2 + width / 4))
+            else if (pt.X > (width/2 + width/4))
                 await TurnPage(true);
+            else if (pt.X <= (width/2 + clickOffset) ||
+                     pt.X >= (width/2 - clickOffset) &&
+                     (pt.Y <= (height/2 + clickOffset) || (pt.Y >= (height/2 - clickOffset))))
+                if (TopRelativePanel.Visibility == Visibility.Collapsed)
+                    ShowMenu();
+                else
+                    HideMenu();
         }
 
         private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            PageCanvas.SetSize(ActualWidth, ActualHeight, ActualWidth, ActualHeight);
+            PageCanvas.SetSize(ReaderGrid.ActualWidth, ReaderGrid.ActualHeight, ReaderGrid.ActualWidth, ReaderGrid.ActualHeight);
             PageCanvas.Clear();
 
          //   UpdateTrayVisibility();
@@ -635,6 +676,16 @@ namespace LitRes.Views
         private void CurrentPageSliderOnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs manipulationStartedRoutedEventArgs)
         {
             _isSliderMoving = true;
+        }
+
+        private void ContentsButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (SystemInfoHelper.IsDesktop())
+            {
+                FlyoutBase.ShowAttachedFlyout((Button)sender);
+                TocFrame.Navigate(typeof(BookChapters));
+            }
+            else _navigationService.Navigate("BookChapters");
         }
     }
 

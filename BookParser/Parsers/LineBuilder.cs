@@ -314,7 +314,7 @@ namespace BookParser.Parsers
                 var inlineItem = _block.Inlines.OfType<TextElement>().LastOrDefault();
                 if (inlineItem != null && string.IsNullOrEmpty(inlineItem.LinkID))
                     properties.LinkID = string.Empty;
-                _block.AddText(" ", properties, _fontSize, GetTextSize("  ", properties));
+                _block.AddText(" ", properties, _fontSize, GetTextSize("_", properties));
             }
             _block.AddText(text, _lastOpenTag.TextProperties, _fontSize, GetTextSize(text, _lastOpenTag.TextProperties), token.Part, token.ID);
             _textWidth += textWidth;
@@ -385,7 +385,7 @@ namespace BookParser.Parsers
             if (separator)
                 text = " " + text;
             double size = _fontSize*(properties.SubOption || properties.SupOption ? 0.5 : 1.0);
-            var width = GetTextWidth(text, properties, size);
+            var width = separator ?  GetTextWidth(text+"_", properties, size) : GetTextWidth(text, properties, size);
             return width;
         }
 

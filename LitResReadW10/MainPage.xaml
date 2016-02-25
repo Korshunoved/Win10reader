@@ -46,7 +46,7 @@
                                 Orientation="Horizontal">
                         <Border
                             x:Name="PaneHamburgerButton"
-                            Visibility="Collapsed"
+                            Visibility="Visible"
                             BorderThickness="0"
                             Padding="0"
                             Margin="0"
@@ -62,7 +62,8 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 TextAlignment="Center"
-                                Foreground="White" />
+                                Foreground="White" /> 
+                           
                         </Border>
                     </StackPanel>
                     <RelativePanel Grid.Row="1" 
@@ -174,9 +175,10 @@
                         VerticalAlignment="Center"
                         TextAlignment="Center"
                         Foreground="#3B393F"/>
+                      
                     </Border>
 
-                    <TextBlock 
+                  <TextBlock 
                           x:Name="PhoneTopBarTitle"
                           FontSize="16"
                           Foreground="Black"

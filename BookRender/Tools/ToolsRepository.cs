@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Xml.Linq;
+using BookParser;
 using BookParser.Data;
 using BookParser.Models;
 
@@ -26,6 +27,7 @@ namespace BookRender.Tools
 
         internal static void SaveChapters(IEnumerable<ChapterModel> chapters)
         {
+            AppSettings.Default.Chapters = chapters;
             /*using (var bookDataContext = BookDataContext.Connect())
             {
                 foreach (var chapterModel in chapters)

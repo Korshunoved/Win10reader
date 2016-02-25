@@ -104,8 +104,8 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="Hyphen\Resources\en.pattern" />
-    <None Include="Hyphen\Resources\ru.pattern" />
+    <EmbeddedResource Include="Hyphen\Resources\en.pattern" />
+    <EmbeddedResource Include="Hyphen\Resources\ru.pattern" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>

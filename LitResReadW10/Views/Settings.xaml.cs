@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using BookParser;
 using Digillect.Mvvm;
@@ -50,28 +51,12 @@ namespace LitRes.Views
 		    }
             if (_readerPage == null)
                 _readerPage = Reader.Instance;
-		    try
-		    {		       
-                var font = _readerPage.ViewModel.ReaderSettings.Font;
-		        switch (font)
-		        {
-                    case 1:
-		                SansFont1.IsChecked = true;
-		                break;
-                    case 2:
-                        SerifFont2.IsChecked = true;
-                        break;
-                    case 3:
-                        MonoFont3.IsChecked = true;
-                        break;
-                }
-		    }
-		    catch (Exception)
-		    {
-		       //
-		    }
 
-		    HyphenationSwither.IsOn = AppSettings.Default.Hyphenation;
+		    SideIndentSlider.Value = AppSettings.Default.MarginIndex;
+
+		    LineSpacingSlider.Value = AppSettings.Default.FontSettings.FontInterval == 1.0f ? 1 : 2;
+
+            HyphenationSwither.IsOn = AppSettings.Default.Hyphenation;
 
             LightSlider.ValueChanged -= LightSlider_ValueChanged;
             LightSlider.ValueChanged += LightSlider_ValueChanged;
@@ -100,7 +85,10 @@ namespace LitRes.Views
             var toggle = sender as ToggleSwitch;
             if (toggle == null) return;
 	        AppSettings.Default.Hyphenation = toggle.IsOn;
-	    }
+            if (_readerPage == null)
+                _readerPage = Reader.Instance;
+            _readerPage.GoToChapter();
+        }
 
 	    protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
 	    {
@@ -138,7 +126,8 @@ namespace LitRes.Views
                 _readerPage = Reader.Instance;
             var slider = sender as Slider;
             if (slider == null) return;
-            _readerPage.ViewModel.ReaderSettings.FontSize = (int) slider.Value;
+
+            // = (int) slider.Value;
             _currentFontSize = (int)FontSizeSlider.Value;
             if (ViewModel != null)
                 ViewModel.FontSize = (int)slider.Value;
@@ -152,10 +141,32 @@ namespace LitRes.Views
             if (radioButton?.IsChecked == true)
             {
                 radioButton.Style = (Style)Application.Current.Resources["LitResRadioButtonStyle1"];
-                ViewModel.Font = int.Parse(Regex.Match(radioButton.Name, @"\d+").Value);
-                _readerPage.ViewModel.ReaderSettings.Font = int.Parse(Regex.Match(radioButton.Name, @"\d+").Value);
-                _readerPage.ViewModel.SaveSettings();
-                _readerPage.ChangeFont();
+                var fontNum = int.Parse(Regex.Match(radioButton.Name, @"\d+").Value);
+                switch (fontNum)
+                {
+                    case 0:
+                    case 1:
+                        if (_currentFontValue != fontNum)
+                        {
+                            AppSettings.Default.FontSettings.FontFamily = new FontFamily("/Fonts/PT Sans.ttf#PT Sans");
+                            _readerPage.ChangeFont();
+                        }
+                        break;
+                    case 2:
+                        if (_currentFontValue != fontNum)
+                        {
+                            AppSettings.Default.FontSettings.FontFamily = new FontFamily("PT Serif");
+                            _readerPage.ChangeFont();
+                        }
+                        break;
+                    case 3:
+                        if (_currentFontValue != fontNum)
+                        {
+                            AppSettings.Default.FontSettings.FontFamily = new FontFamily("/Fonts/PT Mono.ttf#PT Mono");
+                            _readerPage.ChangeFont();
+                        }
+                        break;
+                }                            
             }
         }
 
@@ -186,11 +197,32 @@ namespace LitRes.Views
                 slider.Value = (1 - ViewModel.Brightness)*100;
         }
 
+	    private int _currentFontValue;
+
         private void RadioButton_Loaded(object sender, RoutedEventArgs e)
         {
             var fontValue = 0;
-            if (ViewModel != null)
-                fontValue = ViewModel.Font;
+            try
+            {
+                var font = AppSettings.Default.FontSettings.FontFamily;
+                if (font.Source.Contains("PT Sans"))
+                {
+                    fontValue = 1;
+                }
+                else if (font.Source.Contains("PT Serif"))
+                {
+                    fontValue = 2;
+                }
+                else if (font.Source.Contains("PT Mono"))
+                {
+                    fontValue = 3;
+                }
+            }
+            catch (Exception)
+            {
+                //
+            }
+            _currentFontValue = fontValue;
             var radioButton = sender as RadioButton;
             if (radioButton == null) return;
             radioButton.Checked -= FontRadioButton_Checked;
@@ -200,10 +232,7 @@ namespace LitRes.Views
             var settingsFont = int.Parse(Regex.Match(radioButton.Name, @"\d+").Value);
             if (settingsFont != fontValue) return;
             radioButton.Style = (Style)Application.Current.Resources["LitResRadioButtonStyle1"];
-            radioButton.IsChecked = true;
-            _readerPage.ViewModel.ReaderSettings.Font = int.Parse(Regex.Match(radioButton.Name, @"\d+").Value);
-            _readerPage.ViewModel.SaveSettings();
-            _readerPage.ChangeFont();
+            radioButton.IsChecked = true;         
         }
 
         private void ThemeRadioButton_Loaded(object sender, RoutedEventArgs e)
@@ -256,16 +285,14 @@ namespace LitRes.Views
         }
 
         private void SideIndentSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
-        {            
+        {
             if (_readerPage == null)
                 _readerPage = Reader.Instance;
             var slider = sender as Slider;
             if (slider == null) return;
-            _readerPage.ViewModel.ReaderSettings.Margin = (int)slider.Value;            
-            if (ViewModel != null)
-                ViewModel.Margins = (int)slider.Value;
+            var value = (int)slider.Value;
+            AppSettings.Default.MarginIndex = value;
             _readerPage.ChangeMargins();
-            _readerPage.ViewModel.SaveSettings();
         }
 
         private void LineSpacingSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
@@ -274,11 +301,17 @@ namespace LitRes.Views
                 _readerPage = Reader.Instance;
             var slider = sender as Slider;
             if (slider == null) return;
-            _readerPage.ViewModel.ReaderSettings.CharacterSpacing = (int)slider.Value;
-            if (ViewModel != null)
-                ViewModel.Interlineage = (int)slider.Value;
+            var value = (int)slider.Value;
+            switch (value)
+            {
+                case 1:
+                    AppSettings.Default.FontSettings.FontInterval = 1f;
+                    break;
+                case 2:
+                    AppSettings.Default.FontSettings.FontInterval = 0.8f;
+                    break;
+            }
             _readerPage.ChangeCharacterSpacing();
-            _readerPage.ViewModel.SaveSettings();
         }
     }
 

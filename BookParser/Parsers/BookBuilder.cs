@@ -213,7 +213,7 @@ namespace BookParser.Parsers
 
         protected virtual LineBuilder CreateLineParser()
         {
-            return new LineBuilder(_pageSize.Width, _headerSizes, _textSize, _helper, _hyphenation, _useCssFontSize);
+            return new LineBuilder(_pageSize.Width-20, _headerSizes, _textSize, _helper, _hyphenation, _useCssFontSize);
         }
 
         private double GetImageHeight(string imageID)

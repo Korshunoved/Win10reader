@@ -26,6 +26,11 @@
                     <TranslateTransform />
                 </Canvas.RenderTransform>
             </Canvas>
+            <Canvas Name="FourthPage">
+                <Canvas.RenderTransform>
+                    <TranslateTransform />
+                </Canvas.RenderTransform>
+            </Canvas>
         </Grid>
         <Polygon 
             x:Name="SelectionPolygon" 

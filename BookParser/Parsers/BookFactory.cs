@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using Windows.Foundation;
-using Windows.UI.Core;
 using BookParser.Data;
 using BookParser.Fonts;
 using BookParser.Parsers.Fb2;
@@ -41,21 +40,6 @@ namespace BookParser.Parsers
 
         public static IFontHelper GetActiveFontMetrics(string family)
         {
-            /*  await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-              () =>
-              {
-                  try
-                  {
-                      if (!FontMetrics.ContainsKey(family))
-                      {                         
-                          FontMetrics[family] = new FontHelper(family);
-                          CurrentFontHelper = FontMetrics[family];
-                      }
-                  }
-                  catch (Exception)
-                  {
-                  }
-              });*/
             lock (FontMetrics)
             {
                 if (!FontMetrics.ContainsKey(family))
@@ -84,16 +68,14 @@ namespace BookParser.Parsers
         public static IBookBuilder GetBookParser(string bookType, BookTokenIterator bookTokens, int fontSize, Size pageSize, IEnumerable<BookImage> images)
         {
             var headerSizes = new ReadOnlyCollection<double>(new List<double> {24, 32, 42});
-            IFontHelper activeFontHelper = GetActiveFontMetrics("Segoe WP");
-            var abc = FontMetrics;
-         //   IFontHelper activeFontHelper = CurrentFontHelper;
+           // IFontHelper activeFontHelper = GetActiveFontMetrics(AppSettings.Default.FontSettings.FontFamily.Source);
             switch (bookType)
             {
                 case "fb2":
                 case "txt":
                 case "epub":
                 case "html":
-                    return new BookBuilder(bookTokens, images, headerSizes, activeFontHelper, pageSize, fontSize , true, true);
+                    return new BookBuilder(bookTokens, images, headerSizes, AppSettings.Default.FontSettings.FontHelper, pageSize, fontSize, AppSettings.Default.Hyphenation, /*AppSettings.Default.UseCSSFontSize = */false);
                 default:
                     throw new NotSupportedException("Book type '" + bookType + "' is not supported!");
             }

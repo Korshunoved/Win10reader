@@ -1061,12 +1061,12 @@
                    MaxWidth="400"
                    TextWrapping="Wrap"
                    TextTrimming="WordEllipsis"
-                   Text="{Binding Path=t}" 
+                   Text="{Binding Title}" 
                    Style="{StaticResource SmallSemiBoldBlackTextStyle}"  />
             <TextBlock Margin="0,0,0,0" Padding="0,0,0,0"
                    RelativePanel.AlignRightWithPanel="True"
                    RelativePanel.AlignVerticalCenterWithPanel="True"
-                   Text="{Binding Path=s}" 
+                   Text="{Binding Page}" 
                    Style="{StaticResource SmallBlackTextStyle}"  />
         </RelativePanel>
     </DataTemplate>

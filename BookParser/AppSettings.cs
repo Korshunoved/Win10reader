@@ -27,6 +27,7 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using BookParser.Fonts;
 using BookParser.Models;
 
 namespace BookParser
@@ -84,6 +85,8 @@ namespace BookParser
 
         public BookModel CurrentBook { get; set; }
 
+        public IEnumerable<ChapterModel> Chapters { get; set; } 
+
         public bool LockScreen
         {
             get { return _settingsStorage.GetValueWithDefault("LockScreen", DEFAULT_LOCK_SCREEN); }
@@ -113,9 +116,12 @@ namespace BookParser
             set { _settingsStorage.SetValue("MarginKey", value); }
         }
 
-        public Thickness Margin
+        public Thickness Margin { get; set; }
+
+        public int MarginIndex
         {
-            get { return Margins[MarginKey]; }
+            get { return _settingsStorage.GetValueWithDefault("MarginIndex", 3); }
+            set { _settingsStorage.SetValue("MarginIndex", value); }
         }
 
         public ColorSchemes ColorSchemeKey
@@ -212,12 +218,6 @@ namespace BookParser
             set { _settingsStorage.SetValue("IsFirstTimeRunning", value); }
         }
 
-        public bool DontShowUploadToSkyDriveMessage
-        {
-            get { return _settingsStorage.GetValueWithDefault("DontShowUploadToSkyDriveMessage", false); }
-            set { _settingsStorage.SetValue("DontShowUploadToSkyDriveMessage", value); }
-        }
-
         public int Brightness
         {
             get { return _settingsStorage.GetValueWithDefault("Brightness", 100); }
@@ -264,52 +264,12 @@ namespace BookParser
     public class FontSettings
     {
         private const decimal DEFAULT_FONT_SIZE = 24;
-        private const decimal DEFAULT_FONT_INTERVAL = 1.0M;
-        public const string DEFAULT_FONT_FAMILY = "Segoe WP";
+        private const float DEFAULT_FONT_INTERVAL = 1f;
+        public const string DEFAULT_FONT_FAMILY = "/Fonts/PT Sans.ttf#PT Sans";
+
+        public IFontHelper FontHelper { get; set; }
 
         private readonly SettingsStorage _settingsStorage;
-
-        private readonly List<FontFamily> _fonts = new List<string>
-        {
-            "Arial Black",
-            "Arial Bold",
-            "Arial Italic",
-            "Arial",
-            "Calibri Bold",
-            "Calibri Italic",
-            "Calibri",
-            "Comic Sans MS Bold",
-            "Comic Sans MS",
-            "Courier New Bold",
-            "Courier New Italic",
-            "Courier New",
-            "Georgia Bold",
-            "Georgia Italic",
-            "Georgia",
-            "Lucida Sans Unicode",
-            "Malgun Gothic",
-            "Meiryo UI",
-            "Microsoft YaHei",
-            "Segoe UI Bold",
-            "Segoe UI",
-            "Segoe WP Black",
-            "Segoe WP Bold",
-            "Segoe WP Light",
-            "Segoe WP Semibold",
-            "Segoe WP SemiLight",
-            "Segoe WP",
-            "Tahoma Bold",
-            "Tahoma",
-            "Times New Roman Bold",
-            "Times New Roman Italic",
-            "Times New Roman",
-            "Trebuchet MS Bold",
-            "Trebuchet MS Italic",
-            "Trebuchet MS",
-            "Verdana Bold",
-            "Verdana Italic",
-            "Verdana",
-        }.Select(f => new FontFamily(f)).ToList();
 
         private readonly List<decimal> _sizes = new List<decimal>
         {
@@ -337,11 +297,6 @@ namespace BookParser
             _settingsStorage = settingsStorage;
         }
 
-        public List<FontFamily> Fonts
-        {
-            get { return _fonts; }
-        }
-
         public List<decimal> Sizes
         {
             get { return _sizes; }
@@ -358,15 +313,19 @@ namespace BookParser
             set { _settingsStorage.SetValue("FontSize", value); }
         }
 
-        public decimal FontInterval
+        public float FontInterval
         {
-            get { return _settingsStorage.GetValueWithDefault("FontInterval", DEFAULT_FONT_INTERVAL); }
-            set { _settingsStorage.SetValue("FontInterval", value); }
+            get
+            {
+                var val = _settingsStorage.GetValueWithDefault("FontInterval", DEFAULT_FONT_INTERVAL);
+                return val;
+            }
+            set { _settingsStorage.SetValue("FontInterval", (float)value); }
         }
 
         public FontFamily FontFamily
         {
-            get { return new FontFamily( DEFAULT_FONT_FAMILY); }
+            get { return new FontFamily(_settingsStorage.GetValueWithDefault("FontFamily", DEFAULT_FONT_FAMILY)); }
             set { _settingsStorage.SetValue("FontFamily", value.Source); }
         }
     }

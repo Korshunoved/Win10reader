@@ -45,7 +45,7 @@ namespace LitResReadW10.Controllers
         private readonly BookData _data;
         private readonly List<BookImage> _images;
 
-        public ReadController(IBookView page, BookModel book, string bookId, ReaderSettings settings, int offset = 0)
+        public ReadController(IBookView page, BookModel book, string bookId, int offset = 0)
         {
             _data = new BookData(bookId);
             _bookView = page;

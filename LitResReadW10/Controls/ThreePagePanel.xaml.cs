@@ -119,6 +119,14 @@ namespace LitResReadW10.Controls
             return (Panel)RootGrid.Children[index];
         }
 
+        public void SetColor(Color color)
+        {
+            foreach (Panel child in RootGrid.Children)
+            {
+                child.Background = new SolidColorBrush(color);
+            }
+        }
+
         public void SetSize(double width, double height, double workWidth, double workHeight)
         {
             _workWidth = workWidth;
@@ -130,9 +138,9 @@ namespace LitResReadW10.Controls
             foreach (Panel p in RootGrid.Children)
             {
                 p.Width = width;
-                p.Height = height;
-
-                p.Clip = new RectangleGeometry { Rect = new Rect(0, 0, width, height) };
+                p.Height = height + 15;
+                
+                p.Clip = new RectangleGeometry { Rect = new Rect(0, 0, p.Width, p.Height) };
             }
         }
 

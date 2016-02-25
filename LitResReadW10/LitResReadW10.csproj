@@ -128,6 +128,9 @@
     <Content Include="Assets\Icons\support_black.png" />
     <Content Include="Assets\Icons\support_orabge.png" />
     <Content Include="Assets\Icons\support_white.png" />
+    <Content Include="Assets\Icons\ThemeIcons\Sepia.png" />
+    <Content Include="Assets\Icons\ThemeIcons\Dark.png" />
+    <Content Include="Assets\Icons\ThemeIcons\Light.png" />
     <Content Include="Assets\Rating.scale-100.png" />
     <Content Include="Assets\Rating.scale-125.png" />
     <Content Include="Assets\Rating.scale-150.png" />
