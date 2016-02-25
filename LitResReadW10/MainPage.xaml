@@ -82,16 +82,46 @@
                             Style="{StaticResource SplitViewNavButtonMyBookStyle}"                          
                             Content="Мои книги"/>
                         <RadioButton 
-                            x:Name="ShopButton"
-                            Tag="Shop"
+                            x:Name="GenreButton"
+                            Tag="Genres"
                             GroupName="MainMenuGroup"
                             Checked="PaneNavButtons_OnChecked"
                             RelativePanel.AlignLeftWithPanel="True"
                             RelativePanel.Below="MyBooksButton"
                             Padding="0,0,0,0"
-                            Style="{StaticResource SplitViewNavButtonShopStyle}" 
-                            Content="Магазин"/>
+                            Style="{StaticResource SplitViewNavButtonGenresStyle}" 
+                            Content="Жанры"/>
                         <RadioButton 
+                            x:Name="EditorsChoiceButton"
+                            Tag="EditorsChoice"
+                            GroupName="MainMenuGroup"
+                            Checked="PaneNavButtons_OnChecked"
+                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.Below="GenreButton"
+                            Padding="0,0,0,0"
+                            Style="{StaticResource SplitViewNavButtonEditorsChoiceStyle}" 
+                            Content="Выбор редакции"/>
+                        <RadioButton 
+                            x:Name="NoveltyButton"
+                            Tag="Novelty"
+                            GroupName="MainMenuGroup"
+                            Checked="PaneNavButtons_OnChecked"
+                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.Below="EditorsChoiceButton"
+                            Padding="0,0,0,0"
+                            Style="{StaticResource SplitViewNavButtonNoveltyStyle}" 
+                            Content="Новинки"/>
+                        <RadioButton 
+                            x:Name="PopularButton"
+                            Tag="Popular"
+                            GroupName="MainMenuGroup"
+                            Checked="PaneNavButtons_OnChecked"
+                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.Below="NoveltyButton"
+                            Padding="0,0,0,0"
+                            Style="{StaticResource SplitViewNavButtonPopularStyle}" 
+                            Content="Популярное"/>
+                        <!--<RadioButton 
                             Name="DescriptionButton"
                             Tag="Notifications"
                             GroupName="MainMenuGroup"
@@ -100,14 +130,14 @@
                             RelativePanel.Below="ShopButton"
                             Padding="0,0,0,0"
                             Style="{StaticResource SplitViewNavButtonDescriptionStyle}" 
-                            Content="Подписки"/>
+                            Content="Подписки"/>-->
                         <RadioButton 
                             Name="SupportButton"
                             Tag="Support"
                             GroupName="MainMenuGroup"
                             Checked="PaneNavButtons_OnChecked"
                             RelativePanel.AlignLeftWithPanel="True"
-                            RelativePanel.Below="DescriptionButton"
+                            RelativePanel.Below="PopularButton"
                             Padding="0,0,0,0"
                             Style="{StaticResource SplitViewNavButtonSupportStyle}" 
                             Content="Письмо в поддержку"/>

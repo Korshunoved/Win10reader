@@ -195,13 +195,15 @@ namespace LitRes.Services
 			}
 		}
 
-		public async Task SubscribeDevice( string token, CancellationToken cancellationToken )
+		public async Task SubscribeDevice(string token, CancellationToken cancellationToken)
 		{
 			var parameters = new Dictionary<string, object>
 				{
 					{"action", "store_device_key"},									
-					{"token", token},			
-					{"mac", _deviceInfoService.DeviceId}			
+					{"token", token},
+                    {"app", 93}			
+					//{"mac", _deviceInfoService.DeviceId}
+                   
 				};
 
 			var result = await _client.SubscribeDevice(parameters, cancellationToken);

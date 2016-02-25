@@ -46,7 +46,7 @@ namespace LitResReadW10
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_BackRequested;
             
-            CheckNavButton(ShopButton, false);
+            CheckNavButton(MyBooksButton, false);
         }
 
         private void OnNavigatingToPage(object sender, NavigatingCancelEventArgs e)
@@ -165,10 +165,10 @@ namespace LitResReadW10
             {
                 _navigationService.Navigate("MyBooks");
             }
-            else if (navButton.Tag.Equals("Notifications"))
-            {
-                _navigationService.Navigate("Notifications");
-            }
+            //else if (navButton.Tag.Equals("Notifications"))
+            //{
+            //    _navigationService.Navigate("Notifications");
+            //}
             else if (navButton.Tag.Equals("Support"))
             {
                 EmailHelper.OpenEmailClientWithLitresInfo();
@@ -184,9 +184,25 @@ namespace LitResReadW10
                     return;
                 }
             }
+            else if (navButton.Tag.Equals("Genres"))
+            {
+                _navigationService.Navigate("ShopGenres");
+            }
+            else if (navButton.Tag.Equals("Popular"))
+            {
+                _navigationService.Navigate("ShopPopular");
+            }
+            else if (navButton.Tag.Equals("Novelty"))
+            {
+                _navigationService.Navigate("ShopNovelty");
+            }
+            else if (navButton.Tag.Equals("EditorsChoice"))
+            {
+                _navigationService.Navigate("ShopEditorsChoice");
+            }
             else
             {
-                _navigationService.Navigate("Main");
+                _navigationService.Navigate("MyBooks");
             }
 
             if (_previousNavButton == null) _previousNavButton = navButton;

@@ -186,8 +186,6 @@
                                         </GridView.Footer>
                                     </GridView>
 
-                                   
-
                                     <GridView                
                                             x:Name="InterestingBooksGridView"                    
                                             AutomationProperties.AutomationId="ItemInterestingBooksGridView"

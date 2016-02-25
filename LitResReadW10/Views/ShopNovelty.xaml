@@ -1,0 +1,151 @@
+﻿<views:ShopNoveltyFitting
+    x:Class="LitResReadW10.Views.ShopNovelty"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:selectors="using:LitRes.Selectors"
+    xmlns:valueConverters="using:LitRes.ValueConverters"
+    xmlns:controls="using:LitRes.Controls"
+    xmlns:ui="using:Digillect.Mvvm.UI"
+    xmlns:views="using:LitResReadW10.Views"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource LitResForegroundBrush}">
+
+    <ui:WindowsRTPage.Resources>
+        <ResourceDictionary>
+            <valueConverters:DrmBookOpacityConverter x:Key="DrmBookOpacityConverter" />
+            <valueConverters:UrlToImageConverter x:Key="UrlToImageConverter" />
+        </ResourceDictionary>
+    </ui:WindowsRTPage.Resources>
+
+    <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}">
+        <ScrollViewer Grid.Row="0"
+                      Padding="0,0,0,0"
+                      Margin="0,10,0,0"
+                      x:Name="MainScrollViewer"
+                      HorizontalContentAlignment="Stretch"
+                      HorizontalScrollMode="Disabled"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Hidden">
+            <StackPanel Margin="0" Padding="0">
+                <StackPanel x:Name="PhoneNoveltyStackPanelWithListViews" Margin="0" Padding="0">
+                    <ListView x:Name="NoveltyBooks"
+                              Margin="10,10,10,10"
+                              Padding="0,0,0,0"
+                              BorderThickness="0"
+                              HorizontalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch"
+                              ItemsSource="{Binding ViewModel.NoveltyBooks}"
+                              ItemTemplateSelector="{StaticResource ListBoxBookTemplate}"
+                              ItemContainerStyle="{StaticResource ListViewStretchStyle}"
+                              Tapped="Body_Tap"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                              ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListView.Footer>
+                            <Button
+                                HorizontalAlignment="Stretch"
+                                Command="{Binding ViewModel.ShowNewBooks}"
+                                Style="{StaticResource PromotedButton}"
+                                Visibility="{Binding ViewModel.NoveltyBooks.Count, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}">
+                                <TextBlock
+                                    Text="ВСЕ НОВИНКИ"
+                                    Margin="10"
+                                    FontSize="16"
+                                    Foreground="{StaticResource LitResOrangeBrush}"
+                                    FontWeight="SemiBold"
+                                    TextAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center" />
+                            </Button>
+                        </ListView.Footer>
+                    </ListView>
+                </StackPanel>
+                <StackPanel x:Name="WideNoveltyStackPanelWithListViews"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Margin="10,0,10,0"
+                            Padding="0"
+                            Orientation="Vertical"
+                            Visibility="Collapsed">
+                    <GridView
+                        x:Name="NoveltyBooksGridView"
+                        AutomationProperties.AutomationId="ItemNoveltyBooksGridView"
+                        AutomationProperties.Name="Grouped NoveltyBooksGridView"
+                        Margin="10,0,10,10"
+                        Padding="0,0,0,0"
+                        BorderThickness="0"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Stretch"
+                        ItemsSource="{Binding ViewModel.NoveltyBooks}"
+                        ItemTemplateSelector="{StaticResource GridViewBookTemplate}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                        ItemClick="Body_Click"
+                        SelectionMode="None"
+                        IsSwipeEnabled="false"
+                        IsItemClickEnabled="True">
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                        <GridView.Footer>
+                            <Button
+                                HorizontalAlignment="Stretch"
+                                Command="{Binding ViewModel.ShowNewBooks}"
+                                Style="{StaticResource PromotedButton}"
+                                Visibility="{Binding ViewModel.NoveltyBooks.Count, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}">
+                                <TextBlock
+                                    Text="ВСЕ НОВИНКИ"
+                                    Margin="10"
+                                    FontSize="16"
+                                    Foreground="{StaticResource LitResOrangeBrush}"
+                                    FontWeight="SemiBold"
+                                    TextAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center" />
+                            </Button>
+                        </GridView.Footer>
+                    </GridView>
+
+                </StackPanel>
+            </StackPanel>
+
+        </ScrollViewer>
+        <controls:PageHeader x:Name="pageHeader" Loaded="pageHeader_Loaded" />
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="PCState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1150" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PhoneNoveltyStackPanelWithListViews.Visibility" Value="Collapsed" />
+                        <Setter Target="WideNoveltyStackPanelWithListViews.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="TabletState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="800" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="PhoneNoveltyStackPanelWithListViews.Visibility" Value="Collapsed" />
+                        <Setter Target="WideNoveltyStackPanelWithListViews.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="PhoneState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</views:ShopNoveltyFitting>

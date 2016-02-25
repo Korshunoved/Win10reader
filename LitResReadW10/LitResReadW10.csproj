@@ -98,6 +98,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\FacebookLogo.png" />
     <Content Include="Assets\Icons\about_black.png" />
     <Content Include="Assets\Icons\about_orange.png" />
     <Content Include="Assets\Icons\about_white.png" />
@@ -146,6 +147,7 @@
     <Content Include="Assets\RatingDisabled.scale-150.png" />
     <Content Include="Assets\RatingDisabled.scale-200.png" />
     <Content Include="Assets\RatingDisabled.scale-400.png" />
+    <Content Include="Assets\RatingNotFilled.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-125.png" />
     <Content Include="Assets\SplashScreen.scale-150.png" />
@@ -246,6 +248,16 @@
     <Content Include="Assets\W10Icons\Bookmark\bookmark_orange.scale-125.png" />
     <Content Include="Assets\W10Icons\Bookmark\bookmark_orange.scale-150.png" />
     <Content Include="Assets\W10Icons\Bookmark\bookmark_orange.scale-200.png" />
+    <Content Include="Assets\W10Icons\EditorsChoice\editors_choice_orange.scale-100.png" />
+    <Content Include="Assets\W10Icons\EditorsChoice\editors_choice_orange.scale-125.png" />
+    <Content Include="Assets\W10Icons\EditorsChoice\editors_choice_orange.scale-150.png" />
+    <Content Include="Assets\W10Icons\EditorsChoice\editors_choice_orange.scale-200.png" />
+    <Content Include="Assets\W10Icons\EditorsChoice\editors_choice_orange.scale-400.png" />
+    <Content Include="Assets\W10Icons\EditorsChoice\editors_choice_white.scale-100.png" />
+    <Content Include="Assets\W10Icons\EditorsChoice\editors_choice_white.scale-125.png" />
+    <Content Include="Assets\W10Icons\EditorsChoice\editors_choice_white.scale-150.png" />
+    <Content Include="Assets\W10Icons\EditorsChoice\editors_choice_white.scale-200.png" />
+    <Content Include="Assets\W10Icons\EditorsChoice\editors_choice_white.scale-400.png" />
     <Content Include="Assets\W10Icons\EmptyNotifications\empty_podpiski.scale-100.png" />
     <Content Include="Assets\W10Icons\EmptyNotifications\empty_podpiski.scale-125.png" />
     <Content Include="Assets\W10Icons\EmptyNotifications\empty_podpiski.scale-150.png" />
@@ -261,6 +273,16 @@
     <Content Include="Assets\W10Icons\Follow\follow_white.scale-150.png" />
     <Content Include="Assets\W10Icons\Follow\follow_white.scale-200.png" />
     <Content Include="Assets\W10Icons\Follow\follow_white.scale-400.png" />
+    <Content Include="Assets\W10Icons\Genres\shop_orange.scale-100.png" />
+    <Content Include="Assets\W10Icons\Genres\shop_orange.scale-125.png" />
+    <Content Include="Assets\W10Icons\Genres\shop_orange.scale-150.png" />
+    <Content Include="Assets\W10Icons\Genres\shop_orange.scale-200.png" />
+    <Content Include="Assets\W10Icons\Genres\shop_orange.scale-400.png" />
+    <Content Include="Assets\W10Icons\Genres\shop_white.scale-100.png" />
+    <Content Include="Assets\W10Icons\Genres\shop_white.scale-125.png" />
+    <Content Include="Assets\W10Icons\Genres\shop_white.scale-150.png" />
+    <Content Include="Assets\W10Icons\Genres\shop_white.scale-200.png" />
+    <Content Include="Assets\W10Icons\Genres\shop_white.scale-400.png" />
     <Content Include="Assets\W10Icons\Koshelek\koshelek.scale-100.png" />
     <Content Include="Assets\W10Icons\Koshelek\koshelek.scale-125.png" />
     <Content Include="Assets\W10Icons\Koshelek\koshelek.scale-150.png" />
@@ -294,10 +316,29 @@
     <Content Include="Assets\W10Icons\MyBooks\mybooks_white.scale-150.png" />
     <Content Include="Assets\W10Icons\MyBooks\mybooks_white.scale-200.png" />
     <Content Include="Assets\W10Icons\MyBooks\mybooks_white.scale-400.png" />
+    <Content Include="Assets\W10Icons\Novelty\novelty_orange.scale-100.png" />
+    <Content Include="Assets\W10Icons\Novelty\novelty_orange.scale-125.png" />
+    <Content Include="Assets\W10Icons\Novelty\novelty_orange.scale-150.png" />
+    <Content Include="Assets\W10Icons\Novelty\novelty_orange.scale-200.png" />
+    <Content Include="Assets\W10Icons\Novelty\novelty_orange.scale-400.png" />
+    <Content Include="Assets\W10Icons\Novelty\novelty_white.scale-100.png" />
+    <Content Include="Assets\W10Icons\Novelty\novelty_white.scale-125.png" />
+    <Content Include="Assets\W10Icons\Novelty\novelty_white.scale-150.png" />
+    <Content Include="Assets\W10Icons\Novelty\novelty_white.scale-200.png" />
+    <Content Include="Assets\W10Icons\Novelty\novelty_white.scale-400.png" />
     <Content Include="Assets\W10Icons\Options\options_black.scale-100.png" />
     <Content Include="Assets\W10Icons\Options\options_black.scale-125.png" />
     <Content Include="Assets\W10Icons\Options\options_black.scale-150.png" />
     <Content Include="Assets\W10Icons\Options\options_black.scale-200.png" />
+    <Content Include="Assets\W10Icons\Popular\popular_orange.scale-125.png" />
+    <Content Include="Assets\W10Icons\Popular\popular_orange.scale-150.png" />
+    <Content Include="Assets\W10Icons\Popular\popular_orange.scale-200.png" />
+    <Content Include="Assets\W10Icons\Popular\popular_orange.scale-400.png" />
+    <Content Include="Assets\W10Icons\Popular\popular_white.scale-100.png" />
+    <Content Include="Assets\W10Icons\Popular\popular_white.scale-125.png" />
+    <Content Include="Assets\W10Icons\Popular\popular_white.scale-150.png" />
+    <Content Include="Assets\W10Icons\Popular\popular_white.scale-200.png" />
+    <Content Include="Assets\W10Icons\Popular\popular_white.scale-400.png" />
     <Content Include="Assets\W10Icons\Profile\profile_black.scale-100.png" />
     <Content Include="Assets\W10Icons\Profile\profile_black.scale-125.png" />
     <Content Include="Assets\W10Icons\Profile\profile_black.scale-150.png" />
@@ -602,6 +643,18 @@
     <Compile Include="Views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ShopEditorsChoice.xaml.cs">
+      <DependentUpon>ShopEditorsChoice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShopGenres.xaml.cs">
+      <DependentUpon>ShopGenres.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShopNovelty.xaml.cs">
+      <DependentUpon>ShopNovelty.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShopPopular.xaml.cs">
+      <DependentUpon>ShopPopular.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserInfo.xaml.cs">
       <DependentUpon>UserInfo.xaml</DependentUpon>
     </Compile>
@@ -856,6 +909,22 @@
     <Page Include="Views\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ShopEditorsChoice.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ShopGenres.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ShopNovelty.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ShopPopular.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserInfo.xaml">
       <Generator>MSBuild:Compile</Generator>
