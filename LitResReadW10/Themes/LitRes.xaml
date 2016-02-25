@@ -22,7 +22,7 @@
     <Color x:Key="LitResOrangeColor">#FF4C00</Color>
 
     <Color x:Key="LitResGreenColor">#0E8500</Color>
-    <Color x:Key="LitResGreenTouchColor">#0B6A00</Color>
+    <Color x:Key="LitResGreenTouchColor">#007500</Color>
 
     <Color x:Key="LitResAccentColor">#FFFF4D15</Color>
 	<Color x:Key="LitResCloudColor">#FFFF8F49</Color>

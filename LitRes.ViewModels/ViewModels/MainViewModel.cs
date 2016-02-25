@@ -57,7 +57,7 @@ namespace LitRes.ViewModels
 		private XCollection<Book> _popularBooks;
 		private XCollection<Book> _interestingBooks;
 
-	    private int _booksPerPage = 3;
+	    private int _booksPerPage = 30;
 
 		private MyBooksViewStateEnum _myBooksViewState;
 
@@ -125,7 +125,7 @@ namespace LitRes.ViewModels
             var deviceFamily = _deviceInfoService.DeviceFamily;
             if (!string.IsNullOrEmpty(deviceFamily) && deviceFamily.Equals("Windows.Desktop"))
             {
-                _booksPerPage = 6;
+                _booksPerPage = 30;
             }
 
             ////MyBooks reload allways, may change account information

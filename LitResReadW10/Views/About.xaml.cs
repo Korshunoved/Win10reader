@@ -38,6 +38,8 @@ namespace LitRes.Views
 		public About()
 		{
             InitializeComponent();
+		    if (!SystemInfoHelper.IsDesktop())
+		        Title.Visibility = Visibility.Collapsed;
 		    Loaded += About_Loaded;
 		}
 

@@ -1,13 +1,13 @@
 ﻿<Page
-	x:Class="LitRes.Views.About"
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	mc:Ignorable="d"
-	FontFamily="{StaticResource PhoneFontFamilyNormal}"
-	FontSize="{StaticResource PhoneFontSizeNormal}"
-	Foreground="{StaticResource LitResForegroundBrush}"
+    x:Class="LitRes.Views.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource LitResForegroundBrush}"
     Padding="0"
     Margin="0"
     DataContext="{Binding RelativeSource={RelativeSource Self}}">
@@ -15,156 +15,197 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid Margin="0" Padding="0" Background="{StaticResource LitresMainBackgroundBrush}">
         <ScrollViewer Background="{StaticResource LitresMainBackgroundBrush}"
-                  Margin="10,0,10,0"
-                  Padding="0"
-                  HorizontalAlignment="Stretch"
-                  IsVerticalRailEnabled="True"
-                  VerticalScrollBarVisibility="Auto"
-                  VerticalScrollMode="Enabled"
-                  HorizontalScrollMode="Disabled">
-        <Grid x:Name="LayoutRoot"  Padding="0" Margin="0">
-        
-        <Grid.RowDefinitions>
-            <!--<RowDefinition Height="Auto"/>-->
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        
-        <!--<TextBlock Grid.Row="0"
-                   x:Uid="AboutPageTitle"
-                   FontFamily="Segoe WP SemiBold" 
-                   
-                   FontSize="23" 
-                   Foreground="{StaticResource LitResAccentBrush}"
-                   Margin="15,34,15,0"/>-->
+                      Margin="10,0,10,0"
+                      Padding="0"
+                      HorizontalAlignment="Stretch"
+                      IsVerticalRailEnabled="True"
+                      VerticalScrollBarVisibility="Auto"
+                      VerticalScrollMode="Enabled"
+                      HorizontalScrollMode="Disabled">
+            <Grid x:Name="LayoutRoot" Padding="0" Margin="0">
 
-        <StackPanel Grid.Row="0" HorizontalAlignment="Left" Orientation="Vertical">
-            <TextBlock Margin="15,15,15,0" Text="{Binding AboutTitle}" Style="{StaticResource BigNormalSemiBoldBlackTextStyle}"/>
-        </StackPanel>
+                <Grid.RowDefinitions>
+                    <!--<RowDefinition Height="Auto"/>-->
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
 
-            <StackPanel Margin="0,32,0,32" Grid.Row="1" HorizontalAlignment="Center" Orientation="Vertical" Background="White">
-            <Image Source="/Assets/W10Images/MyBookColor/MyBookColor.png" 
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Center"
-                    Stretch="None"
-                    Margin="0,20,0,0"/>
-                    <TextBlock
-                       TextWrapping="Wrap"
-                       Style="{StaticResource SmallSemiBoldBlackTextStyle}"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Top"
-                       Margin="15,27,15,0">
-                        <Run>«ЛитРес» - продавец лицензионных электронных книг №1 в России и СНГ.
-                             Нам доверяют ведущие издательства
-                             и авторы, издающиеся на русском языке.</Run>
-                        <LineBreak/>
-                        <LineBreak/>
-                        <Run>Компания «ЛитРес» основана в 2006 году
-                             и является крупнейшим продавцом лицензионных электронных книг
-                             в России. На сегодняшний день ассортимент компании насчитывает несколько десятков тысяч электронных книг. Каждый месяц в каталоге компании появляется от 1500 до 2000 новых книг.
-                        </Run>
-                        <LineBreak/>
-                        <LineBreak/>
-                        <Run>Если у вас возникли вопросы, пожелания или технические проблемы, напишите нам на</Run>
-                        <LineBreak/>
-                        <Hyperlink Click="SendEmail_Click" Foreground="{StaticResource LitResAccentBrush}">windows@litres.ru</Hyperlink>
-                     </TextBlock>
-                    <TextBlock
-                           TextWrapping="Wrap"
-                           Style="{StaticResource SmallSemiBoldBlackTextStyle}"
-                           Foreground="#868686"
-                           VerticalAlignment="Bottom"
-                           Margin="15,25,15,20">
-                            <TextBlock.Inlines>
-                                <Run x:Uid="AppVersionText"/>
-                                <Run Text="{Binding Path=ApplicationVersion, Mode=OneWay}" />
-                            </TextBlock.Inlines>
-                        </TextBlock>
+                <StackPanel x:Name="Title" Grid.Row="0" HorizontalAlignment="Left" Orientation="Vertical">
+                    <TextBlock Margin="15,15,15,0" Text="{Binding AboutTitle}"
+                               Style="{StaticResource BigNormalSemiBoldBlackTextStyle}" />
                 </StackPanel>
-            
 
-        <!--<TextBlock Grid.Row="1" 
-                   x:Uid="AboutText"
-                   TextWrapping="Wrap"
-                   FontFamily="Segoe WP"
-                   FontSize="18"
-                   Foreground="Black"
-                   
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Top"
-                   Margin="15,27,15,0"/>
+                <StackPanel Margin="0,15,0,8" Grid.Row="1" HorizontalAlignment="Center" Orientation="Vertical"
+                            Background="White">
+                    <Image Source="/Assets/W10Images/MyBookColor/MyBookColor.png"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Center"
+                           Stretch="None"
+                           Margin="0,20,0,0" />
+                    <TextBlock
+                        TextWrapping="Wrap"
+                        Style="{StaticResource SmallSemiBoldBlackTextStyle}"
+                        FontWeight="Normal"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Margin="15,27,15,0">
+                        <Run>
+                            «ЛитРес» - продавец лицензионных электронных книг №1 в России и СНГ.
+                            Нам доверяют ведущие издательства
+                            и авторы, издающиеся на русском языке.
+                        </Run>
+                        <LineBreak />
+                        <LineBreak />
+                        <Run>
+                            Компания «ЛитРес» основана в 2006 году
+                            и является крупнейшим продавцом лицензионных электронных книг
+                            в России. На сегодняшний день ассортимент компании насчитывает несколько десятков тысяч электронных книг. Каждый месяц в каталоге компании появляется от 1500 до 2000 новых книг.
+                        </Run>
+                        <LineBreak />
+                        <LineBreak />
+                        <Run>Если у вас возникли вопросы, пожелания или технические проблемы, напишите нам на</Run>
+                        <LineBreak />
+                        <Hyperlink Click="SendEmail_Click" Foreground="{StaticResource LitResAccentBrush}">windows@litres.ru</Hyperlink>
+                    </TextBlock>
+                    <TextBlock
+                        TextWrapping="Wrap"
+                        Style="{StaticResource SmallSemiBoldBlackTextStyle}"
+                        Foreground="#868686"
+                        VerticalAlignment="Bottom"
+                        Margin="15,25,15,20">
+                        <TextBlock.Inlines>
+                            <Run x:Uid="AppVersionText" />
+                            <Run Text="{Binding Path=ApplicationVersion, Mode=OneWay}" />
+                        </TextBlock.Inlines>
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel x:Name="StackPanelWithGridViews" Grid.Row="2" Margin="0,0,0,10" Padding="0">
+                    <Grid Padding="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Grid.Column="0" Margin="3,0,4,0" HorizontalAlignment="Stretch"
+                                    Orientation="Vertical" Background="White">
+                            <TextBlock
+                                Margin="0,15,0,0"
+                                TextWrapping="Wrap"
+                                FontFamily="Segoe WP"
+                                FontSize="18"
+                                Foreground="{StaticResource LitResAccentBrush}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top">
+                                Оцените нас
+                            </TextBlock>
+                            <Image Source="/Assets/RatingNotFilled.png"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Center"
+                                   Stretch="None"
+                                   Margin="0,20,0,15" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="0" Grid.Column="1" Margin="4,0,3,0" HorizontalAlignment="Stretch"
+                                    Orientation="Vertical" Background="White">
+                            <TextBlock
+                                Margin="0,15,0,0"
+                                TextWrapping="Wrap"
+                                FontFamily="Segoe WP"
+                                FontSize="18"
+                                Foreground="#39579f"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top">
+                                Мы на Facebook
+                            </TextBlock>
+                            <Image Source="/Assets/FacebookLogo.png"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Center"
+                                   Stretch="None"
+                                   Margin="0,20,0,15" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+                <StackPanel x:Name="StackPanelWithListViews" Grid.Row="2" Margin="0,0,0,10" Padding="0">
+                    <ListView
+                        Padding="0">
+                        <StackPanel Margin="1,0,0,0" HorizontalAlignment="Stretch"
+                                    Orientation="Vertical" Background="White">
+                            <TextBlock
+                                Margin="0,15,0,0"
+                                TextWrapping="Wrap"
+                                FontFamily="Segoe WP"
+                                FontSize="18"
+                                Foreground="{StaticResource LitResAccentBrush}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top">
+                                Оцените нас
+                            </TextBlock>
+                            <Image Source="/Assets/RatingNotFilled.png"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Center"
+                                   Stretch="None"
+                                   Margin="0,20,0,15" />
+                        </StackPanel>
+                        <StackPanel Margin="1,0,0,0" HorizontalAlignment="Stretch"
+                                    Orientation="Vertical" Background="White">
+                            <TextBlock
+                                Margin="0,15,0,0"
+                                TextWrapping="Wrap"
+                                FontFamily="Segoe WP"
+                                FontSize="18"
+                                Foreground="#39579f"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top">
+                                Мы на Facebook
+                            </TextBlock>
+                            <Image Source="/Assets/FacebookLogo.png"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Center"
+                                   Stretch="None"
+                                   Margin="0,20,0,15" />
+                        </StackPanel>
+                    </ListView>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="PCState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1150" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
 
-        <RichTextBlock Grid.Row="2"
-                     TextWrapping="Wrap"
-                     FontFamily="Segoe WP"
-                     FontSize="18"
-                     Foreground="Black"
-                     HorizontalAlignment="Left"
-                     VerticalAlignment="Top"
-                      
-                     Margin="15,24,15,0">
+                        <Setter Target="StackPanelWithListViews.Visibility" Value="Collapsed" />
+                        <Setter Target="Title.Visibility" Value="Visible" />
+                        <Setter Target="StackPanelWithGridViews.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
 
-            <RichTextBlock.Blocks>
-                    <Paragraph>
-                        <Run x:Uid="OfferText"/>
-                        <Hyperlink NavigateUri="http://www.litres.ru/pages/litres_oferta/" 
-                                   Foreground="{StaticResource LitResAccentBrush}">договором публичной оферты
-                        </Hyperlink>
-                    </Paragraph>
-            </RichTextBlock.Blocks>
-        </RichTextBlock>
+                <VisualState x:Name="TabletState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="800" />
+                    </VisualState.StateTriggers>
 
-        <RichTextBlock Grid.Row="3"
-                     TextWrapping="Wrap"
-                     FontFamily="Segoe WP"
-                     FontSize="18"
-                     Foreground="Black"
-                     HorizontalAlignment="Left"
-                     VerticalAlignment="Top"
-                     Margin="15,24,15,0">
-                <RichTextBlock.Blocks>
-                <Paragraph>
-                    <Run x:Uid="FacebookText"/>
-                    <Hyperlink NavigateUri="https://www.facebook.com/mylitres" 
-                               Foreground="{StaticResource LitResAccentBrush}">Facebook</Hyperlink>
-                </Paragraph>
-            </RichTextBlock.Blocks>
-        </RichTextBlock>
+                    <VisualState.Setters>
+                        <Setter Target="StackPanelWithListViews.Visibility" Value="Visible" />
+                        <Setter Target="Title.Visibility" Value="Collapsed" />
+                        <Setter Target="StackPanelWithGridViews.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
 
-        <RichTextBlock Grid.Row="4"
-                     TextWrapping="Wrap"
-                     FontFamily="Segoe WP"
-                     FontSize="18"
-                     Foreground="Black"
-                     HorizontalAlignment="Left"
-                     VerticalAlignment="Top"
-                     Margin="15,24,15,0">
+                </VisualState>
 
-        <RichTextBlock.Blocks>
-                <Paragraph>
-                        <Run x:Uid="AboutSupportLine1"/>
-                    <LineBreak/>
-                        <Run x:Uid="AboutSupportLine2"/>
-                    <LineBreak/>
-                        <Run x:Uid="AboutSupportLine3"/>
-                    <Hyperlink Click="SendEmail_Click" Foreground="{StaticResource LitResAccentBrush}">wp8@litres.ru</Hyperlink>
-                </Paragraph>
-            </RichTextBlock.Blocks>
-        </RichTextBlock>
+                <VisualState x:Name="PhoneState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="GenresTextBox.Margin" Value="-6,0,0,0" />
+                        <Setter Target="RecomendedTextBox.Margin" Value="-6,0,0,0" />
+                    </VisualState.Setters>
+                </VisualState>
 
-        <TextBlock Grid.Row="5" 
-                   TextWrapping="Wrap"
-                   FontFamily="Segoe WP"
-                   FontSize="18"
-                   Foreground="#868686"
-                   VerticalAlignment="Bottom"
-                   Margin="15,25,15,15">
-            <TextBlock.Inlines>
-                    <Run x:Uid="AppVersionText"/>
-                <Run Text="{Binding Path=ApplicationVersion, Mode=OneWay}" />
-            </TextBlock.Inlines>
-        </TextBlock>-->
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
-    </ScrollViewer>
-    </Grid>
+    
 </Page>

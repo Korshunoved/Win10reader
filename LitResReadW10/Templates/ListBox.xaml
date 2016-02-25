@@ -332,7 +332,7 @@
                 Grid.Column="0"
                 Grid.RowSpan="2" 
                 Style="{StaticResource CoverGrid}"          
-                Margin="12,13,0,13"
+                Margin="12,12,0,12"
                 VerticalAlignment="Center" 
                 HorizontalAlignment="Left">
                 <Image x:Name="CoverPreviewImage" 
@@ -378,7 +378,7 @@
                             TextTrimming="WordEllipsis" 
                             FontFamily="Segoe UI" 
                             FontSize="18"
-                            FontWeight="Bold"
+                            FontWeight="Medium"
                             Foreground="Black" />
                         <TextBlock 
                             Margin="0" 
@@ -386,7 +386,7 @@
                             TextTrimming="WordEllipsis"
                             MaxLines="2"
                             FontSize="18" 
-                            FontWeight="SemiBold"
+                            FontWeight="SemiLight"
                             FontFamily="Segoe UI" 
                             Foreground="#626065"
 							Text="{Binding Converter={StaticResource BookAuthorConverter}}"/>
@@ -410,7 +410,7 @@
                                 FontSize="14" 
                                 FontFamily="Segoe UI" 
                                 Foreground="#626065" 
-                                FontWeight="SemiBold"
+                                FontWeight="SemiLight"
                                 VerticalAlignment="Center"
                                 Text="{Binding Path=Recenses, Converter={StaticResource Formatter}, ConverterParameter=(\{0\})}" />
                         </StackPanel>
@@ -450,7 +450,8 @@
                 </StackPanel>
                 <Grid
                     RelativePanel.AlignRightWithPanel="True"
-                    RelativePanel.AlignBottomWithPanel="True">
+                    RelativePanel.AlignBottomWithPanel="True"
+                    Margin="0,0,12,12">
                     <Button 
                         x:Name="ListViewFreeBook"
                         Style="{StaticResource GreenButtonStyle}"
@@ -508,7 +509,7 @@
                 Grid.Column="0"
                 Grid.RowSpan="2" 
                 Style="{StaticResource CoverGrid}" 
-                Margin="12,13,0,13"
+                Margin="12,12,0,12"
                 VerticalAlignment="Center" 
                 HorizontalAlignment="Left">
 
@@ -550,7 +551,7 @@
                             TextTrimming="WordEllipsis" 
                             FontFamily="Segoe UI" 
                             FontSize="18"
-                            FontWeight="Bold"
+                            FontWeight="Medium"
                             Foreground="Black" />
                         <TextBlock 
                             Margin="0" 
@@ -558,7 +559,7 @@
                             TextWrapping="Wrap" 
                             TextTrimming="WordEllipsis" 
                             FontSize="18" 
-                            FontWeight="SemiBold"
+                            FontWeight="SemiLight"
                             FontFamily="Segoe UI" 
                             Foreground="#626065"
 							Text="{Binding Converter={StaticResource BookAuthorConverter}}"/>
@@ -582,7 +583,7 @@
                                 FontSize="14" 
                                 FontFamily="Segoe UI" 
                                 Foreground="#626065" 
-                                FontWeight="SemiBold"
+                                FontWeight="SemiLight"
                                 VerticalAlignment="Center"
                                 Text="{Binding Path=Recenses, Converter={StaticResource Formatter}, ConverterParameter=(\{0\})}" />
                         </StackPanel>
@@ -627,7 +628,8 @@
                 <Grid
                     x:Name="ButtomButtonGrid"
                     RelativePanel.AlignRightWithPanel="True"
-                    RelativePanel.AlignBottomWithPanel="True">
+                    RelativePanel.AlignBottomWithPanel="True"
+                    Margin="0,0,12,12">
                     <Button 
                         x:Name="GridFreeButton"
                         Style="{StaticResource GreenButtonStyle}"
@@ -1074,7 +1076,7 @@
     <DataTemplate x:Key="GridViewGenreTemplate">
         <StackPanel Orientation="Horizontal" Width="300">
             <TextBlock Margin="0"
-                   Padding="0"
+                   Padding="10"
                    Text="{Binding Path=Title, Converter={StaticResource ToUpperConverter}, ConverterParameter=FirstCharacter}" 
                    HorizontalAlignment="Left"
                    TextAlignment="Left"

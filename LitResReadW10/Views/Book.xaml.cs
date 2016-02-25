@@ -17,6 +17,7 @@ using LitRes.Models;
 using LitRes.ViewModels;
 using LitResReadW10.Controls;
 using LitRes.Exceptions;
+using LitResReadW10.Helpers;
 
 namespace LitRes.Views
 {
@@ -329,10 +330,17 @@ namespace LitRes.Views
 	    private void CoverOnTap(object sender, TappedRoutedEventArgs e)
 	    {
             if (!_animInProgress)
-	        {
-	            _animInProgress = true;	            
-	            if (!HideCover()) ShowCover();
-	        }
+            {
+                if (!SystemInfoHelper.IsDesktop())
+                {
+                    var image = sender as Image;
+                    if (image != null)
+                        FullImageCover.Source = image.Source;
+                    FullImagePanel.Visibility = Visibility.Visible;
+                }
+                //_animInProgress = true;	            
+                //if (!HideCover()) ShowCover();
+            }
 	    }
 
 	    void ShowCover()
@@ -477,7 +485,15 @@ namespace LitRes.Views
             dialog.Content = panel;
             await dialog.ShowAsync();
 	    }
-    }
+
+	    private void FullImagePanel_OnTapped(object sender, TappedRoutedEventArgs e)
+	    {
+            if (!SystemInfoHelper.IsDesktop())
+            {
+                FullImagePanel.Visibility = Visibility.Collapsed;
+            }
+        }
+	}
 
 	public class BookFitting : EntityPage<Models.Book, BookViewModel>
 	{}
