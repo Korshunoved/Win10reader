@@ -337,6 +337,7 @@ namespace LitRes.Views
                     if (image != null)
                         FullImageCover.Source = image.Source;
                     FullImagePanel.Visibility = Visibility.Visible;
+                    ControlPanel.Instance.TopBarVisibility = Visibility.Collapsed;
                 }
                 //_animInProgress = true;	            
                 //if (!HideCover()) ShowCover();
@@ -491,6 +492,7 @@ namespace LitRes.Views
             if (!SystemInfoHelper.IsDesktop())
             {
                 FullImagePanel.Visibility = Visibility.Collapsed;
+                ControlPanel.Instance.TopBarVisibility = Visibility.Visible;
             }
         }
 	}

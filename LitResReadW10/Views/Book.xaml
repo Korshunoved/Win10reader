@@ -92,9 +92,9 @@
                     Tapped="FullImagePanel_OnTapped" 
                     Canvas.ZIndex="1000"
                     Background="Black"
-                    Opacity="0.75">
+                    Opacity="1">
             <Image x:Name="FullImageCover"
-                   
+                   Opacity="1"
                    Stretch="UniformToFill"
                    Tapped="CoverOnTap"/>
         </StackPanel>

@@ -46,7 +46,7 @@ namespace LitResReadW10
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_BackRequested;
             
-            CheckNavButton(MyBooksButton, false);
+            CheckNavButton(EditorsChoiceButton, false);
         }
 
         private void OnNavigatingToPage(object sender, NavigatingCancelEventArgs e)
@@ -202,7 +202,7 @@ namespace LitResReadW10
             }
             else
             {
-                _navigationService.Navigate("MyBooks");
+                _navigationService.Navigate("ShopEditorsChoice");
             }
 
             if (_previousNavButton == null) _previousNavButton = navButton;

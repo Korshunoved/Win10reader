@@ -448,7 +448,8 @@
                     Tapped="GenresAndTagsListView_OnTapped"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                     ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                    ItemTemplateSelector="{StaticResource GenreAndTagTemplateSelector}">
+                    ItemTemplateSelector="{StaticResource GenreAndTagTemplateSelector}"
+                    Visibility="{Binding ViewModel.IsTagsAndGenresLoaded, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}">
 
                         <ListView.Header>
                             <TextBlock 
