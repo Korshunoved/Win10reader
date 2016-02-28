@@ -94,17 +94,11 @@ namespace BookParser
             set { _settingsStorage.SetValue("HideMenu", value); }
         }
 
-        public SupportedMargins MarginKey
-        {
-            get { return _settingsStorage.GetValueWithDefault("MarginKey", DEFAULT_MARGIN); }
-            set { _settingsStorage.SetValue("MarginKey", value); }
-        }
-
-        public Thickness Margin { get; set; }
+        public Thickness Margin => new Thickness(MarginIndex,0, MarginIndex,0);
 
         public int MarginIndex
         {
-            get { return _settingsStorage.GetValueWithDefault("MarginIndex", 3); }
+            get { return _settingsStorage.GetValueWithDefault("MarginIndex", 25); }
             set { _settingsStorage.SetValue("MarginIndex", value); }
         }
 

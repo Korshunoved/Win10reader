@@ -169,9 +169,6 @@ namespace LitRes.Views
             if (slider == null) return;
             var value = (int)slider.Value;
             AppSettings.Default.MarginIndex = value;
-            var margin = AppSettings.Default.MarginIndex;
-            _marginSliderValue = value;
-            AppSettings.Default.Margin = new Thickness(margin, 0, margin, 0);
             if (SystemInfoHelper.IsDesktop() && !_marginSliderValueChanging)
                 _readerPage.UpdateSettings();
         }
