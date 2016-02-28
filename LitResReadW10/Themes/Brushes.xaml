@@ -16,6 +16,4 @@
     <SolidColorBrush x:Key="LitresGreyBrush" Color="{StaticResource LitresGreyColor}"/>
     <SolidColorBrush x:Key="LitresLightGreyBrush" Color="{StaticResource LitresLightGreyColor}"/>
     <SolidColorBrush x:Key="LitresGreyTextBoxBorderBrush" Color="{StaticResource LitresGreyTextBoxBorderColor}"/>
-
-    
 </ResourceDictionary>

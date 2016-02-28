@@ -21,12 +21,19 @@ namespace LitRes.Views
 
 	    private Reader _readerPage;
 
-		#region Constructors/Disposer
-		public Settings()
+	    private bool _marginSliderValueChanging;
+	    private double  _marginSliderValue;
+
+	    public Visibility MobileVisibility { get; set; }
+
+        #region Constructors/Disposer
+        public Settings()
 		{
 			InitializeComponent();
 
-			Loaded += Settings_Loaded;		   
+            MobileVisibility = SystemInfoHelper.IsDesktop() ? Visibility.Collapsed : Visibility.Visible;
+
+            Loaded += Settings_Loaded;		   
 		}
 		#endregion
 
@@ -40,22 +47,12 @@ namespace LitRes.Views
 		{			
             Analytics.Instance.sendMessage(Analytics.ViewSettingsReader);
 
-		    var deviceFamily = Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily;
-		    if (deviceFamily.Contains("Desktop"))
-		    {
-		        AutorotateTextBlock.Visibility = Visibility.Collapsed;
-                AutorotateSwither.Visibility = Visibility.Collapsed;		        
-		    }
             if (_readerPage == null)
                 _readerPage = Reader.Instance;
-
-		    SideIndentSlider.Value = AppSettings.Default.MarginIndex;
 
 		    LineSpacingSlider.Value = AppSettings.Default.FontSettings.FontInterval == 1.0f ? 1 : 2;
 
             HyphenationSwither.IsOn = AppSettings.Default.Hyphenation;
-
-		    SetFontSliderValue();
 
             LightSlider.ValueChanged -= LightSlider_ValueChanged;
             LightSlider.ValueChanged += LightSlider_ValueChanged;
@@ -67,16 +64,116 @@ namespace LitRes.Views
             HyphenationSwither.Toggled += HyphenationSwitherOnToggled;
 
             FontSizeSlider.ManipulationCompleted -= FontSizeSliderOnManipulationCompleted;
-            FontSizeSlider.ManipulationCompleted += FontSizeSliderOnManipulationCompleted;                        
+            FontSizeSlider.ManipulationCompleted += FontSizeSliderOnManipulationCompleted;
+		    FontSizeSlider.Minimum = SystemInfoHelper.IsDesktop() ? 16 : 14;
+		    FontSizeSlider.Maximum = SystemInfoHelper.IsDesktop() ? 24 : 22;
+		    FontSizeSlider.StepFrequency = 2;
+            FontSizeSlider.Value = AppSettings.Default.FontSettings.FontSize;
 
             JustificationSwither.Toggled -= JustificationSwither_Toggled;
             JustificationSwither.Toggled += JustificationSwither_Toggled;
 
-		    SideIndentSlider.ValueChanged -= SideIndentSlider_ValueChanged;
-            SideIndentSlider.ValueChanged += SideIndentSlider_ValueChanged;
+            _marginSliderValueChanging = false;
+            _marginSliderValue = MarginsSlider.Value = AppSettings.Default.MarginIndex;
+            MarginsSlider.Tapped -= MarginsSliderOnTapped;
+            MarginsSlider.Tapped += MarginsSliderOnTapped;
+            MarginsSlider.ManipulationDelta -= MarginsSliderOnManipulationDelta; 
+            MarginsSlider.ManipulationDelta += MarginsSliderOnManipulationDelta;
+            MarginsSlider.ManipulationCompleted -= MarginsSliderOnManipulationCompleted;
+            MarginsSlider.ManipulationCompleted += MarginsSliderOnManipulationCompleted;
 
 		    LineSpacingSlider.ValueChanged -= LineSpacingSlider_ValueChanged;
             LineSpacingSlider.ValueChanged += LineSpacingSlider_ValueChanged;
+
+            GetTheme();		    
+		}
+
+	    private void GetTheme()
+	    {
+	        var theme = AppSettings.Default.ColorSchemeKey;
+            LightImage.Tapped += ThemeImageOnTapped;
+            SepiaImage.Tapped += ThemeImageOnTapped;
+            DarkImage.Tapped += ThemeImageOnTapped;
+            switch (theme)
+	        {
+                case 1:
+	                SepiaEllipse.Visibility = Visibility.Collapsed;
+                    DarkEllipse.Visibility = Visibility.Collapsed;
+                    break;
+                case 2:
+                    LightEllipse.Visibility = Visibility.Collapsed;
+                    DarkEllipse.Visibility = Visibility.Collapsed;
+                    break;
+                case 3:
+                    SepiaEllipse.Visibility = Visibility.Collapsed;
+                    LightEllipse.Visibility = Visibility.Collapsed;
+                    break;
+            }
+	    }
+
+	    private void ThemeImageOnTapped(object sender, TappedRoutedEventArgs tappedRoutedEventArgs)
+	    {
+	        var image = sender as Image;
+	        var themeIndex = 0;
+	        if (image == null) return;
+	        switch (image.Name)
+	        {
+                case "LightImage":
+                    LightEllipse.Visibility = Visibility.Visible;
+                    SepiaEllipse.Visibility = Visibility.Collapsed;
+                    DarkEllipse.Visibility = Visibility.Collapsed;
+                    themeIndex = 1;
+                    break;
+                case "SepiaImage":
+                    LightEllipse.Visibility = Visibility.Collapsed;
+                    SepiaEllipse.Visibility = Visibility.Visible;
+                    DarkEllipse.Visibility = Visibility.Collapsed;
+                    themeIndex = 2;
+                    break;
+                case "DarkImage":
+                    SepiaEllipse.Visibility = Visibility.Collapsed;
+                    LightEllipse.Visibility = Visibility.Collapsed;
+                    DarkEllipse.Visibility = Visibility.Visible;
+                    themeIndex = 3;
+                    break;
+            }
+	        AppSettings.Default.ColorSchemeKey = themeIndex;
+            if (SystemInfoHelper.IsDesktop())
+            {
+                _readerPage?.UpdateSettings();
+            }
+	    }
+
+	    private void MarginsSliderOnTapped(object sender, TappedRoutedEventArgs tappedRoutedEventArgs)
+	    {
+	        if (_marginSliderValue == MarginsSlider.Value) return;
+	        OnMarginSliderValueChanged();
+	    }
+
+	    private void MarginsSliderOnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs manipulationDeltaRoutedEventArgs)
+	    {
+            _marginSliderValueChanging = true;
+	    }
+
+	    private void MarginsSliderOnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs manipulationCompletedRoutedEventArgs)
+	    {
+            _marginSliderValueChanging = false;
+            OnMarginSliderValueChanged();
+        }
+
+	    private void OnMarginSliderValueChanged()
+	    {
+            if (_readerPage == null)
+                _readerPage = Reader.Instance;
+            var slider = MarginsSlider;
+            if (slider == null) return;
+            var value = (int)slider.Value;
+            AppSettings.Default.MarginIndex = value;
+            var margin = AppSettings.Default.MarginIndex;
+            _marginSliderValue = value;
+            AppSettings.Default.Margin = new Thickness(margin, 0, margin, 0);
+            if (SystemInfoHelper.IsDesktop() && !_marginSliderValueChanging)
+                _readerPage.UpdateSettings();
         }
 
 	    private void FontSizeSliderOnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs manipulationCompletedRoutedEventArgs)
@@ -87,52 +184,9 @@ namespace LitRes.Views
             if (slider == null) return;
 
             var value = (int)slider.Value;
-            switch (value)
-            {
-                case 1:
-                    AppSettings.Default.FontSettings.FontSize = SystemInfoHelper.IsDesktop() ? 16 : 14;
-                    break;
-                case 2:
-                    AppSettings.Default.FontSettings.FontSize = SystemInfoHelper.IsDesktop() ? 18 : 16;
-                    break;
-                case 3:
-                    AppSettings.Default.FontSettings.FontSize = SystemInfoHelper.IsDesktop() ? 20 : 18;
-                    break;
-                case 4:
-                    AppSettings.Default.FontSettings.FontSize = SystemInfoHelper.IsDesktop() ? 22 : 20;
-                    break;
-                case 5:
-                    AppSettings.Default.FontSettings.FontSize = SystemInfoHelper.IsDesktop() ? 24 : 22;
-                    break;
-            }
+	        AppSettings.Default.FontSettings.FontSize = value;
             if (SystemInfoHelper.IsDesktop())
-                _readerPage.ChangeFontSize();
-        }
-
-	    private void SetFontSliderValue()
-	    {
-	        var value = AppSettings.Default.FontSettings.FontSize;
-            switch (value)
-            {
-                case 14:
-                    FontSizeSlider.Value = 1;
-                    break;
-                case 16:
-                    FontSizeSlider.Value = SystemInfoHelper.IsDesktop() ? 1 : 2;
-                    break;
-                case 18:
-                    FontSizeSlider.Value = SystemInfoHelper.IsDesktop() ? 2 : 3;
-                    break;
-                case 20:
-                    FontSizeSlider.Value = SystemInfoHelper.IsDesktop() ? 3 : 4;
-                    break;
-                case 22:
-                    FontSizeSlider.Value = SystemInfoHelper.IsDesktop() ? 4 : 5;
-                    break;
-                case 24:
-                    FontSizeSlider.Value = 5;
-                    break;
-            }
+                _readerPage.UpdateSettings();
         }
 
 	    private void HyphenationSwitherOnToggled(object sender, RoutedEventArgs routedEventArgs)
@@ -264,81 +318,6 @@ namespace LitRes.Views
             }
         }
 
-	    private void ThemeRadioButton_Loaded(object sender, RoutedEventArgs e)
-        {
-            int theme;
-            var settingsTheme = 0;
-            if (ViewModel != null)
-                settingsTheme = ViewModel.Theme;
-            var radiobutton = sender as RadioButton;
-            if (radiobutton == null) return;
-            radiobutton.Checked -= ThemeRadioButton_Checked;
-            radiobutton.Checked += ThemeRadioButton_Checked;
-            radiobutton.Unchecked -= ThemeRadioButton_Unchecked;
-            radiobutton.Unchecked += ThemeRadioButton_Unchecked;
-            var name = radiobutton.Name;
-            if (name.Contains("Light"))
-                theme = 1;
-            else if (name.Contains("Dark"))
-                theme = 3;
-            else
-                theme = 2;
-            if (settingsTheme != theme) return;
-            radiobutton.Style = (Style)Application.Current.Resources["LitResRadioButtonStyle1"];
-            radiobutton.IsChecked = true;
-        }
-
-        private void ThemeRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            var radioButton = sender as RadioButton;
-            if (radioButton?.IsChecked != true) return;
-            radioButton.Style = (Style)Application.Current.Resources["LitResRadioButtonStyle1"];
-            int theme;
-            var name = radioButton.Name;
-            if (name.Contains("Light"))
-                theme = 1;
-            else if (name.Contains("Dark"))
-                theme = 3;
-            else
-                theme = 2;
-            ViewModel.Theme = theme;
-            if (_readerPage == null) return;
-            _readerPage.ViewModel.ReaderSettings.Theme = theme;
-            if (SystemInfoHelper.IsDesktop())
-                _readerPage.ChangeTheme();
-        }
-
-        private void ThemeRadioButton_Unchecked(object sender, RoutedEventArgs e)
-        {
-            var radioButton = sender as RadioButton;
-            if (radioButton != null) radioButton.Style = null;
-        }
-
-        private void SideIndentSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
-        {
-            if (_readerPage == null)
-                _readerPage = Reader.Instance;
-            var slider = sender as Slider;
-            if (slider == null) return;
-            var value = (int)slider.Value;
-            AppSettings.Default.MarginIndex = value;
-            var margin = AppSettings.Default.MarginIndex;
-            switch (margin)
-            {
-                case 1:
-                    AppSettings.Default.Margin = new Thickness(200,0,200,0);
-                    break;
-                case 2:
-                    AppSettings.Default.Margin = new Thickness(100,0,100,0);
-                    break;
-                case 3:
-                    AppSettings.Default.Margin = new Thickness(50,0,50,0);
-                    break;
-            }
-            if (SystemInfoHelper.IsDesktop())
-                _readerPage.ChangeMargins();
-        }
-
         private void LineSpacingSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             if (_readerPage == null)
@@ -356,7 +335,7 @@ namespace LitRes.Views
                     break;
             }
             if (SystemInfoHelper.IsDesktop())
-                _readerPage.ChangeCharacterSpacing();
+                _readerPage.UpdateSettings();
         }
     }
 

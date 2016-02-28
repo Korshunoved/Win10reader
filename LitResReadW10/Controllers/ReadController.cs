@@ -157,8 +157,7 @@ namespace LitResReadW10.Controllers
                 Book = _bookModel,
                 Links = _bookView.NextLinks,
                 Bookmarks = _bookView.Bookmarks
-            });
-
+            });            
             return page;
         }
     }

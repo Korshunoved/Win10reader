@@ -116,15 +116,7 @@ namespace LitResReadW10.Controls
 
         public Panel GetChildPanel(int index)
         {
-            return (Panel)RootGrid.Children[index];
-        }
-
-        public void SetColor(Color color)
-        {
-            foreach (Panel child in RootGrid.Children)
-            {
-                child.Background = new SolidColorBrush(color);
-            }
+            return (Panel) RootGrid.Children[index];
         }
 
         public void SetSize(double width, double height, double workWidth, double workHeight)

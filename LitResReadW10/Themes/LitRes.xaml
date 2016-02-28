@@ -807,13 +807,13 @@
             </VisualStateManager.VisualStateGroups>
             <ContentPresenter x:Name="HeaderContentPresenter"
 					x:DeferLoadStrategy="Lazy"
-					Visibility="Visible"
+					Visibility="Collapsed"
 					Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
-					Margin="1,0,1,1"
+					Margin="{ThemeResource SliderHeaderThemeMargin}"
 					Content="{TemplateBinding Header}"
 					ContentTemplate="{TemplateBinding HeaderTemplate}"
 					FontWeight="{ThemeResource SliderHeaderThemeFontWeight}"
-					TextWrapping="Wrap" Padding="0,-6,0,0" Opacity="1" />
+					TextWrapping="Wrap" />
             <Grid x:Name="SliderContainer" Background="Transparent" Grid.Row="1" Control.IsTemplateFocusTarget="True">
                 <Grid x:Name="HorizontalTemplate" MinHeight="44">
                     <Grid.ColumnDefinitions>
@@ -857,12 +857,13 @@
 							Grid.ColumnSpan="3" />
                     <Thumb x:Name="HorizontalThumb"
 							Style="{StaticResource SliderThumbStyle}"
+							DataContext="{TemplateBinding Value}"
 							Height="24"
 							Width="8"
 							Grid.Row="0"
 							Grid.RowSpan="3"
 							Grid.Column="1"
-							AutomationProperties.AccessibilityView="Raw" Foreground="#FFFF4C00" Background="#FFFF4C00" ToolTipService.ToolTip="{StaticResource Object1}" />
+							AutomationProperties.AccessibilityView="Raw" Foreground="#FFFF4C00" Background="#FFFF4C00" />
                 </Grid>
                 <Grid x:Name="VerticalTemplate" MinWidth="44" Visibility="Collapsed">
                     <Grid.RowDefinitions>

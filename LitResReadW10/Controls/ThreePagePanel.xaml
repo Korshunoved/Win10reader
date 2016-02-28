@@ -8,25 +8,19 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
-
     <Grid>
         <Grid Name="RootGrid">
-            <Canvas Name="FirstPage" >
+            <Canvas Name="FirstPage">
                 <Canvas.RenderTransform>
                     <TranslateTransform />
                 </Canvas.RenderTransform>
             </Canvas>
-            <Canvas Name="SecondPage">
+            <Canvas Name="SecondPage" >
                 <Canvas.RenderTransform>
                     <TranslateTransform />
                 </Canvas.RenderTransform>
             </Canvas>
             <Canvas Name="ThirdPage">
-                <Canvas.RenderTransform>
-                    <TranslateTransform />
-                </Canvas.RenderTransform>
-            </Canvas>
-            <Canvas Name="FourthPage">
                 <Canvas.RenderTransform>
                     <TranslateTransform />
                 </Canvas.RenderTransform>

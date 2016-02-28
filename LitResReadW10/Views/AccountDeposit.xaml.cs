@@ -92,7 +92,7 @@ namespace LitRes.Views
                             if (_navigationService.CanGoBack()) _navigationService.GoBack();
                             else
                             {
-                                _navigationService.Navigate("MyBooks");
+                                _navigationService.Navigate("ShopEditorsChoice");
                                 _navigationService.RemoveBackEntry();
                             }
                         });
@@ -110,7 +110,7 @@ namespace LitRes.Views
                             if (_navigationService.CanGoBack()) _navigationService.GoBack();
                             else
                             {
-                                _navigationService.Navigate("MyBooks");
+                                _navigationService.Navigate("ShopEditorsChoice");
                                 _navigationService.RemoveBackEntry();
                             }
                         });
@@ -196,7 +196,7 @@ namespace LitRes.Views
                     if (_navigationService.CanGoBack()) _navigationService.GoBack();
                     else
                     {
-                        _navigationService.Navigate("MyBooks");
+                        _navigationService.Navigate("ShopEditorsChoice");
                         _navigationService.RemoveBackEntry();
                     }
                 }

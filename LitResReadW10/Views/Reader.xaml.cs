@@ -16,6 +16,7 @@ using System.Threading;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Graphics.Display;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Input;
 using Windows.UI.Popups;
@@ -92,7 +93,7 @@ namespace LitRes.Views
             LocalBroadcastReciver.Instance.PropertyChanging += Instance_PropertyChanging;
             DisplayInformation.GetForCurrentView().OrientationChanged += OnOrientationChanged;
             Window.Current.SizeChanged += Current_SizeChanged;
-            Instance = this;
+           
             if (ExpirationGuardian.Instance != null) ExpirationGuardian.Instance.AddCallBack(this);
         }
 
@@ -119,19 +120,10 @@ namespace LitRes.Views
             if (BrightnessBorder.Visibility == Visibility.Collapsed)
                 BrightnessBorder.Visibility = Visibility.Visible;
             await ViewModel.LoadSettings();
-            var margin = AppSettings.Default.MarginIndex;
-            switch (margin)
-            {
-                case 1:
-                    AppSettings.Default.Margin = new Thickness(18);
-                    break;
-                case 2:
-                    AppSettings.Default.Margin = new Thickness(12);
-                    break;
-                case 3:
-                    AppSettings.Default.Margin = new Thickness(8);
-                    break;
-            }
+            if (Instance != null)
+                TopGrid.Visibility=Visibility.Collapsed;            
+            Instance = this;
+            LayoutRoot.Background = AppSettings.Default.ColorScheme.BackgroundBrush;
             var currentOrientation = DisplayInformation.GetForCurrentView().CurrentOrientation;
             DisplayInformation.AutoRotationPreferences = ViewModel.ReaderSettings.Autorotate ? DisplayOrientations.None : currentOrientation;
      
@@ -195,11 +187,7 @@ namespace LitRes.Views
                 _book = AppSettings.Default.CurrentBook;
                 if (_book == null) return;
                 activeFontHelper = BookFactory.GetActiveFontMetrics(AppSettings.Default.FontSettings.FontFamily.Source);
-                AppSettings.Default.FontSettings.FontHelper = activeFontHelper;
-                Redraw();
-                _isSliderMoving = false; 
-                CurrentPageSlider.ManipulationStarted += CurrentPageSliderOnManipulationStarted;    
-                CurrentPageSlider.PointerReleased += CurrentPageSliderOnPointerReleased;
+                AppSettings.Default.FontSettings.FontHelper = activeFontHelper;               
             }
             else if (e.PropertyName == "EntityLoaded")
             {
@@ -209,12 +197,6 @@ namespace LitRes.Views
             {
                 pageProgress.Value += 1;
             }
-        }
-
-        private void CurrentPageSliderOnPointerReleased(object sender, PointerRoutedEventArgs pointerRoutedEventArgs)
-        {
-            _isSliderMoving = false;
-            OnSliderClickOrMoved();
         }
 
         public async void UpdateBook()
@@ -255,16 +237,24 @@ namespace LitRes.Views
         {
             if (ViewModel.Status == ReaderViewModel.LoadingStatus.FullBookLoaded || ViewModel.Status == ReaderViewModel.LoadingStatus.TrialBookLoaded)
             {
-               
+                HideMenu();
+                Redraw();
+                _isSliderMoving = false;
+                CurrentPageSlider.ManipulationStarted += CurrentPageSliderOnManipulationStarted;
+                CurrentPageSlider.ManipulationCompleted += CurrentPageSliderOnManipulationCompleted;
             }
             else if (ViewModel.LoadingException != null)
             {
                 PageHeader.ProgressIndicatorVisible = false;
                 await new MessageDialog("Ошибка получения книги. Попробуйте попозже.").ShowAsync();
                 _navigationService.GoBack();
-            }
+            }            
+        }
 
-            ShowMenu();
+        private void CurrentPageSliderOnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs manipulationCompletedRoutedEventArgs)
+        {
+            _isSliderMoving = false;
+            OnSliderClickOrMoved();
         }
 
         private void ApplyReaderSettings()
@@ -281,7 +271,7 @@ namespace LitRes.Views
             Center.Visibility = Visibility.Collapsed;
         }
 
-        protected async void OnOrientationChanged(DisplayInformation info, object sender)
+        protected void OnOrientationChanged(DisplayInformation info, object sender)
         {
             var orientation = info.CurrentOrientation;
             
@@ -296,11 +286,6 @@ namespace LitRes.Views
                 BookCover.Width = BookCoverBack.Width = 310;
                 BookCover.Height = BookCoverBack.Height = 474;
                 PageHeader.Margin = new Thickness(0, 0, 0, 75);
-            }
-
-            if (PageHeader.Visibility == Visibility.Collapsed)
-            {
-                
             }
         }
         
@@ -440,24 +425,9 @@ namespace LitRes.Views
             else _navigationService.Navigate("BookBookmarks", XParameters.Create("BookEntity", ViewModel.Entity));
         }
 
-        public void ChangeTheme()
+        public async void UpdateSettings()
         {
-
-        }
-
-        public async void ChangeMargins()
-        {
-
-            await CreateController();
-        }
-
-        public async void ChangeCharacterSpacing()
-        {
-            await CreateController();
-        }
-
-        public async void ChangeFontSize()
-        {
+            LayoutRoot.Background = AppSettings.Default.ColorScheme.BackgroundBrush;
             await CreateController();
         }
 

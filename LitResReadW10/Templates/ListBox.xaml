@@ -531,8 +531,8 @@
                     Margin="0,27,0,0">
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.95*"/>
-                        <ColumnDefinition Width="0.05*"/>
+                        <ColumnDefinition Width="0.75*"/>
+                        <ColumnDefinition Width="0.25*"/>
                     </Grid.ColumnDefinitions>
 
                     <StackPanel 
@@ -639,7 +639,7 @@
 
                     <StackPanel Visibility="{Binding ElementName=GridFreeButton, Path=Visibility, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse}">
                         <StackPanel Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=price|visibility, FallbackValue=Collapsed}">
-                        <Button 
+                        <Button                          
                             Style="{StaticResource GreenButtonStyle}"
                             Width="100">
                             <TextBlock TextWrapping="Wrap" MaxLines="2">
@@ -1190,7 +1190,7 @@
                             TextTrimming="WordEllipsis" 
                             FontFamily="Segoe UI" 
                             FontSize="18"
-                            FontWeight="Bold"
+                            FontWeight="Medium"
                             Foreground="Black" />
                         <TextBlock 
                             Margin="0" 
@@ -1312,8 +1312,8 @@
                     Margin="0,27,0,0">
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.95*"/>
-                        <ColumnDefinition Width="0.05*"/>
+                        <ColumnDefinition Width="0.75*"/>
+                        <ColumnDefinition Width="0.25*"/>
                     </Grid.ColumnDefinitions>
 
                     <StackPanel 
@@ -1332,7 +1332,7 @@
                             TextTrimming="WordEllipsis" 
                             FontFamily="Segoe UI" 
                             FontSize="18"
-                            FontWeight="Bold"
+                            FontWeight="Medium"
                             Foreground="Black" />
                         <TextBlock 
                             Margin="0" 
@@ -1340,7 +1340,7 @@
                             TextWrapping="Wrap" 
                             TextTrimming="WordEllipsis" 
                             FontSize="18" 
-                            FontWeight="SemiBold"
+                            FontWeight="SemiLight"
                             FontFamily="Segoe UI" 
                             Foreground="#626065"
 							Text="{Binding Converter={StaticResource BookAuthorConverter}}"/>
@@ -1364,7 +1364,7 @@
                                 FontSize="14" 
                                 FontFamily="Segoe UI" 
                                 Foreground="#626065" 
-                                FontWeight="SemiBold"
+                                FontWeight="SemiLight"
                                 VerticalAlignment="Center"
                                 Text="{Binding Path=Recenses, Converter={StaticResource Formatter}, ConverterParameter=(\{0\})}" />
                         </StackPanel>

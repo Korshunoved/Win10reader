@@ -34,18 +34,19 @@ namespace BookParser
 {
     public class AppSettings
     {
-        public const int WORDS_PER_PAGE = 100;
+        public const int WORDS_PER_PAGE = 200;
         private const bool DEFAULT_LOCK_SCREEN = false;
         private const Orientation DEFAULT_ORIENTATION = Orientation.Vertical;
         private const bool DEFAULT_HIDE_MENU = false;
         private const SupportedMargins DEFAULT_MARGIN = SupportedMargins.Medium;
-        private const ColorSchemes DEFAULT_COLOR_SCHEME = ColorSchemes.Day;
+        private const int DEFAULT_COLOR_SCHEME = 1;
         private const string DEFAULT_TRANSLATE_LANGUAGE = "en";
         private const bool DEFAULT_USE_CSS_FONTSIZE = false;
         private const bool DEFAULT_HYPHENATION = true;
         private const FlippingMode DEFAULT_FLIPPING_MODE = FlippingMode.TouchOrSlide;
         private const FlippingStyle DEFAULT_FLIPPING_STYLE = FlippingStyle.Overlap;
         private readonly string DEFAULT_LANGUAGE;
+        private const int DEFAULT_THEME = 1;
 
         private readonly SettingsStorage _settingsStorage = new SettingsStorage();
 
@@ -83,6 +84,8 @@ namespace BookParser
             set { _settingsStorage.SetValue("Orientation", value); }
         }
 
+        public Visibility MobileVisibility { get; set; }
+
         public FontSettings FontSettings { get; }
 
         public bool HideMenu
@@ -105,13 +108,16 @@ namespace BookParser
             set { _settingsStorage.SetValue("MarginIndex", value); }
         }
 
-        public ColorSchemes ColorSchemeKey
+        public int ColorSchemeKey
         {
             get { return _settingsStorage.GetValueWithDefault("ColorSchemeKey", DEFAULT_COLOR_SCHEME); }
             set { _settingsStorage.SetValue("ColorSchemeKey", value); }
         }
 
-        public Scheme ColorScheme => BookThemes.Default[ColorSchemeKey];
+        public Scheme ColorScheme
+        {
+            get { return BookThemes.Default[ColorSchemeKey]; }
+        }
 
         public List<Scheme> Schemes => BookThemes.Default.ToList();
 
@@ -208,14 +214,9 @@ namespace BookParser
 
     public enum ColorSchemes
     {
-        Day,
-        Night,
-        GrayOne,
-        GrayTwo,
+        Light,
         Sepia,
-        Coffee,
-        Sky,
-        Asphalt
+        Dark
     }
 
     public enum FlippingStyle
@@ -328,14 +329,21 @@ namespace BookParser
 
         public static BookThemes Default => LazyInstance.Value;
 
-        public Scheme this[ColorSchemes scheme]
+        public Scheme this[int scheme]
         {
             get
             {
-                if (!_schemes.ContainsKey(scheme))
-                    throw new NotSupportedException();
-
-                return _schemes[scheme];
+                switch (scheme)
+                {
+                    case 1:
+                        return _schemes[ColorSchemes.Light];
+                    case 2:
+                        return _schemes[ColorSchemes.Sepia];
+                    case 3:
+                        return _schemes[ColorSchemes.Dark];
+                    default:
+                        throw new Exception("Not supported index");
+                }
             }
         }
 
@@ -352,10 +360,10 @@ namespace BookParser
         private void InitSchemes()
         {
             _schemes.Add(
-                ColorSchemes.Day,
+                ColorSchemes.Light,
                 new Scheme
                     (
-                    colorScheme: ColorSchemes.Day,
+                    colorScheme: ColorSchemes.Light,
                     backgroundBrush: Colors.White,
                     titleForegroundBrush: Color.FromArgb(0xFF, 0x7D, 0x7D, 0x7D),
                     textForegroundBrush: Colors.Black,
@@ -367,10 +375,10 @@ namespace BookParser
                     ));
 
             _schemes.Add(
-                ColorSchemes.Night,
+                ColorSchemes.Dark,
                 new Scheme
                     (
-                    colorScheme: ColorSchemes.Night,
+                    colorScheme: ColorSchemes.Dark,
                     backgroundBrush: Colors.Black,
                     titleForegroundBrush: Color.FromArgb(0xFF, 0xA8, 0xA8, 0xA8),
                     textForegroundBrush: Colors.White,
@@ -379,36 +387,6 @@ namespace BookParser
                     applicationBarBackgroundBrush: Color.FromArgb(0xF2, 0x2C, 0x2C, 0x2C),
                     progressBarBrush: Color.FromArgb(0xFF, 0x71, 0x71, 0x71),
                     systemTrayForegroundColor: Colors.Black
-                    ));
-
-            _schemes.Add(
-                ColorSchemes.GrayOne,
-                new Scheme
-                    (
-                    colorScheme: ColorSchemes.GrayOne,
-                    backgroundBrush: Color.FromArgb(0xFF, 0xCF, 0xCF, 0xCF),
-                    titleForegroundBrush: Color.FromArgb(0xFF, 0x60, 0x60, 0x60),
-                    textForegroundBrush: Colors.Black,
-                    linkForegroundBrush: Color.FromArgb(0xFF, 0x16, 0x78, 0xCA),
-                    selectionBrush: Color.FromArgb(0x26, 0x00, 0x00, 0x00),
-                    applicationBarBackgroundBrush: Color.FromArgb(0xF2, 0x3E, 0x3E, 0x3E),
-                    progressBarBrush: Color.FromArgb(0xFF, 0x3C, 0x3C, 0x3C),
-                    systemTrayForegroundColor: Colors.Black
-                    ));
-
-            _schemes.Add(
-                ColorSchemes.GrayTwo,
-                new Scheme
-                    (
-                    colorScheme: ColorSchemes.GrayTwo,
-                    backgroundBrush: Color.FromArgb(0xFF, 0x32, 0x32, 0x32),
-                    titleForegroundBrush: Color.FromArgb(0xFF, 0xE3, 0xE3, 0xE3),
-                    textForegroundBrush: Color.FromArgb(0xFF, 0xB4, 0xB4, 0xB4),
-                    linkForegroundBrush: Color.FromArgb(0xFF, 0xF0, 0x96, 0x09),
-                    selectionBrush: Color.FromArgb(0x26, 0x00, 0x00, 0x00),
-                    applicationBarBackgroundBrush: Color.FromArgb(0xF2, 0x18, 0x18, 0x18),
-                    progressBarBrush: Color.FromArgb(0xFF, 0x71, 0x71, 0x71),
-                    systemTrayForegroundColor: Color.FromArgb(0xFF, 0xB4, 0xB4, 0xB4)
                     ));
 
             _schemes.Add(
@@ -425,52 +403,6 @@ namespace BookParser
                     progressBarBrush: Color.FromArgb(0xFF, 0xF0, 0x96, 0x09),
                     systemTrayForegroundColor: Colors.Black
                     ));
-
-            _schemes.Add(
-                ColorSchemes.Coffee,
-                new Scheme
-                    (
-                    colorScheme: ColorSchemes.Coffee,
-                    backgroundBrush: Color.FromArgb(0xFF, 0x36, 0x34, 0x2B),
-                    titleForegroundBrush: Color.FromArgb(0xFF, 0xF3, 0xD3, 0xA0),
-                    textForegroundBrush: Color.FromArgb(0xFF, 0xE6, 0xE4, 0xC8),
-                    linkForegroundBrush: Color.FromArgb(0xFF, 0xD7, 0x83, 0x00),
-                    selectionBrush: Color.FromArgb(0x26, 0x00, 0x00, 0x00),
-                    applicationBarBackgroundBrush: Color.FromArgb(0xF2, 0x23, 0x21, 0x19),
-                    progressBarBrush: Color.FromArgb(0xFF, 0xF0, 0x96, 0x09),
-                    systemTrayForegroundColor: Color.FromArgb(0xFF, 0xE6, 0xE4, 0xC8)
-                    ));
-
-            _schemes.Add(
-                ColorSchemes.Sky,
-                new Scheme
-                    (
-                    colorScheme: ColorSchemes.Sky,
-                    backgroundBrush: Color.FromArgb(0xFF, 0xCF, 0xE2, 0xE6),
-                    titleForegroundBrush: Color.FromArgb(0xFF, 0x54, 0x6D, 0x81),
-                    textForegroundBrush: Color.FromArgb(0xFF, 0x28, 0x2D, 0x2E),
-                    linkForegroundBrush: Color.FromArgb(0xFF, 0x1C, 0x6D, 0xB9),
-                    selectionBrush: Color.FromArgb(0x26, 0x00, 0x00, 0x00),
-                    applicationBarBackgroundBrush: Color.FromArgb(0xF2, 0x25, 0x34, 0x41),
-                    progressBarBrush: Color.FromArgb(0xFF, 0x90, 0xB0, 0xB7),
-                    systemTrayForegroundColor: Colors.Black
-                    ));
-
-            _schemes.Add(
-                ColorSchemes.Asphalt,
-                new Scheme
-                    (
-                    colorScheme: ColorSchemes.Asphalt,
-                    backgroundBrush: Color.FromArgb(0xFF, 0x6D, 0x75, 0x80),
-                    titleForegroundBrush: Color.FromArgb(0xFF, 0xD1, 0xED, 0xFF),
-                    textForegroundBrush: Color.FromArgb(0xFF, 0xE7, 0xE8, 0xE9),
-                    linkForegroundBrush: Color.FromArgb(0xFF, 0x75, 0xCD, 0xDD),
-                    selectionBrush: Color.FromArgb(0x26, 0x00, 0x00, 0x00),
-                    applicationBarBackgroundBrush: Color.FromArgb(0xF2, 0x2F, 0x35, 0x3E),
-                    progressBarBrush: Color.FromArgb(0xFF, 0x69, 0x7B, 0x95),
-                    systemTrayForegroundColor: Colors.White
-                    ));
-
         }
     }
 

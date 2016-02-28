@@ -15,7 +15,7 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid Margin="0" Padding="0" Background="{StaticResource LitresMainBackgroundBrush}">
         <ScrollViewer Background="{StaticResource LitresMainBackgroundBrush}"
-                      Margin="10,0,10,0"
+                      Margin="0,0,0,0"
                       Padding="0"
                       HorizontalAlignment="Stretch"
                       IsVerticalRailEnabled="True"
@@ -32,11 +32,13 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel x:Name="Title" Grid.Row="0" HorizontalAlignment="Left" Orientation="Vertical">
-                    <TextBlock Margin="15,15,15,0" Text="{Binding AboutTitle}"
+                    <TextBlock Margin="0,15,0,0" 
+                               Padding="15,0,15,0"
+                               Text="{Binding AboutTitle}"
                                Style="{StaticResource BigNormalSemiBoldBlackTextStyle}" />
                 </StackPanel>
 
-                <StackPanel Margin="0,15,0,8" Grid.Row="1" HorizontalAlignment="Center" Orientation="Vertical"
+                <StackPanel Margin="0,15,0,8" Grid.Row="1" Orientation="Vertical"
                             Background="White">
                     <Image Source="/Assets/W10Images/MyBookColor/MyBookColor.png"
                            VerticalAlignment="Top"
@@ -49,7 +51,8 @@
                         FontWeight="Normal"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
-                        Margin="15,27,15,0">
+                        Margin="0,27,0,0"
+                        Padding="15,0,15,0">
                         <Run>
                             «ЛитРес» - продавец лицензионных электронных книг №1 в России и СНГ.
                             Нам доверяют ведущие издательства
@@ -73,20 +76,21 @@
                         Style="{StaticResource SmallSemiBoldBlackTextStyle}"
                         Foreground="#868686"
                         VerticalAlignment="Bottom"
-                        Margin="15,25,15,20">
+                        Margin="0,25,0,20"
+                        Padding="15,0,15,0">
                         <TextBlock.Inlines>
                             <Run x:Uid="AppVersionText" />
                             <Run Text="{Binding Path=ApplicationVersion, Mode=OneWay}" />
                         </TextBlock.Inlines>
                     </TextBlock>
                 </StackPanel>
-                <StackPanel x:Name="StackPanelWithGridViews" Grid.Row="2" Margin="0,0,0,10" Padding="0">
+                <StackPanel x:Name="StackPanelWithGridViews" Grid.Row="2" Margin="0,0,0,0" Padding="0">
                     <Grid Padding="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Row="0" Grid.Column="0" Margin="3,0,4,0" HorizontalAlignment="Stretch"
+                        <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,4,0" HorizontalAlignment="Stretch"
                                     Orientation="Vertical" Background="White">
                             <TextBlock
                                 Margin="0,15,0,0"
@@ -104,7 +108,7 @@
                                    Stretch="None"
                                    Margin="0,20,0,15" />
                         </StackPanel>
-                        <StackPanel Grid.Row="0" Grid.Column="1" Margin="4,0,3,0" HorizontalAlignment="Stretch"
+                        <StackPanel Grid.Row="0" Grid.Column="1" Margin="4,0,0,0" HorizontalAlignment="Stretch"
                                     Orientation="Vertical" Background="White">
                             <TextBlock
                                 Margin="0,15,0,0"
@@ -124,7 +128,7 @@
                         </StackPanel>
                     </Grid>
                 </StackPanel>
-                <StackPanel x:Name="StackPanelWithListViews" Grid.Row="2" Margin="0,0,0,10" Padding="0">
+                <StackPanel x:Name="StackPanelWithListViews" Grid.Row="2" Margin="0,0,0,8" Padding="0">
                     <ListView
                         Padding="0">
                         <StackPanel Margin="1,0,0,0" HorizontalAlignment="Stretch"
