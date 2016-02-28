@@ -9,12 +9,12 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Wp8Themes.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-    
-	<x:Double x:Key="LitResFontSizeReaderBarIcon">14</x:Double>
-	<x:Double x:Key="PhoneFontSizeHeaderNotification">24.17</x:Double>
-	<x:Double x:Key="PhoneFontSizeBookName">34.38</x:Double>
-	<x:Double x:Key="PhoneFontSizeAllList">33.75</x:Double>
-	<x:Double x:Key="PhoneFontSizeTextBoxButton">43.13</x:Double>
+
+    <x:Double x:Key="LitResFontSizeReaderBarIcon">14</x:Double>
+    <x:Double x:Key="PhoneFontSizeHeaderNotification">24.17</x:Double>
+    <x:Double x:Key="PhoneFontSizeBookName">34.38</x:Double>
+    <x:Double x:Key="PhoneFontSizeAllList">33.75</x:Double>
+    <x:Double x:Key="PhoneFontSizeTextBoxButton">43.13</x:Double>
     <x:Double x:Key="PhoneFontSizePanoramaItemHeader">67.5</x:Double>
 
     <Color x:Key="LitResWhiteColor">White</Color>
@@ -25,18 +25,18 @@
     <Color x:Key="LitResGreenTouchColor">#007500</Color>
 
     <Color x:Key="LitResAccentColor">#FFFF4D15</Color>
-	<Color x:Key="LitResCloudColor">#FFFF8F49</Color>
-    
-	<Color x:Key="LitResAccentForegroundColor">#FFFFFFFF</Color>
-	<Color x:Key="LitResForegroundColor">#FF000000</Color>
-	<Color x:Key="LitResForegroundInverseColor">#FFFFFFFF</Color>
-	<Color x:Key="LitResAppBarForegroundColor">#FFFFFFFF</Color>
-	<Color x:Key="LitResAppBarBackgroundColor">#FF333333</Color>
-	<Color x:Key="LitResReadderBarForegroundColor">#FFFFFFFF</Color>
-	<Color x:Key="LitResToggleUncheckedForegroundColor">#FF666666</Color>
-	<Color x:Key="LitResToggleSwitchBackgroundColor">#FFF0F0F0</Color>
-	<Color x:Key="LitResSliderUnactisBackgroundColor">#FF8F8F8F</Color>
-   
+    <Color x:Key="LitResCloudColor">#FFFF8F49</Color>
+
+    <Color x:Key="LitResAccentForegroundColor">#FFFFFFFF</Color>
+    <Color x:Key="LitResForegroundColor">#FF000000</Color>
+    <Color x:Key="LitResForegroundInverseColor">#FFFFFFFF</Color>
+    <Color x:Key="LitResAppBarForegroundColor">#FFFFFFFF</Color>
+    <Color x:Key="LitResAppBarBackgroundColor">#FF333333</Color>
+    <Color x:Key="LitResReadderBarForegroundColor">#FFFFFFFF</Color>
+    <Color x:Key="LitResToggleUncheckedForegroundColor">#FF666666</Color>
+    <Color x:Key="LitResToggleSwitchBackgroundColor">#FFF0F0F0</Color>
+    <Color x:Key="LitResSliderUnactisBackgroundColor">#FF8F8F8F</Color>
+
     <SolidColorBrush x:Key="LitResWhiteBrush" Color="{StaticResource LitResWhiteColor}"/>
     <SolidColorBrush x:Key="LitResGrayTouchBrush" Color="{StaticResource LitResGreyTouchColor}"/>
 
@@ -44,116 +44,116 @@
     <SolidColorBrush x:Key="LitResGreenTouchBrush" Color="{StaticResource LitResGreenTouchColor}"/>
 
     <SolidColorBrush x:Key="LitResAccentBrush" Color="{StaticResource LitResAccentColor}"/>
-	<SolidColorBrush x:Key="LitResCloudBrush" Color="{StaticResource LitResCloudColor}"/>
+    <SolidColorBrush x:Key="LitResCloudBrush" Color="{StaticResource LitResCloudColor}"/>
     <SolidColorBrush x:Key="LitResForegroundBrush" Color="{StaticResource LitResForegroundColor}"/>
-	<SolidColorBrush x:Key="LitResForegroundInverseBrush" Color="{StaticResource LitResForegroundInverseColor}"/>
-	<SolidColorBrush x:Key="LitResAccentForegroundBrush" Color="{StaticResource LitResAccentForegroundColor}"/>
-	<SolidColorBrush x:Key="LitResReaderBarForegroundBrush" Color="{StaticResource LitResReadderBarForegroundColor}"/>
-	<SolidColorBrush x:Key="LitResToggleUncheckedForegroundBrush" Color="{StaticResource LitResToggleUncheckedForegroundColor}"/>
-	<SolidColorBrush x:Key="LitResToggleSwitchBackgroundBrush" Color="{StaticResource LitResToggleSwitchBackgroundColor}"/>
-	<SolidColorBrush x:Key="LitResSliderUnactisBackgroundBrush" Color="{StaticResource LitResSliderUnactisBackgroundColor}"/>
+    <SolidColorBrush x:Key="LitResForegroundInverseBrush" Color="{StaticResource LitResForegroundInverseColor}"/>
+    <SolidColorBrush x:Key="LitResAccentForegroundBrush" Color="{StaticResource LitResAccentForegroundColor}"/>
+    <SolidColorBrush x:Key="LitResReaderBarForegroundBrush" Color="{StaticResource LitResReadderBarForegroundColor}"/>
+    <SolidColorBrush x:Key="LitResToggleUncheckedForegroundBrush" Color="{StaticResource LitResToggleUncheckedForegroundColor}"/>
+    <SolidColorBrush x:Key="LitResToggleSwitchBackgroundBrush" Color="{StaticResource LitResToggleSwitchBackgroundColor}"/>
+    <SolidColorBrush x:Key="LitResSliderUnactisBackgroundBrush" Color="{StaticResource LitResSliderUnactisBackgroundColor}"/>
     <SolidColorBrush x:Key="LitResOrangeBrush" Color="{StaticResource LitResOrangeColor}"/>
 
     <!-- WatermarkTextBox -->
-		<ControlTemplate x:Key="PhoneDisabledTextBoxTemplate" TargetType="TextBox">
-				<ContentControl x:Name="ContentElement" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="1" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Stretch"/>
-		</ControlTemplate>
-		<Style x:Key="WatermarkTextStyle" TargetType="ContentControl">
-				<Setter Property="HorizontalContentAlignment" Value="Left"/>
-				<Setter Property="Margin" Value="4,0,0,0"/>
-		</Style>
-		<Style  TargetType="controls:WatermarkedTextBox">
+    <ControlTemplate x:Key="PhoneDisabledTextBoxTemplate" TargetType="TextBox">
+        <ContentControl x:Name="ContentElement" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="1" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Stretch"/>
+    </ControlTemplate>
+    <Style x:Key="WatermarkTextStyle" TargetType="ContentControl">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="4,0,0,0"/>
+    </Style>
+    <Style  TargetType="controls:WatermarkedTextBox">
         <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilyNormal}"/>
-				<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMediumLarge}"/>
-				<Setter Property="Background" Value="Transparent"/>
-				<Setter Property="Foreground" Value="{StaticResource LitResForegroundBrush}"/>
-				<Setter Property="BorderBrush" Value="{StaticResource LitResForegroundBrush}"/>
-				<Setter Property="SelectionHighlightColor" Value="{StaticResource LitResAccentBrush}"/>
-				<Setter Property="BorderThickness" Value="3"/>
-				<Setter Property="Padding" Value="4,2,4,2"/>
-				<Setter Property="Margin" Value="24,0,24,0"/>
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="controls:WatermarkedTextBox">
-					<Grid Background="Transparent">
-						<VisualStateManager.VisualStateGroups>
-							<VisualStateGroup x:Name="CommonStates">
-								<VisualState x:Name="Normal"/>
-								<VisualState x:Name="MouseOver"/>
-								<VisualState x:Name="Disabled">
-									<Storyboard>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="EnabledBorder">
-											<DiscreteObjectKeyFrame KeyTime="0">
-												<DiscreteObjectKeyFrame.Value>
-													<Visibility>Collapsed</Visibility>
-												</DiscreteObjectKeyFrame.Value>
-											</DiscreteObjectKeyFrame>
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="DisabledOrReadonlyBorder">
-											<DiscreteObjectKeyFrame KeyTime="0">
-												<DiscreteObjectKeyFrame.Value>
-													<Visibility>Visible</Visibility>
-												</DiscreteObjectKeyFrame.Value>
-											</DiscreteObjectKeyFrame>
-										</ObjectAnimationUsingKeyFrames>
-									</Storyboard>
-								</VisualState>
-								<VisualState x:Name="ReadOnly">
-									<Storyboard>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="EnabledBorder">
-											<DiscreteObjectKeyFrame KeyTime="0">
-												<DiscreteObjectKeyFrame.Value>
-													<Visibility>Collapsed</Visibility>
-												</DiscreteObjectKeyFrame.Value>
-											</DiscreteObjectKeyFrame>
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="DisabledOrReadonlyBorder">
-											<DiscreteObjectKeyFrame KeyTime="0">
-												<DiscreteObjectKeyFrame.Value>
-													<Visibility>Visible</Visibility>
-												</DiscreteObjectKeyFrame.Value>
-											</DiscreteObjectKeyFrame>
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="DisabledOrReadonlyBorder">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResWhiteBrush}"/>
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="DisabledOrReadonlyBorder">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResWhiteBrush}"/>
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="DisabledOrReadonlyContent">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResGrayTouchBrush}"/>
-										</ObjectAnimationUsingKeyFrames>
-									</Storyboard>
-								</VisualState>
-							</VisualStateGroup>
-							<VisualStateGroup x:Name="FocusStates">
-								<VisualState x:Name="Focused">
-									<Storyboard>
-										<!--<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="EnabledBorder">
+        <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMediumLarge}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource LitResForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource LitResForegroundBrush}"/>
+        <Setter Property="SelectionHighlightColor" Value="{StaticResource LitResAccentBrush}"/>
+        <Setter Property="BorderThickness" Value="3"/>
+        <Setter Property="Padding" Value="4,2,4,2"/>
+        <Setter Property="Margin" Value="24,0,24,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:WatermarkedTextBox">
+                    <Grid Background="Transparent">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver"/>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="EnabledBorder">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Collapsed</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="DisabledOrReadonlyBorder">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="ReadOnly">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="EnabledBorder">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Collapsed</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="DisabledOrReadonlyBorder">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="DisabledOrReadonlyBorder">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResWhiteBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="DisabledOrReadonlyBorder">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResWhiteBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="DisabledOrReadonlyContent">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResGrayTouchBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualState x:Name="Focused">
+                                    <Storyboard>
+                                        <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="EnabledBorder">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneTextBoxEditBackgroundBrush}"/>
 										</ObjectAnimationUsingKeyFrames>-->
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="EnabledBorder">
-																						<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResAccentBrush}"/>
-										</ObjectAnimationUsingKeyFrames>
-																		</Storyboard>
-								</VisualState>
-								<VisualState x:Name="Unfocused"/>
-							
-							</VisualStateGroup>
-						</VisualStateManager.VisualStateGroups>
-						<Border x:Name="EnabledBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="12">
-							<Grid>
-							<ContentControl x:Name="watermarkContent" Style="{TemplateBinding WatermarkStyle}" Content="{TemplateBinding Watermark}" Background="Transparent" Opacity="0.5"/>
-							<ContentControl x:Name="ContentElement" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="1" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Stretch"/>
-							</Grid>
-						</Border>
-						<Border x:Name="DisabledOrReadonlyBorder" 
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="EnabledBorder">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResAccentBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unfocused"/>
+
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border x:Name="EnabledBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="12">
+                            <Grid>
+                                <ContentControl x:Name="watermarkContent" Style="{TemplateBinding WatermarkStyle}" Content="{TemplateBinding Watermark}" Background="Transparent" Opacity="0.5"/>
+                                <ContentControl x:Name="ContentElement" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="1" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Stretch"/>
+                            </Grid>
+                        </Border>
+                        <Border x:Name="DisabledOrReadonlyBorder" 
                                 BorderBrush="Gray" 
                                 BorderThickness="{TemplateBinding BorderThickness}" 
                                 Background="Transparent"
                                 Margin="12" 
                                 Visibility="Collapsed">
-							<TextBox x:Name="DisabledOrReadonlyContent" 
+                            <TextBox x:Name="DisabledOrReadonlyContent" 
                                      Background="Transparent" 
                                      Foreground="Gray"
 									 FontWeight="{TemplateBinding FontWeight}" 
@@ -166,161 +166,161 @@
 									 TextWrapping="{TemplateBinding TextWrapping}" 
                                      Text="{TemplateBinding Text}" 
                                      Template="{StaticResource PhoneDisabledTextBoxTemplate}" />
-						</Border>
-					</Grid>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
-		
-	<!-- BUTTONS -->
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-	<!-- Text button to be used at the end of the lists or screens -->
-	<Style x:Key="TextButton" TargetType="Button">
-		<Setter Property="Background" Value="Transparent"/>
-		<Setter Property="BorderBrush" Value="Transparent"/>
-		<Setter Property="Foreground" Value="{StaticResource LitResForegroundBrush}"/>
-		<Setter Property="BorderThickness" Value="0"/>
-		<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiLight}"/>
-		<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeTextBoxButton}"/>
-		<Setter Property="Padding" Value="0,0,0,0"/>
+    <!-- BUTTONS -->
 
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="Button">
-					<Grid Background="Transparent">
-						<VisualStateManager.VisualStateGroups>
-							<VisualStateGroup x:Name="CommonStates">
-								<VisualState x:Name="Normal"/>
-								<VisualState x:Name="MouseOver"/>
-								<VisualState x:Name="Pressed"/>
-								<VisualState x:Name="Disabled">
-									<Storyboard>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentContainer" Storyboard.TargetProperty="Foreground">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResGrayTouchBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="BorderBrush">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResGrayTouchBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Background">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="Transparent" />
-										</ObjectAnimationUsingKeyFrames>
-									</Storyboard>
-								</VisualState>
-							</VisualStateGroup>
-						</VisualStateManager.VisualStateGroups>
-						<Border x:Name="ButtonBackground" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" CornerRadius="0" Background="{TemplateBinding Background}" Margin="0,0,0,0">
-							<ContentControl x:Name="ContentContainer" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
-						</Border>
-					</Grid>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+    <!-- Text button to be used at the end of the lists or screens -->
+    <Style x:Key="TextButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource LitResForegroundBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiLight}"/>
+        <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeTextBoxButton}"/>
+        <Setter Property="Padding" Value="0,0,0,0"/>
 
-	<Style x:Key="WhiteButton" TargetType="Button">
-		<Setter Property="Background" Value="Transparent"/>
-				<Setter Property="BorderBrush" Value="{StaticResource LitResForegroundInverseBrush}"/>
-				<Setter Property="Foreground" Value="{StaticResource LitResForegroundInverseBrush}"/>
-		<Setter Property="BorderThickness" Value="2"/>
-		<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiBold}"/>
-		<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}"/>
-		<Setter Property="Padding" Value="10,5,10,6"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid Background="Transparent">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver"/>
+                                <VisualState x:Name="Pressed"/>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentContainer" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResGrayTouchBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResGrayTouchBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border x:Name="ButtonBackground" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" CornerRadius="0" Background="{TemplateBinding Background}" Margin="0,0,0,0">
+                            <ContentControl x:Name="ContentContainer" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="Button">
-					<Grid Background="Transparent">
-						<VisualStateManager.VisualStateGroups>
-							<VisualStateGroup x:Name="CommonStates">
-								<VisualState x:Name="Normal"/>
-								<VisualState x:Name="MouseOver"/>
-								<VisualState x:Name="Pressed">
-									<Storyboard>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentContainer" Storyboard.TargetProperty="Foreground">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResGrayTouchBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Background">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResAccentBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-									</Storyboard>
+    <Style x:Key="WhiteButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{StaticResource LitResForegroundInverseBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource LitResForegroundInverseBrush}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiBold}"/>
+        <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}"/>
+        <Setter Property="Padding" Value="10,5,10,6"/>
 
-								</VisualState>
-								<VisualState x:Name="Disabled">
-									<Storyboard>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentContainer" Storyboard.TargetProperty="Foreground">
-																						<DiscreteObjectKeyFrame KeyTime="0" Value="Gray" />
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="BorderBrush">
-																						<DiscreteObjectKeyFrame KeyTime="0" Value="Gray" />
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Background">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="Transparent" />
-										</ObjectAnimationUsingKeyFrames>
-									</Storyboard>
-								</VisualState>
-							</VisualStateGroup>
-						</VisualStateManager.VisualStateGroups>
-						<Border x:Name="ButtonBackground" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0" Background="{TemplateBinding Background}" Margin="0,0,0,0">
-							<ContentControl x:Name="ContentContainer" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
-						</Border>
-					</Grid>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid Background="Transparent">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver"/>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentContainer" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResGrayTouchBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResAccentBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
 
-	<Style x:Key="Button" TargetType="Button">
-		<Setter Property="Background" Value="Transparent"/>
-		<Setter Property="BorderBrush" Value="{StaticResource LitResForegroundBrush}"/>
-		<Setter Property="Foreground" Value="{StaticResource LitResForegroundBrush}"/>
-		<Setter Property="BorderThickness" Value="2"/>
-		<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiBold}"/>
-		<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}"/>
-		<Setter Property="Padding" Value="10,5,10,6"/>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentContainer" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gray" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gray" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border x:Name="ButtonBackground" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0" Background="{TemplateBinding Background}" Margin="0,0,0,0">
+                            <ContentControl x:Name="ContentContainer" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="Button">
-					<Grid Background="Transparent">
-						<VisualStateManager.VisualStateGroups>
-							<VisualStateGroup x:Name="CommonStates">
-								<VisualState x:Name="Normal"/>
-								<VisualState x:Name="MouseOver"/>
-								<VisualState x:Name="Pressed">
-									<Storyboard>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentContainer" Storyboard.TargetProperty="Foreground">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResGrayTouchBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Background">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResAccentBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-									</Storyboard>
+    <Style x:Key="Button" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{StaticResource LitResForegroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource LitResForegroundBrush}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiBold}"/>
+        <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}"/>
+        <Setter Property="Padding" Value="10,5,10,6"/>
 
-								</VisualState>
-								<VisualState x:Name="Disabled">
-									<Storyboard>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentContainer" Storyboard.TargetProperty="Foreground">
-																						<DiscreteObjectKeyFrame KeyTime="0" Value="Gray" />
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="BorderBrush">
-																						<DiscreteObjectKeyFrame KeyTime="0" Value="Gray" />
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Background">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="Transparent" />
-										</ObjectAnimationUsingKeyFrames>
-									</Storyboard>
-								</VisualState>
-							</VisualStateGroup>
-						</VisualStateManager.VisualStateGroups>
-						<Border x:Name="ButtonBackground" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0" Background="{TemplateBinding Background}" Margin="0,0,0,0">
-							<ContentControl x:Name="ContentContainer" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
-						</Border>
-					</Grid>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid Background="Transparent">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver"/>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentContainer" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResGrayTouchBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResAccentBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentContainer" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gray" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gray" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border x:Name="ButtonBackground" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0" Background="{TemplateBinding Background}" Margin="0,0,0,0">
+                            <ContentControl x:Name="ContentContainer" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style x:Key="SimpleWhiteButton" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
@@ -375,135 +375,135 @@
     </Style>
 
     <!--x:Key="PhoneHyperlinkButton"-->
-	<Style TargetType="HyperlinkButton">
-		<Setter Property="Foreground" Value="{StaticResource LitResForegroundBrush}"/>
-		<Setter Property="Background" Value="Transparent"/>
-		<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}"/>
-		<Setter Property="Padding" Value="0"/>
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="HyperlinkButton">
-					<Border Background="Transparent">
-						<VisualStateManager.VisualStateGroups>
-							<VisualStateGroup x:Name="CommonStates">
-								<VisualState x:Name="Normal"/>
-								<VisualState x:Name="MouseOver"/>
-								<VisualState x:Name="Pressed"/>
-								<!--<Storyboard>
+    <Style TargetType="HyperlinkButton">
+        <Setter Property="Foreground" Value="{StaticResource LitResForegroundBrush}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="HyperlinkButton">
+                    <Border Background="Transparent">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver"/>
+                                <VisualState x:Name="Pressed"/>
+                                <!--<Storyboard>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextElement" Storyboard.TargetProperty="Foreground">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneAccentBrush}"/>
 										</ObjectAnimationUsingKeyFrames>
 									</Storyboard>
 								</VisualState>-->
-								<VisualState x:Name="Disabled">
-									<Storyboard>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextElement" Storyboard.TargetProperty="Foreground">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResGrayTouchBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-									</Storyboard>
-								</VisualState>
-							</VisualStateGroup>
-						</VisualStateManager.VisualStateGroups>
-						<Border Background="{TemplateBinding Background}" Margin="12" Padding="{TemplateBinding Padding}" >
-							<TextBlock x:Name="TextElement" 
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextElement" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResGrayTouchBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border Background="{TemplateBinding Background}" Margin="12" Padding="{TemplateBinding Padding}" >
+                            <TextBlock x:Name="TextElement" 
                                        Text="{TemplateBinding Content}"
                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-						</Border>
-					</Border>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+                        </Border>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-		<!--RecenseTextBoxStyle-->
-		<Style x:Key="RecenseTextBoxStyle" TargetType="TextBox">
-				<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilyNormal}"/>
-				<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMediumLarge}"/>
-				<Setter Property="Background" Value="{StaticResource LitResWhiteBrush}"/>
-				<Setter Property="Foreground" Value="{StaticResource LitResAccentBrush}"/>
-				<Setter Property="BorderBrush" Value="{StaticResource LitResWhiteBrush}"/>
-				<Setter Property="SelectionHighlightColor" Value="{StaticResource LitResAccentBrush}"/>
-				<Setter Property="BorderThickness" Value="3"/>
-				<Setter Property="Padding" Value="2"/>
-				<Setter Property="Template">
-						<Setter.Value>
-								<ControlTemplate TargetType="TextBox">
-										<Grid Background="Transparent">
-												<VisualStateManager.VisualStateGroups>
-														<VisualStateGroup x:Name="CommonStates">
-																<VisualState x:Name="Normal"/>
-																<VisualState x:Name="MouseOver"/>
-																<VisualState x:Name="Disabled">
-																		<Storyboard>
-																				<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="EnabledBorder">
-																						<DiscreteObjectKeyFrame KeyTime="0">
-																								<DiscreteObjectKeyFrame.Value>
-																										<Visibility>Collapsed</Visibility>
-																								</DiscreteObjectKeyFrame.Value>
-																						</DiscreteObjectKeyFrame>
-																				</ObjectAnimationUsingKeyFrames>
-																				<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="DisabledOrReadonlyBorder">
-																						<DiscreteObjectKeyFrame KeyTime="0">
-																								<DiscreteObjectKeyFrame.Value>
-																										<Visibility>Visible</Visibility>
-																								</DiscreteObjectKeyFrame.Value>
-																						</DiscreteObjectKeyFrame>
-																				</ObjectAnimationUsingKeyFrames>
-																		</Storyboard>
-																</VisualState>
-																<VisualState x:Name="ReadOnly">
-																		<Storyboard>
-																				<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="EnabledBorder">
-																						<DiscreteObjectKeyFrame KeyTime="0">
-																								<DiscreteObjectKeyFrame.Value>
-																										<Visibility>Collapsed</Visibility>
-																								</DiscreteObjectKeyFrame.Value>
-																						</DiscreteObjectKeyFrame>
-																				</ObjectAnimationUsingKeyFrames>
-																				<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="DisabledOrReadonlyBorder">
-																						<DiscreteObjectKeyFrame KeyTime="0">
-																								<DiscreteObjectKeyFrame.Value>
-																										<Visibility>Visible</Visibility>
-																								</DiscreteObjectKeyFrame.Value>
-																						</DiscreteObjectKeyFrame>
-																				</ObjectAnimationUsingKeyFrames>
-																				<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="DisabledOrReadonlyBorder">
-																						<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResWhiteBrush}"/>
-																				</ObjectAnimationUsingKeyFrames>
-																				<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="DisabledOrReadonlyBorder">
-																						<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResWhiteBrush}"/>
-																				</ObjectAnimationUsingKeyFrames>
-																				<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="DisabledOrReadonlyContent">
-																						<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResGrayTouchBrush}"/>
-																				</ObjectAnimationUsingKeyFrames>
-																		</Storyboard>
-																</VisualState>
-														</VisualStateGroup>
-														<VisualStateGroup x:Name="FocusStates">
-																<VisualState x:Name="Focused">
-																		<Storyboard>
-																				<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="EnabledBorder">
-																						<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResWhiteBrush}"/>
-																				</ObjectAnimationUsingKeyFrames>
-																				<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="EnabledBorder">
-																						<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResGrayTouchBrush}"/>
-																				</ObjectAnimationUsingKeyFrames>
-																		</Storyboard>
-																</VisualState>
-																<VisualState x:Name="Unfocused"/>
-														</VisualStateGroup>
-														<VisualStateGroup x:Name="ValidationStates"/>
-												</VisualStateManager.VisualStateGroups>
-												<Border x:Name="EnabledBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="12">
-														<ContentControl x:Name="ContentElement" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="1" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Stretch"/>
-												</Border>
-												<Border x:Name="DisabledOrReadonlyBorder" 
+    <!--RecenseTextBoxStyle-->
+    <Style x:Key="RecenseTextBoxStyle" TargetType="TextBox">
+        <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilyNormal}"/>
+        <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMediumLarge}"/>
+        <Setter Property="Background" Value="{StaticResource LitResWhiteBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource LitResAccentBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource LitResWhiteBrush}"/>
+        <Setter Property="SelectionHighlightColor" Value="{StaticResource LitResAccentBrush}"/>
+        <Setter Property="BorderThickness" Value="3"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Grid Background="Transparent">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver"/>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="EnabledBorder">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Collapsed</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="DisabledOrReadonlyBorder">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="ReadOnly">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="EnabledBorder">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Collapsed</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="DisabledOrReadonlyBorder">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="DisabledOrReadonlyBorder">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResWhiteBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="DisabledOrReadonlyBorder">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResWhiteBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="DisabledOrReadonlyContent">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResGrayTouchBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualState x:Name="Focused">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="EnabledBorder">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResWhiteBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="EnabledBorder">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LitResGrayTouchBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unfocused"/>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ValidationStates"/>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border x:Name="EnabledBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="12">
+                            <ContentControl x:Name="ContentElement" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="1" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Stretch"/>
+                        </Border>
+                        <Border x:Name="DisabledOrReadonlyBorder" 
                                                         BorderBrush="{StaticResource LitResGrayTouchBrush}" 
                                                         BorderThickness="{TemplateBinding BorderThickness}"
                                                         Background="Transparent" Margin="12" 
                                                         Visibility="Collapsed">
-														<TextBox x:Name="DisabledOrReadonlyContent" 
+                            <TextBox x:Name="DisabledOrReadonlyContent" 
                                                                  Background="Transparent" 
                                                                  Foreground="{StaticResource LitResGrayTouchBrush}" 
                                                                  FontWeight="{TemplateBinding FontWeight}" 
@@ -516,15 +516,15 @@
                                                                  TextWrapping="{TemplateBinding TextWrapping}" 
                                                                  Text="{TemplateBinding Text}" 
                                                                  Template="{StaticResource PhoneDisabledTextBoxTemplate}"/>
-												</Border>
-										</Grid>
-								</ControlTemplate>
-						</Setter.Value>
-				</Setter>
-		</Style>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-		<!-- GRID -->
-	<Style x:Key="LayoutRoot" TargetType="Grid">
+    <!-- GRID -->
+    <Style x:Key="LayoutRoot" TargetType="Grid">
         <Setter Property="Background">
             <Setter.Value>
                 <SolidColorBrush Color="{StaticResource LitresMainBackgroundColor}"/>
@@ -592,50 +592,50 @@
     </Style>
 
     <Style x:Key="CoverGrid" TargetType="Grid">
-		<Setter Property="Background">
-			<Setter.Value>
-				<ImageBrush ImageSource="/Assets/stub.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top" ></ImageBrush>
-			</Setter.Value>
-		</Setter>
-	</Style>
+        <Setter Property="Background">
+            <Setter.Value>
+                <ImageBrush ImageSource="/Assets/stub.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top" ></ImageBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-	<!-- Panorama -->
-	<Style x:Key="MainPanorama" TargetType="Hub">
-		<Setter Property="Background" Value="Transparent" />
-		<!--<Setter.Value>
+    <!-- Panorama -->
+    <Style x:Key="MainPanorama" TargetType="Hub">
+        <Setter Property="Background" Value="Transparent" />
+        <!--<Setter.Value>
 				<ImageBrush ImageSource="/Assets/Background.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top" ></ImageBrush>
 		</Setter.Value>-->
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="Hub">
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition Height="55"/>
-							<RowDefinition Height="*"/>
-						</Grid.RowDefinitions>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Hub">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="55"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-					</Grid>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-	<Style x:Key="Panorama" TargetType="Hub">
-		<Setter Property="Background" Value="Transparent" />
-	
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="Hub">
-					<Grid>
+    <Style x:Key="Panorama" TargetType="Hub">
+        <Setter Property="Background" Value="Transparent" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Hub">
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="144"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                     </Grid>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style x:Key="PanoramaPurchase" TargetType="Hub">
         <Setter Property="Background" Value="Transparent" />
@@ -667,9 +667,9 @@
     </Style>
 
     <!-- TextBlock -->
-	<Style x:Name="TextBlockStyle" TargetType="TextBlock" >
-		<Setter Property="Foreground" Value="{StaticResource LitResForegroundBrush}"/>
-	</Style>
+    <Style x:Name="TextBlockStyle" TargetType="TextBlock" >
+        <Setter Property="Foreground" Value="{StaticResource LitResForegroundBrush}"/>
+    </Style>
 
     <Style x:Name="TextBlockPurchaseHeaderStyle" TargetType="TextBlock" >
         <Setter Property="Foreground" Value="{StaticResource LitResAccentBrush}"/>
@@ -678,21 +678,21 @@
     </Style>
 
     <Style x:Name="TextBlockHeaderStyle" TargetType="TextBlock" >
-		<Setter Property="Foreground" Value="{StaticResource LitResAccentBrush}"/>
-		<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiBold}"/>
-		<Setter Property="FontSize" Value="22.67"/>
-	</Style>
+        <Setter Property="Foreground" Value="{StaticResource LitResAccentBrush}"/>
+        <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiBold}"/>
+        <Setter Property="FontSize" Value="22.67"/>
+    </Style>
 
     <Style x:Key="TextBlockGenreStyle" x:Name="TextBlockGenreStyle" TargetType="TextBlock" >
-		<Setter Property="Foreground" Value="{StaticResource LitResForegroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource LitResForegroundBrush}"/>
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontWeight" Value="Normal"/>
-		<Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontSize" Value="16"/>
         <Setter Property="LineHeight" Value="16"/>
-		<Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
         <Setter Property="Height" Value="22"/>
         <Setter Property="Padding" Value="0"/>
-	</Style>
+    </Style>
 
     <Style x:Key="WideTextBlockGenreStyle" x:Name="WideTextBlockGenreStyle" TargetType="TextBlock" >
         <Setter Property="Foreground" Value="{StaticResource LitResForegroundBrush}"/>
@@ -705,10 +705,10 @@
         <Setter Property="Padding" Value="0"/>
     </Style>
 
-	<!--x:Key="PhoneSlider"-->
-	<Style x:Name="BookSlider" TargetType="Slider">
+    <!--x:Key="PhoneSlider"-->
+    <Style x:Name="BookSlider" TargetType="Slider">
 
-	</Style>
+    </Style>
 
     <ControlTemplate x:Key="LitresSlider" TargetType="Slider">
         <Grid Margin="{TemplateBinding Padding}">
@@ -807,13 +807,13 @@
             </VisualStateManager.VisualStateGroups>
             <ContentPresenter x:Name="HeaderContentPresenter"
 					x:DeferLoadStrategy="Lazy"
-					Visibility="Collapsed"
+					Visibility="Visible"
 					Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
-					Margin="{ThemeResource SliderHeaderThemeMargin}"
+					Margin="1,0,1,1"
 					Content="{TemplateBinding Header}"
 					ContentTemplate="{TemplateBinding HeaderTemplate}"
 					FontWeight="{ThemeResource SliderHeaderThemeFontWeight}"
-					TextWrapping="Wrap" />
+					TextWrapping="Wrap" Padding="0,-6,0,0" Opacity="1" />
             <Grid x:Name="SliderContainer" Background="Transparent" Grid.Row="1" Control.IsTemplateFocusTarget="True">
                 <Grid x:Name="HorizontalTemplate" MinHeight="44">
                     <Grid.ColumnDefinitions>
@@ -857,13 +857,12 @@
 							Grid.ColumnSpan="3" />
                     <Thumb x:Name="HorizontalThumb"
 							Style="{StaticResource SliderThumbStyle}"
-							DataContext="{TemplateBinding Value}"
 							Height="24"
 							Width="8"
 							Grid.Row="0"
 							Grid.RowSpan="3"
 							Grid.Column="1"
-							AutomationProperties.AccessibilityView="Raw" Foreground="#FFFF4C00" Background="#FFFF4C00" />
+							AutomationProperties.AccessibilityView="Raw" Foreground="#FFFF4C00" Background="#FFFF4C00" ToolTipService.ToolTip="{StaticResource Object1}" />
                 </Grid>
                 <Grid x:Name="VerticalTemplate" MinWidth="44" Visibility="Collapsed">
                     <Grid.RowDefinitions>
@@ -922,166 +921,166 @@
     </ControlTemplate>
 
     <Style x:Name="SettingsSlider3" TargetType="controls:LitresSettingsSlider">
-		<Setter Property="BorderThickness" Value="0"/>
-		<Setter Property="BorderBrush" Value="Transparent"/>
-		<Setter Property="Maximum" Value="10"/>
-		<Setter Property="Minimum" Value="0"/>
-		<Setter Property="Value" Value="0"/>
-		<Setter Property="Background" Value="{StaticResource LitResSliderUnactisBackgroundBrush}"/>
-		<Setter Property="Foreground" Value="{StaticResource LitResAccentBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Maximum" Value="10"/>
+        <Setter Property="Minimum" Value="0"/>
+        <Setter Property="Value" Value="0"/>
+        <Setter Property="Background" Value="{StaticResource LitResSliderUnactisBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource LitResAccentBrush}"/>
         <Setter Property="SmallChange" Value="1"/>
         <Setter Property="LargeChange" Value="1"/>
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="controls:LitresSettingsSlider">
-					<Grid Background="Transparent">
-						<VisualStateManager.VisualStateGroups>
-							<VisualStateGroup x:Name="CommonStates">
-								<VisualState x:Name="Normal"/>
-								<VisualState x:Name="MouseOver"/>
-								<VisualState x:Name="Disabled">
-									<Storyboard>
-										<DoubleAnimation Duration="0" Storyboard.TargetName="HorizontalTrack" Storyboard.TargetProperty="Opacity" To="0.1" />
-										<DoubleAnimation Duration="0" Storyboard.TargetName="VerticalTrack" Storyboard.TargetProperty="Opacity" To="0.1" />
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalFill" Storyboard.TargetProperty="Fill">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalFill" Storyboard.TargetProperty="Fill">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-									</Storyboard>
-								</VisualState>
-							</VisualStateGroup>
-						</VisualStateManager.VisualStateGroups>
-						<Grid x:Name="HorizontalTemplate" Margin="{StaticResource PhoneHorizontalMargin}">
-							<Grid Height="12" IsHitTestVisible="False" Margin="0,22,0,50">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition/>
-									<ColumnDefinition/>
-								</Grid.ColumnDefinitions>
-								<Rectangle Grid.Column="0" Fill="{TemplateBinding Background}" Height="12" IsHitTestVisible="False" Margin="0,0,2,0"/>
-								<Rectangle Grid.Column="1" Fill="{TemplateBinding Background}" Height="12" IsHitTestVisible="False" Margin="2,0,0,0"/>
-							</Grid>
-							<Grid Height="12" IsHitTestVisible="False" Margin="0,22,0,50">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition/>
-									<ColumnDefinition/>
-								</Grid.ColumnDefinitions>
-								<Rectangle x:Name="Rect1" Grid.Column="0" Visibility="Collapsed" Fill="{TemplateBinding Foreground}" Height="12" IsHitTestVisible="False" Margin="0,0,2,0"/>
-								<Rectangle x:Name="Rect2" Grid.Column="2" Visibility="Collapsed" Fill="{TemplateBinding Foreground}" Height="12" IsHitTestVisible="False" Margin="2,0,0,0"/>
-							</Grid>
-							<Rectangle x:Name="HorizontalFill" Fill="Transparent" Height="12" IsHitTestVisible="False" Margin="0,22,0,50">
-								<Rectangle.Clip>
-									<RectangleGeometry Rect="0, 0, 6, 12" />
-								</Rectangle.Clip>
-							</Rectangle>
-							<Rectangle x:Name="HorizontalCenterElement" HorizontalAlignment="Left" Fill="{StaticResource LitResForegroundBrush}" Width="12" Height="24" Margin="0,16,0,44">
-								<Rectangle.RenderTransform>
-									<TranslateTransform />
-								</Rectangle.RenderTransform>
-							</Rectangle>
-						</Grid>
-						<Grid x:Name="VerticalTemplate" Margin="{StaticResource PhoneVerticalMargin}">
-							<Rectangle x:Name="VerticalTrack" Fill="{TemplateBinding Background}" Width="12" IsHitTestVisible="False" Margin="18,0,18,0"/>
-							<Rectangle x:Name="VerticalFill" Fill="{TemplateBinding Foreground}" Width="12" IsHitTestVisible="False" Margin="18,0,18,0">
-								<Rectangle.Clip>
-									<RectangleGeometry Rect="0, 0, 12, 6" />
-								</Rectangle.Clip>
-							</Rectangle>
-							<Rectangle x:Name="VerticalCenterElement" VerticalAlignment="Top" Fill="{StaticResource PhoneForegroundBrush}" Width="24" Height="12" Margin="12,0,12,0">
-								<Rectangle.RenderTransform>
-									<TranslateTransform />
-								</Rectangle.RenderTransform>
-							</Rectangle>
-						</Grid>
-					</Grid>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:LitresSettingsSlider">
+                    <Grid Background="Transparent">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver"/>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" Storyboard.TargetName="HorizontalTrack" Storyboard.TargetProperty="Opacity" To="0.1" />
+                                        <DoubleAnimation Duration="0" Storyboard.TargetName="VerticalTrack" Storyboard.TargetProperty="Opacity" To="0.1" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalFill" Storyboard.TargetProperty="Fill">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalFill" Storyboard.TargetProperty="Fill">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid x:Name="HorizontalTemplate" Margin="{StaticResource PhoneHorizontalMargin}">
+                            <Grid Height="12" IsHitTestVisible="False" Margin="0,22,0,50">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Grid.Column="0" Fill="{TemplateBinding Background}" Height="12" IsHitTestVisible="False" Margin="0,0,2,0"/>
+                                <Rectangle Grid.Column="1" Fill="{TemplateBinding Background}" Height="12" IsHitTestVisible="False" Margin="2,0,0,0"/>
+                            </Grid>
+                            <Grid Height="12" IsHitTestVisible="False" Margin="0,22,0,50">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle x:Name="Rect1" Grid.Column="0" Visibility="Collapsed" Fill="{TemplateBinding Foreground}" Height="12" IsHitTestVisible="False" Margin="0,0,2,0"/>
+                                <Rectangle x:Name="Rect2" Grid.Column="2" Visibility="Collapsed" Fill="{TemplateBinding Foreground}" Height="12" IsHitTestVisible="False" Margin="2,0,0,0"/>
+                            </Grid>
+                            <Rectangle x:Name="HorizontalFill" Fill="Transparent" Height="12" IsHitTestVisible="False" Margin="0,22,0,50">
+                                <Rectangle.Clip>
+                                    <RectangleGeometry Rect="0, 0, 6, 12" />
+                                </Rectangle.Clip>
+                            </Rectangle>
+                            <Rectangle x:Name="HorizontalCenterElement" HorizontalAlignment="Left" Fill="{StaticResource LitResForegroundBrush}" Width="12" Height="24" Margin="0,16,0,44">
+                                <Rectangle.RenderTransform>
+                                    <TranslateTransform />
+                                </Rectangle.RenderTransform>
+                            </Rectangle>
+                        </Grid>
+                        <Grid x:Name="VerticalTemplate" Margin="{StaticResource PhoneVerticalMargin}">
+                            <Rectangle x:Name="VerticalTrack" Fill="{TemplateBinding Background}" Width="12" IsHitTestVisible="False" Margin="18,0,18,0"/>
+                            <Rectangle x:Name="VerticalFill" Fill="{TemplateBinding Foreground}" Width="12" IsHitTestVisible="False" Margin="18,0,18,0">
+                                <Rectangle.Clip>
+                                    <RectangleGeometry Rect="0, 0, 12, 6" />
+                                </Rectangle.Clip>
+                            </Rectangle>
+                            <Rectangle x:Name="VerticalCenterElement" VerticalAlignment="Top" Fill="{StaticResource PhoneForegroundBrush}" Width="24" Height="12" Margin="12,0,12,0">
+                                <Rectangle.RenderTransform>
+                                    <TranslateTransform />
+                                </Rectangle.RenderTransform>
+                            </Rectangle>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style x:Name="SettingsSlider4" TargetType="controls:LitresSettingsSlider">
-		<Setter Property="BorderThickness" Value="0"/>
-		<Setter Property="BorderBrush" Value="Transparent"/>
-		<Setter Property="Maximum" Value="10"/>
-		<Setter Property="Minimum" Value="0"/>
-		<Setter Property="Value" Value="0"/>
-		<Setter Property="Background" Value="{StaticResource LitResSliderUnactisBackgroundBrush}"/>
-		<Setter Property="Foreground" Value="{StaticResource LitResAccentBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Maximum" Value="10"/>
+        <Setter Property="Minimum" Value="0"/>
+        <Setter Property="Value" Value="0"/>
+        <Setter Property="Background" Value="{StaticResource LitResSliderUnactisBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource LitResAccentBrush}"/>
         <Setter Property="SmallChange" Value="1"/>
         <Setter Property="LargeChange" Value="1"/>
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="controls:LitresSettingsSlider">
-					<Grid Background="Transparent">
-						<VisualStateManager.VisualStateGroups>
-							<VisualStateGroup x:Name="CommonStates">
-								<VisualState x:Name="Normal"/>
-								<VisualState x:Name="MouseOver"/>
-								<VisualState x:Name="Disabled">
-									<Storyboard>
-										<DoubleAnimation Duration="0" Storyboard.TargetName="HorizontalTrack" Storyboard.TargetProperty="Opacity" To="0.1" />
-										<DoubleAnimation Duration="0" Storyboard.TargetName="VerticalTrack" Storyboard.TargetProperty="Opacity" To="0.1" />
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalFill" Storyboard.TargetProperty="Fill">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalFill" Storyboard.TargetProperty="Fill">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}" />
-										</ObjectAnimationUsingKeyFrames>
-									</Storyboard>
-								</VisualState>
-							</VisualStateGroup>
-						</VisualStateManager.VisualStateGroups>
-						<Grid x:Name="HorizontalTemplate" Margin="{StaticResource PhoneHorizontalMargin}">
-							<Grid Height="12" IsHitTestVisible="False" Margin="0,22,0,50">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition/>
-									<ColumnDefinition/>
-									<ColumnDefinition/>
-								</Grid.ColumnDefinitions>
-								<Rectangle Grid.Column="0" Fill="{TemplateBinding Background}" Height="12" IsHitTestVisible="False" Margin="0,0,2,0"/>
-								<Rectangle Grid.Column="1" Fill="{TemplateBinding Background}" Height="12" IsHitTestVisible="False" Margin="2,0,2,0"/>
-								<Rectangle Grid.Column="2" Fill="{TemplateBinding Background}" Height="12" IsHitTestVisible="False" Margin="2,0,0,0"/>
-							</Grid>
-							<Grid Height="12" IsHitTestVisible="False" Margin="0,22,0,50">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition/>
-									<ColumnDefinition/>
-									<ColumnDefinition/>
-								</Grid.ColumnDefinitions>
-								<Rectangle x:Name="Rect1" Grid.Column="0" Visibility="Collapsed" Fill="{TemplateBinding Foreground}" Height="12" IsHitTestVisible="False" Margin="0,0,2,0"/>
-								<Rectangle x:Name="Rect2" Grid.Column="1" Visibility="Collapsed" Fill="{TemplateBinding Foreground}" Height="12" IsHitTestVisible="False" Margin="2,0,2,0"/>
-								<Rectangle x:Name="Rect3" Grid.Column="2" Visibility="Collapsed" Fill="{TemplateBinding Foreground}" Height="12" IsHitTestVisible="False" Margin="2,0,0,0"/>
-							</Grid>
-							<Rectangle x:Name="HorizontalFill" Fill="Transparent" Height="12" IsHitTestVisible="False" Margin="0,22,0,50">
-								<Rectangle.Clip>
-									<RectangleGeometry Rect="0, 0, 6, 12" />
-								</Rectangle.Clip>
-							</Rectangle>
-							<Rectangle x:Name="HorizontalCenterElement" HorizontalAlignment="Left" Fill="{StaticResource LitResForegroundBrush}" Width="12" Height="24" Margin="0,16,0,44">
-								<Rectangle.RenderTransform>
-									<TranslateTransform />
-								</Rectangle.RenderTransform>
-							</Rectangle>
-						</Grid>
-						<Grid x:Name="VerticalTemplate" Margin="{StaticResource PhoneVerticalMargin}">
-							<Rectangle x:Name="VerticalTrack" Fill="{TemplateBinding Background}" Width="12" IsHitTestVisible="False" Margin="18,0,18,0"/>
-							<Rectangle x:Name="VerticalFill" Fill="{TemplateBinding Foreground}" Width="12" IsHitTestVisible="False" Margin="18,0,18,0">
-								<Rectangle.Clip>
-									<RectangleGeometry Rect="0, 0, 12, 6" />
-								</Rectangle.Clip>
-							</Rectangle>
-							<Rectangle x:Name="VerticalCenterElement" VerticalAlignment="Top" Fill="{StaticResource PhoneForegroundBrush}" Width="24" Height="12" Margin="12,0,12,0">
-								<Rectangle.RenderTransform>
-									<TranslateTransform />
-								</Rectangle.RenderTransform>
-							</Rectangle>
-						</Grid>
-					</Grid>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:LitresSettingsSlider">
+                    <Grid Background="Transparent">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver"/>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" Storyboard.TargetName="HorizontalTrack" Storyboard.TargetProperty="Opacity" To="0.1" />
+                                        <DoubleAnimation Duration="0" Storyboard.TargetName="VerticalTrack" Storyboard.TargetProperty="Opacity" To="0.1" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalFill" Storyboard.TargetProperty="Fill">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VerticalFill" Storyboard.TargetProperty="Fill">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid x:Name="HorizontalTemplate" Margin="{StaticResource PhoneHorizontalMargin}">
+                            <Grid Height="12" IsHitTestVisible="False" Margin="0,22,0,50">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Grid.Column="0" Fill="{TemplateBinding Background}" Height="12" IsHitTestVisible="False" Margin="0,0,2,0"/>
+                                <Rectangle Grid.Column="1" Fill="{TemplateBinding Background}" Height="12" IsHitTestVisible="False" Margin="2,0,2,0"/>
+                                <Rectangle Grid.Column="2" Fill="{TemplateBinding Background}" Height="12" IsHitTestVisible="False" Margin="2,0,0,0"/>
+                            </Grid>
+                            <Grid Height="12" IsHitTestVisible="False" Margin="0,22,0,50">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle x:Name="Rect1" Grid.Column="0" Visibility="Collapsed" Fill="{TemplateBinding Foreground}" Height="12" IsHitTestVisible="False" Margin="0,0,2,0"/>
+                                <Rectangle x:Name="Rect2" Grid.Column="1" Visibility="Collapsed" Fill="{TemplateBinding Foreground}" Height="12" IsHitTestVisible="False" Margin="2,0,2,0"/>
+                                <Rectangle x:Name="Rect3" Grid.Column="2" Visibility="Collapsed" Fill="{TemplateBinding Foreground}" Height="12" IsHitTestVisible="False" Margin="2,0,0,0"/>
+                            </Grid>
+                            <Rectangle x:Name="HorizontalFill" Fill="Transparent" Height="12" IsHitTestVisible="False" Margin="0,22,0,50">
+                                <Rectangle.Clip>
+                                    <RectangleGeometry Rect="0, 0, 6, 12" />
+                                </Rectangle.Clip>
+                            </Rectangle>
+                            <Rectangle x:Name="HorizontalCenterElement" HorizontalAlignment="Left" Fill="{StaticResource LitResForegroundBrush}" Width="12" Height="24" Margin="0,16,0,44">
+                                <Rectangle.RenderTransform>
+                                    <TranslateTransform />
+                                </Rectangle.RenderTransform>
+                            </Rectangle>
+                        </Grid>
+                        <Grid x:Name="VerticalTemplate" Margin="{StaticResource PhoneVerticalMargin}">
+                            <Rectangle x:Name="VerticalTrack" Fill="{TemplateBinding Background}" Width="12" IsHitTestVisible="False" Margin="18,0,18,0"/>
+                            <Rectangle x:Name="VerticalFill" Fill="{TemplateBinding Foreground}" Width="12" IsHitTestVisible="False" Margin="18,0,18,0">
+                                <Rectangle.Clip>
+                                    <RectangleGeometry Rect="0, 0, 12, 6" />
+                                </Rectangle.Clip>
+                            </Rectangle>
+                            <Rectangle x:Name="VerticalCenterElement" VerticalAlignment="Top" Fill="{StaticResource PhoneForegroundBrush}" Width="24" Height="12" Margin="12,0,12,0">
+                                <Rectangle.RenderTransform>
+                                    <TranslateTransform />
+                                </Rectangle.RenderTransform>
+                            </Rectangle>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style x:Name="SettingsSlider5" TargetType="controls:LitresSettingsSlider">
         <Setter Property="BorderThickness" Value="0"/>

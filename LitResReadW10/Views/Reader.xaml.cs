@@ -55,8 +55,7 @@ namespace LitRes.Views
         private bool _fullVisible;
         private int _moveCount;
         private double _fractionRead;
-        private bool _syncInProgress;
-        private readonly Object _thisLock = new object();
+        private bool _syncInProgress;        
         private bool _isBuyShowed;
         private bool _isLoaded;
         private IFontHelper activeFontHelper;
@@ -164,7 +163,7 @@ namespace LitRes.Views
             await HandleLoadedBook();
             if (ViewModel.Entity == null) return;
 
-            AddBuySection(ViewModel.Entity.Price);
+          //  AddBuySection(ViewModel.Entity.Price);
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -200,7 +199,7 @@ namespace LitRes.Views
                 Redraw();
                 _isSliderMoving = false; 
                 CurrentPageSlider.ManipulationStarted += CurrentPageSliderOnManipulationStarted;    
-                CurrentPageSlider.ValueChanged += CurrentPageSliderOnValueChanged;
+                CurrentPageSlider.PointerReleased += CurrentPageSliderOnPointerReleased;
             }
             else if (e.PropertyName == "EntityLoaded")
             {
@@ -210,6 +209,12 @@ namespace LitRes.Views
             {
                 pageProgress.Value += 1;
             }
+        }
+
+        private void CurrentPageSliderOnPointerReleased(object sender, PointerRoutedEventArgs pointerRoutedEventArgs)
+        {
+            _isSliderMoving = false;
+            OnSliderClickOrMoved();
         }
 
         public async void UpdateBook()
@@ -259,8 +264,6 @@ namespace LitRes.Views
                 _navigationService.GoBack();
             }
 
-           // BookCoverBack.Visibility = Visibility.Collapsed;
-
             ShowMenu();
         }
 
@@ -307,11 +310,6 @@ namespace LitRes.Views
                         price.ToString(CultureInfo.InvariantCulture) + " рублей.";
         }
     
-        private void CheckBuyMenuVisible()
-        {
-
-        }
-
         private void CheckBuyMenuVisible(int currentPage, int totalPages)
         {
             if (ViewModel != null)
@@ -331,54 +329,7 @@ namespace LitRes.Views
                 }
             }
         }
-
-        private void ChangeSliderValue(double val)
-        {
-            _isSliderManipulationStarted = true;
-            CurrentPageSlider.Value = val;
-        }
-        
-
-        private bool _isSliderManipulationStarted;
-
-        private void CurrentPageSlider_OnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
-        {
-            _isSliderManipulationStarted = true;
-            Debug.WriteLine("Manipulation Started");
-        }
-
-        private void CurrentPageSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        {
-            Debug.WriteLine("Value changed");
-            if (ViewModel?.Entity != null)
-            {
-                if (!_isSliderManipulationStarted) CurrentPageSlider_ManipulationCompleted(null, null);
-
-                if (CurrentPageSlider != null)
-                    ViewModel.Entity.ReadedPercent = (int)Math.Ceiling(CurrentPageSlider.Value / (CurrentPageSlider.Maximum / 100));
-            }
-        }
-
-        private async void CurrentPageSlider_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
-        {
-            Debug.WriteLine("Manipulation Completed");
-            if (_isSliderManipulationStarted)
-            {
-                int newPage = (int)CurrentPageSlider.Value;
-                try
-                {
-                   
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                    throw;
-                }
-            }
-            _isSliderManipulationStarted = false;
-            CheckBuyMenuVisible();
-        }
-        
+                
         private async void BuyBookMenuTap(object sender, TappedRoutedEventArgs e)
         {
             Analytics.Instance.sendMessage(Analytics.ActionBuyFromFragment);
@@ -400,16 +351,27 @@ namespace LitRes.Views
             }
         }
         
-        private void HideMenu()
+        private async void HideMenu()
         {
-            CurrentPageSlider.Visibility = Visibility.Collapsed;
+            CurrentPageSlider.Opacity = 0;
             TopRelativePanel.Visibility = Visibility.Collapsed;
+            if (!SystemInfoHelper.IsDesktop())
+            {
+                StatusBar statusBar = StatusBar.GetForCurrentView();
+                await statusBar.HideAsync();
+            }
         }
 
-        private void ShowMenu()
+        private async void ShowMenu()
         {
-            CurrentPageSlider.Visibility = Visibility.Visible;
+            CurrentPageSlider.Opacity = 1;           
             TopRelativePanel.Visibility = Visibility.Visible;
+            if (!SystemInfoHelper.IsDesktop())
+            {
+                StatusBar statusBar = StatusBar.GetForCurrentView();
+                await statusBar.ShowAsync();
+                
+            }
         }
 
         public void ExpiredCallBack(Models.Book book)
@@ -485,19 +447,7 @@ namespace LitRes.Views
 
         public async void ChangeMargins()
         {
-            var margin = AppSettings.Default.MarginIndex;
-            switch (margin)
-            {
-                case 1:
-                    AppSettings.Default.Margin = new Thickness(18);
-                    break;
-                case 2:
-                    AppSettings.Default.Margin = new Thickness(12);
-                    break;
-                case 3:
-                    AppSettings.Default.Margin = new Thickness(8);
-                    break;
-            }
+
             await CreateController();
         }
 
@@ -506,9 +456,9 @@ namespace LitRes.Views
             await CreateController();
         }
 
-        public void ChangeFontSize()
+        public async void ChangeFontSize()
         {
-            
+            await CreateController();
         }
 
         public async void ChangeFont()
@@ -540,8 +490,6 @@ namespace LitRes.Views
 
                 await CreateController();
 
-                CurrentPageSlider.ManipulationCompleted += CurrentPageSliderOnManipulationCompleted;
-
                 _event.Release();
 
                 if (BookCoverBack.Visibility == Visibility.Visible)
@@ -555,19 +503,13 @@ namespace LitRes.Views
 
         private int? _preSelectionOffset;
 
-        private void CurrentPageSliderOnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs manipulationCompletedRoutedEventArgs)
-        {
-            _isSliderMoving = false;
-            OnSliderClickOrMoved();
-        }
-
         private async void OnSliderClickOrMoved()
         {
             if (_preSelectionOffset == null)
                 _preSelectionOffset = _tokenOffset;
             int page = (int)CurrentPageSlider.Value;
             CurrentPage = page;
-            int tokenOffset = (page - 1) * 200;
+            int tokenOffset = (page - 1) * AppSettings.WORDS_PER_PAGE;
             _tokenOffset = tokenOffset;
             await CreateController();
         }
@@ -576,7 +518,7 @@ namespace LitRes.Views
         {
             if (_preSelectionOffset == null)
                 _preSelectionOffset = _tokenOffset;        
-            int tokenOffset = (CurrentPage - 1) * 200;
+            int tokenOffset = (CurrentPage - 1) * AppSettings.WORDS_PER_PAGE;
             _tokenOffset = tokenOffset;
             await CreateController();
         }
@@ -591,15 +533,10 @@ namespace LitRes.Views
             _readController = new ReadController(PageCanvas, _book, _book.BookID, _tokenOffset);
            
             await _readController.ShowNextPage();
-            CurrentPageSlider.ValueChanged -= CurrentPageSliderOnValueChanged;
-            CurrentPageSlider.ManipulationCompleted -= CurrentPageSliderOnManipulationCompleted;
             CurrentPageSlider.Value = _readController.CurrentPage;
-            CurrentPageSlider.ValueChanged += CurrentPageSliderOnValueChanged;
-            CurrentPageSlider.ManipulationCompleted += CurrentPageSliderOnManipulationCompleted;
             PageCanvas.Manipulator.UpdatePanelsVisibility();
             PageCanvas.Manipulator.IsFirstPage = _readController.IsFirst;
             PageCanvas.Manipulator.IsLastPage = _readController.IsLast;
-
             CurrentPageSlider.Maximum = _readController.TotalPages;
         }
 
@@ -621,14 +558,10 @@ namespace LitRes.Views
            _tokenOffset = _readController.Offset;
 
             _isSliderMoving = true;
-            CurrentPageSlider.ValueChanged -= CurrentPageSliderOnValueChanged;
-            CurrentPageSlider.ManipulationCompleted -= CurrentPageSliderOnManipulationCompleted;
             CurrentPageSlider.Value = _readController.CurrentPage;
             CurrentPage = (int) CurrentPageSlider.Value;
             PagesText.Text = _readController.CurrentPage + "/" + _readController.TotalPages;
             _isSliderMoving = false;
-            CurrentPageSlider.ValueChanged += CurrentPageSliderOnValueChanged;
-            CurrentPageSlider.ManipulationCompleted += CurrentPageSliderOnManipulationCompleted;
             PageCanvas.Manipulator.IsFirstPage = _readController.IsFirst;
             PageCanvas.Manipulator.IsLastPage = _readController.IsLast;
             PageCanvas.Manipulator.UpdatePanelsVisibility();
@@ -666,12 +599,6 @@ namespace LitRes.Views
         }
 
         private bool _isSliderMoving;
-
-        private void CurrentPageSliderOnValueChanged(object sender, RangeBaseValueChangedEventArgs rangeBaseValueChangedEventArgs)
-        {
-            if (_isSliderMoving) return;
-            OnSliderClickOrMoved();
-        }
 
         private void CurrentPageSliderOnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs manipulationStartedRoutedEventArgs)
         {

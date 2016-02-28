@@ -1,10 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Windows.Devices.Enumeration.Pnp;
-using Windows.System;
-using Windows.System.Profile;
-using Autofac;
+﻿using Autofac;
 using LitRes.Services;
 
 namespace LitResReadW10.Helpers

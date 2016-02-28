@@ -1,17 +1,13 @@
 ﻿
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using BookParser;
-using BookParser.Models;
 using Digillect.Mvvm.UI;
-
 using LitRes.ViewModels;
 using LitResReadW10.Helpers;
 
@@ -35,7 +31,7 @@ namespace LitRes.Views
             Analytics.Instance.sendMessage(Analytics.ViewTOC);
             var appChapters = AppSettings.Default.Chapters;
             var book = AppSettings.Default.CurrentBook;
-            List<Chapters> Chapters = appChapters.Select(chapterModel => new Chapters {Title = chapterModel.Title, Page = (int) Math.Ceiling((double) (chapterModel.TokenID + 1)/200)}).ToList();
+            List<Chapters> Chapters = appChapters.Select(chapterModel => new Chapters {Title = chapterModel.Title, Page = (int) Math.Ceiling((double) (chapterModel.TokenID + 1)/AppSettings.WORDS_PER_PAGE)}).ToList();
             TockListView.ItemsSource = Chapters;
             TockListView.SelectionChanged += TockListViewOnSelectionChanged;
         }

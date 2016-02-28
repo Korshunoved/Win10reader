@@ -34,9 +34,9 @@ namespace BookParser
 {
     public class AppSettings
     {
-        public const int WORDS_PER_PAGE = 200;
+        public const int WORDS_PER_PAGE = 100;
         private const bool DEFAULT_LOCK_SCREEN = false;
-        private const Orientation DEFAULT_ORIENTATION = Windows.UI.Xaml.Controls.Orientation.Vertical;
+        private const Orientation DEFAULT_ORIENTATION = Orientation.Vertical;
         private const bool DEFAULT_HIDE_MENU = false;
         private const SupportedMargins DEFAULT_MARGIN = SupportedMargins.Medium;
         private const ColorSchemes DEFAULT_COLOR_SCHEME = ColorSchemes.Day;
@@ -48,35 +48,19 @@ namespace BookParser
         private readonly string DEFAULT_LANGUAGE;
 
         private readonly SettingsStorage _settingsStorage = new SettingsStorage();
-        private readonly FontSettings _fontSettings;
-
-        private static readonly Dictionary<SupportedMargins, Thickness> Margins = new Dictionary
-            <SupportedMargins, Thickness>
-        {
-            {SupportedMargins.None, new Thickness(2)},
-            {SupportedMargins.Small, new Thickness(8)},
-            {SupportedMargins.Medium, new Thickness(12)},
-            {SupportedMargins.Big, new Thickness(18)}
-        };
-
-        private readonly List<CultureInfo> _uiLanguages = new List<string> {"ru", "en"}
-            .Select(l => new CultureInfo(l)).ToList();
 
         private readonly List<string> _defaultTranslateLanguages = new List<string> {"ru", "en"};
 
         private static readonly Lazy<AppSettings> LazyInstance = new Lazy<AppSettings>(() => new AppSettings());
 
-        public static AppSettings Default
-        {
-            get { return LazyInstance.Value; }
-        }
+        public static AppSettings Default => LazyInstance.Value;
 
         private AppSettings()
         {
-            _fontSettings = new FontSettings(_settingsStorage);
+            FontSettings = new FontSettings(_settingsStorage);
 
             var defaultLang =
-                UILanguages.SingleOrDefault(
+                UiLanguages.SingleOrDefault(
                     l => l.TwoLetterISOLanguageName == CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
 
             DEFAULT_LANGUAGE = defaultLang == null ? "en" : defaultLang.TwoLetterISOLanguageName;
@@ -99,10 +83,7 @@ namespace BookParser
             set { _settingsStorage.SetValue("Orientation", value); }
         }
 
-        public FontSettings FontSettings
-        {
-            get { return _fontSettings; }
-        }
+        public FontSettings FontSettings { get; }
 
         public bool HideMenu
         {
@@ -130,22 +111,14 @@ namespace BookParser
             set { _settingsStorage.SetValue("ColorSchemeKey", value); }
         }
 
-        public Scheme ColorScheme
-        {
-            get { return BookThemes.Default[ColorSchemeKey]; }
-        }
+        public Scheme ColorScheme => BookThemes.Default[ColorSchemeKey];
 
-        public List<Scheme> Schemes
-        {
-            get { return BookThemes.Default.ToList(); }
-        }
+        public List<Scheme> Schemes => BookThemes.Default.ToList();
 
-        public List<CultureInfo> UILanguages
-        {
-            get { return _uiLanguages; }
-        }
+        public List<CultureInfo> UiLanguages { get; } = new List<string> {"ru", "en"}
+            .Select(l => new CultureInfo(l)).ToList();
 
-        public CultureInfo CurrentUILanguage
+        public CultureInfo CurrentUiLanguage
         {
             get { return new CultureInfo(_settingsStorage.GetValueWithDefault("CurrentUILanguage", DEFAULT_LANGUAGE)); }
             set { _settingsStorage.SetValue("CurrentUILanguage", value.TwoLetterISOLanguageName); }
@@ -188,7 +161,7 @@ namespace BookParser
             set { _settingsStorage.SetValue("CurrentTranslateLanguage", value.TwoLetterISOLanguageName); }
         }
 
-        public bool UseCSSFontSize
+        public bool UseCssFontSize
         {
             get { return _settingsStorage.GetValueWithDefault("UseCSSFontSize", DEFAULT_USE_CSS_FONTSIZE); }
             set { _settingsStorage.SetValue("UseCSSFontSize", value); }
@@ -263,53 +236,22 @@ namespace BookParser
 
     public class FontSettings
     {
-        private const decimal DEFAULT_FONT_SIZE = 24;
-        private const float DEFAULT_FONT_INTERVAL = 1f;
-        public const string DEFAULT_FONT_FAMILY = "/Fonts/PT Sans.ttf#PT Sans";
+        private const int DefaultFontSize = 20;
+        private const float DefaultFontInterval = 1f;
+        public const string DefaultFontFamily = "/Fonts/PT Sans.ttf#PT Sans";
 
         public IFontHelper FontHelper { get; set; }
 
         private readonly SettingsStorage _settingsStorage;
-
-        private readonly List<decimal> _sizes = new List<decimal>
-        {
-            10,
-            11,
-            12,
-            14,
-            16,
-            18,
-            20,
-            22,
-            24,
-            26,
-            28,
-            32,
-            36,
-            40,
-            42
-        };
-
-        private readonly List<decimal> _intervals = Enumerable.Range(8, 13).Select(n => (decimal) n/10).ToList();
 
         public FontSettings(SettingsStorage settingsStorage)
         {
             _settingsStorage = settingsStorage;
         }
 
-        public List<decimal> Sizes
+        public int FontSize
         {
-            get { return _sizes; }
-        }
-
-        public List<decimal> Intervals
-        {
-            get { return _intervals; }
-        }
-
-        public decimal FontSize
-        {
-            get { return _settingsStorage.GetValueWithDefault("FontSize", DEFAULT_FONT_SIZE); }
+            get { return _settingsStorage.GetValueWithDefault("FontSize", DefaultFontSize); }
             set { _settingsStorage.SetValue("FontSize", value); }
         }
 
@@ -317,15 +259,15 @@ namespace BookParser
         {
             get
             {
-                var val = _settingsStorage.GetValueWithDefault("FontInterval", DEFAULT_FONT_INTERVAL);
+                var val = _settingsStorage.GetValueWithDefault("FontInterval", DefaultFontInterval);
                 return val;
             }
-            set { _settingsStorage.SetValue("FontInterval", (float)value); }
+            set { _settingsStorage.SetValue("FontInterval", value); }
         }
 
         public FontFamily FontFamily
         {
-            get { return new FontFamily(_settingsStorage.GetValueWithDefault("FontFamily", DEFAULT_FONT_FAMILY)); }
+            get { return new FontFamily(_settingsStorage.GetValueWithDefault("FontFamily", DefaultFontFamily)); }
             set { _settingsStorage.SetValue("FontFamily", value.Source); }
         }
     }
@@ -384,10 +326,7 @@ namespace BookParser
             InitSchemes();
         }
 
-        public static BookThemes Default
-        {
-            get { return LazyInstance.Value; }
-        }
+        public static BookThemes Default => LazyInstance.Value;
 
         public Scheme this[ColorSchemes scheme]
         {

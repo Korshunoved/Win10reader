@@ -47,7 +47,7 @@ namespace BookRender.PageRender
             {
                 top = p is ImageParagraphInfo
                     ? BuildImageContext(context, p, top)
-                    : BuildContext(context, p, context.PageSize.Width, (int)AppSettings.Default.FontSettings.FontSize, paragraphID++, top);
+                    : BuildContext(context, p, context.PageSize.Width, AppSettings.Default.FontSettings.FontSize, paragraphID++, top);
 
                 top += p.MarginBottom;
             }
@@ -123,14 +123,14 @@ namespace BookRender.PageRender
             inlines.Aggregate(tempLeftMargin, (current, inlineItem) => 
                 BuildInlineItem(context, top, defaultFontSize, paragraphID, inlineItem, height, current, wordSpacing));
 
-            return top + height * (double) AppSettings.Default.FontSettings.FontInterval;
+            return top + height * AppSettings.Default.FontSettings.FontInterval;
         }
 
         private static double BuildInlineItem(PageRenderData context, double top, double defaultFontSize, int paragraphID,
                                               TextElement inlineItem, double height, double tempLeftMargin, double wordSpacing)
         {
             double fontSize = inlineItem.Size;
-            if (fontSize < 0.01 || !AppSettings.Default.UseCSSFontSize)
+            if (fontSize < 0.01 || !AppSettings.Default.UseCssFontSize)
                 fontSize = defaultFontSize;
             double topMargin = top;
             if (inlineItem.SubOption || inlineItem.SupOption)

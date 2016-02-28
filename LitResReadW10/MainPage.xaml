@@ -27,7 +27,7 @@
            x:Name="MainSplitView"
            IsPaneOpen="False"
            DisplayMode="Overlay"
-           OpenPaneLength="224"
+           OpenPaneLength="224"           
            CompactPaneLength="{Binding MainControlPanel.CompactPaneLength}"
            PaneBackground="Transparent">
             <SplitView.Pane>

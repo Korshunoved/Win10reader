@@ -28,7 +28,6 @@ using BookParser.Models;
 using BookParser.TextStructure;
 using BookRender.PageRender;
 using BookRender.Tools;
-using LitRes.Models;
 
 namespace LitResReadW10.Controllers
 {
@@ -42,52 +41,30 @@ namespace LitResReadW10.Controllers
         private PageInfo _nextPage;
         private readonly IBookView _bookView;
         private readonly int _offset;
-        private readonly BookData _data;
         private readonly List<BookImage> _images;
 
         public ReadController(IBookView page, BookModel book, string bookId, int offset = 0)
         {
-            _data = new BookData(bookId);
+            var data = new BookData(bookId);
             _bookView = page;
             _offset = offset;
             _bookModel = book;
-            _images = _data.LoadImages().ToList();
-            _pageLoader = new PageCompositor(_bookModel, (int)(AppSettings.Default.FontSettings.FontSize), new Size(page.GetSize().Width - AppSettings.Default.Margin.Left - AppSettings.Default.Margin.Right, page.GetSize().Height - AppSettings.Default.Margin.Top - AppSettings.Default.Margin.Bottom), _images);
+            _images = data.LoadImages().ToList();
+            _pageLoader = new PageCompositor(_bookModel, (AppSettings.Default.FontSettings.FontSize), new Size(page.GetSize().Width - AppSettings.Default.Margin.Left - AppSettings.Default.Margin.Right, page.GetSize().Height - AppSettings.Default.Margin.Top - AppSettings.Default.Margin.Bottom), _images);
             BookId = bookId;
         }
 
         public string BookId { get; private set; }
 
-        public bool IsFirst
-        {
-            get { return _prevPage == null; }
-        }
+        public bool IsFirst => _prevPage == null;
 
-        public bool IsLast
-        {
-            get { return _nextPage == null; }
-        }
+        public bool IsLast => _nextPage == null;
 
-        public int CurrentPage
-        {
-            get
-            {
-                return (int) Math.Ceiling((double) (_currentPage.FirstTokenID + 1)/200);
-            }
-        }
+        public int CurrentPage => (int) Math.Ceiling((double) (_currentPage.FirstTokenID + 1)/ AppSettings.WORDS_PER_PAGE);
 
-        public int TotalPages
-        {
-            get
-            {
-                return (int)Math.Ceiling((double)_bookModel.TokenCount / 200);
-            }
-        }
+        public int TotalPages => (int)Math.Ceiling((double)_bookModel.TokenCount / AppSettings.WORDS_PER_PAGE);
 
-        public int Offset
-        {
-            get { return _currentPage.FirstTokenID; }
-        }
+        public int Offset => _currentPage.FirstTokenID;
 
         public async Task ShowNextPage()
         {
@@ -150,8 +127,6 @@ namespace LitResReadW10.Controllers
                 Bookmarks = _bookView.Bookmarks
             });
 
-           // Log.Write("Preparing prev page - @" + page.FirstTokenID + " - " + page.LastTokenID);
-
             return page;
         }
 
@@ -163,7 +138,7 @@ namespace LitResReadW10.Controllers
                 lastText = _currentPage.LastTextPart;
             }
 
-            int nextTokenId = _currentPage == null ? _offset : _currentPage.LastTokenID + 1;
+            int nextTokenId = _currentPage?.LastTokenID + 1 ?? _offset;
 
             var page = await _pageLoader.GetPageAsync(nextTokenId, lastText);
             if (page == null || page.FirstTokenID < 0)
@@ -183,8 +158,6 @@ namespace LitResReadW10.Controllers
                 Links = _bookView.NextLinks,
                 Bookmarks = _bookView.Bookmarks
             });
-
-          //  Log.Write("Preparing next page - @" + page.FirstTokenID + " - " + page.LastTokenID);
 
             return page;
         }

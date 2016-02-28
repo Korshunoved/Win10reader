@@ -12,7 +12,6 @@
 	FontFamily="{StaticResource PhoneFontFamilyNormal}"
 	FontSize="{StaticResource PhoneFontSizeNormal}"
 	Foreground="{StaticResource LitResForegroundBrush}">
-
     <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}">
         <!-- 325-->
         <Grid.RowDefinitions>
@@ -64,7 +63,8 @@
                             LargeChange="10"                      
                             ManipulationMode="All"
                             VerticalAlignment="Center"
-                            Template="{StaticResource LitresSlider}" Loaded="LightSlider_Loaded" />
+                            Template="{StaticResource LitresSlider}"
+                            Loaded="LightSlider_Loaded"/>
                     <Image Grid.Column="2"
                            Margin="10,0,10,5"
                            VerticalAlignment="Center"
@@ -168,7 +168,6 @@
                             Grid.Column="1"
 					        Minimum="1" 
                             SmallChange="1" 
-                            Value="{Binding Path=ViewModel.FontSize, Mode=TwoWay}"
                             Maximum="5"
                             LargeChange="1"
                             ManipulationMode="All"

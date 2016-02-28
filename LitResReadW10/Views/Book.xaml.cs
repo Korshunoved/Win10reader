@@ -331,12 +331,13 @@ namespace LitRes.Views
 	    {
             if (!_animInProgress)
             {
-                if (!SystemInfoHelper.IsDesktop())
+               // if (!SystemInfoHelper.IsDesktop())
                 {
                     var image = sender as Image;
                     if (image != null)
                         FullImageCover.Source = image.Source;
                     FullImagePanel.Visibility = Visibility.Visible;
+                    ControlPanel.Instance.TopBarVisibility = Visibility.Collapsed;
                 }
                 //_animInProgress = true;	            
                 //if (!HideCover()) ShowCover();
@@ -488,9 +489,10 @@ namespace LitRes.Views
 
 	    private void FullImagePanel_OnTapped(object sender, TappedRoutedEventArgs e)
 	    {
-            if (!SystemInfoHelper.IsDesktop())
+          //  if (!SystemInfoHelper.IsDesktop())
             {
                 FullImagePanel.Visibility = Visibility.Collapsed;
+                ControlPanel.Instance.TopBarVisibility = Visibility.Visible;
             }
         }
 	}

@@ -214,7 +214,7 @@
         <Grid 
             x:Name="TopGrid"
             Grid.Row="1" Grid.RowSpan="2" Visibility="Visible" >
-            <RelativePanel>
+            <RelativePanel Margin="10">
                 <Image x:Name="BookCoverBack" 
                        Margin="0,0,0,0" 
                        Source="/Assets/Stub.png" 
@@ -241,9 +241,9 @@
                      Background="Transparent" 
                      Visibility="Visible"
                      Foreground="{StaticResource LitResAccentBrush}" 
-                     Margin="0,20,0,-29" 
+                     Margin="0,-46,0,-29" 
                      Padding="0" 
-                     Width="310" Height="33"/>
+                     Width="306" Height="10"/>
             </RelativePanel>
         </Grid>
 
@@ -256,7 +256,7 @@
                 IsHitTestVisible="False"
                 HorizontalAlignment="Stretch" 
                 Opacity="{Binding ViewModel.ReaderSettings.Brightness}"
-                VerticalAlignment="Stretch"/>
+                VerticalAlignment="Stretch" Canvas.ZIndex="1000"/>
         <Grid x:Name="ReaderGrid" Margin="0,0,0,31" Grid.Row="1">
             <controls1:ThreePagePanel Grid.Row="0" x:Name="PageCanvas" Tapped="PageCanvas_Tapped"/>
         </Grid>
