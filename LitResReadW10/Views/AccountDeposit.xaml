@@ -31,8 +31,8 @@
                 <TextBlock Margin="15,15,15,0" Text="{Binding Title}" Style="{StaticResource BigNormalSemiBoldBlackTextStyle}"/>
             </StackPanel>
 
-              <StackPanel Margin="0,32,0,32" Grid.Row="1" HorizontalAlignment="Center" Orientation="Vertical">
-                  <ProgressBar HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-25,0,0" Width="450"  IsIndeterminate="True" Foreground="#ff6200"/>
+              <StackPanel Margin="0,32,0,32" Grid.Row="1" HorizontalAlignment="Stretch" Orientation="Vertical">
+                  <ProgressBar HorizontalAlignment="Center" VerticalAlignment="Center" Width="450" Margin="0,-25,0,0" IsIndeterminate="True" Foreground="#ff6200"/>
                    <TextBlock x:Name="bodyTextBlock" 
                                  MaxWidth="400" 
                                  TextWrapping="Wrap" 
@@ -41,7 +41,7 @@
                                  VerticalAlignment="Bottom" 
                                  Margin="0,0,0,0" 
                                  Text="Подождите, идёт оплата." />
-                  <Button Content="отмена" Width="443" Margin="3,25,0,0" BorderBrush="Black" Foreground="Black" Tapped="Cancel"/>
+                  <Button HorizontalAlignment="Center" Content="отмена" Margin="3,25,0,0" BorderBrush="Black" Foreground="Black" Tapped="Cancel" VerticalAlignment="Center"/>
               </StackPanel>
             <WebView Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch" 
                            VerticalAlignment="Stretch" Visibility="Collapsed" 

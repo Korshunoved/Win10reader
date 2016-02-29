@@ -269,6 +269,11 @@ namespace LitResReadW10
         {
             ((Button) sender).Visibility = Visibility.Collapsed;
             PhoneSearchBox.Focus(FocusState.Keyboard);
+            if (!SystemInfoHelper.IsDesktop())
+            {
+                PhoneTopBarTitle.Visibility = Visibility.Collapsed;
+            }
+
         }
 
         private void PhoneSearchBox_OnTapped(object sender, TappedRoutedEventArgs e)
@@ -295,6 +300,7 @@ namespace LitResReadW10
                 PhoneSearchIconButton.Visibility = Visibility.Visible;
             }
             PhoneSearchBox.QueryText = string.Empty;
+            PhoneTopBarTitle.Visibility = Visibility.Visible;
         }
 
         private void Search(string searchString)

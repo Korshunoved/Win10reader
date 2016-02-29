@@ -11,6 +11,7 @@ using Digillect.Mvvm.Services;
 using LitRes.ViewModels;
 using LitResReadW10;
 using LitResReadW10.Controls;
+using LitResReadW10.Helpers;
 
 namespace LitRes.Views
 {
@@ -108,9 +109,29 @@ namespace LitRes.Views
             RecenseTextBlock.Text = string.Empty;
             _navigationService.GoBack();
         }
-	}
 
-	public class AddRecenseFitting : ViewModelPage<AddRecenseViewModel>
+	    private void RecenseTextBlock_GotFocus(object sender, RoutedEventArgs e)
+	    {
+	        if (!SystemInfoHelper.IsDesktop())
+	        {
+	            TypeWriterImage.Visibility = Visibility.Collapsed;
+	            MainStackPanel.VerticalAlignment = VerticalAlignment.Stretch;
+	            TextBlock.Margin = new Thickness(0, 5, 0, 15);
+	        }
+	    }
+
+        private void RecenseTextBlock_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (!SystemInfoHelper.IsDesktop())
+            {
+                TypeWriterImage.Visibility = Visibility.Visible;
+                MainStackPanel.VerticalAlignment = VerticalAlignment.Center;
+                TextBlock.Margin = new Thickness(0, 20, 0, 15);
+            }
+        }
+    }
+
+    public class AddRecenseFitting : ViewModelPage<AddRecenseViewModel>
 	{
 	}
 }

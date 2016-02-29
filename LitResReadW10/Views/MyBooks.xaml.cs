@@ -19,12 +19,13 @@ namespace LitRes.Views
 		{
 			InitializeComponent();
             NavigationCacheMode = NavigationCacheMode.Disabled;
-            Loaded += MyBooks_Loaded;
+            Loaded += MyBooks_Loaded;           
 		}
 
         void MyBooks_Loaded(object sender, RoutedEventArgs e)
         {
             ViewModel.LoadMyBooks();
+
             Analytics.Instance.sendMessage(Analytics.ViewMyBooks);
         }
 
@@ -73,7 +74,27 @@ namespace LitRes.Views
             var book = e.ClickedItem as Models.Book;
             ViewModel.BookSelected.Execute(book);
         }
-    }
+
+	    private void DownloadButton_OnTapped(object sender, TappedRoutedEventArgs e)
+	    {
+	        throw new System.NotImplementedException();
+	    }
+
+	    private void FragmentButton_OnTapped(object sender, TappedRoutedEventArgs e)
+	    {
+	        throw new System.NotImplementedException();
+	    }
+
+	    private void ReadButton_OnTapped(object sender, TappedRoutedEventArgs e)
+	    {
+	        throw new System.NotImplementedException();
+	    }
+
+	    private void FreeButton_OnTapped(object sender, TappedRoutedEventArgs e)
+	    {
+	        throw new System.NotImplementedException();
+	    }
+	}
 
 	public class MyBooksFitting : ViewModelPage<MyBooksViewModel>
 	{

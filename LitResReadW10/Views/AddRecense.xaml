@@ -10,7 +10,8 @@
     
     <!--LayoutRoot is the root grid where all page content is placed-->
 	<Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-        <StackPanel Orientation="Vertical"
+        <StackPanel x:Name="MainStackPanel"
+                    Orientation="Vertical"
                      Margin="10,0,10,0"
                     HorizontalAlignment="Stretch"
                         VerticalAlignment="Center">
@@ -20,7 +21,8 @@
                             Stretch="None"
                             Source="../Assets/W10Icons/TypeWriter/ill_typewriter_small.png"/>
             <TextBlock 
-                            Margin="0,20,0,15"
+                            x:Name="TextBlock"
+                            Margin="0,20,0,10"
                             HorizontalAlignment="Center"
                             Style="{StaticResource BigNormalSemiBoldBlackTextStyle}"
                             Text="Напишите отзыв"/>
@@ -31,18 +33,20 @@
                                  Height="100"
                                  TextWrapping="Wrap"
                                  BorderThickness="2"
+                                 Margin ="0,0,0,5"
                                  BorderBrush="{StaticResource LitresLightGreyBrush}"
-                                 PlaceholderText="{Binding Path=ViewModel.RecensePlaceHolderText}"/>
+                                 PlaceholderText="{Binding Path=ViewModel.RecensePlaceHolderText}" GotFocus="RecenseTextBlock_GotFocus" LostFocus="RecenseTextBlock_LostFocus"/>
 
-            <TextBlock HorizontalAlignment="Center"
+            <!--<TextBlock HorizontalAlignment="Center"
                                    x:Name="UsernameTextBlock"
                                    Style="{StaticResource SmallBlackTextStyle}"
                                    FontWeight="Medium"
                                    Margin="0,5,0,15"
-                                   Text=""/>
+                                   Text=""/>-->
             <Button HorizontalAlignment="Stretch"
                                 x:Name="AddRecenseButton"
                                 Style="{StaticResource BlackButtonStyle}"
+                                Margin ="5"
                                 Tapped="AddRecenseButton_OnTapped"
                                 Content="ОСТАВИТЬ ОТЗЫВ"/>
         </StackPanel>

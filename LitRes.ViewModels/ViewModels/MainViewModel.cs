@@ -14,6 +14,7 @@ using LitRes.Services;
 using LitRes.Services.Connectivity;
 using System.ComponentModel;
 using System.Diagnostics;
+using Windows.UI.Popups;
 using Digillect;
 
 
@@ -37,9 +38,12 @@ namespace LitRes.ViewModels
 			BooksExits,
 			WithoutBooks
 		}
-		#endregion
+        #endregion
 
-		public const string MyBooksPart = "MyBooks";
+        private const string BuyBookLitresPart = "BuyBookLitresPart";
+        private const string CreditCardInfoPart = "CreditCardInfoPart";
+
+        public const string MyBooksPart = "MyBooks";
 		public const string NewBooksPart = "NewBooks";
 
 		private readonly IGenresProvider _genresProvider;
@@ -51,15 +55,18 @@ namespace LitRes.ViewModels
 	    private readonly IExpirationGuardian _expirationGuardian;
 	    private readonly INetworkAvailabilityService _networkAvailability;
 	    private readonly IDeviceInfoService _deviceInfoService;
+	    private readonly ILitresPurchaseService _litresPurchaseService;
 
-		private XCollection<Book> _myBooks;
+        private XCollection<Book> _myBooks;
 		private XCollection<Book> _noveltyBooks;
 		private XCollection<Book> _popularBooks;
 		private XCollection<Book> _interestingBooks;
 
 	    private int _booksPerPage = 30;
 
-		private MyBooksViewStateEnum _myBooksViewState;
+        private UserInformation _userInformation;
+
+        private MyBooksViewStateEnum _myBooksViewState;
 
 		//private bool _scrollToFirstPanoramaItemOnLoad;
 	    private bool _isLoaded;
@@ -80,9 +87,19 @@ namespace LitRes.ViewModels
 			private set { SetProperty( ref _myBooksViewState, value, "MyBooksViewState" ); }
 		}
 
-		public RelayCommand ShowMyBooks { get; private set; }
+        public UserInformation UserInformation
+        {
+            get { return _userInformation; }
+            private set { SetProperty(ref _userInformation, value, "UserInformation"); }
+        }
+
+        public double AccoundDifferencePrice { get; private set; }
+        public Book Book { get; private set; }
+
+        public RelayCommand ShowMyBooks { get; private set; }
 		public RelayCommand<Book> BookSelected { get; private set; }
-		public RelayCommand ShowInterestingBooks { get; private set; }
+        public RelayCommand<Book> BuyBook { get; private set; }
+        public RelayCommand ShowInterestingBooks { get; private set; }
 		public RelayCommand ShowPopularBooks { get; private set; }
 		public RelayCommand ShowNewBooks { get; private set; }
 		public RelayCommand<int> GenreSelected { get; private set; }
@@ -95,6 +112,9 @@ namespace LitRes.ViewModels
 		public RelayCommand ShowBookmarks { get; private set; }
 		public RelayCommand ShowAbout { get; private set; }
 		public RelayCommand ShowNotifications { get; private set; }
+        public RelayCommand RunCreditCardPaymentProcess { get; private set; }
+        public RelayCommand<Book> ShowCreditCardView { get; private set; }
+
 
         public RelayCommand ShowAppSettings { get; private set; }
 
@@ -110,7 +130,7 @@ namespace LitRes.ViewModels
             IBookProvider bookProvider,
             INavigationService navigationService, 
             INetworkAvailabilityService networkAvailability,
-            IDeviceInfoService deviceInfoService)
+            IDeviceInfoService deviceInfoService, ILitresPurchaseService litresPurchaseService)
         {            
             _genresProvider = genresProvider;
 			_catalogProvider = catalogProvider;
@@ -121,19 +141,21 @@ namespace LitRes.ViewModels
 		//    _expirationGuardian = expirationGuardian;
 		    _networkAvailability = networkAvailability;
             _deviceInfoService = deviceInfoService;
+            _litresPurchaseService = litresPurchaseService;
 
             var deviceFamily = _deviceInfoService.DeviceFamily;
             if (!string.IsNullOrEmpty(deviceFamily) && deviceFamily.Equals("Windows.Desktop"))
             {
                 _booksPerPage = 30;
             }
-
             ////MyBooks reload allways, may change account information
             RegisterAction(MyBooksPart).AddPart( session =>  LoadMyBooks(session), session => true);
+            RegisterAction(BuyBookLitresPart).AddPart((session) => BuyBookFromLitres(session, Book), (session) => true);
+            RegisterAction(CreditCardInfoPart).AddPart(session => CreditCardInfoAsync(session), (session) => true);
             //RegisterPart(MyBooksPart, (session, part) => LoadMyBooks(session), (session, part) => true, false);
-			////RegisterPart(NewBooksPart, (session, part) => LoadNewBooks(session), (session, part) => true, false);
+            ////RegisterPart(NewBooksPart, (session, part) => LoadNewBooks(session), (session, part) => true, false);
 
-			MyBooksViewState = MyBooksViewStateEnum.Loading;
+            MyBooksViewState = MyBooksViewStateEnum.Loading;
 
 			Genres = new XCollection<Genre>();
 			Banners = new XCollection<Banner>();
@@ -150,7 +172,8 @@ namespace LitRes.ViewModels
 			InterestingBooks = new XSubRangeCollection<Book>(_interestingBooks, 0, _booksPerPage);
 			ShowMyBooks = new RelayCommand( ToMyBooks );
             BookSelected = new RelayCommand<Book>(book =>  _navigationService.Navigate("Book", XParameters.Create("BookEntity", book)), book => book != null);
-			ShowInterestingBooks = new RelayCommand(() => _navigationService.Navigate("BooksByCategory", XParameters.Create("category", (int) BooksByCategoryViewModel.BooksViewModelTypeEnum.Interesting)));
+            BuyBook = new RelayCommand<Book>(book => BuyBookFromLitresAsync(book));
+            ShowInterestingBooks = new RelayCommand(() => _navigationService.Navigate("BooksByCategory", XParameters.Create("category", (int) BooksByCategoryViewModel.BooksViewModelTypeEnum.Interesting)));
 			ShowPopularBooks = new RelayCommand(() => _navigationService.Navigate("BooksByCategory", XParameters.Create("category", (int) BooksByCategoryViewModel.BooksViewModelTypeEnum.Popular)));
 			ShowNewBooks = new RelayCommand(() => _navigationService.Navigate("BooksByCategory", XParameters.Create("category", (int) BooksByCategoryViewModel.BooksViewModelTypeEnum.Novelty)));
 			GenreSelected = new RelayCommand<int>(ChooseGenre);
@@ -159,22 +182,130 @@ namespace LitRes.ViewModels
 			ShowAuthorization = new RelayCommand(() => _navigationService.Navigate("Authorization"));
             ShowRegistration = new RelayCommand(() => _navigationService.Navigate("Registration"));
 			ShowUserInfo = new RelayCommand( ToUserInfo );
+            RunCreditCardPaymentProcess = new RelayCommand(CreditCardInfo);
            
             ShowAccountInfo = new RelayCommand(ToAccountInfo);
 			ShowSettings = new RelayCommand(() => _navigationService.Navigate("Settings"));
 			ShowBookmarks = new RelayCommand( () => _navigationService.Navigate( "Bookmarks" ) );
 			ShowAbout = new RelayCommand( () => _navigationService.Navigate( "About" ) );
 			ShowNotifications = new RelayCommand(() => _navigationService.Navigate("NotificationsEdit"));
+            ShowCreditCardView = new RelayCommand<Book>(book => _navigationService.Navigate("CreditCardPurchase", XParameters.Create("BookEntity", book)), book => book != null);
 
             ShowAppSettings = new RelayCommand(ToAppSettings);
 
             //_expirationGuardian.StartGuardian();		    
         }
 
-		#endregion
+	    private async void BuyBookFromLitresAsync(Book book)
+	    {
+            OnPropertyChanged(new PropertyChangedEventArgs("BuyBookStart"));
+	        Book = book;
+            await Load(new Session(BuyBookLitresPart));
+        }
 
-		#region LoadMyBooks
-		public Task LoadMyBooks()
+        private async void CreditCardInfo()
+        {
+            Analytics.Instance.sendMessage(Analytics.ActionGotoLitres);
+            OnPropertyChanged(new PropertyChangedEventArgs("HideSwitchPopup"));
+            await Load(new Session(CreditCardInfoPart));
+        }
+
+        private async Task CreditCardInfoAsync(Session session)
+        {
+            var userInfo = await _profileProvider.GetUserInfo(session.Token, true);
+            if (userInfo == null) return;
+            if (_userInformation == null) _userInformation = userInfo;
+            var cred = _credentialsProvider.ProvideCredentials(session.Token);
+
+            if (!userInfo.CanRebill.Equals("0") &&
+                cred != null &&
+                !string.IsNullOrEmpty(cred.UserId) &&
+                userInfo.UserId == cred.UserId &&
+                !string.IsNullOrEmpty(cred.CanRebill) &&
+                !cred.CanRebill.Equals("0"))
+            {
+                var box = new Dictionary<string, object>
+                {
+                    { "isSave", true },
+                    { "isAuth", false }
+                };
+                var param = XParameters.Empty.ToBuilder()
+                    .AddValue("Id", Book.Id)
+                    .AddValue("Operation", (int)AccountDepositViewModel.AccountDepositOperationType.AccountDepositOperationTypeCreditCard)
+                    .AddValue("ParametersDictionary", ModelsUtils.DictionaryToString(box)).ToImmutable();
+
+
+                _navigationService.Navigate("AccountDeposit", param);
+            }
+            else
+            {
+                if (cred != null) _credentialsProvider.ForgetCredentialsRebill(cred, session.Token);
+                ShowCreditCardView.Execute(Book);
+            }
+        }
+
+        private async Task BuyBookFromLitres(Session session, Book book)
+        {
+            UserInformation userInfo = null;
+            try
+            {
+                userInfo = await _profileProvider.GetUserInfo(session.Token, true);
+            }
+            catch (Exception ex)
+            {
+                await new MessageDialog("Авторизируйтесь, пожалуйста.").ShowAsync();
+            }
+            if (userInfo == null) return;
+            if (!string.IsNullOrEmpty(book.InGifts) && book.InGifts.Equals("1"))
+            {
+                await _litresPurchaseService.BuyBookFromLitres(book, session.Token);
+            }
+            else if (userInfo.Account - book.Price >= 0)
+            {
+                var dialog = new MessageDialog(string.Format("Подтвердите покупку книги за {0} руб.", book.Price), "Подтвердите покупку");
+                dialog.DefaultCommandIndex = 0;
+                dialog.CancelCommandIndex = 1;
+                dialog.Commands.Add(new UICommand("купить", command => Task.Run(async () => await _litresPurchaseService.BuyBookFromLitres(book, session.Token))));
+                dialog.Commands.Add(new UICommand("отмена") { Id = 1 });
+                await dialog.ShowAsync();
+
+                //var result = Microsoft.Xna.Framework.GamerServices.Guide.BeginShowMessageBox(
+                //"Подтвердите покупку",
+                //string.Format("Подтвердите покупку книги за {0} руб.", Entity.Price),
+                //new string[] { "купить", "отмена" },
+                //0,
+                //Microsoft.Xna.Framework.GamerServices.MessageBoxIcon.None,
+                //null,
+                //null);
+
+                //result.AsyncWaitHandle.WaitOne();
+                //int? choice = Microsoft.Xna.Framework.GamerServices.Guide.EndShowMessageBox(result);
+                //if (choice.HasValue && choice.Value == 0)
+                //{
+                //    await _litresPurchaseService.BuyBookFromLitres(book, session.Token);              
+                //}                
+            }
+            else
+            {
+                OnPropertyChanged(new PropertyChangedEventArgs("ChoosePaymentMethod"));
+            }
+        }
+
+        public async Task UpdatePrice()
+        {
+            var userInfo = await _profileProvider.GetUserInfo(CancellationToken.None, false);
+            if (userInfo == null) return;
+            if (_userInformation == null) _userInformation = userInfo;
+            AccoundDifferencePrice = Book.Price - userInfo.Account;
+            if (AccoundDifferencePrice < 10) AccoundDifferencePrice = 10;
+            OnPropertyChanged(new PropertyChangedEventArgs("UpdatePrice"));
+        }
+
+
+        #endregion
+
+        #region LoadMyBooks
+        public Task LoadMyBooks()
 		{
 		    if (_isLoaded) return null;
             return Load( new Session( MyBooksPart ) );

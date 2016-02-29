@@ -148,6 +148,7 @@
     <Content Include="Assets\RatingDisabled.scale-200.png" />
     <Content Include="Assets\RatingDisabled.scale-400.png" />
     <Content Include="Assets\RatingNotFilled.png" />
+    <Content Include="Assets\SingleRating.scale-400.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-125.png" />
     <Content Include="Assets\SplashScreen.scale-150.png" />
