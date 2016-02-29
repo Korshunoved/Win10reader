@@ -25,6 +25,7 @@ namespace LitRes.Controls
 
 		public bool NetworkAvailability
 		{
+            get { return networkAvailability.Visibility == Visibility.Visible; }
 			set { networkAvailability.Visibility = value ? Visibility.Visible : Visibility.Collapsed; }
 		}
 		#endregion

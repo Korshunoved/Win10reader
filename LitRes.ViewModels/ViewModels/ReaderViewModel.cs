@@ -234,45 +234,6 @@ namespace LitRes.ViewModels
 
         private async Task LoadSettings(Session session)
         {
-            var settings = await _settingsService.GetSettings();
-
-            if (settings != null)
-            {
-                if (ReaderSettings != null)
-                {
-                    // ReaderSettings.Update(settings);
-                    var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-                    //rsModel.LastUpdate = DateTime.Parse(localSettings.Values["LastUpdate"].ToString()); 
-                    try
-                    {
-                        ReaderSettings.Autorotate = (bool)localSettings.Values["AutoRotate"];
-                        ReaderSettings.FitWidth = (bool)localSettings.Values["FitWidth"];
-                        ReaderSettings.Theme = (int)localSettings.Values["Theme"];
-                        ReaderSettings.Font = (int)localSettings.Values["Font"];
-                        ReaderSettings.FontSize = (int)localSettings.Values["FontSize"];
-                        ReaderSettings.Margin = (int)localSettings.Values["Margin"];
-                        ReaderSettings.Brightness = (float)localSettings.Values["Brightness"];
-                        ReaderSettings.Hyphenate = (bool)localSettings.Values["Hyphernate"];
-                        ReaderSettings.AnimationMoveToPage = (bool)localSettings.Values["AnimationMoveToPage"];
-                        ReaderSettings.CharacterSpacing = (int)localSettings.Values["CharacterSpacing"];
-                    }
-                    catch (Exception)
-                    {
-                        ReaderSettings.Autorotate = false;
-                        ReaderSettings.FitWidth = false;
-                        ReaderSettings.Theme = 1;
-                        ReaderSettings.Font = 1;
-                        ReaderSettings.FontSize = 1;
-                        ReaderSettings.Margin = 1;
-                        ReaderSettings.Brightness = 0;
-                        ReaderSettings.Hyphenate = false;
-                        ReaderSettings.AnimationMoveToPage = false;
-                        ReaderSettings.CharacterSpacing = 2;
-                    }
-                  
-                }
-            }
-
             AccountExist = ( _credentialsProvider.ProvideCredentials(CancellationToken.None)) != null;
         }
         #endregion
@@ -281,25 +242,6 @@ namespace LitRes.ViewModels
         public void SaveSettings()
         {
            _settingsService.SetSettings(ReaderSettings);
-           /* var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            try
-            {
-                // localSettings.Values["LastUpdate"] = readerSettings.LastUpdate.ToString(CultureInfo.InvariantCulture);
-                localSettings.Values["AutoRotate"] = ReaderSettings.Autorotate;
-                localSettings.Values["FitWidth"] = ReaderSettings.FitWidth;
-                localSettings.Values["Theme"] = ReaderSettings.Theme;
-                localSettings.Values["Font"] = ReaderSettings.Font;
-                localSettings.Values["FontSize"] = ReaderSettings.FontSize;
-                localSettings.Values["Margin"] = ReaderSettings.Margin;
-                localSettings.Values["CharacterSpacing"] = ReaderSettings.CharacterSpacing;
-                localSettings.Values["Brightness"] = ReaderSettings.Brightness;
-                localSettings.Values["Hyphernate"] = ReaderSettings.Hyphenate;
-                localSettings.Values["AnimationMoveToPage"] = ReaderSettings.AnimationMoveToPage;
-            }
-            catch (Exception)
-            {
-                // ignored
-            }*/
         }
         #endregion
 

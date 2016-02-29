@@ -63,6 +63,9 @@ namespace LitRes.Views
             HyphenationSwither.Toggled -= HyphenationSwitherOnToggled;
             HyphenationSwither.Toggled += HyphenationSwitherOnToggled;
 
+            AutorotateSwitch.Toggled -= AutorotateSwitchOnToggled;
+            AutorotateSwitch.Toggled += AutorotateSwitchOnToggled;
+
             FontSizeSlider.ManipulationCompleted -= FontSizeSliderOnManipulationCompleted;
             FontSizeSlider.ManipulationCompleted += FontSizeSliderOnManipulationCompleted;
 		    FontSizeSlider.Minimum = SystemInfoHelper.IsDesktop() ? 16 : 14;
@@ -87,6 +90,13 @@ namespace LitRes.Views
 
             GetTheme();		    
 		}
+
+	    private void AutorotateSwitchOnToggled(object sender, RoutedEventArgs routedEventArgs)
+	    {
+            var toggle = sender as ToggleSwitch;
+            if (toggle == null) return;
+	        AppSettings.Default.Autorotate = toggle.IsOn;
+	    }
 
 	    private void GetTheme()
 	    {

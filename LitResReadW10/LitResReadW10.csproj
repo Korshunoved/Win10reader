@@ -427,6 +427,7 @@
     <Content Include="Assets\W10Icons\Toc\toc.scale-125.png" />
     <Content Include="Assets\W10Icons\Toc\toc.scale-150.png" />
     <Content Include="Assets\W10Icons\Toc\toc.scale-200.png" />
+    <Content Include="Assets\W10Icons\Toc\toc.white.scale-100.png" />
     <Content Include="Assets\W10Icons\TypeWriter\ill_typewriter.scale-100.png" />
     <Content Include="Assets\W10Icons\TypeWriter\ill_typewriter.scale-125.png" />
     <Content Include="Assets\W10Icons\TypeWriter\ill_typewriter.scale-150.png" />

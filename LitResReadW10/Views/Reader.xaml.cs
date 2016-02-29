@@ -59,7 +59,7 @@ namespace LitRes.Views
         private bool _syncInProgress;        
         private bool _isBuyShowed;
         private bool _isLoaded;
-        private IFontHelper activeFontHelper;
+        private IFontHelper _activeFontHelper;
         private BookModel _book;
         private ReadController _readController;
         private int _tokenOffset;
@@ -108,7 +108,6 @@ namespace LitRes.Views
             if (e.PropertyName.Equals("OnUpdated"))
             {
                 Center.Visibility = Visibility.Visible;
-                ApplyReaderSettings();
             }
         }
         #endregion
@@ -125,7 +124,7 @@ namespace LitRes.Views
             Instance = this;
             LayoutRoot.Background = AppSettings.Default.ColorScheme.BackgroundBrush;
             var currentOrientation = DisplayInformation.GetForCurrentView().CurrentOrientation;
-            DisplayInformation.AutoRotationPreferences = ViewModel.ReaderSettings.Autorotate ? DisplayOrientations.None : currentOrientation;
+            DisplayInformation.AutoRotationPreferences = AppSettings.Default.Autorotate ? DisplayOrientations.None : currentOrientation;
      
         }
         #endregion
@@ -185,9 +184,10 @@ namespace LitRes.Views
                 _isLoaded = true;
 
                 _book = AppSettings.Default.CurrentBook;
+                CurrentPage = AppSettings.Default.CurrentPage;
                 if (_book == null) return;
-                activeFontHelper = BookFactory.GetActiveFontMetrics(AppSettings.Default.FontSettings.FontFamily.Source);
-                AppSettings.Default.FontSettings.FontHelper = activeFontHelper;               
+                _activeFontHelper = BookFactory.GetActiveFontMetrics(AppSettings.Default.FontSettings.FontFamily.Source);
+                AppSettings.Default.FontSettings.FontHelper = _activeFontHelper;               
             }
             else if (e.PropertyName == "EntityLoaded")
             {
@@ -223,6 +223,12 @@ namespace LitRes.Views
                 if (ExpirationGuardian.Instance != null) ExpirationGuardian.Instance.RemoveCallBack(this);
             }
 
+            if (!SystemInfoHelper.IsDesktop())
+            {
+                StatusBar statusBar = StatusBar.GetForCurrentView();
+                statusBar.ShowAsync();
+            }
+
             ViewModel.SaveSettings();
         }
 
@@ -238,10 +244,25 @@ namespace LitRes.Views
             if (ViewModel.Status == ReaderViewModel.LoadingStatus.FullBookLoaded || ViewModel.Status == ReaderViewModel.LoadingStatus.TrialBookLoaded)
             {
                 HideMenu();
-                Redraw();
                 _isSliderMoving = false;
+
+                CurrentPageSlider.ManipulationStarted -= CurrentPageSliderOnManipulationStarted;
+                CurrentPageSlider.ManipulationCompleted -= CurrentPageSliderOnManipulationCompleted;
+               
                 CurrentPageSlider.ManipulationStarted += CurrentPageSliderOnManipulationStarted;
                 CurrentPageSlider.ManipulationCompleted += CurrentPageSliderOnManipulationCompleted;
+
+                PageCanvas.SetSize(ReaderGrid.ActualWidth, ReaderGrid.ActualHeight, ReaderGrid.ActualWidth, ReaderGrid.ActualHeight);
+                PageCanvas.Clear();
+                LayoutRoot.SizeChanged -= LayoutRoot_SizeChanged;
+                LayoutRoot.SizeChanged += LayoutRoot_SizeChanged;
+
+                if (CurrentPage > 0)
+                {
+                    GoToChapter();
+                }
+                else
+                    Redraw();
             }
             else if (ViewModel.LoadingException != null)
             {
@@ -255,20 +276,6 @@ namespace LitRes.Views
         {
             _isSliderMoving = false;
             OnSliderClickOrMoved();
-        }
-
-        private void ApplyReaderSettings()
-        {            
-            if (ViewModel.ReaderSettings.Autorotate)
-            {
-                //SupportedOrientations = SupportedPageOrientation.PortraitOrLandscape;
-                
-            }
-            else
-            {
-                //SupportedOrientations = SupportedPageOrientation.Portrait;
-            }
-            Center.Visibility = Visibility.Collapsed;
         }
 
         protected void OnOrientationChanged(DisplayInformation info, object sender)
@@ -355,7 +362,6 @@ namespace LitRes.Views
             {
                 StatusBar statusBar = StatusBar.GetForCurrentView();
                 await statusBar.ShowAsync();
-                
             }
         }
 
@@ -405,14 +411,17 @@ namespace LitRes.Views
 
         }
 
-        private void SettingsButton_OnTapped(object sender, TappedRoutedEventArgs e)
+        public static Brush ColorToBrush(string color) // color = "#E7E44D"
         {
-            if (SystemInfoHelper.IsDesktop())
+            color = color.Replace("#", "");
+            if (color.Length == 6)
             {
-                FlyoutBase.ShowAttachedFlyout((Button)sender);
-                SettingsFrame.Navigate(typeof(Settings));
+                return new SolidColorBrush(ColorHelper.FromArgb(255,
+                    byte.Parse(color.Substring(0, 2), NumberStyles.HexNumber),
+                    byte.Parse(color.Substring(2, 2), NumberStyles.HexNumber),
+                    byte.Parse(color.Substring(4, 2), NumberStyles.HexNumber)));
             }
-            else _navigationService.Navigate("Settings");
+            return null;
         }
 
         private void BookmarsButton_OnTapped(object sender, TappedRoutedEventArgs e)
@@ -433,8 +442,8 @@ namespace LitRes.Views
 
         public async void ChangeFont()
         {
-            activeFontHelper = BookFactory.GetActiveFontMetrics(AppSettings.Default.FontSettings.FontFamily.Source);
-            AppSettings.Default.FontSettings.FontHelper = activeFontHelper;
+            _activeFontHelper = BookFactory.GetActiveFontMetrics(AppSettings.Default.FontSettings.FontFamily.Source);
+            AppSettings.Default.FontSettings.FontHelper = _activeFontHelper;
             await CreateController();
         }
 
@@ -479,6 +488,7 @@ namespace LitRes.Views
                 _preSelectionOffset = _tokenOffset;
             int page = (int)CurrentPageSlider.Value;
             CurrentPage = page;
+            AppSettings.Default.CurrentPage = CurrentPage;
             int tokenOffset = (page - 1) * AppSettings.WORDS_PER_PAGE;
             _tokenOffset = tokenOffset;
             await CreateController();
@@ -488,9 +498,23 @@ namespace LitRes.Views
         {
             if (_preSelectionOffset == null)
                 _preSelectionOffset = _tokenOffset;        
-            int tokenOffset = (CurrentPage - 1) * AppSettings.WORDS_PER_PAGE;
+            int tokenOffset = (AppSettings.Default.CurrentPage - 1) * AppSettings.WORDS_PER_PAGE;
             _tokenOffset = tokenOffset;
+
+            Background = AppSettings.Default.ColorScheme.BackgroundBrush;
+
+            PageCanvas.Clear();
+            PageCanvas.SetSize(ReaderGrid.ActualWidth, ReaderGrid.ActualHeight, ReaderGrid.ActualWidth, ReaderGrid.ActualHeight);
+            PageCanvas.Manipulator = new ManipulatorFactory(PageCanvas).CreateManipulator(AppSettings.Default.FlippingStyle, AppSettings.Default.FlippingMode);
+
             await CreateController();
+
+            if (BookCoverBack.Visibility == Visibility.Visible)
+                BookCoverBack.Visibility = Visibility.Collapsed;
+
+            Bottom.Visibility = Visibility.Visible;
+
+            PageHeader.ProgressIndicatorVisible = false;
         }
 
         private async Task CreateController()
@@ -499,7 +523,10 @@ namespace LitRes.Views
             {
                 return;
             }
-                      
+
+            BusyGrid.Visibility = Visibility.Visible;
+            BusyProgress.IsIndeterminate = true;
+
             _readController = new ReadController(PageCanvas, _book, _book.BookID, _tokenOffset);
            
             await _readController.ShowNextPage();
@@ -508,6 +535,9 @@ namespace LitRes.Views
             PageCanvas.Manipulator.IsFirstPage = _readController.IsFirst;
             PageCanvas.Manipulator.IsLastPage = _readController.IsLast;
             CurrentPageSlider.Maximum = _readController.TotalPages;
+
+            BusyGrid.Visibility = Visibility.Collapsed;
+            BusyProgress.IsIndeterminate = false;
         }
 
         private int? _oldOffset;
@@ -515,7 +545,7 @@ namespace LitRes.Views
         private async Task TurnPage(bool isRight)
         {
             _oldOffset = null;
-
+           
             await _event.WaitAsync();
 
            // AppBar.CancelPageSelectionMode();
@@ -530,7 +560,8 @@ namespace LitRes.Views
             _isSliderMoving = true;
             CurrentPageSlider.Value = _readController.CurrentPage;
             CurrentPage = (int) CurrentPageSlider.Value;
-            PagesText.Text = _readController.CurrentPage + "/" + _readController.TotalPages;
+            AppSettings.Default.CurrentPage = CurrentPage;
+            //   PagesText.Text = _readController.CurrentPage + "/" + _readController.TotalPages;
             _isSliderMoving = false;
             PageCanvas.Manipulator.IsFirstPage = _readController.IsFirst;
             PageCanvas.Manipulator.IsLastPage = _readController.IsLast;
@@ -575,14 +606,69 @@ namespace LitRes.Views
             _isSliderMoving = true;
         }
 
-        private void ContentsButton_Tapped(object sender, TappedRoutedEventArgs e)
+        private void SettingsButton_OnTapped(object sender, TappedRoutedEventArgs e)
         {
             if (SystemInfoHelper.IsDesktop())
             {
                 FlyoutBase.ShowAttachedFlyout((Button)sender);
-                TocFrame.Navigate(typeof(BookChapters));
+                var brush = ColorToBrush("#3b393f");
+                SettingsButton.Background = brush;
+                SettingsImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Settings/setting_white.scale-100.png", UriKind.Absolute));
+                SettingsImage.Opacity = 1;
+                SettingsFrame.Navigate(typeof(Settings));
+            }
+            else _navigationService.Navigate("Settings");
+        }
+
+        private void ContentsButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (SystemInfoHelper.IsDesktop())
+            {
+                FlyoutBase.ShowAttachedFlyout((Button) sender);
+                var brush = ColorToBrush("#3b393f");
+                ContentsButton.Background = brush;
+                ContentsImage.Source =
+                    new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Toc/toc.white.scale-100.png", UriKind.Absolute));
+                TocFrame.Navigate(typeof (BookChapters));
             }
             else _navigationService.Navigate("BookChapters");
+        }
+
+        private void TocFrame_Unloaded(object sender, RoutedEventArgs e)
+        {
+            ContentsButton.Background = new SolidColorBrush(Colors.Transparent);
+            ContentsImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Toc/toc.scale-100.png", UriKind.Absolute));
+        }
+
+        private void SettingsFrame_Unloaded(object sender, RoutedEventArgs e)
+        {
+            SettingsButton.Background = new SolidColorBrush(Colors.Transparent);
+            SettingsImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Settings/setting_black.scale-100.png", UriKind.Absolute));
+            SettingsImage.Opacity = 0.6;
+        }
+
+        private Point _initialPoint;
+
+        private void PageCanvas_OnPointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            var curPoint = e.GetCurrentPoint((UIElement)sender);
+            _initialPoint = curPoint.Position;
+        }
+
+        private async void PageCanvas_OnPointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            var curPoint = e.GetCurrentPoint((UIElement)sender);
+            Point currentpoint = curPoint.Position;
+            if (currentpoint.X - _initialPoint.X <= 50)
+            {
+               // Debug.WriteLine("Swipe Right");
+                await TurnPage(true);
+            }
+            else if (currentpoint.X - _initialPoint.X >= 50)
+            {
+               // Debug.WriteLine("Swipe Left");
+                await TurnPage(false);
+            }
         }
     }
 

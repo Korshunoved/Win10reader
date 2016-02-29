@@ -25,32 +25,31 @@ namespace LitRes.Views
 
             Loaded += BookChapters_Loaded;
 		}
+        #endregion
 
         void BookChapters_Loaded(object sender, RoutedEventArgs e)
         {
             Analytics.Instance.sendMessage(Analytics.ViewTOC);
-            var appChapters = AppSettings.Default.Chapters;
-            var book = AppSettings.Default.CurrentBook;
-            List<Chapters> Chapters = appChapters.Select(chapterModel => new Chapters {Title = chapterModel.Title, Page = (int) Math.Ceiling((double) (chapterModel.TokenID + 1)/AppSettings.WORDS_PER_PAGE)}).ToList();
+            var appChapters = AppSettings.Default.Chapters;            
+            List<Chapters> Chapters = appChapters.Select(chapterModel => new Chapters { Title = chapterModel.Title, Page = (int)Math.Ceiling((double)(chapterModel.TokenID + 1) / AppSettings.WORDS_PER_PAGE) }).ToList();
             TockListView.ItemsSource = Chapters;
             TockListView.SelectionChanged += TockListViewOnSelectionChanged;
         }
 
-	    private void TockListViewOnSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
-	    {
-	        if (readerPage == null) return;
-	        var list = (ListView) sender;
-	        var index = list.SelectedIndex;
-	        if (index <= 0) return;
-	        var chapter = list.SelectedItem as Chapters;
-	        if (chapter == null) return;
-            readerPage.CurrentPage = chapter.Page;
-	        readerPage.GoToChapter();
-	    }
+        private void TockListViewOnSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
+        {
+            if (readerPage == null) return;
+            var list = (ListView)sender;
+            var index = list.SelectedIndex;
+            if (index <= 0) return;
+            var chapter = list.SelectedItem as Chapters;
+            if (chapter == null) return;
+            AppSettings.Default.CurrentPage = chapter.Page;
+            if (SystemInfoHelper.IsDesktop())
+                readerPage.GoToChapter();
+        }
 
-	    #endregion
-
-	    private void TockListView_OnTapped(object sender, TappedRoutedEventArgs e)
+        private void TockListView_OnTapped(object sender, TappedRoutedEventArgs e)
 	    {
             LocalBroadcastReciver.Instance.OnPropertyChanging(TockListView.SelectedItem, new PropertyChangingEventArgs("TocTapped"));
             if(!SystemInfoHelper.IsDesktop() && Frame.CanGoBack) Frame.GoBack();

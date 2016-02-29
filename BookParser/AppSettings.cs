@@ -45,8 +45,7 @@ namespace BookParser
         private const bool DEFAULT_HYPHENATION = true;
         private const FlippingMode DEFAULT_FLIPPING_MODE = FlippingMode.TouchOrSlide;
         private const FlippingStyle DEFAULT_FLIPPING_STYLE = FlippingStyle.Overlap;
-        private readonly string DEFAULT_LANGUAGE;
-        private const int DEFAULT_THEME = 1;
+        private readonly string DEFAULT_LANGUAGE;        
 
         private readonly SettingsStorage _settingsStorage = new SettingsStorage();
 
@@ -70,6 +69,12 @@ namespace BookParser
 
         public BookModel CurrentBook { get; set; }
 
+        public int CurrentPage
+        {
+            get { return _settingsStorage.GetValueWithDefault("CurrentPage", 1); }
+            set { _settingsStorage.SetValue("CurrentPage", value); }
+        }
+
         public IEnumerable<ChapterModel> Chapters { get; set; } 
 
         public bool LockScreen
@@ -82,6 +87,12 @@ namespace BookParser
         {
             get { return _settingsStorage.GetValueWithDefault("Orientation", DEFAULT_ORIENTATION); }
             set { _settingsStorage.SetValue("Orientation", value); }
+        }
+
+        public bool Autorotate
+        {
+            get { return _settingsStorage.GetValueWithDefault("Autorotate", false); }
+            set { _settingsStorage.SetValue("Autorotate", value); }
         }
 
         public Visibility MobileVisibility { get; set; }

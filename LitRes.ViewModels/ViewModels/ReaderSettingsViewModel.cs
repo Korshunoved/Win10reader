@@ -151,50 +151,15 @@ namespace LitRes.ViewModels
             //rsModel.LastUpdate = DateTime.Parse(localSettings.Values["LastUpdate"].ToString()); 
             try
             {
-                _autorotate = (bool)localSettings.Values["AutoRotate"];
-                _fitWidth = (bool)localSettings.Values["FitWidth"];
-                _theme = (int)localSettings.Values["Theme"];
-                _font = (int)localSettings.Values["Font"];
-                _fontSize = (int)localSettings.Values["FontSize"];
-                _margins = (int)localSettings.Values["Margin"];
                 _brightness = (float)localSettings.Values["Brightness"];
-                _hyphenate = (bool)localSettings.Values["Hyphernate"];
                 _animate = (bool)localSettings.Values["AnimationMoveToPage"];
-                _interlineage = (int)localSettings.Values["CharacterSpacing"];
             }
             catch (Exception)
             {
                 _autorotate = false;
-                _fitWidth = false;
-                _theme = 1;
-                _font = 1;
-                _fontSize = 1;
-                _margins = 1;
                 _brightness = 0;
-                _hyphenate = false;
                 _animate = false;
-                _interlineage = 0;
             }
-        
-
-            /*var settings = await _settingsService.GetSettings();
-
-			if( settings != null )
-			{
-				_settings.Update( settings );
-
-				Autorotate = settings.Autorotate;
-				FitWidth = settings.FitWidth;
-				Hyphenate = settings.Hyphenate;
-                AnimationMoveToPage = Settings.AnimationMoveToPage;
-				Theme = settings.Theme;
-				Font = settings.Font;                
-				FontSize = settings.FontSize;
-				Margins = settings.Margin;
-				Interlineage = settings.CharacterSpacing;
-			    SystemTile = settings.SystemTiles;
-			    Brightness = settings.Brightness;
-			}*/
         }
         #endregion
 
@@ -204,41 +169,13 @@ namespace LitRes.ViewModels
             var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
             try
             {
-               // localSettings.Values["LastUpdate"] = readerSettings.LastUpdate.ToString(CultureInfo.InvariantCulture);
-                localSettings.Values["AutoRotate"] = _autorotate;
-                localSettings.Values["FitWidth"] = _fitWidth;
-                localSettings.Values["Theme"] = _theme;
-                localSettings.Values["Font"] = _font;
-                localSettings.Values["FontSize"] = _fontSize;
-                localSettings.Values["Margin"] = _margins;
-                localSettings.Values["CharacterSpacing"] = _interlineage;
                 localSettings.Values["Brightness"] = _brightness;
-                localSettings.Values["Hyphernate"] = _hyphenate;
                 localSettings.Values["AnimationMoveToPage"] = _animate;
             }
             catch (Exception)
             {
                 // ignored
             }
-
-            /*var settings = await _settingsService.GetSettings();
-
-			_settings.Autorotate = _autorotate;
-			_settings.FitWidth = _fitWidth;
-			_settings.Hyphenate = _hyphenate;
-            _settings.AnimationMoveToPage = _animate;
-			_settings.Theme = _theme;
-			_settings.Font = _font;
-			_settings.FontSize = _fontSize;
-			_settings.Margin = _margins;
-			_settings.CharacterSpacing = _interlineage;
-		    _settings.SystemTiles = SystemTile;
-		    _settings.Brightness = _brightness;
-			if( !settings.Equals( _settings ) )
-			{
-				_settings.LastUpdate = DateTime.Now;
-				_settingsService.SetSettings( _settings );
-			}*/
         }
         #endregion
     }
