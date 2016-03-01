@@ -9,6 +9,8 @@ using Windows.UI.Xaml.Input;
 using BookParser;
 using Digillect.Mvvm.UI;
 using LitRes.ViewModels;
+using LitResReadW10;
+using LitResReadW10.Controls;
 using LitResReadW10.Helpers;
 
 namespace LitRes.Views
@@ -22,7 +24,6 @@ namespace LitRes.Views
         public BookChapters()
 		{
 			InitializeComponent();
-
             Loaded += BookChapters_Loaded;
 		}
         #endregion

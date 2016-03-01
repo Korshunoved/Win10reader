@@ -28,17 +28,20 @@ namespace LitRes.Controls
             get { return networkAvailability.Visibility == Visibility.Visible; }
 			set { networkAvailability.Visibility = value ? Visibility.Visible : Visibility.Collapsed; }
 		}
-		#endregion
+        #endregion
 
-		private void PageHeader_Loaded(object sender, RoutedEventArgs e)
-		{
-			this.dataExchangeService = ((App) App.Current).Scope.Resolve<IDataExchangeService>();
+        private void PageHeader_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.dataExchangeService = ((App)App.Current).Scope.Resolve<IDataExchangeService>();
 
-			this.dataExchangeService.DataExchangeStarted += UpdateProgressIndicator;
-			this.dataExchangeService.DataExchangeComplete +=  UpdateProgressIndicator;
+            this.dataExchangeService.DataExchangeStarted += UpdateProgressIndicator;
+            this.dataExchangeService.DataExchangeComplete += UpdateProgressIndicator;
 
-			UpdateProgressIndicator(sender, null);
-		}
+            var margin = Margin;
+            margin = new Thickness(margin.Left, margin.Top + 5, margin.Right, margin.Bottom);
+            Margin = margin;
+            UpdateProgressIndicator(sender, null);
+        }
 
 		private void PageHeader_UnLoaded(object sender, RoutedEventArgs e)
 		{

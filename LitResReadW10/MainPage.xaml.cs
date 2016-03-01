@@ -35,11 +35,9 @@ namespace LitResReadW10
         {
             if (MainControlPanel == null)
                 MainControlPanel = ControlPanel.Instance;
-
-            this.InitializeComponent();
-
-            ControlPanel.Instance.PhoneSearchBox = PhoneSearchBox;
-
+           
+            this.InitializeComponent();         
+            ControlPanel.Instance.PhoneSearchBox = PhoneSearchBox;            
             ((WindowsRTApplication)Application.Current).RootFrame = AppFrame;
             ((WindowsRTApplication) Application.Current).RootSubFrame = ContentDialogFrame;
 
@@ -269,6 +267,11 @@ namespace LitResReadW10
         {
             ((Button) sender).Visibility = Visibility.Collapsed;
             PhoneSearchBox.Focus(FocusState.Keyboard);
+            if (!SystemInfoHelper.IsDesktop())
+            {
+                PhoneTopBarTitle.Visibility = Visibility.Collapsed;
+            }
+
         }
 
         private void PhoneSearchBox_OnTapped(object sender, TappedRoutedEventArgs e)
@@ -295,6 +298,7 @@ namespace LitResReadW10
                 PhoneSearchIconButton.Visibility = Visibility.Visible;
             }
             PhoneSearchBox.QueryText = string.Empty;
+            PhoneTopBarTitle.Visibility = Visibility.Visible;
         }
 
         private void Search(string searchString)
@@ -322,8 +326,7 @@ namespace LitResReadW10
                 var lastReaded = _dataCacheService.GetItem<Book>("lastreadedbook");
                 if (lastReaded != null)
                 {
-                       _navigationService.Navigate("Reader", XParameters.Create("BookEntity", lastReaded));
-                   // _navigationService.Navigate("ReaderNew", XParameters.Create("BookEntity", lastReaded));
+                       _navigationService.Navigate("Reader", XParameters.Create("BookEntity", lastReaded));                  
                 }
             }
             catch (Exception ex)

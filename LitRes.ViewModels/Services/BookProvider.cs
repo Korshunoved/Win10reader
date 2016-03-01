@@ -238,7 +238,10 @@ namespace LitRes.Services
                 //_bookService.Remove(book.BookID);
                 throw;
             }
+            var tmpBook = AppSettings.Default.CurrentBook;
             AppSettings.Default.CurrentBook = book;
+            if (tmpBook!=null && tmpBook.BookID != book.BookID)
+                AppSettings.Default.CurrentPage = 1;
         }
 
         private static BookModel CreateBook(Book item, BookSummary bookSummary)

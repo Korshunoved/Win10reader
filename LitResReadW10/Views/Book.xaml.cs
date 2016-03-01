@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -285,7 +286,7 @@ namespace LitRes.Views
         
 	    protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ControlPanel.Instance.TopBarTitle = "Магазин";
+            ControlPanel.Instance.TopBarTitle = "Книга";
             base.OnNavigatedTo(e);
 
             ViewModel.UpdateButtons();
@@ -300,6 +301,14 @@ namespace LitRes.Views
             if (_timer != null) _timer.Stop();         
 
             ControlPanel.Instance.OptionsDropDownButtonVisibility = Visibility.Collapsed;
+            if (!SystemInfoHelper.IsDesktop())
+            {
+                FullImagePanel.Visibility = Visibility.Collapsed;
+                ControlPanel.Instance.TopBarVisibility = Visibility.Visible;
+                StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                statusBar.ShowAsync();
+            }
+
         }
         
         private void RequestButton_Tap(object sender, TappedRoutedEventArgs e)
@@ -327,7 +336,7 @@ namespace LitRes.Views
             }
 	    }
 
-	    private void CoverOnTap(object sender, TappedRoutedEventArgs e)
+	    private async void CoverOnTap(object sender, TappedRoutedEventArgs e)
 	    {
             if (!_animInProgress)
             {
@@ -338,6 +347,9 @@ namespace LitRes.Views
                         FullImageCover.Source = image.Source;
                     FullImagePanel.Visibility = Visibility.Visible;
                     ControlPanel.Instance.TopBarVisibility = Visibility.Collapsed;
+                    StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                    await statusBar.HideAsync();
+
                 }
                 //_animInProgress = true;	            
                 //if (!HideCover()) ShowCover();
@@ -464,35 +476,37 @@ namespace LitRes.Views
 	        creditButton.Tapped += (sender, args) => { ViewModel.RunCreditCardPaymentProcess.Execute(null); dialog.Hide(); };
             panel.Children.Add(creditButton);
 
-            var storeButton = new Button
-            {
-                Margin = new Thickness(0, 10, 0, 5),
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                Content = $"оплатить через Windows Store",
-                BorderThickness = new Thickness(2),
-                BorderBrush = new SolidColorBrush(Colors.Gray),
-                Background = new SolidColorBrush(Colors.Transparent)
-            };
-            storeButton.Tapped += (sender, args) => { ViewModel.BuyBookFromMicrosoft.Execute(null); dialog.Hide(); };
-            panel.Children.Add(storeButton);
+            //var storeButton = new Button
+            //{
+            //    Margin = new Thickness(0, 10, 0, 5),
+            //    HorizontalAlignment = HorizontalAlignment.Stretch,
+            //    Content = $"оплатить через Windows Store",
+            //    BorderThickness = new Thickness(2),
+            //    BorderBrush = new SolidColorBrush(Colors.Gray),
+            //    Background = new SolidColorBrush(Colors.Transparent)
+            //};
+            //storeButton.Tapped += (sender, args) => { ViewModel.BuyBookFromMicrosoft.Execute(null); dialog.Hide(); };
+            //panel.Children.Add(storeButton);
 
-            panel.Children.Add(new TextBlock
-            {
-                Margin = new Thickness(0, 0, 0, 10),
-                Text = "Внимание! К цене будет добавлена комисия Windows Store.",
+            //panel.Children.Add(new TextBlock
+            //{
+            //    Margin = new Thickness(0, 0, 0, 10),
+            //    Text = "Внимание! К цене будет добавлена комисия Windows Store.",
                 
-                TextWrapping = TextWrapping.Wrap,
-            });
+            //    TextWrapping = TextWrapping.Wrap,
+            //});
             dialog.Content = panel;
             await dialog.ShowAsync();
 	    }
 
-	    private void FullImagePanel_OnTapped(object sender, TappedRoutedEventArgs e)
+	    private async void FullImagePanel_OnTapped(object sender, TappedRoutedEventArgs e)
 	    {
           //  if (!SystemInfoHelper.IsDesktop())
             {
                 FullImagePanel.Visibility = Visibility.Collapsed;
                 ControlPanel.Instance.TopBarVisibility = Visibility.Visible;
+                StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                await statusBar.ShowAsync();
             }
         }
 	}

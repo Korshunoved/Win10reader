@@ -6,12 +6,11 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:views="using:LitRes.Views"
 	xmlns:controls="using:LitRes.Controls"
-	xmlns:selectors="using:LitRes.Selectors"
 	x:Name="View"
 	mc:Ignorable="d"
 	FontFamily="{StaticResource PhoneFontFamilyNormal}"
 	FontSize="{StaticResource PhoneFontSizeNormal}"
-	Foreground="{StaticResource LitResForegroundBrush}">
+	Foreground="{StaticResource LitResForegroundBrush}" >
     <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}">
         <!-- 325-->
         <Grid.RowDefinitions>
@@ -19,60 +18,13 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Margin="10,10,0,10" HorizontalAlignment="Left" Orientation="Vertical">
-            <StackPanel x:Name="TitlePanel" Orientation="Horizontal" >
-                <Image Stretch="None" Source="../Assets/W10Icons/Settings/setting_black.png"/>
-                <TextBlock 
-                    Margin="0,0,0,0"
-                    FontSize="14"
-                    Foreground="Black"
-                    FontFamily="Segoe UI"
-                    FontWeight="Medium"
-                    Text="Настройки"/>
-            </StackPanel>
-            <TextBlock Margin="0,15,0,15" Text="Настройки" Style="{StaticResource BigNormalBlackTextStyle}"/>
+        <StackPanel Grid.Row="0" Margin="30,10,0,10" Orientation="Vertical">
+          <TextBlock Margin="0,15,0,15" Text="Настройки" Style="{StaticResource BigNormalBlackTextStyle}"/>
         </StackPanel>
-        <ScrollViewer Grid.Row="1" Margin="20,0,20,10" VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled" VerticalAlignment="Stretch">
+        <ScrollViewer Grid.Row="1"   Margin="30,0,30,0" VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled" VerticalAlignment="Stretch">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
-                <TextBlock Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
-                         Text="Яркость" Visibility="{Binding MobileVisibility}"/>
-                <Grid Margin="0,10,0,10" Visibility="{Binding MobileVisibility}" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <Image Grid.Column="0" 
-                          Margin="10,0,10,5"
-                          VerticalAlignment="Center"
-                          Stretch="None" 
-                          Source="../Assets/W10Icons/Light/LightMin.png"/>
-                    <Slider x:Name="LightSlider"
-                            Margin="0,0,0,0"
-                            Padding="0,0,0,0"
-                            HorizontalAlignment="Stretch"
-                            Grid.Column="1"					        
-                            Minimum="20" 
-                            Maximum="100" 
-                            SmallChange="5" 
-                            LargeChange="10"                      
-                            ManipulationMode="All"
-                            VerticalAlignment="Center"
-                            Template="{StaticResource LitresSlider}"
-                            Loaded="LightSlider_Loaded"/>
-                    <Image Grid.Column="2"
-                           Margin="10,0,10,5"
-                           VerticalAlignment="Center"
-                           Stretch="None" 
-                           Source="../Assets/W10Icons/Light/LightMax.png"/>
-                </Grid>
-
                 <TextBlock
-                    Margin="0,20,0,10"
+                    Margin="0,0,0,10"
                     Visibility="{Binding MobileVisibility}"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Автоповорот"/>
@@ -91,12 +43,22 @@
                 <ToggleSwitch Margin="0,0,0,0" x:Name="HyphenationSwither" IsOn="{Binding ViewModel.Hyphenate, Mode=TwoWay}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" />
 
                 <TextBlock
+                    Name="StatusBarText"
+                    Margin="0,20,0,10"
+                    Visibility="{Binding MobileVisibility}"
+                    Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
+                    Text="Скрывать системное меню" 
+                    />
+                <ToggleSwitch Margin="0,0,0,10" x:Name="StatusBarSwitcher" Visibility="{Binding MobileVisibility}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" />
+                
+                <TextBlock
                     Name="TwoColumnsText"
                     Margin="0,20,0,10"
+                    Visibility="{Binding DesktopVisibility}"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Текст в две колонки" Foreground="#FFB6B4B4"
                     />
-                <ToggleSwitch Margin="0,0,0,10" x:Name="TwoColumnsSwither" IsEnabled="false" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" />
+                <ToggleSwitch Margin="0,0,0,10" x:Name="TwoColumnsSwitcher" IsEnabled="False" Visibility="{Binding DesktopVisibility}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" />
                 
                 <TextBlock
                     Margin="0,20,0,10"
@@ -109,7 +71,7 @@
                     Margin="0,20,0,10"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Тема оформления"/>
-                <Grid>
+                <Grid HorizontalAlignment="Center" > 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="100"/>
@@ -142,9 +104,9 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <RadioButton x:Name="SansFont1" Content="ПТ Санс" FontFamily="/Fonts/PT Sans.ttf#PT Sans" GroupName="FontRadio" HorizontalAlignment="Right" Loaded="RadioButton_Loaded" />
-                    <RadioButton x:Name="SerifFont2" Content="ПТ Сериф" FontFamily="PT Serif" Grid.Row="1" Grid.Column="0"  GroupName="FontRadio"  Loaded="RadioButton_Loaded" />
-                    <RadioButton x:Name="MonoFont3" Content="ПТ Моно" FontFamily="/Fonts/PT Mono.ttf#PT Mono" Grid.Row="2" Grid.Column="0" GroupName="FontRadio" Loaded="RadioButton_Loaded" />
+                    <RadioButton x:Name="SansFont1" Content="ПТ Санс" FontSize="20" FontFamily="/Fonts/PT Sans.ttf#PT Sans" GroupName="FontRadio" HorizontalAlignment="Right" Loaded="RadioButton_Loaded" />
+                    <RadioButton x:Name="SerifFont2" Content="ПТ Сериф" FontSize="20" FontFamily="PT Serif" Grid.Row="1" Grid.Column="0"  GroupName="FontRadio"  Loaded="RadioButton_Loaded" />
+                    <RadioButton x:Name="MonoFont3" Content="ПТ Моно" FontSize="20" FontFamily="/Fonts/PT Mono.ttf#PT Mono" Grid.Row="2" Grid.Column="0" GroupName="FontRadio" Loaded="RadioButton_Loaded" />
                 </Grid>
                 <TextBlock
                     Margin="0,20,0,10"
@@ -273,18 +235,6 @@
 
         <controls:PageHeader x:Name="pageHeader" Margin="0,-2,-14,0"/>
 
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="PhoneState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="TitlePanel.Visibility" Value="Collapsed" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
     </Grid>
 
 </views:SettingsFitting>

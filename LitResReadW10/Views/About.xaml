@@ -102,14 +102,14 @@
                                 VerticalAlignment="Top">
                                 Оцените нас
                             </TextBlock>
-                            <Image Source="/Assets/RatingNotFilled.png"
+                            <Image Source="/Assets/Rating.png"
                                    VerticalAlignment="Top"
                                    HorizontalAlignment="Center"
                                    Stretch="None"
-                                   Margin="0,20,0,15" />
+                                   Margin="0,20,0,15" Tapped="RateStackPanel_Tapped" />
                         </StackPanel>
                         <StackPanel Grid.Row="0" Grid.Column="1" Margin="4,0,0,0" HorizontalAlignment="Stretch"
-                                    Orientation="Vertical" Background="White">
+                                    Orientation="Vertical" Background="White" Tapped="FacebookStackPanel_Tapped">
                             <TextBlock
                                 Margin="0,15,0,0"
                                 TextWrapping="Wrap"
@@ -132,7 +132,7 @@
                     <ListView
                         Padding="0">
                         <StackPanel Margin="1,0,0,0" HorizontalAlignment="Stretch"
-                                    Orientation="Vertical" Background="White">
+                                    Orientation="Vertical" Background="White" Tapped="RateStackPanel_Tapped">
                             <TextBlock
                                 Margin="0,15,0,0"
                                 TextWrapping="Wrap"
@@ -143,14 +143,14 @@
                                 VerticalAlignment="Top">
                                 Оцените нас
                             </TextBlock>
-                            <Image Source="/Assets/RatingNotFilled.png"
+                            <Image Source="/Assets/Rating.png"
                                    VerticalAlignment="Top"
                                    HorizontalAlignment="Center"
                                    Stretch="None"
                                    Margin="0,20,0,15" />
                         </StackPanel>
                         <StackPanel Margin="1,0,0,0" HorizontalAlignment="Stretch"
-                                    Orientation="Vertical" Background="White">
+                                    Orientation="Vertical" Background="White" Tapped="FacebookStackPanel_Tapped">
                             <TextBlock
                                 Margin="0,15,0,0"
                                 TextWrapping="Wrap"

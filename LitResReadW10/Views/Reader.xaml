@@ -64,7 +64,7 @@
                     Height="40"
                     Width="40" Background="Transparent" 
                     Style="{StaticResource LitresReaderButtonStyle}">
-                    <Image Name="SettingsImage" Stretch="None" Opacity="0.6" Source="../Assets/W10Icons/Settings/setting_black.png"/>
+                    <Image Name="SettingsImage" Stretch="None" Source="../Assets/W10Icons/Settings/setting_grey.png"/>
 
                     <FlyoutBase.AttachedFlyout >
                         <Flyout Placement="Bottom">
@@ -103,7 +103,7 @@
                     IsEnabled="False"
                     Opacity="0.3"
                     Style="{StaticResource ReaderButtonStyle}">
-                    <Image Stretch="None" Source="../Assets/W10Icons/Bookmarks/bookmarks_icon.png"/>
+                    <Image Stretch="None"  Opacity="0.6" Source="../Assets/W10Icons/Bookmarks/bookmarks_icon.png"/>
                     <FlyoutBase.AttachedFlyout >
                         <Flyout Placement="Bottom">
                             <Flyout.FlyoutPresenterStyle>
@@ -150,6 +150,8 @@
                             </Flyout.FlyoutPresenterStyle>
                             <Frame 
                                 Width="330"
+                                MinHeight="200"
+                                MaxHeight="700"
                                 Margin="0,0,0,0"
                                 VerticalAlignment="Stretch"
                                 HorizontalAlignment="Stretch"

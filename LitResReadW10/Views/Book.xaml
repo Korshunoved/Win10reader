@@ -91,12 +91,31 @@
                     Visibility="Collapsed"
                     Tapped="FullImagePanel_OnTapped" 
                     Canvas.ZIndex="1000"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"       
                     Background="Black"
                     Opacity="1">
-            <Image x:Name="FullImageCover"
-                   Opacity="1"
-                   Stretch="UniformToFill"
-                   Tapped="CoverOnTap"/>
+            <Grid>
+                <StackPanel 
+                    Grid.Row="0"
+                    Grid.Column="0"
+                Background="Black"
+                Opacity="0.5"
+                Width="2000"
+                Height="2000"
+                Canvas.ZIndex="1100">
+                </StackPanel>
+                <Image x:Name="FullImageCover"
+                       Grid.Row="0"
+                       Grid.Column="0"
+                       Opacity="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Stretch="UniformToFill"
+                Tapped="CoverOnTap"
+                Canvas.ZIndex="1200" />
+            </Grid>
+
         </StackPanel>
         <Pivot x:Name="PivotControl"
                SelectionChanged="MainPivotSelectionChanged">

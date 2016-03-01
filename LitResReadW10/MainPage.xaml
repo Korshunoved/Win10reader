@@ -1,4 +1,5 @@
 ﻿
+
     <ui:WindowsRTPage
     x:Class="LitResReadW10.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -7,8 +8,7 @@
     xmlns:controls="using:LitResReadW10.Controls"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
 	FontSize="{StaticResource PhoneFontSizeNormal}"
-	Foreground="{StaticResource LitResForegroundBrush}"
-    >
+    Foreground="{StaticResource LitResForegroundBrush}">
     <!--DataContext="{Binding RelativeSource={RelativeSource Self}}"-->
     <ui:WindowsRTPage.Resources>
         <ResourceDictionary>
@@ -22,20 +22,20 @@
     </ui:WindowsRTPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}" >
+    <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}">
         <SplitView 
            x:Name="MainSplitView"
            IsPaneOpen="False"
            DisplayMode="Overlay"
-           OpenPaneLength="224"           
+           OpenPaneLength="224"
            CompactPaneLength="{Binding MainControlPanel.CompactPaneLength}"
            PaneBackground="Transparent">
             <SplitView.Pane>
                 <Grid Margin="0,0,0,0" Padding="0,0,0,0">
 
                     <Grid.RowDefinitions>
-                        <RowDefinition x:Name="HeaderPaneRow" Height="{StaticResource TopBarDefaultGridHeight}"/>
-                        <RowDefinition x:Name="ContentRow" Height="*"/>
+                        <RowDefinition x:Name="HeaderPaneRow" Height="{StaticResource TopBarDefaultGridHeight}" />
+                        <RowDefinition x:Name="ContentRow" Height="*" />
                     </Grid.RowDefinitions>
 
                     <StackPanel 
@@ -62,7 +62,7 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 TextAlignment="Center"
-                                Foreground="White" /> 
+                                Foreground="White" />
                            
                         </Border>
                     </StackPanel>
@@ -80,17 +80,26 @@
                             RelativePanel.AlignTopWithPanel="True"
                             Padding="0,0,0,0"
                             Style="{StaticResource SplitViewNavButtonMyBookStyle}"                          
-                            Content="Мои книги"/>
+                            Content="Мои книги" />
+                        <Border 
+                            Name="FirstSeporator"
+                            BorderBrush="#4F4D52" 
+                            BorderThickness="1" 
+                            Width="250" 
+                            HorizontalAlignment="Stretch" 
+                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.Below="MyBooksButton"
+                            Margin="4,0"/>
                         <RadioButton 
                             x:Name="GenreButton"
                             Tag="Genres"
                             GroupName="MainMenuGroup"
                             Checked="PaneNavButtons_OnChecked"
                             RelativePanel.AlignLeftWithPanel="True"
-                            RelativePanel.Below="MyBooksButton"
+                            RelativePanel.Below="FirstSeporator"
                             Padding="0,0,0,0"
                             Style="{StaticResource SplitViewNavButtonGenresStyle}" 
-                            Content="Жанры"/>
+                            Content="Жанры" />
                         <RadioButton 
                             x:Name="EditorsChoiceButton"
                             Tag="EditorsChoice"
@@ -100,7 +109,7 @@
                             RelativePanel.Below="GenreButton"
                             Padding="0,0,0,0"
                             Style="{StaticResource SplitViewNavButtonEditorsChoiceStyle}" 
-                            Content="Выбор редакции"/>
+                            Content="Выбор редакции" />
                         <RadioButton 
                             x:Name="NoveltyButton"
                             Tag="Novelty"
@@ -110,7 +119,7 @@
                             RelativePanel.Below="EditorsChoiceButton"
                             Padding="0,0,0,0"
                             Style="{StaticResource SplitViewNavButtonNoveltyStyle}" 
-                            Content="Новинки"/>
+                            Content="Новинки" />
                         <RadioButton 
                             x:Name="PopularButton"
                             Tag="Popular"
@@ -120,7 +129,7 @@
                             RelativePanel.Below="NoveltyButton"
                             Padding="0,0,0,0"
                             Style="{StaticResource SplitViewNavButtonPopularStyle}" 
-                            Content="Популярное"/>
+                            Content="Популярное" />
                         <!--<RadioButton 
                             Name="DescriptionButton"
                             Tag="Notifications"
@@ -131,16 +140,25 @@
                             Padding="0,0,0,0"
                             Style="{StaticResource SplitViewNavButtonDescriptionStyle}" 
                             Content="Подписки"/>-->
+                        <Border 
+                            Name="SecondSeporator"
+                            BorderBrush="#4F4D52" 
+                            BorderThickness="1" 
+                            Width="250" 
+                            HorizontalAlignment="Stretch" 
+                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.Below="PopularButton"
+                            Margin="4,0"/>
                         <RadioButton 
                             Name="SupportButton"
                             Tag="Support"
                             GroupName="MainMenuGroup"
                             Checked="PaneNavButtons_OnChecked"
                             RelativePanel.AlignLeftWithPanel="True"
-                            RelativePanel.Below="PopularButton"
+                            RelativePanel.Below="SecondSeporator"
                             Padding="0,0,0,0"
                             Style="{StaticResource SplitViewNavButtonSupportStyle}" 
-                            Content="Письмо в поддержку"/>
+                            Content="Письмо в поддержку" />
                         <RadioButton 
                             Name="AboutButton"
                             Tag="About"
@@ -150,7 +168,7 @@
                             RelativePanel.Below="SupportButton"
                             Padding="0,0,0,0"
                             Style="{StaticResource SplitViewNavButtonAboutStyle}" 
-                            Content="О программе"/>
+                            Content="О программе" />
 
                         <RadioButton 
                             Name="ProfileButton"
@@ -161,7 +179,7 @@
                             RelativePanel.Above="SettingsButton"
                             Padding="0,0,0,0"
                             Style="{StaticResource SplitViewNavButtonProfileStyle}" 
-                            Content="Профиль"/>
+                            Content="Профиль" />
                         <RadioButton 
                             Name="SettingsButton"
                             Tag="Settings"
@@ -171,7 +189,7 @@
                             RelativePanel.AlignBottomWithPanel="True"
                             Padding="0,0,0,0"
                             Style="{StaticResource SplitViewNavButtonSettingsStyle}"                          
-                            Content="Настройки"/>
+                            Content="Настройки" />
                     </RelativePanel>
                 </Grid>
 
@@ -179,8 +197,8 @@
 
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition x:Name="TopBarRow" Height="Auto"/>
-                    <RowDefinition/>
+                    <RowDefinition x:Name="TopBarRow" Height="Auto" />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
 
                 <RelativePanel x:Name="TopBar" 
@@ -205,19 +223,19 @@
                         VerticalAlignment="Center"
                         TextAlignment="Center"
                         Foreground="#3B393F"/>
-                      
                     </Border>
 
-                  <TextBlock 
+                    <TextBlock 
                           x:Name="PhoneTopBarTitle"
                           FontSize="16"
                           Foreground="Black"
                           FontFamily="Segoe UI"
                           FontWeight="Medium"
+                        Margin="5,0,0,0"
                           TextTrimming="CharacterEllipsis"
                           Text="{Binding MainControlPanel.TopBarTitle}"
                           RelativePanel.RightOf="{Binding ElementName=HamburgerButton}"
-                          RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                        RelativePanel.AlignVerticalCenterWithPanel="True" />
                     <Button 
                         x:Name="PhoneDropDownButton"
                         RelativePanel.RightOf="{Binding ElementName=PhoneTopBarTitle}" 
@@ -231,7 +249,8 @@
                         Visibility="{Binding MainControlPanel.DropDownButtonVisibility}"
                         Click="DropDownButton_OnClick"
                         Style="{StaticResource IconButtonStyle}">
-                        <Image Stretch="None" Margin="0,5,0,0" Source="../Assets/W10Icons/MenuTriangleButton/TriangleDown.png"/>
+                        <Image Stretch="None" Margin="0,5,0,0"
+                               Source="../Assets/W10Icons/MenuTriangleButton/TriangleDown.png" />
                     </Button>
 
 
@@ -246,7 +265,7 @@
                         Visibility="{Binding MainControlPanel.OptionsDropDownButtonVisibility}"
                         Click="OptionsDropDownButton_OnClick"
                         Style="{StaticResource IconButtonStyle}">
-                        <Image Margin="0,5,0,0" Stretch="None" Source="../Assets/W10Icons/Options/options_black.png"/>
+                        <Image Margin="0,5,0,0" Stretch="None" Source="../Assets/W10Icons/Options/options_black.png" />
                     </Button>
                     <Button 
                         Width="40"
@@ -258,7 +277,7 @@
                         Tapped="PhoneSearchButton_OnTapped"
                         Visibility="Visible"
                         Style="{StaticResource IconButtonStyle}">
-                        <Image Stretch="None" Source="../Assets/W10Icons/Search/search_black.png"/>
+                        <Image Stretch="None" Source="../Assets/W10Icons/Search/search_black.png" />
                     </Button>
                     <SearchBox
                         x:Name="PhoneSearchBox"
@@ -266,7 +285,7 @@
                         SearchHistoryEnabled="False"
                         LostFocus="PhoneSearchBox_OnLostFocus"
                         Margin="5,0,5,0"
-                        Height="30" 
+                        Height="40"
                         FontWeight="SemiBold"
                         FontFamily="Segoe UI"
                         KeyUp="PhoneSearchBox_OnKeyUp"
@@ -279,12 +298,12 @@
                         BorderThickness="2"
                         FocusOnKeyboardInput="False"
                         Tapped="PhoneSearchBox_OnTapped"
-                        Visibility ="{Binding Path=Visibility, ElementName=PhoneSearchIconButton, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse}"
+                        Visibility="{Binding Path=Visibility, ElementName=PhoneSearchIconButton, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse}"
                         QuerySubmitted="SearchBox_OnQuerySubmitted"
                         RelativePanel.LeftOf="{Binding ElementName=ReadButton}" 
                         RelativePanel.AlignVerticalCenterWithPanel="True"
                         PlaceholderText="Поиск"
-                        Style="{StaticResource LitresSearchBoxStyle}"/>
+                        Style="{StaticResource LitresSearchBoxStyle}" />
                     <Button
                         Name="ReadButton"
                         Width="40"
@@ -293,8 +312,8 @@
                         Tapped="ReadButton_OnTapped"
                         Style="{StaticResource IconButtonStyle}"
                         RelativePanel.AlignRightWithPanel="True" 
-                        RelativePanel.AlignVerticalCenterWithPanel="True" >
-                        <Image Source="Assets/W10Icons/MyBooks/mybooks_white.png" Stretch="None"/>
+                        RelativePanel.AlignVerticalCenterWithPanel="True">
+                        <Image Source="Assets/W10Icons/MyBooks/mybooks_white.png" Stretch="None" />
                     </Button>
 
                 </RelativePanel>
@@ -308,7 +327,7 @@
                         <TransitionCollection>
                             <NavigationThemeTransition>
                                 <NavigationThemeTransition.DefaultNavigationTransitionInfo>
-                                    <EntranceNavigationTransitionInfo/>
+                                    <EntranceNavigationTransitionInfo />
                                 </NavigationThemeTransition.DefaultNavigationTransitionInfo>
                             </NavigationThemeTransition>
                         </TransitionCollection>
@@ -316,8 +335,10 @@
                 </Frame>
             </Grid>
         </SplitView>
-        <Grid x:Name="SubFrameDialog" Visibility="Collapsed" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Border Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Tapped="CloseCustomDialog_OnTapped" />
+        <Grid x:Name="SubFrameDialog" Visibility="Collapsed" Background="Transparent" HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch">
+            <Border Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Tapped="CloseCustomDialog_OnTapped" />
             <Frame
                     Width="500"
                     MinHeight="200"
@@ -349,27 +370,27 @@
                         <Setter Target="TopBar.Height" Value="{StaticResource TopBarWideHeight}" />
                         <Setter Target="PhoneSearchBox.Visibility" Value="Visible" />
 
-                        <Setter Target="PhoneTopBarTitle.(RelativePanel.AlignVerticalCenterWithPanel)"  Value="False" />
-                        <Setter Target="PhoneTopBarTitle.(RelativePanel.AlignVerticalCenterWith)"  Value="ReadButton" />
-                        <Setter Target="PhoneTopBarTitle.Margin"  Value="20,0,0,0" />
+                        <Setter Target="PhoneTopBarTitle.(RelativePanel.AlignVerticalCenterWithPanel)" Value="False" />
+                        <Setter Target="PhoneTopBarTitle.(RelativePanel.AlignVerticalCenterWith)" Value="ReadButton" />
+                        <Setter Target="PhoneTopBarTitle.Margin" Value="20,0,0,0" />
 
-                        <Setter Target="PhoneSearchBox.(RelativePanel.AlignVerticalCenterWithPanel)"  Value="False" />
-                        <Setter Target="PhoneSearchBox.(RelativePanel.RightOf)"  Value="{x:Null}" />
-                        <Setter Target="PhoneSearchBox.(RelativePanel.AlignBottomWithPanel)"  Value="True" />
-                        <Setter Target="PhoneSearchBox.HorizontalAlignment"  Value="Right" />
-                        <Setter Target="PhoneSearchBox.Margin"  Value="0,0,10,0" />
-                        <Setter Target="PhoneSearchBox.Height"  Value="48" />
-                        <Setter Target="PhoneSearchBox.Width"  Value="280" />
+                        <Setter Target="PhoneSearchBox.(RelativePanel.AlignVerticalCenterWithPanel)" Value="False" />
+                        <Setter Target="PhoneSearchBox.(RelativePanel.RightOf)" Value="{x:Null}" />
+                        <Setter Target="PhoneSearchBox.(RelativePanel.AlignBottomWithPanel)" Value="True" />
+                        <Setter Target="PhoneSearchBox.HorizontalAlignment" Value="Right" />
+                        <Setter Target="PhoneSearchBox.Margin" Value="0,0,10,0" />
+                        <Setter Target="PhoneSearchBox.Height" Value="48" />
+                        <Setter Target="PhoneSearchBox.Width" Value="280" />
 
-                        <Setter Target="OptionsDropDownButton.(RelativePanel.LeftOf)"  Value="PhoneSearchBox" />
+                        <Setter Target="OptionsDropDownButton.(RelativePanel.LeftOf)" Value="PhoneSearchBox" />
 
                         <Setter Target="PhoneSearchIconButton.Visibility" Value="Collapsed" />
 
-                        <Setter Target="ReadButton.Height"  Value="48" />
-                        <Setter Target="ReadButton.Width"  Value="48" />
-                        <Setter Target="ReadButton.(RelativePanel.AlignVerticalCenterWithPanel)"  Value="False" />
+                        <Setter Target="ReadButton.Height" Value="48" />
+                        <Setter Target="ReadButton.Width" Value="48" />
+                        <Setter Target="ReadButton.(RelativePanel.AlignVerticalCenterWithPanel)" Value="False" />
                         <Setter Target="ReadButton.(RelativePanel.AlignBottomWithPanel)" Value="True" />
-                        <Setter Target="ReadButton.Margin"  Value="0,0,10,0" />
+                        <Setter Target="ReadButton.Margin" Value="0,0,10,0" />
 
                     </VisualState.Setters>
                 </VisualState>
@@ -379,8 +400,8 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="PhoneTopBarTitle.MaxWidth"  Value="150" />
-                        <Setter Target="PhoneSearchBox.(RelativePanel.RightOf)"  Value="PhoneDropDownButton" />
+                        <Setter Target="PhoneTopBarTitle.MaxWidth" Value="150" />
+                        <Setter Target="PhoneSearchBox.(RelativePanel.RightOf)" Value="PhoneDropDownButton" />
                     </VisualState.Setters>
                 </VisualState>
                 

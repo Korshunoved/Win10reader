@@ -9,6 +9,8 @@ using BookParser;
 using Digillect.Mvvm;
 using Digillect.Mvvm.UI;
 using LitRes.ViewModels;
+using LitResReadW10;
+using LitResReadW10.Controls;
 using LitResReadW10.Helpers;
 
 // ReSharper disable CheckNamespace
@@ -26,12 +28,15 @@ namespace LitRes.Views
 
 	    public Visibility MobileVisibility { get; set; }
 
+        public Visibility DesktopVisibility { get; set; }
+
         #region Constructors/Disposer
         public Settings()
 		{
 			InitializeComponent();
 
             MobileVisibility = SystemInfoHelper.IsDesktop() ? Visibility.Collapsed : Visibility.Visible;
+            DesktopVisibility = SystemInfoHelper.IsDesktop() ? Visibility.Visible : Visibility.Collapsed;
 
             Loaded += Settings_Loaded;		   
 		}
@@ -54,8 +59,12 @@ namespace LitRes.Views
 
             HyphenationSwither.IsOn = AppSettings.Default.Hyphenation;
 
-            LightSlider.ValueChanged -= LightSlider_ValueChanged;
-            LightSlider.ValueChanged += LightSlider_ValueChanged;
+		    StatusBarSwitcher.IsOn = AppSettings.Default.HideStatusBar;
+
+		    TwoColumnsSwitcher.IsOn = AppSettings.Default.TwoColumns;
+
+            StatusBarSwitcher.Toggled -= StatusBarSwitcherOnToggled;
+            StatusBarSwitcher.Toggled += StatusBarSwitcherOnToggled;
 
             AnimationSwither.Toggled -= AnimationSwither_Toggled;
             AnimationSwither.Toggled += AnimationSwither_Toggled;
@@ -90,6 +99,13 @@ namespace LitRes.Views
 
             GetTheme();		    
 		}
+
+	    private void StatusBarSwitcherOnToggled(object sender, RoutedEventArgs routedEventArgs)
+	    {
+            var toggle = sender as ToggleSwitch;
+            if (toggle == null) return;
+            AppSettings.Default.HideStatusBar = toggle.IsOn;
+        }
 
 	    private void AutorotateSwitchOnToggled(object sender, RoutedEventArgs routedEventArgs)
 	    {
@@ -211,17 +227,6 @@ namespace LitRes.Views
 	    {
             await ViewModel.Save();	      
             base.OnNavigatingFrom(e);
-        }
-
-        private void LightSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
-        {
-            if (_readerPage == null)
-                _readerPage = Reader.Instance;            
-            var slider = sender as Slider;
-            if (slider == null) return;
-            if (ViewModel != null)
-            ViewModel.Brightness = 1 - (float)slider.Value / 100;
-            _readerPage.ViewModel.ReaderSettings.Brightness = 1 - (float) slider.Value/100;
         }
 
         private void AnimationSwither_Toggled(object sender, RoutedEventArgs e)

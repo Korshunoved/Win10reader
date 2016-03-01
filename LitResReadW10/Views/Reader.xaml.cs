@@ -79,8 +79,7 @@ namespace LitRes.Views
         #region Constructors/Disposer
         public Reader()
         {
-            Debug.WriteLine("Reader()");
-            ControlPanel.Instance.ReaderMode();
+            Debug.WriteLine("Reader()");    
 
             InitializeComponent();
 
@@ -125,7 +124,11 @@ namespace LitRes.Views
             LayoutRoot.Background = AppSettings.Default.ColorScheme.BackgroundBrush;
             var currentOrientation = DisplayInformation.GetForCurrentView().CurrentOrientation;
             DisplayInformation.AutoRotationPreferences = AppSettings.Default.Autorotate ? DisplayOrientations.None : currentOrientation;
-     
+            if (SystemInfoHelper.IsDesktop()) return;
+            var hideBar = AppSettings.Default.HideStatusBar;
+            if (!hideBar) return;
+            var statusBar = StatusBar.GetForCurrentView();
+            await statusBar.HideAsync();
         }
         #endregion
 
@@ -234,7 +237,8 @@ namespace LitRes.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            Debug.WriteLine("Reader OnNavigatedTo");
+            //Debug.WriteLine("Reader OnNavigatedTo");
+            ControlPanel.Instance.ReaderMode();
             base.OnNavigatedTo(e);
             Analytics.Instance.sendMessage(Analytics.ViewReader);
         }
@@ -347,22 +351,12 @@ namespace LitRes.Views
         {
             CurrentPageSlider.Opacity = 0;
             TopRelativePanel.Visibility = Visibility.Collapsed;
-            if (!SystemInfoHelper.IsDesktop())
-            {
-                StatusBar statusBar = StatusBar.GetForCurrentView();
-                await statusBar.HideAsync();
-            }
         }
 
         private async void ShowMenu()
         {
             CurrentPageSlider.Opacity = 1;           
             TopRelativePanel.Visibility = Visibility.Visible;
-            if (!SystemInfoHelper.IsDesktop())
-            {
-                StatusBar statusBar = StatusBar.GetForCurrentView();
-                await statusBar.ShowAsync();
-            }
         }
 
         public void ExpiredCallBack(Models.Book book)
@@ -659,6 +653,8 @@ namespace LitRes.Views
         {
             var curPoint = e.GetCurrentPoint((UIElement)sender);
             Point currentpoint = curPoint.Position;
+            var abs = Math.Abs(currentpoint.X - _initialPoint.X);
+            if (abs < 5) return;
             if (currentpoint.X - _initialPoint.X <= 50)
             {
                // Debug.WriteLine("Swipe Right");

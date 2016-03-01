@@ -53,7 +53,14 @@ namespace LitResReadW10.Helpers
             emailMessage.To.Add(new EmailRecipient("windows@litres.ru"));
 
             emailMessage.Body = stringBuilder.ToString();
-            await EmailManager.ShowComposeNewEmailAsync(emailMessage);
+            try
+            {
+                await EmailManager.ShowComposeNewEmailAsync(emailMessage);
+            }
+            catch (Exception e)
+            {
+                return;
+            }
         }
 
     }

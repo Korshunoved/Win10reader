@@ -148,6 +148,7 @@
     <Content Include="Assets\RatingDisabled.scale-200.png" />
     <Content Include="Assets\RatingDisabled.scale-400.png" />
     <Content Include="Assets\RatingNotFilled.png" />
+    <Content Include="Assets\SingleRating.scale-400.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-125.png" />
     <Content Include="Assets\SplashScreen.scale-150.png" />
@@ -393,6 +394,7 @@
     <Content Include="Assets\W10Icons\Settings\setting_black.scale-125.png" />
     <Content Include="Assets\W10Icons\Settings\setting_black.scale-150.png" />
     <Content Include="Assets\W10Icons\Settings\setting_black.scale-200.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_grey.scale-100.png" />
     <Content Include="Assets\W10Icons\Settings\setting_orange.scale-100.png" />
     <Content Include="Assets\W10Icons\Settings\setting_orange.scale-125.png" />
     <Content Include="Assets\W10Icons\Settings\setting_orange.scale-150.png" />

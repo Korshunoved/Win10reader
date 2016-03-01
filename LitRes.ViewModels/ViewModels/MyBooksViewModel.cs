@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Digillect;
 using Digillect.Collections;
 using Digillect.Mvvm;
@@ -41,10 +42,11 @@ namespace LitRes.ViewModels
 		public XCollection<Book> BooksByNames { get; private set; }
 
 		public RelayCommand<Book> BookSelected { get; private set; }
-		#endregion
+        public RelayCommand<Book> Read { get; private set; }
+        #endregion
 
-		#region Constructors/Disposer
-		public MyBooksViewModel(ICatalogProvider catalogProvider, IBookProvider bookProvider, INavigationService navigationService)
+        #region Constructors/Disposer
+        public MyBooksViewModel(ICatalogProvider catalogProvider, IBookProvider bookProvider, INavigationService navigationService)
 		{
 			_catalogProvider = catalogProvider;
 			_bookProvider = bookProvider;
@@ -61,6 +63,11 @@ namespace LitRes.ViewModels
 			BooksByNames = new XCollection<Book>();
 
 			BookSelected = new RelayCommand<Book>( NavigateToBook, book => book != null );
+            Read = new RelayCommand<Book>(book =>
+			{
+			    if (!book.IsExpiredBook) _navigationService.Navigate("Reader", XParameters.Create("BookEntity", book), false);
+			    else new MessageDialog("Истёк срок выдачи.").ShowAsync();
+			} );
 		}
 
 		#endregion

@@ -184,6 +184,18 @@ namespace BookParser
             set { _settingsStorage.SetValue("Hyphenation", value); }
         }
 
+        public bool HideStatusBar
+        {
+            get { return _settingsStorage.GetValueWithDefault("HideStatusBar", false); }
+            set { _settingsStorage.SetValue("HideStatusBar", value); }
+        }
+
+        public bool TwoColumns
+        {
+            get { return _settingsStorage.GetValueWithDefault("TwoColumns", false); }
+            set { _settingsStorage.SetValue("TwoColumns", value); }
+        }
+
         public FlippingMode FlippingMode
         {
             get { return _settingsStorage.GetValueWithDefault("FlippingMode", DEFAULT_FLIPPING_MODE); }
@@ -384,7 +396,7 @@ namespace BookParser
                 new Scheme
                     (
                     colorScheme: ColorSchemes.Dark,
-                    backgroundBrush: Colors.Black,
+                    backgroundBrush: Color.FromArgb(0xFF, 0x3b, 0x39, 0x3f), //background-color: #3b393f;
                     titleForegroundBrush: Color.FromArgb(0xFF, 0xA8, 0xA8, 0xA8),
                     textForegroundBrush: Colors.White,
                     linkForegroundBrush: Color.FromArgb(0xFF, 0xF0, 0x96, 0x09),

@@ -87,6 +87,18 @@ namespace LitRes.Views
 		    emailMessage.Body = message;
             await EmailManager.ShowComposeNewEmailAsync(emailMessage);
         }
-		#endregion
-	}
+        #endregion
+
+        private async void FacebookStackPanel_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            var uriBing = new Uri(@"https://www.facebook.com/mylitres");
+            await Windows.System.Launcher.LaunchUriAsync(uriBing);
+        }
+
+        private async void RateStackPanel_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            var uriBing = new Uri(@"ms-windows-store://review/?ProductId=9nblggh4p89b");
+            await Windows.System.Launcher.LaunchUriAsync(uriBing);
+        }
+    }
 }

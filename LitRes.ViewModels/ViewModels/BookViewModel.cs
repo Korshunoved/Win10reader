@@ -195,7 +195,8 @@ namespace LitRes.ViewModels
 			AuthorSelected = new RelayCommand<Book.TitleInfo.AuthorInfo>( AuthorSelectedProceed );
 			Read = new RelayCommand(() =>
 			{
-			    if (!Entity.IsExpiredBook) _navigationService.Navigate("Reader", XParameters.Create("BookEntity", Entity), false);
+			    if (!Entity.IsExpiredBook)                    
+                    _navigationService.Navigate("Reader", XParameters.Create("BookEntity", Entity));
 			    else new MessageDialog("Истёк срок выдачи.").ShowAsync();
 			} );
 			WriteRecenseSelected = new RelayCommand( () => _navigationService.Navigate( "AddRecense", XParameters.Create( "bookId", Convert.ToString(Entity.Id) ) ), () => Entity != null );
