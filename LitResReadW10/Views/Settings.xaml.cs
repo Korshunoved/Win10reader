@@ -55,7 +55,7 @@ namespace LitRes.Views
             if (_readerPage == null)
                 _readerPage = Reader.Instance;
 
-		    LineSpacingSlider.Value = AppSettings.Default.FontSettings.FontInterval == 1.0f ? 1 : 2;
+		    GetLineSpacingValue();            
 
             HyphenationSwither.IsOn = AppSettings.Default.Hyphenation;
 
@@ -99,6 +99,40 @@ namespace LitRes.Views
 
             GetTheme();		    
 		}
+
+	    private void GetLineSpacingValue()
+	    {
+	        var value = AppSettings.Default.FontSettings.FontInterval;
+	        if (value == 0.7f)
+	        {
+	            LineSpacingSlider.Value = 1;
+	            return;
+	        }
+            if (value == 0.85f)
+            {
+                LineSpacingSlider.Value = 2;
+                return;
+            }
+            if (value == 1f)
+            {
+                LineSpacingSlider.Value = 3;
+                return;
+            }
+            if (value == 1.15f)
+            {
+                LineSpacingSlider.Value = 4;
+                return;
+            }
+            if (value == 1.5f)
+            {
+                LineSpacingSlider.Value = 5;
+                return;
+            }
+            if (value == 2f)
+            {
+                LineSpacingSlider.Value = 6;                
+            }
+        }
 
 	    private void StatusBarSwitcherOnToggled(object sender, RoutedEventArgs routedEventArgs)
 	    {
@@ -340,10 +374,22 @@ namespace LitRes.Views
             switch (value)
             {
                 case 1:
-                    AppSettings.Default.FontSettings.FontInterval = 1f;
+                    AppSettings.Default.FontSettings.FontInterval = 0.7f;
                     break;
                 case 2:
-                    AppSettings.Default.FontSettings.FontInterval = 0.7f;
+                    AppSettings.Default.FontSettings.FontInterval = 0.85f;
+                    break;
+                case 3:
+                    AppSettings.Default.FontSettings.FontInterval = 1f;
+                    break;
+                case 4:
+                    AppSettings.Default.FontSettings.FontInterval = 1.15f;
+                    break;
+                case 5:
+                    AppSettings.Default.FontSettings.FontInterval = 1.5f;
+                    break;
+                case 6:
+                    AppSettings.Default.FontSettings.FontInterval = 2f;
                     break;
             }
             if (SystemInfoHelper.IsDesktop())

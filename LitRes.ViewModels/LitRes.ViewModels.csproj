@@ -201,10 +201,6 @@
       <Project>{c580ed86-6891-4db9-9e28-c30859f0d8c3}</Project>
       <Name>Digillect.ObjectModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FictionBook\FictionBook.csproj">
-      <Project>{c4bfaacd-8d94-4071-a0aa-dc8d24f48d82}</Project>
-      <Name>FictionBook</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LitRes.Models\LitRes.Models\LitRes.Models.csproj">
       <Project>{4f9813d6-17f1-458a-9651-013969a02932}</Project>
       <Name>LitRes.Models</Name>

@@ -13,9 +13,11 @@ using LitRes.ValueConverters;
 using LitRes.ViewModels;
 using System.ComponentModel;
 using System.Threading;
+using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Graphics.Display;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Input;
@@ -524,7 +526,15 @@ namespace LitRes.Views
             _readController = new ReadController(PageCanvas, _book, _book.BookID, _tokenOffset);
            
             await _readController.ShowNextPage();
-            CurrentPageSlider.Value = _readController.CurrentPage;
+            try
+            {
+                CurrentPageSlider.Value = _readController.CurrentPage;
+            }
+            catch (Exception)
+            {
+                CurrentPageSlider.Value = _readController.TotalPages;                
+            }
+            
             PageCanvas.Manipulator.UpdatePanelsVisibility();
             PageCanvas.Manipulator.IsFirstPage = _readController.IsFirst;
             PageCanvas.Manipulator.IsLastPage = _readController.IsLast;
@@ -585,11 +595,10 @@ namespace LitRes.Views
 
         private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftButton) == CoreVirtualKeyStates.Down) return;
+            
             PageCanvas.SetSize(ReaderGrid.ActualWidth, ReaderGrid.ActualHeight, ReaderGrid.ActualWidth, ReaderGrid.ActualHeight);
             PageCanvas.Clear();
-
-         //   UpdateTrayVisibility();
-
             Redraw();
         }
 

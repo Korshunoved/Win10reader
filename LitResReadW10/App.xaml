@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="using:Digillect.Mvvm.UI"
     xmlns:valueConverters="using:LitRes.ValueConverters"
-    xmlns:selectors="using:LitRes.Selectors"
+    xmlns:selectors="using:LitRes.Selectors"    
     RequestedTheme="Light">
 
     <ui:WindowsRTApplication.Resources>
@@ -54,6 +54,7 @@
             <valueConverters:GenreBrushConverter x:Key="GenreBrushConverter"/>
             <valueConverters:ToStringConverter x:Key="ToStringConverter"/>
             <valueConverters:ToCurrentPageConverter x:Key="ToCurrentPageConverter"/>
+            <valueConverters:InterlineageSliderConverter x:Key="InterlineageSliderConverter"/>
             <Style x:Key="LitResRadioButtonStyle1" TargetType="RadioButton">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>

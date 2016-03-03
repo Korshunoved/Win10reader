@@ -25,7 +25,6 @@ namespace LitRes.Services
     {
         const string CatalogPath = "MyBooks/";
         const string StorageSettingName = "ExistBooks";
-        const string DKey = "D(Fdskfd9i34987w7r7*8sd-hfuUF*73rksdf#E(DFijF(D*]${";
         const string DKey1 = "Z2OD63E9885BBE98";
         const string DKey2 = "rDB90j7h2ZxhEUCR";
         const string DKey3 = "937vCj55CR864pVe";
@@ -51,35 +50,30 @@ namespace LitRes.Services
         }
         #endregion
 
-       public async Task<FictionBook.Document> GetTrialBook(Book book, CancellationToken token)
+       public async Task GetTrialBook(Book book, CancellationToken token)
         {
             var exists = await GetExistBooks(CancellationToken.None);
             var exist = exists.FirstOrDefault(x => x.Id == book.Id);
 
             if (exist != null)
             {
-                var document = await GetFullBook(exist, token);
-
-                if (document != null)
-                {
-                    return document;
-                }
+                await GetFullBook(exist, token);
             }
 
             var bookname = book.Id.ToString(CultureInfo.InvariantCulture) + ".trial";
             string id = string.Format("{0:00000000}", book.Id);
             string url = string.Format("trials/{0}/{1}/{2}/{3}.fb2.zip", id.Substring(0, 2), id.Substring(2, 2), id.Substring(4, 2), id);
 
-            return await GetDocument(
+            await GetDocument(
                 cancellationToken => _awareConnection.ProcessStaticSecureRequest<RawFile>(url, cancellationToken),
                 token,
                 book
                 );
         }
 
-        public async Task<FictionBook.Document> GetFullBook(Book book, CancellationToken token)
+        public async Task GetFullBook(Book book, CancellationToken token)
         {
-            var document = await GetDocument(async cancellationToken =>
+            await GetDocument(async cancellationToken =>
             {
                 var parameters = new Dictionary<string, object>
                         {
@@ -94,7 +88,6 @@ namespace LitRes.Services
                     parameters = new Dictionary<string, object>
                         {
                             {"uuid", book.Description.Hidden.DocumentInfo.Id},
-                            //{"file", book.Files.FullPdfFile.Id},
                             {"libapp", 6},
                             {"timestamp", timeResp.UnixTime},
                             {"umd5", umd5}
@@ -117,19 +110,14 @@ namespace LitRes.Services
             },
                 token,
                 book);
+          
+            var exists = await GetExistBooks(CancellationToken.None);
 
-            if (document != null)
+            if (exists.All(x => x.Id != book.Id))
             {
-                var exists = await GetExistBooks(CancellationToken.None);
-
-                if (exists.All(x => x.Id != book.Id))
-                {
-                    exists.Insert(0, book);
-                    _dataCacheService.PutItem(exists, StorageSettingName, CancellationToken.None);
-                }
+                exists.Insert(0, book);
+                _dataCacheService.PutItem(exists, StorageSettingName, CancellationToken.None);
             }
-
-            return document;
         }
 
         private static void SaveToFile(string path, byte[] bytes)
@@ -145,7 +133,7 @@ namespace LitRes.Services
             }
         }
 
-        public async Task<FictionBook.Document> GetDocument(Func<CancellationToken, Task<RawFile>> loader,
+        public async Task GetDocument(Func<CancellationToken, Task<RawFile>> loader,
             CancellationToken token, Book book)
         {
             RawFile file = null;
@@ -156,13 +144,11 @@ namespace LitRes.Services
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                return null;
+                return;
             }
-            if (file?.Raw == null) return null;
+            if (file?.Raw == null) return;
             SaveToFile(PrepareFilePath(book, IsolatedStorageFile.GetUserStoreForApplication()), file.Raw);
             ParseBook(book);
-
-            return null;
         }
 
         private void ParseBook(Book item)
@@ -228,7 +214,7 @@ namespace LitRes.Services
 
             try
             {
-               // _bookService.Add(book);
+                //_dataCacheService.PutItem(book, book.BookID, CancellationToken.None);
                 TokensTool.SaveTokens(book, previewGenerator);
                 book.Hidden = book.Trial;
                // _bookService.Save(book);                
@@ -266,52 +252,16 @@ namespace LitRes.Services
             return book;
         }
 
-        public MemoryStream Encrypt(MemoryStream dataToEncrypt, string password, string salt = "jklkljasb)0_3;22A,xA")
-        {
-            MemoryStream memoryStream = null;
-            memoryStream = new MemoryStream();
-
-            do
-            {
-                var data = new byte[1024];
-                int readBytes = dataToEncrypt.Read(data, 0, 1024);
-                if (readBytes != 0)
-                {
-
-                }
-                else
-                {
-                    break;
-                }
-
-            } while (true);
-
-            memoryStream.Seek(0, SeekOrigin.Begin);
-            return memoryStream;
-        }
-
-        public MemoryStream Decrypt(MemoryStream dataToDecrypt, string password, string salt = "jklkljasb)0_3;22A,xA")
-        {
-            MemoryStream memoryStream = null;
-
-            memoryStream = new MemoryStream();
-
-            byte[] data = dataToDecrypt.ToArray();
-
-            memoryStream.Seek(0, SeekOrigin.Begin);
-            return memoryStream;
-        }
-
         public bool FullBookExistsInLocalStorage(int bookId)
         {
-            var path = Path.Combine(CatalogPath, bookId.ToString(CultureInfo.InvariantCulture));
-            return _fileCacheService.FolderExists(path);
+            var path = Path.Combine(CatalogPath + bookId + ModelConstants.BOOK_FILE_DATA_PATH); //
+            return _fileCacheService.FileExists(path);
         }
 
         public bool TrialBookExistsInLocalStorage(int bookId)
         {
-            var path = Path.Combine(CatalogPath, bookId.ToString(CultureInfo.InvariantCulture) + ".trial");
-            return _fileCacheService.FolderExists(path);
+            var path = Path.Combine(CatalogPath + bookId + ModelConstants.BOOK_FILE_DATA_PATH + ".trial");            
+            return _fileCacheService.FileExists(path);
         }
 
         public async Task RemoveFullBookInLocalStorage(Book book)

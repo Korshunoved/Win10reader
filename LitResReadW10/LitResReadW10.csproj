@@ -390,11 +390,16 @@
     <Content Include="Assets\W10Icons\Search\search_white.scale-150.png" />
     <Content Include="Assets\W10Icons\Search\search_white.scale-200.png" />
     <Content Include="Assets\W10Icons\Search\search_white.scale-400.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_black copyscale-100.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_black copyscale-125.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_black copyscale-150.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_black copyscale-200.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_black copyscale-400.png" />
+    <Content Include="Assets\W10Icons\Settings\setting_black copyscale-600.png" />
     <Content Include="Assets\W10Icons\Settings\setting_black.scale-100.png" />
     <Content Include="Assets\W10Icons\Settings\setting_black.scale-125.png" />
     <Content Include="Assets\W10Icons\Settings\setting_black.scale-150.png" />
     <Content Include="Assets\W10Icons\Settings\setting_black.scale-200.png" />
-    <Content Include="Assets\W10Icons\Settings\setting_grey.scale-100.png" />
     <Content Include="Assets\W10Icons\Settings\setting_orange.scale-100.png" />
     <Content Include="Assets\W10Icons\Settings\setting_orange.scale-125.png" />
     <Content Include="Assets\W10Icons\Settings\setting_orange.scale-150.png" />
@@ -563,6 +568,7 @@
     <Compile Include="ValueConverters\EnumVisibilityConverter.cs" />
     <Compile Include="ValueConverters\GenreBrushConverter.cs" />
     <Compile Include="ValueConverters\HtmlConverter.cs" />
+    <Compile Include="ValueConverters\InterlineageSliderConverter.cs" />
     <Compile Include="ValueConverters\StringToDoubleConverter.cs" />
     <Compile Include="ValueConverters\IntegerToBooleanConverter.cs" />
     <Compile Include="ValueConverters\IsFileExistsConverter.cs" />
@@ -958,10 +964,6 @@
     <ProjectReference Include="..\Digillect.ObjectModel\Digillect.ObjectModel.csproj">
       <Project>{c580ed86-6891-4db9-9e28-c30859f0d8c3}</Project>
       <Name>Digillect.ObjectModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FictionBook\FictionBook.csproj">
-      <Project>{c4bfaacd-8d94-4071-a0aa-dc8d24f48d82}</Project>
-      <Name>FictionBook</Name>
     </ProjectReference>
     <ProjectReference Include="..\LitRes.LiveTileAgent\LitRes.LiveTileAgent.csproj">
       <Project>{fa3e7e82-6a07-4da9-b895-842268f3357a}</Project>

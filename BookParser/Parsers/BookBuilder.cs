@@ -149,7 +149,7 @@ namespace BookParser.Parsers
                 double acumulativeHeight = 0.0;
                 foreach (TokenBlockBase tokenLine in tokenLines.AsEnumerable().Reverse())
                 {
-                    double heightIncrement = tokenLine.Height * (double) 1; //TODO: add this to app settings
+                    double heightIncrement = tokenLine.Height * AppSettings.Default.FontSettings.FontInterval; //TODO: add this to app settings
                     if (acumulativeHeight + heightIncrement <= _pageSize.Height)
                     {
                         acumulativeHeight += heightIncrement;

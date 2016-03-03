@@ -79,7 +79,7 @@ namespace BookParser.Parsers
             if (_page.FirstTokenID < 0)
                 _page.FirstTokenID = block.FirstTokenID;
 
-            double height = block.Height * (double) 1;  //TODO: add this to app settings
+            double height = block.Height * AppSettings.Default.FontSettings.FontInterval;  //TODO: add this to app settings
             if (_height + height <= _pageSize.Height)
             {
                 _height += height;
@@ -102,7 +102,7 @@ namespace BookParser.Parsers
                 return true;
 
             _page.Paragraphs.Last().MarginBottom += block.Height;
-            _height += block.Height * (double) 1;  //TODO: add this to app settings
+            _height += block.Height * AppSettings.Default.FontSettings.FontInterval;  //TODO: add this to app settings
             return true;
         }
 
