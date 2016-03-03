@@ -358,13 +358,14 @@
     <Language Code="zu-za" InMinimumRequirementSet="true" />
   </SupportedLocales>
   <ProductReservedInfo>
-    <MainPackageIdentityName>13724doITfast.NewLitresTest</MainPackageIdentityName>
+    <MainPackageIdentityName>13724doITfast.LitresNEWsolution</MainPackageIdentityName>
     <ReservedNames>
-      <ReservedName>NewLitresTest</ReservedName>
+      <ReservedName>LitresNEWsolution</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
   <AccountPackageIdentityNames>
     <MainPackageIdentityName>13724doITfast.LitresWin10new</MainPackageIdentityName>
+    <MainPackageIdentityName>13724doITfast.NewLitresTest</MainPackageIdentityName>
   </AccountPackageIdentityNames>
-  <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9NBLGGH4P89B" />
+  <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9NBLGGH4Q9DX" />
 </StoreAssociation>
