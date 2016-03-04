@@ -110,7 +110,8 @@ namespace LitRes.Services
                     if (purchase.Account == "-1" && purchase.Art == "-1") UpdateBookFailed(book);
                     else
                     {
-                        _inAppPurchaseService.CheckProductIsUsed(book.InappName);
+                        if (book.InappName != null)
+                            _inAppPurchaseService.CheckProductIsUsed(book.InappName);
                         UpdateBook(book);
                     }
                 }

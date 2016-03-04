@@ -188,7 +188,7 @@
                             <Button
                                 x:Name="ListViewFreeBook"
                                 Style="{StaticResource GreenButtonStyle}"
-                                Width="72"
+                                Width="100"
                                 Height="36"
                                 Padding="5,0,5,0"
                                  Visibility="Collapsed">
@@ -212,7 +212,7 @@
                                                    MaxLines="2"
                                                    FontSize="14"
                                                    FontWeight="SemiLight">
-                                            <Run Text="{Binding Path=Price}" />
+                                            <Run Text="{Binding Path=PriceInRub}" />
                                             <Run Text="₽" />
                                         </TextBlock>
                                     </Button>
@@ -398,7 +398,7 @@
                             <Button
                                 x:Name="GridFreeButton"
                                 Style="{StaticResource GreenButtonStyle}"
-                                Width="72"
+                                Width="100"
                                 Height="36"
                                 Padding="5,0,5,0"
                                  Visibility="Collapsed">
@@ -425,7 +425,7 @@
                                                    MaxLines="2"
                                                    FontSize="14"
                                                    FontWeight="SemiLight">
-                                            <Run Text="{Binding Path=Price}" />
+                                            <Run Text="{Binding Path=PriceInRub}" />
                                             <Run Text="₽" />
                                         </TextBlock>
                                     </Button>

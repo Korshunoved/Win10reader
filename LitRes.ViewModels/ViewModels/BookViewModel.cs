@@ -28,6 +28,7 @@ namespace LitRes.ViewModels
 		private const string LoadPersonPart = "LoadPerson";
 		private const string BuyBookPart = "BuyBook";
         private const string BuyBookLitresPart = "BuyBookLitresPart";
+	    private const string BuyBookFromSectionLitresPart = "BuyBookLitresPart";
         private const string CreditCardInfoPart = "CreditCardInfoPart";
         private const string SelfServiceRequestPart = "SelfServiceRequestPart";
         private const string RecensesRequestPart = "RecensesRequestPart";
@@ -61,8 +62,9 @@ namespace LitRes.ViewModels
 		private bool _canGetBook;
         private UserInformation _userInformation;
 
-		#region Public Properties
-		public XCollection<Genre> BookGenres { get; private set; }
+        #region Public Properties
+        public Book Book { get; private set; }
+        public XCollection<Genre> BookGenres { get; private set; }
 		public XCollection<Book> SequenceBooks { get; private set; }
 		public XCollection<Book> ReadWithBooks { get; private set; }
 		public XCollection<Recense> BookRecenses { get; private set; }
@@ -123,6 +125,7 @@ namespace LitRes.ViewModels
 		public RelayCommand Read { get; private set; }
 		public RelayCommand WriteRecenseSelected { get; private set; }
         public RelayCommand BuyBook { get; private set; }
+        public RelayCommand<Book> BuyBookFromSection { get; private set; }
         public RelayCommand BuyBookFromMicrosoft { get; private set; }
         public RelayCommand Recharge { get; private set; }
         public RelayCommand RunCreditCardPaymentProcess { get; private set; }
@@ -171,13 +174,14 @@ namespace LitRes.ViewModels
 			SequenceBooks = new XCollection<Book>();
 			ReadWithBooks = new XCollection<Book>();
 			BookRecenses = new XCollection<Recense>();
+            Book = null;
 
             RegisterAction(LoadMoreReadWithBooksPart).AddPart(session => LoadReadWithBooks(session, Entity), session => !_isEndOfListReadWithBooks);
             RegisterAction(LoadMoreSequenceBooksPart).AddPart(session => LoadSequenceBooks(session, Entity), session => !_isEndOfListSequenceBooks);
             RegisterAction(LoadPersonPart).AddPart((session) => LoadPerson(session), (session) => true);
 
             RegisterAction(BuyBookPart).AddPart((session) => BuyBookAsync(session, Entity), (session) => true);
-            RegisterAction(BuyBookLitresPart).AddPart((session) => BuyBookFromLitres(session, Entity), (session) => true);
+            RegisterAction(BuyBookLitresPart).AddPart((session) => BuyBookFromLitres(session, Book), (session) => true);
             RegisterAction(CreditCardInfoPart).AddPart(session => CreditCardInfoAsync(session), (session) => true) ;
             RegisterAction(SelfServiceRequestPart).AddPart((session) => SelfServiceRequestProcessing(session, Entity), (session) => true);
             RegisterAction(RecensesRequestPart).AddPart((session) => LoadRecenses(session, Entity), (session) => !_recensesLoaded);
@@ -209,12 +213,19 @@ namespace LitRes.ViewModels
             ShowMobilePayment =  new RelayCommand<Book>(book => _navigationService.Navigate("MobilePurchase", XParameters.Create("id", book.Id)), book => book != null);
             SmsMobilePayment = new RelayCommand<Book>(book => _navigationService.Navigate("SmsPurchase", XParameters.Create("id", book.Id)), book => book != null);
             ShowCreditCardView = new RelayCommand<Book>(book => _navigationService.Navigate("CreditCardPurchase", XParameters.Create("BookEntity", book)), book => book != null);
-
+            BuyBookFromSection = new RelayCommand<Book>(book => BuyBookFromLitresAsync(book));
             SelfServiceRequest = new RelayCommand(SelfServiceRequestAsync);
 		}
-		#endregion
 
-		#region LoadEntity
+        private async void BuyBookFromLitresAsync(Book book)
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs("BuyBookStart"));
+            Book = book;
+            await Load(new Session(BuyBookFromSectionLitresPart));
+        }
+        #endregion
+
+        #region LoadEntity
 
         protected override Task LoadEntity(Session session)
         {
@@ -547,6 +558,7 @@ namespace LitRes.ViewModels
         private async void BuyBookFromLitresAsync()
         {                       
             OnPropertyChanged(new PropertyChangedEventArgs("BuyBookStart"));
+            Book = Entity;
             await Load(new Session(BuyBookLitresPart));
         }
        
@@ -568,7 +580,7 @@ namespace LitRes.ViewModels
             }
             else if (userInfo.Account - book.Price >= 0)
             {
-                var dialog = new MessageDialog(string.Format("Подтвердите покупку книги за {0} руб.", Entity.Price), "Подтвердите покупку");
+                var dialog = new MessageDialog(string.Format("Подтвердите покупку книги за {0} руб.", book.Price), "Подтвердите покупку");
                 dialog.DefaultCommandIndex = 0;
                 dialog.CancelCommandIndex = 1;
                 dialog.Commands.Add(new UICommand("купить", command => Task.Run(async ()=> await _litresPurchaseService.BuyBookFromLitres(book, session.Token))));
@@ -661,7 +673,7 @@ namespace LitRes.ViewModels
             var userInfo = await _profileProvider.GetUserInfo(CancellationToken.None, false);
             if (userInfo == null) return;
             if (_userInformation == null) _userInformation = userInfo;
-            AccoundDifferencePrice = Entity.Price - userInfo.Account;
+            AccoundDifferencePrice = Book.Price - userInfo.Account;
             if (AccoundDifferencePrice < 10) AccoundDifferencePrice = 10;
             OnPropertyChanged(new PropertyChangedEventArgs("UpdatePrice"));
         }

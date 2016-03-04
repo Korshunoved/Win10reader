@@ -492,7 +492,7 @@ namespace LitRes.Views
             //{
             //    Margin = new Thickness(0, 0, 0, 10),
             //    Text = "Внимание! К цене будет добавлена комисия Windows Store.",
-                
+
             //    TextWrapping = TextWrapping.Wrap,
             //});
             dialog.Content = panel;
@@ -507,6 +507,16 @@ namespace LitRes.Views
                 ControlPanel.Instance.TopBarVisibility = Visibility.Visible;
                 StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
                 await statusBar.ShowAsync();
+            }
+        }
+
+	    private void BuyButton_OnTapped(object sender, TappedRoutedEventArgs e)
+	    {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var book = button.DataContext as LitRes.Models.Book;
+                ViewModel.BuyBookFromSection.Execute(book);
             }
         }
 	}

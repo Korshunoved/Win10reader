@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -13,7 +14,9 @@ namespace LitRes.Models
 {
 	public partial class Book
 	{
-		public partial class Annotation
+        public string PriceInRub => Price.ToString(CultureInfo.InvariantCulture).Replace('.', ',');
+
+        public partial class Annotation
 		{
 			//private static Regex reg = new Regex( "<p\\b[^>]*>(.*?)</p>" );
 			private static Regex reg = new Regex( "<p>(.*?)</p>", RegexOptions.Singleline );
