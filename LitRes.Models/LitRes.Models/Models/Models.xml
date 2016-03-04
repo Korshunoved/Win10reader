@@ -285,7 +285,7 @@
 		<Property Name="UpdatedTime" Type="string" SerializationName="updated"/>
 		<Property Name="BasePrice" Type="double" SerializationName="base_price"/>
 		<Property Name="Price" Type="double" SerializationName="price"/>
-		<Property Name="Chars" Type="string" SerializationName="chars"/>
+	  <Property Name="Chars" Type="string" SerializationName="chars"/>
 		<Property Name="Pages" Type="int" CreateStorage="false" Serialization="none">
 			<Code><![CDATA[get { return (int) Math.Ceiling(((string.IsNullOrEmpty(Chars) ? 0 : Convert.ToInt32(Chars)) / 1600 + ((string.IsNullOrEmpty(Images) ? 1 : Convert.ToInt32(Images)) - 1) * 0.6) / 10) * 10; }]]></Code>
 		</Property>

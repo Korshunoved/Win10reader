@@ -44,7 +44,7 @@
                                 Background="Transparent"
                                 Tapped="HamburgerTapped"
                                 Orientation="Horizontal">
-                        <Border
+                       <Border
                             x:Name="PaneHamburgerButton"
                             Visibility="Visible"
                             BorderThickness="0"
@@ -385,7 +385,7 @@
                         <Setter Target="OptionsDropDownButton.(RelativePanel.LeftOf)" Value="PhoneSearchBox" />
 
                         <Setter Target="PhoneSearchIconButton.Visibility" Value="Collapsed" />
-
+                        <Setter Target="PaneHamburgerButton.Opacity" Value ="1"/>
                         <Setter Target="ReadButton.Height" Value="48" />
                         <Setter Target="ReadButton.Width" Value="48" />
                         <Setter Target="ReadButton.(RelativePanel.AlignVerticalCenterWithPanel)" Value="False" />
@@ -400,6 +400,7 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="PaneHamburgerButton.Opacity" Value ="0"/>
                         <Setter Target="PhoneTopBarTitle.MaxWidth" Value="150" />
                         <Setter Target="PhoneSearchBox.(RelativePanel.RightOf)" Value="PhoneDropDownButton" />
                     </VisualState.Setters>

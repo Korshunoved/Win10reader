@@ -212,7 +212,7 @@
                                                    MaxLines="2"
                                                    FontSize="14"
                                                    FontWeight="SemiLight">
-                                            <Run Text="{Binding Path=Price}" />
+                                            <Run Text="{Binding Path=PriceInRub}" />
                                             <Run Text="₽" />
                                         </TextBlock>
                                     </Button>

@@ -137,7 +137,7 @@
                                             Margin="0,8,0,0" 
                                             HorizontalAlignment="Left"
                                             Orientation="Horizontal">
-                                    <TextBlock 
+                                    <TextBlock Visibility="Collapsed"
                                             Margin="0,0,0,10" 
                                             MaxLines="2"
                                             TextWrapping="Wrap" 

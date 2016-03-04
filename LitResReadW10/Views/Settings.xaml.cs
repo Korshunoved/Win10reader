@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using Windows.Devices.Enumeration;
+using Windows.Graphics.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -55,7 +58,9 @@ namespace LitRes.Views
             if (_readerPage == null)
                 _readerPage = Reader.Instance;
 
-		    GetLineSpacingValue();            
+		    GetLineSpacingValue();
+
+		    GetMarginValue();
 
             HyphenationSwither.IsOn = AppSettings.Default.Hyphenation;
 
@@ -81,24 +86,101 @@ namespace LitRes.Views
 		    FontSizeSlider.Maximum = SystemInfoHelper.IsDesktop() ? 24 : 22;
 		    FontSizeSlider.StepFrequency = 2;
             FontSizeSlider.Value = AppSettings.Default.FontSettings.FontSize;
+            FontSizeSlider.ValueChanged -= FontSizeSliderOnValueChanged;
+            FontSizeSlider.ValueChanged += FontSizeSliderOnValueChanged;
 
             JustificationSwither.Toggled -= JustificationSwither_Toggled;
             JustificationSwither.Toggled += JustificationSwither_Toggled;
 
             _marginSliderValueChanging = false;
-            _marginSliderValue = MarginsSlider.Value = AppSettings.Default.MarginIndex;
+            _marginSliderValue = MarginsSlider.Value;
             MarginsSlider.Tapped -= MarginsSliderOnTapped;
             MarginsSlider.Tapped += MarginsSliderOnTapped;
             MarginsSlider.ManipulationDelta -= MarginsSliderOnManipulationDelta; 
             MarginsSlider.ManipulationDelta += MarginsSliderOnManipulationDelta;
             MarginsSlider.ManipulationCompleted -= MarginsSliderOnManipulationCompleted;
             MarginsSlider.ManipulationCompleted += MarginsSliderOnManipulationCompleted;
+            MarginsSlider.ValueChanged -= MarginsSliderOnValueChanged;
+            MarginsSlider.ValueChanged += MarginsSliderOnValueChanged;
 
-		    LineSpacingSlider.ValueChanged -= LineSpacingSlider_ValueChanged;
-            LineSpacingSlider.ValueChanged += LineSpacingSlider_ValueChanged;
+            LineSpacingSlider.ValueChanged -= LineSpacingSlider_ValueChanged;
+            LineSpacingSlider.ValueChanged += LineSpacingSlider_ValueChanged;            
 
             GetTheme();		    
 		}
+
+	    private int CalculateMargin(int value)
+	    {
+	        var deviceWidth = Window.Current.CoreWindow.Bounds.Width;
+	        switch (value)
+	        {
+                case 1:
+	                return 0;
+                case 2:
+	                return (int)(deviceWidth * 0.05f);
+                case 3:
+                    return (int)(deviceWidth * 0.1f);
+                case 4:
+                    return (int)(deviceWidth * 0.15f);
+                case 5:
+                    return (int)(deviceWidth * 0.2f);
+                case 6:
+                    return (int)(deviceWidth * 0.25f);
+            }
+            return 0;
+        }
+
+	    private void MarginsSliderOnValueChanged(object sender, RangeBaseValueChangedEventArgs rangeBaseValueChangedEventArgs)
+	    {
+            if (SystemInfoHelper.IsDesktop()) return;
+            var slider = MarginsSlider;
+            if (slider == null) return;
+            var value = (int)slider.Value;
+            var margin = CalculateMargin(value);
+            AppSettings.Default.MarginValue = margin;
+        }
+
+	    private void FontSizeSliderOnValueChanged(object sender, RangeBaseValueChangedEventArgs rangeBaseValueChangedEventArgs)
+	    {
+	        if (SystemInfoHelper.IsDesktop()) return;
+            var slider = sender as Slider;
+            if (slider == null) return;
+            var value = (int)slider.Value;
+            AppSettings.Default.FontSettings.FontSize = value;
+        }
+
+	    private void GetMarginValue()
+	    {
+	        var value = AppSettings.Default.MarginValue;
+            var deviceWidth = Window.Current.CoreWindow.Bounds.Width;
+	        var percent = value/deviceWidth;
+	        if (percent >= 0.25)
+	        {
+	            MarginsSlider.Value = 6;
+	            return;
+	        }
+            if (percent >= 0.2)
+            {
+                MarginsSlider.Value = 5;
+                return;
+            }
+            if (percent >= 0.15)
+            {
+                MarginsSlider.Value = 4;
+                return;
+            }
+            if (percent >= 0.1)
+            {
+                MarginsSlider.Value = 3;
+                return;
+            }
+            if (percent >= 0.05)
+            {
+                MarginsSlider.Value = 2;
+                return;
+            }
+            MarginsSlider.Value = 1;            
+        }
 
 	    private void GetLineSpacingValue()
 	    {
@@ -228,7 +310,8 @@ namespace LitRes.Views
             var slider = MarginsSlider;
             if (slider == null) return;
             var value = (int)slider.Value;
-            AppSettings.Default.MarginIndex = value;
+	        var margin = CalculateMargin(value);
+            AppSettings.Default.MarginValue = margin;
             if (SystemInfoHelper.IsDesktop() && !_marginSliderValueChanging)
                 _readerPage.UpdateSettings();
         }

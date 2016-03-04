@@ -18,7 +18,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>LitResReadW10_StoreKey.pfx</PackageCertificateKeyFile>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundlePlatforms>x86|arm</AppxBundlePlatforms>
     <AppxBundle>Always</AppxBundle>
     <PackageCertificateThumbprint>31013A5D5A78D5A34462CFF0FE3BA657B9A1C7B5</PackageCertificateThumbprint>
@@ -569,6 +569,7 @@
     <Compile Include="ValueConverters\GenreBrushConverter.cs" />
     <Compile Include="ValueConverters\HtmlConverter.cs" />
     <Compile Include="ValueConverters\InterlineageSliderConverter.cs" />
+    <Compile Include="ValueConverters\MarginSliderConverter.cs" />
     <Compile Include="ValueConverters\StringToDoubleConverter.cs" />
     <Compile Include="ValueConverters\IntegerToBooleanConverter.cs" />
     <Compile Include="ValueConverters\IsFileExistsConverter.cs" />

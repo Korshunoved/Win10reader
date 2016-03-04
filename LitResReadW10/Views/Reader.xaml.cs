@@ -128,8 +128,10 @@ namespace LitRes.Views
             DisplayInformation.AutoRotationPreferences = AppSettings.Default.Autorotate ? DisplayOrientations.None : currentOrientation;
             if (SystemInfoHelper.IsDesktop()) return;
             var hideBar = AppSettings.Default.HideStatusBar;
-            if (!hideBar) return;
             var statusBar = StatusBar.GetForCurrentView();
+            statusBar.BackgroundColor = AppSettings.Default.ColorScheme.BackgroundBrush.Color;
+            statusBar.ForegroundColor = AppSettings.Default.ColorScheme.TextForegroundBrush.Color;
+            if (!hideBar) return;
             await statusBar.HideAsync();
         }
         #endregion
@@ -613,11 +615,11 @@ namespace LitRes.Views
         {
             if (SystemInfoHelper.IsDesktop())
             {
-                FlyoutBase.ShowAttachedFlyout((Button)sender);
                 var brush = ColorToBrush("#3b393f");
                 SettingsButton.Background = brush;
                 SettingsImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Settings/setting_white.scale-100.png", UriKind.Absolute));
                 SettingsImage.Opacity = 1;
+                FlyoutBase.ShowAttachedFlyout((Button)sender);
                 SettingsFrame.Navigate(typeof(Settings));
             }
             else _navigationService.Navigate("Settings");
@@ -625,13 +627,13 @@ namespace LitRes.Views
 
         private void ContentsButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            var brush = ColorToBrush("#3b393f");
+            ContentsButton.Background = brush;
+            ContentsImage.Source =
+                new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Toc/toc.white.scale-100.png", UriKind.Absolute));
             if (SystemInfoHelper.IsDesktop())
             {
                 FlyoutBase.ShowAttachedFlyout((Button) sender);
-                var brush = ColorToBrush("#3b393f");
-                ContentsButton.Background = brush;
-                ContentsImage.Source =
-                    new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Toc/toc.white.scale-100.png", UriKind.Absolute));
                 TocFrame.Navigate(typeof (BookChapters));
             }
             else _navigationService.Navigate("BookChapters");
@@ -646,7 +648,7 @@ namespace LitRes.Views
         private void SettingsFrame_Unloaded(object sender, RoutedEventArgs e)
         {
             SettingsButton.Background = new SolidColorBrush(Colors.Transparent);
-            SettingsImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Settings/setting_black.scale-100.png", UriKind.Absolute));
+            SettingsImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Settings/setting_black copyscale-200.png", UriKind.Absolute));
             SettingsImage.Opacity = 0.6;
         }
 

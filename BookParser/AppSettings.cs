@@ -105,12 +105,12 @@ namespace BookParser
             set { _settingsStorage.SetValue("HideMenu", value); }
         }
 
-        public Thickness Margin => new Thickness(MarginIndex,0, MarginIndex,0);
+        public Thickness Margin => new Thickness(MarginValue,0, MarginValue,0);
 
-        public int MarginIndex
+        public int MarginValue
         {
-            get { return _settingsStorage.GetValueWithDefault("MarginIndex", 25); }
-            set { _settingsStorage.SetValue("MarginIndex", value); }
+            get { return _settingsStorage.GetValueWithDefault("MarginValue", 25); }
+            set { _settingsStorage.SetValue("MarginValue", value); }
         }
 
         public int ColorSchemeKey
@@ -411,7 +411,7 @@ namespace BookParser
                 new Scheme
                     (
                     colorScheme: ColorSchemes.Sepia,
-                    backgroundBrush: Color.FromArgb(0xFF, 0xF3, 0xF1, 0xCF),
+                    backgroundBrush: Color.FromArgb(0xFF, 0xEB, 0xEA, 0xE4),
                     titleForegroundBrush: Color.FromArgb(0xFF, 0x77, 0x70, 0x52),
                     textForegroundBrush: Colors.Black,
                     linkForegroundBrush: Color.FromArgb(0xFF, 0xD7, 0x83, 0x00),

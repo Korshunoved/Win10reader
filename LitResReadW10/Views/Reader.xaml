@@ -64,7 +64,7 @@
                     Height="40"
                     Width="40" Background="Transparent" 
                     Style="{StaticResource LitresReaderButtonStyle}">
-                    <Image Name="SettingsImage" Stretch="None" Source="../Assets/W10Icons/Settings/setting_black copyscale-100.png"/>
+                    <Image Name="SettingsImage" Stretch="UniformToFill" Source="../Assets/W10Icons/Settings/setting_black copyscale-200.png" Width="14" Height="14"/>
 
                     <FlyoutBase.AttachedFlyout >
                         <Flyout Placement="Bottom">
@@ -287,10 +287,11 @@
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="800" />
                     </VisualState.StateTriggers>
-
                     <VisualState.Setters>
                         <Setter Target="TopLeftReaderPanel.Margin" Value="20,0,0,0" />
                         <Setter Target="SettingsButton.Margin" Value="0,0,20,0" />
+                        <Setter Target="SettingsButton.Style" Value="{StaticResource LitresReaderButtonStyle}"/>
+                        <Setter Target="ContentsButton.Style" Value="{StaticResource LitresReaderButtonStyle}"/>
                     </VisualState.Setters>
 
                 </VisualState>
@@ -299,8 +300,12 @@
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SettingsButton.Style" Value="{StaticResource LitresReaderButtonStyleMobile}"/>
+                        <Setter Target="ContentsButton.Style" Value="{StaticResource LitresReaderButtonStyleMobile}"/>
+                    </VisualState.Setters>
                 </VisualState>
-
+                
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
     </Grid>

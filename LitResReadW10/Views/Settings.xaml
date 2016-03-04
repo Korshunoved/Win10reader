@@ -18,10 +18,10 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Margin="30,10,0,10" Orientation="Vertical">
+        <StackPanel Grid.Row="0" Margin="10,10,0,10" Orientation="Vertical">
           <TextBlock Margin="0,15,0,15" Text="Настройки" Style="{StaticResource BigNormalBlackTextStyle}"/>
         </StackPanel>
-        <ScrollViewer Grid.Row="1"   Margin="30,0,30,0" VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled" VerticalAlignment="Stretch">
+        <ScrollViewer Grid.Row="1"   Margin="10,0,10,0" VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled" VerticalAlignment="Stretch">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
                 <TextBlock
                     Margin="0,0,0,10"
@@ -127,7 +127,7 @@
                           Margin="10,0,10,5"
                           VerticalAlignment="Center"
                           Stretch="None" 
-                          Source="../Assets/W10Icons/ReaderFontSize/FontSize.scale-100.png" />
+                          Source="../Assets/W10Icons/ReaderFontSize/FontSize.scale-125.png" />
                     <Slider x:Name="FontSizeSlider"
                             Margin="0,0,0,0"
                             Padding="0,0,0,0"
@@ -139,7 +139,9 @@
                             LargeChange="1"
                             ManipulationMode="All"
                             VerticalAlignment="Center"
-                            Template="{StaticResource LitresSlider}" TickPlacement="Outside" TickFrequency="2" />
+                            Template="{StaticResource LitresSlider}" 
+                            TickPlacement="Outside" 
+                            TickFrequency="2" />
                     <Image Grid.Column="2"
                            Margin="10,0,10,5"
                            VerticalAlignment="Center"
@@ -172,18 +174,22 @@
                             Padding="0,0,0,0"
                             HorizontalAlignment="Stretch"
                             Grid.Column="1"
-					        Minimum="25" 
-                            SmallChange="25"                            
-                            Maximum="150"
-                            LargeChange="25"
+					        Minimum="1" 
+                            SmallChange="1"                            
+                            Maximum="6"
+                            LargeChange="1"
                             ManipulationMode="All"
                             VerticalAlignment="Center"
-                            Template="{StaticResource LitresSlider}" TickFrequency="25" StepFrequency="25" />
+                            Template="{StaticResource LitresSlider}" 
+                            TickFrequency="1" 
+                            TickPlacement="Outside" 
+                            StepFrequency="1"
+                            ThumbToolTipValueConverter="{StaticResource MarginSliderConverter}"/>
                     <Image Grid.Column="2"
                            Margin="10,0,10,5"
                            VerticalAlignment="Center"
                            Stretch="None" 
-                           Source="../Assets/W10Icons/ReaderSideIndent/MaxIndent.png"/>
+                           Source="../Assets/W10Icons/ReaderSideIndent/MaxIndentscale-125.png"/>
                 </Grid>
 
                 <TextBlock
@@ -215,6 +221,8 @@
                             SmallChange="1" 
                             LargeChange="1"                            
                             Maximum="6"
+                            TickPlacement="Outside" 
+                            TickFrequency="1"
                             ManipulationMode="All"
                             VerticalAlignment="Center"
                             Opacity="1"                             
