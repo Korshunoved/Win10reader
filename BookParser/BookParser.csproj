@@ -202,7 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ExCss.WP">
-      <HintPath>..\libs\ExCss\ExCss.WP.dll</HintPath>
+      <HintPath>libs\ExCss.WP.dll</HintPath>
     </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

@@ -405,7 +405,7 @@
                         <Setter Target="PhoneSearchBox.(RelativePanel.RightOf)" Value="PhoneDropDownButton" />
                     </VisualState.Setters>
                 </VisualState>
-                
+
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
     </Grid>

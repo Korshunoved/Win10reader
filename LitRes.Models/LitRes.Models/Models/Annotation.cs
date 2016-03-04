@@ -14,10 +14,9 @@ namespace LitRes.Models
 {
 	public partial class Book
 	{
-
         public string PriceInRub => Price.ToString(CultureInfo.InvariantCulture).Replace('.', ',');
 
-	    public partial class Annotation
+        public partial class Annotation
 		{
 			//private static Regex reg = new Regex( "<p\\b[^>]*>(.*?)</p>" );
 			private static Regex reg = new Regex( "<p>(.*?)</p>", RegexOptions.Singleline );

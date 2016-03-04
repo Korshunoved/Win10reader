@@ -118,7 +118,7 @@ namespace LitRes.Services
 
 		public async Task<Purchase> BuyBook( Book book )
 		{
-			ProductListing product = await FindProductForBook( book );
+            ProductListing product = await FindProductForBook( book );
 
 			string receiptString;
 			try

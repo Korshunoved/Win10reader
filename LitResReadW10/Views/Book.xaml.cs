@@ -476,25 +476,25 @@ namespace LitRes.Views
 	        creditButton.Tapped += (sender, args) => { ViewModel.RunCreditCardPaymentProcess.Execute(null); dialog.Hide(); };
             panel.Children.Add(creditButton);
 
-            var storeButton = new Button
-            {
-                Margin = new Thickness(0, 10, 0, 5),
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                Content = $"оплатить через Windows Store",
-                BorderThickness = new Thickness(2),
-                BorderBrush = new SolidColorBrush(Colors.Gray),
-                Background = new SolidColorBrush(Colors.Transparent)
-            };
-            storeButton.Tapped += (sender, args) => { ViewModel.BuyBookFromMicrosoft.Execute(null); dialog.Hide(); };
-            panel.Children.Add(storeButton);
+            //var storeButton = new Button
+            //{
+            //    Margin = new Thickness(0, 10, 0, 5),
+            //    HorizontalAlignment = HorizontalAlignment.Stretch,
+            //    Content = $"оплатить через Windows Store",
+            //    BorderThickness = new Thickness(2),
+            //    BorderBrush = new SolidColorBrush(Colors.Gray),
+            //    Background = new SolidColorBrush(Colors.Transparent)
+            //};
+            //storeButton.Tapped += (sender, args) => { ViewModel.BuyBookFromMicrosoft.Execute(null); dialog.Hide(); };
+            //panel.Children.Add(storeButton);
 
-            panel.Children.Add(new TextBlock
-            {
-                Margin = new Thickness(0, 0, 0, 10),
-                Text = "Внимание! К цене будет добавлена комисия Windows Store.",
+            //panel.Children.Add(new TextBlock
+            //{
+            //    Margin = new Thickness(0, 0, 0, 10),
+            //    Text = "Внимание! К цене будет добавлена комисия Windows Store.",
 
-                TextWrapping = TextWrapping.Wrap,
-            });
+            //    TextWrapping = TextWrapping.Wrap,
+            //});
             dialog.Content = panel;
             await dialog.ShowAsync();
 	    }
@@ -507,6 +507,16 @@ namespace LitRes.Views
                 ControlPanel.Instance.TopBarVisibility = Visibility.Visible;
                 StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
                 await statusBar.ShowAsync();
+            }
+        }
+
+	    private void BuyButton_OnTapped(object sender, TappedRoutedEventArgs e)
+	    {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var book = button.DataContext as LitRes.Models.Book;
+                ViewModel.BuyBookFromSection.Execute(book);
             }
         }
 	}
