@@ -197,7 +197,7 @@
                                 <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО"
                                            MaxLines="2"
                                            FontSize="14"
-                                           FontWeight="SemiLight" />
+                                           FontWeight="Normal" />
                             </Button>
                             <StackPanel
                                 Visibility="{Binding ElementName=ListViewFreeBook, Path=Visibility, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse}">
@@ -212,7 +212,7 @@
                                         <TextBlock TextWrapping="Wrap"
                                                    MaxLines="2"
                                                    FontSize="14"
-                                                   FontWeight="SemiLight">
+                                                   FontWeight="SemiBold">
                                             <Run Text="{Binding Path=PriceInRub}" />
                                             <Run Text="₽" />
                                         </TextBlock>
@@ -408,7 +408,7 @@
                                            Text="БЕСПЛАТНО"
                                            MaxLines="2"
                                            FontSize="14"
-                                           FontWeight="SemiLight" />
+                                           FontWeight="Normal" />
                             </Button>
 
                             <StackPanel
@@ -425,7 +425,7 @@
                                         <TextBlock TextWrapping="Wrap"
                                                    MaxLines="2"
                                                    FontSize="14"
-                                                   FontWeight="SemiLight">
+                                                   FontWeight="SemiBold">
                                             <Run Text="{Binding Path=PriceInRub}" />
                                             <Run Text="₽" />
                                         </TextBlock>

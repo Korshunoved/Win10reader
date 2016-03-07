@@ -340,7 +340,7 @@ namespace LitRes.Views
 	    {
             if (!_animInProgress)
             {
-               // if (!SystemInfoHelper.IsDesktop())
+                if (!SystemInfoHelper.IsDesktop())
                 {
                     var image = sender as Image;
                     if (image != null)
@@ -351,8 +351,8 @@ namespace LitRes.Views
                     await statusBar.HideAsync();
 
                 }
-                //_animInProgress = true;	            
-                //if (!HideCover()) ShowCover();
+                _animInProgress = true;	            
+                if (!HideCover()) ShowCover();
             }
 	    }
 

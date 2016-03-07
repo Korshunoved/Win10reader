@@ -16,7 +16,7 @@
                   Padding="0"
                   HorizontalAlignment="Stretch"
                   IsVerticalRailEnabled="True"
-                  VerticalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Hidden"
                   VerticalScrollMode="Enabled"
                   HorizontalScrollMode="Disabled">
             <Grid x:Name="LayoutRoot"  Padding="0" Margin="0">

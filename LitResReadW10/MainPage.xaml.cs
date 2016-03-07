@@ -163,6 +163,10 @@ namespace LitResReadW10
             {
                 _navigationService.Navigate("MyBooks");
             }
+            else if (navButton.Tag.Equals("MyBasket"))
+            {
+                _navigationService.Navigate("MyBasket");
+            }
             //else if (navButton.Tag.Equals("Notifications"))
             //{
             //    _navigationService.Navigate("Notifications");
@@ -270,8 +274,8 @@ namespace LitResReadW10
             if (!SystemInfoHelper.IsDesktop())
             {
                 PhoneTopBarTitle.Visibility = Visibility.Collapsed;
+                PhoneDropDownButton.Visibility = Visibility.Collapsed;
             }
-
         }
 
         private void PhoneSearchBox_OnTapped(object sender, TappedRoutedEventArgs e)
@@ -296,6 +300,7 @@ namespace LitResReadW10
             if (!SystemInfoHelper.IsDesktop())
             {
                 PhoneSearchIconButton.Visibility = Visibility.Visible;
+                PhoneDropDownButton.Visibility = Visibility.Visible;
             }
             PhoneSearchBox.QueryText = string.Empty;
             PhoneTopBarTitle.Visibility = Visibility.Visible;

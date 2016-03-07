@@ -21,7 +21,7 @@
             HorizontalScrollMode="Disabled" 
             VerticalScrollMode="Auto" 
             HorizontalScrollBarVisibility="Disabled"
-            VerticalScrollBarVisibility="Auto">
+            VerticalScrollBarVisibility="Hidden">
         <Grid x:Name="InnerRoot" Style="{StaticResource LayoutRoot}" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="24"></RowDefinition>
