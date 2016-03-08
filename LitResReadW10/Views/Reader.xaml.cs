@@ -122,8 +122,13 @@ namespace LitRes.Views
             await ViewModel.LoadSettings();
             if (Instance != null)
                 TopGrid.Visibility=Visibility.Collapsed;            
-            Instance = this;
+            Instance = this;            
             LayoutRoot.Background = AppSettings.Default.ColorScheme.BackgroundBrush;
+            ReaderGrid.Loaded += (o, args) =>
+            {
+                if (AppSettings.Default.CurrentBook != null)
+                    HandleLoadedBook();
+            };
             var currentOrientation = DisplayInformation.GetForCurrentView().CurrentOrientation;
             DisplayInformation.AutoRotationPreferences = AppSettings.Default.Autorotate ? DisplayOrientations.None : currentOrientation;
             if (SystemInfoHelper.IsDesktop()) return;
@@ -158,51 +163,46 @@ namespace LitRes.Views
         {
             Debug.WriteLine("OnDataLoadComplete Enter");
 
-            await HandleLoadedBook();
-            if (ViewModel.Entity == null) return;
+           // await HandleLoadedBook();
+          //  if (ViewModel.Entity == null) return;
 
           //  AddBuySection(ViewModel.Entity.Price);
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "ShowPopup")
+            switch (e.PropertyName)
             {
+                case "ShowPopup":
 
-            }
-            else if (e.PropertyName == "HidePopup")
-            {
-             
-            }
-            else if (e.PropertyName == "ShowSwitchPopup")
-            {
-            }
-            else if (e.PropertyName == "HideSwitchPopup")
-            {
-            }
-            else if (e.PropertyName == "UpdatePrice")
-            {
-                //LitresStore.Content = string.Format("пополнить счёт на {0} руб.", ViewModel.AccoundDifferencePrice);
-            }
-            else if (e.PropertyName == "LoadBookProcessCompleted")
-            {
-                if (ViewModel.Status == ReaderViewModel.LoadingStatus.FullBookLoaded) Analytics.Instance.sendMessage(Analytics.ActionReadFull);
-                else if (ViewModel.Status == ReaderViewModel.LoadingStatus.TrialBookLoaded) Analytics.Instance.sendMessage(Analytics.ActionReadFragment);
-                _isLoaded = true;
+                    break;
+                case "HidePopup":
 
-                _book = AppSettings.Default.CurrentBook;
-                CurrentPage = AppSettings.Default.CurrentPage;
-                if (_book == null) return;
-                _activeFontHelper = BookFactory.GetActiveFontMetrics(AppSettings.Default.FontSettings.FontFamily.Source);
-                AppSettings.Default.FontSettings.FontHelper = _activeFontHelper;               
-            }
-            else if (e.PropertyName == "EntityLoaded")
-            {
-                BookCover.Source = (BitmapImage)(new UrlToImageConverter().Convert(ViewModel.Entity.Cover, null, null));// new BitmapImage(new Uri(ViewModel.Entity.Cover, UriKind.RelativeOrAbsolute));
-            }
-            else if (e.PropertyName == "IncProgress")
-            {
-                pageProgress.Value += 1;
+                    break;
+                case "ShowSwitchPopup":
+                    break;
+                case "HideSwitchPopup":
+                    break;
+                case "UpdatePrice":
+                    //LitresStore.Content = string.Format("пополнить счёт на {0} руб.", ViewModel.AccoundDifferencePrice);
+                    break;
+                case "LoadBookProcessCompleted":
+                    if (ViewModel.Status == ReaderViewModel.LoadingStatus.FullBookLoaded) Analytics.Instance.sendMessage(Analytics.ActionReadFull);
+                    else if (ViewModel.Status == ReaderViewModel.LoadingStatus.TrialBookLoaded) Analytics.Instance.sendMessage(Analytics.ActionReadFragment);
+                    _isLoaded = true;
+               
+                    _book = AppSettings.Default.CurrentBook;
+                    CurrentPage = AppSettings.Default.CurrentPage;
+                    if (_book == null) return;
+                    _activeFontHelper = BookFactory.GetActiveFontMetrics(AppSettings.Default.FontSettings.FontFamily.Source);
+                    AppSettings.Default.FontSettings.FontHelper = _activeFontHelper;                  
+                    break;
+                case "EntityLoaded":
+                    BookCover.Source = (BitmapImage)(new UrlToImageConverter().Convert(ViewModel.Entity.Cover, null, null));// new BitmapImage(new Uri(ViewModel.Entity.Cover, UriKind.RelativeOrAbsolute));
+                    break;
+                case "IncProgress":
+                    pageProgress.Value += 1;
+                    break;
             }
         }
 
@@ -241,7 +241,6 @@ namespace LitRes.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //Debug.WriteLine("Reader OnNavigatedTo");
             ControlPanel.Instance.ReaderMode();
             base.OnNavigatedTo(e);
             Analytics.Instance.sendMessage(Analytics.ViewReader);
@@ -304,7 +303,7 @@ namespace LitRes.Views
             }
         }
         
-        private void AddBuySection(double price)
+     /*   private void AddBuySection(double price)
         {
             BuyBookText.Text = "Конец ознакомительного фрагмента. Для продолжения чтения купите книгу за " +
                         price.ToString(CultureInfo.InvariantCulture) + " рублей.";
@@ -328,7 +327,7 @@ namespace LitRes.Views
                     _isBuyShowed = false;
                 }
             }
-        }
+        }*/
                 
         private async void BuyBookMenuTap(object sender, TappedRoutedEventArgs e)
         {
@@ -445,11 +444,6 @@ namespace LitRes.Views
             await CreateController();
         }
 
-        public void ChangeJustification()
-        {
-            
-        }
-
         public async void Redraw()
         {
             if (!_isLoaded)
@@ -496,7 +490,7 @@ namespace LitRes.Views
         {
             if (_preSelectionOffset == null)
                 _preSelectionOffset = _tokenOffset;        
-            int tokenOffset = (AppSettings.Default.CurrentPage - 1) * AppSettings.WORDS_PER_PAGE;
+            int tokenOffset = AppSettings.Default.CurrentTokenOffset;
             _tokenOffset = tokenOffset;
 
             Background = AppSettings.Default.ColorScheme.BackgroundBrush;

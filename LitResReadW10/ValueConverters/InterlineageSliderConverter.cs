@@ -29,10 +29,6 @@ namespace LitRes.ValueConverters
                 {
                     return 1.5f;
                 }
-                if (val == 6)
-                {
-                    return 2f;
-                }
             }
             return 0;
         }

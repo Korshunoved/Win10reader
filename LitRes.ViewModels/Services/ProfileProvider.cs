@@ -232,7 +232,7 @@ namespace LitRes.Services
 			var parameters = new Dictionary<string, object>
 						{
 #if DEBUG
-							{ "code", "9202076955740559" },
+							{ "code", "2058005753530018" },
 #else                   
 							{ "code", "2058005753530018" },
 #endif

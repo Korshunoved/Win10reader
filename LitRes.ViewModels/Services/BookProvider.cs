@@ -5,9 +5,9 @@ using System.Globalization;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using BookParser;
 using BookParser.Common.ExtensionMethods;
 using BookParser.Models;
@@ -17,7 +17,6 @@ using Digillect.Collections;
 using ICSharpCode.SharpZipLib;
 using LitRes.Models;
 using LitRes.Services.Connectivity;
-using ICSharpCode.SharpZipLib.Zip;
 
 namespace LitRes.Services
 {
@@ -151,6 +150,20 @@ namespace LitRes.Services
             ParseBook(book);
         }
 
+        public void GetBookFromStorage(Book item)
+        {
+            var bookStorageFileStream = new IsolatedStorageFileStream(CreateBookPath(item), FileMode.Open,
+                IsolatedStorageFile.GetUserStoreForApplication());
+            var previewGenerator = BookFactory.GetPreviewGenerator(item.TypeBook.ToString(), item.BookTitle, bookStorageFileStream);
+            var bookSummary = previewGenerator.GetBookPreview();
+            var book = CreateBook(item, bookSummary);
+            book.LoadInfo(book.GetFolderPath() + "/bookinfo");
+            var chapters = ToolsRepository.GetChapters(book.BookID, book.GetChaptersPath());
+            var chapterModels = chapters as ChapterModel[] ?? chapters.ToArray();
+            AppSettings.Default.Chapters = chapterModels;
+            ReplaceBookInSettings(book);            
+        }
+
         private void ParseBook(Book item)
         {
             try
@@ -224,9 +237,14 @@ namespace LitRes.Services
                 //_bookService.Remove(book.BookID);
                 throw;
             }
+            ReplaceBookInSettings(book);
+        }
+
+        private void ReplaceBookInSettings(BookModel book)
+        {
             var tmpBook = AppSettings.Default.CurrentBook;
             AppSettings.Default.CurrentBook = book;
-            if (tmpBook!=null && tmpBook.BookID != book.BookID)
+            if (tmpBook != null && tmpBook.BookID != book.BookID)
                 AppSettings.Default.CurrentPage = 1;
         }
 

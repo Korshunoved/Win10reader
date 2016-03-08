@@ -16,6 +16,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
+using BookParser;
 using Digillect;
 
 namespace LitRes.ViewModels
@@ -424,8 +425,14 @@ namespace LitRes.ViewModels
             {
                 try
                 {
-                    //bookFolderName = book.Id.ToString();
-                    await _bookProvider.GetFullBook(book, session.Token);
+                    if (exist)
+                    {
+                        _bookProvider.GetBookFromStorage(book);
+                    }
+                    else
+                    {
+                        await _bookProvider.GetFullBook(book, session.Token);
+                    }
                     Status = LoadingStatus.FullBookLoaded;
                 }
                 catch (Exception e)
@@ -439,7 +446,14 @@ namespace LitRes.ViewModels
             {
                 try
                 {
-                    await _bookProvider.GetTrialBook(book, session.Token);
+                    if (exist)
+                    {
+                        _bookProvider.GetBookFromStorage(book);
+                    }
+                    else
+                    {
+                        await _bookProvider.GetTrialBook(book, session.Token);
+                    }
                     status = LoadingStatus.TrialBookLoaded;
                 }
                 catch (Exception e)

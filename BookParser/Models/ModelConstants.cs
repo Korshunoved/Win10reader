@@ -25,5 +25,6 @@ namespace BookParser.Models
         public const string BOOK_TOKENS_PATH = "/bookfile.data.tokens";
         public const string BOOK_FILE_DATA_PATH = "/bookfile.data";
         public const string BOOK_IMAGES_FILE_NAME = "/images.xml";
+        public const string BOOK_CHAPTERS_FILE_NAME = "/chapters.xml";
     }
 }

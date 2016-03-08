@@ -35,10 +35,10 @@ namespace BookParser
     public class AppSettings
     {
         public const int WORDS_PER_PAGE = 200;
+        private int DEFAULT_MARGIN_VALUE;
         private const bool DEFAULT_LOCK_SCREEN = false;
         private const Orientation DEFAULT_ORIENTATION = Orientation.Vertical;
         private const bool DEFAULT_HIDE_MENU = false;
-        private const SupportedMargins DEFAULT_MARGIN = SupportedMargins.Medium;
         private const int DEFAULT_COLOR_SCHEME = 1;
         private const string DEFAULT_TRANSLATE_LANGUAGE = "en";
         private const bool DEFAULT_USE_CSS_FONTSIZE = false;
@@ -64,7 +64,7 @@ namespace BookParser
                     l => l.TwoLetterISOLanguageName == CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
 
             DEFAULT_LANGUAGE = defaultLang == null ? "en" : defaultLang.TwoLetterISOLanguageName;
-
+            DEFAULT_MARGIN_VALUE = (int)(Window.Current.CoreWindow.Bounds.Width * 0.06f);
         }
 
         public BookModel CurrentBook { get; set; }
@@ -76,6 +76,12 @@ namespace BookParser
         }
 
         public IEnumerable<ChapterModel> Chapters { get; set; } 
+
+        public int CurrentTokenOffset
+        {
+            get { return _settingsStorage.GetValueWithDefault("CurrentTokenOffset", 0); }
+            set { _settingsStorage.SetValue("CurrentTokenOffset", value); }
+        }
 
         public bool LockScreen
         {
@@ -109,7 +115,7 @@ namespace BookParser
 
         public int MarginValue
         {
-            get { return _settingsStorage.GetValueWithDefault("MarginValue", 25); }
+            get { return _settingsStorage.GetValueWithDefault("MarginValue", DEFAULT_MARGIN_VALUE); }
             set { _settingsStorage.SetValue("MarginValue", value); }
         }
 
@@ -221,14 +227,6 @@ namespace BookParser
         }
     }
 
-    public enum SupportedMargins
-    {
-        None,
-        Small,
-        Medium,
-        Big
-    }
-
     public enum ColorSchemes
     {
         Light,
@@ -255,7 +253,7 @@ namespace BookParser
     public class FontSettings
     {
         private const int DefaultFontSize = 20;
-        private const float DefaultFontInterval = 1f;
+        private const float DefaultFontInterval = 0.85f;
         public const string DefaultFontFamily = "/Fonts/PT Sans.ttf#PT Sans";
 
         public IFontHelper FontHelper { get; set; }
@@ -411,9 +409,9 @@ namespace BookParser
                 new Scheme
                     (
                     colorScheme: ColorSchemes.Sepia,
-                    backgroundBrush: Color.FromArgb(0xFF, 0xEB, 0xEA, 0xE4),
+                    backgroundBrush: Color.FromArgb(0xFF, 0xe5, 0xde, 0xbf), 
                     titleForegroundBrush: Color.FromArgb(0xFF, 0x77, 0x70, 0x52),
-                    textForegroundBrush: Colors.Black,
+                    textForegroundBrush: Color.FromArgb(0xFF, 0x28, 0x18, 0x08), 
                     linkForegroundBrush: Color.FromArgb(0xFF, 0xD7, 0x83, 0x00),
                     selectionBrush: Color.FromArgb(0x26, 0x00, 0x00, 0x00),
                     applicationBarBackgroundBrush: Color.FromArgb(0xF2, 0x34, 0x2E, 0x2B),

@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.IsolatedStorage;
 using System.Linq;
+using System.Xml.Linq;
 using BookParser.Common;
 using BookParser.Data;
 using BookParser.IO;
@@ -53,7 +55,27 @@ namespace BookRender.Tools
             parser.BuildChapters();
 
             SaveAnchors(book.BookID, parser.Anchors, tokens);
-            SaveChapters(book.BookID, parser.Chapters, tokens);
+
+            SaveChapters(book.BookID, book.GetChaptersPath(), parser.Chapters, tokens);
+           
+            SaveInfo(book.GetFolderPath(), book.TokenCount, book.WordCount);
+        }
+
+        private static void SaveInfo(string path, int tokenCount, int wordCount)
+        {
+            var filepath = path + "/bookinfo";
+            using (var storage = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                var document = new XDocument();
+                using (var outFile = storage.CreateFile(filepath))
+                {
+                    var root = new XElement("info");
+                    document.Add(root);
+                    root.Add(new XElement("tokenCount", tokenCount));
+                    root.Add(new XElement("wordCount", wordCount));
+                    document.Save(outFile);
+                }
+            }
         }
 
         private static void SaveAnchors(string bookId, Dictionary<string, int> anchors, IList<TokenBase> tokens)
@@ -62,10 +84,10 @@ namespace BookRender.Tools
             ToolsRepository.SaveAnchors(anchModels);
         }
 
-        private static void SaveChapters(string bookId, IEnumerable<BookChapter> chapters, IList<TokenBase> tokens)
+        private static void SaveChapters(string bookId, string path, IEnumerable<BookChapter> chapters, IList<TokenBase> tokens)
         {
             var chapModels = chapters.Select(chapter => CreateChapter(bookId, chapter, tokens));
-            ToolsRepository.SaveChapters(chapModels);
+            ToolsRepository.SaveChapters(chapModels, path);
         }
 
         private static ChapterModel CreateChapter(string bookId, BookChapter chapter, IList<TokenBase> tokens)

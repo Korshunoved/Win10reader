@@ -18,6 +18,9 @@
  */
 
 using System;
+using System.IO;
+using System.IO.IsolatedStorage;
+using System.Xml.Linq;
 
 namespace BookParser.Models
 {  
@@ -55,7 +58,7 @@ namespace BookParser.Models
         public long LastUsage { get; set; }
 
        
-        public int? WordCount { get; set; }
+        public int WordCount { get; set; }
 
        
         public bool Deleted { get; set; }
@@ -80,5 +83,28 @@ namespace BookParser.Models
 
      
         public string Description { get; set; }
+
+        public void LoadInfo(string path)
+        {
+            using (var storage = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                using (var inFile = storage.OpenFile(path, FileMode.Open, FileAccess.Read))
+                {
+                    var document = XDocument.Load(inFile);                    
+                    foreach (var el in document.Root.Elements())
+                    {
+                        switch (el.Name.ToString())
+                        {
+                            case "tokenCount":
+                                TokenCount = int.Parse(el.Value);
+                                break;
+                            case "wordCount":
+                                WordCount = int.Parse(el.Value);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

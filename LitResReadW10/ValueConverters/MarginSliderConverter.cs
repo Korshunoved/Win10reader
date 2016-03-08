@@ -15,27 +15,23 @@ namespace LitRes.ValueConverters
             {
                 if (val == 1)
                 {
-                    return "0%";
+                    return "3%";
                 }
                 if (val == 2)
                 {
-                    return "5%";
+                    return "6%";
                 }
                 if (val == 3)
                 {
-                    return "10%";
+                    return "9%";
                 }
                 if (val == 4)
                 {
-                    return "15%";
+                    return "12%";
                 }
                 if (val == 5)
                 {
-                    return "20%";
-                }
-                if (val == 6)
-                {
-                    return "25%";
+                    return "15%";
                 }
             }
             return 0;

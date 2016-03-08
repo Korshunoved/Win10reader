@@ -17,13 +17,10 @@
  * 02110-1301, USA.
  */
 
-
 namespace BookParser.Models
 {
-
-    public class ChapterModel : BaseTable
+    public class ChapterModel
     {
-
         public string BookID { get; set; }
 
 

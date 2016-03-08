@@ -35,15 +35,6 @@ namespace BookRender.Tools
             _bookId = bookId;
         }
 
-        public bool HasTableOfContents
-        {
-            get
-            {
-                var chapters = ToolsRepository.GetChapters(_bookId);
-                return chapters != null && chapters.Any();
-            }
-        }
-
         public IEnumerable<BookImage> LoadImages()
         {
             lock (_syncObject)

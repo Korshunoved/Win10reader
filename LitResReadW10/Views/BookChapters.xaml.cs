@@ -31,8 +31,17 @@ namespace LitRes.Views
         void BookChapters_Loaded(object sender, RoutedEventArgs e)
         {
             Analytics.Instance.sendMessage(Analytics.ViewTOC);
-            var appChapters = AppSettings.Default.Chapters;            
-            List<Chapters> Chapters = appChapters.Select(chapterModel => new Chapters { Title = chapterModel.Title, Page = (int)Math.Ceiling((double)(chapterModel.TokenID + 1) / AppSettings.WORDS_PER_PAGE) }).ToList();
+            var appChapters = AppSettings.Default.Chapters;
+            List<Chapters> Chapters =
+                appChapters.Select(
+                    chapterModel =>
+                        new Chapters
+                        {
+                            Title = chapterModel.Title,
+                            Page = (int) Math.Ceiling((double) (chapterModel.TokenID + 1)/AppSettings.WORDS_PER_PAGE),
+                            Level = chapterModel.Level,
+                            TokenId = chapterModel.TokenID
+                        }).ToList();
             TockListView.ItemsSource = Chapters;
             TockListView.SelectionChanged += TockListViewOnSelectionChanged;
         }
@@ -46,6 +55,7 @@ namespace LitRes.Views
             var chapter = list.SelectedItem as Chapters;
             if (chapter == null) return;
             AppSettings.Default.CurrentPage = chapter.Page;
+            AppSettings.Default.CurrentTokenOffset = chapter.TokenId;
             if (SystemInfoHelper.IsDesktop())
                 readerPage.GoToChapter();
         }
@@ -65,17 +75,23 @@ namespace LitRes.Views
     {
         public string Title { get; set; }
         public int Page { get; set; }
+        public int TokenId { get; set; }
+        public int Level { get; set; }
 
-        public Chapters(string title, int page)
+        public Chapters(string title, int page, int token, int level)
         {
-            Title = title;
+            Title = title.Trim();
             Page = page + 1;
+            TokenId = token;
+            Level = level;
         }
 
         public Chapters()
         {
             Title = "";
             Page = 0;
+            Level = 0;
+            TokenId = 0;
         }
     }
 }

@@ -10,7 +10,7 @@
 	mc:Ignorable="d"
 	FontFamily="{StaticResource PhoneFontFamilyNormal}"
 	FontSize="{StaticResource PhoneFontSizeNormal}"
-	Foreground="{StaticResource LitResForegroundBrush}" >
+	Foreground="{StaticResource LitResForegroundBrush}">
     <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}">
         <!-- 325-->
         <Grid.RowDefinitions>
@@ -28,47 +28,47 @@
                     Visibility="{Binding MobileVisibility}"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Автоповорот"/>
-                <ToggleSwitch x:Name="AutorotateSwitch" Margin="0,0,0,10" Visibility="{Binding MobileVisibility}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" />
+                <ToggleSwitch x:Name="AutorotateSwitch" Margin="0,0,0,0" Visibility="{Binding MobileVisibility}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" />
 
                 <TextBlock
-                    Margin="0,20,0,10"
+                    Margin="0,10,0,10"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Выравнивание по ширине" Foreground="#FFB6B4B4"/>
-                <ToggleSwitch Margin="0,0,0,10" IsEnabled="False" x:Name="JustificationSwither" IsOn="{Binding ViewModel.FitWidth, Mode=TwoWay}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}"   />
+                <ToggleSwitch Margin="0,0,0,0" IsEnabled="False" x:Name="JustificationSwither" IsOn="{Binding ViewModel.FitWidth, Mode=TwoWay}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}"   />
 
                 <TextBlock
-                    Margin="0,20,0,10"
+                    Margin="0,10,0,10"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Перенос слов"/>
                 <ToggleSwitch Margin="0,0,0,0" x:Name="HyphenationSwither" IsOn="{Binding ViewModel.Hyphenate, Mode=TwoWay}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" />
 
                 <TextBlock
                     Name="StatusBarText"
-                    Margin="0,20,0,10"
+                    Margin="0,10,0,10"
                     Visibility="{Binding MobileVisibility}"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Скрывать системное меню" 
                     />
-                <ToggleSwitch Margin="0,0,0,10" x:Name="StatusBarSwitcher" Visibility="{Binding MobileVisibility}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" />
+                <ToggleSwitch Margin="0,0,0,0" x:Name="StatusBarSwitcher" Visibility="{Binding MobileVisibility}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" />
                 
                 <TextBlock
                     Name="TwoColumnsText"
-                    Margin="0,20,0,10"
+                    Margin="0,10,0,10"
                     Visibility="{Binding DesktopVisibility}"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Текст в две колонки" Foreground="#FFB6B4B4"
                     />
-                <ToggleSwitch Margin="0,0,0,10" x:Name="TwoColumnsSwitcher" IsEnabled="False" Visibility="{Binding DesktopVisibility}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" />
+                <ToggleSwitch Margin="0,0,0,0" x:Name="TwoColumnsSwitcher" IsEnabled="False" Visibility="{Binding DesktopVisibility}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" />
                 
                 <TextBlock
-                    Margin="0,20,0,10"
+                    Margin="0,10,0,10"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Анимация листания"
                     Foreground="#FFB6B4B4"/>
-                <ToggleSwitch Margin="0,0,0,10" x:Name="AnimationSwither" IsEnabled="False" IsOn="{Binding ViewModel.AnimationMoveToPage, Mode=TwoWay}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" />
+                <ToggleSwitch Margin="0,0,0,0" x:Name="AnimationSwither" IsEnabled="False" IsOn="{Binding ViewModel.AnimationMoveToPage, Mode=TwoWay}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" />
 
                 <TextBlock
-                    Margin="0,20,0,10"
+                    Margin="0,10,0,10"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Тема оформления"/>
                 <Grid HorizontalAlignment="Center" > 
@@ -90,7 +90,7 @@
                     <Image x:Name="DarkImage"  Grid.Column="2" Width="50" Source="../Assets/Icons/ThemeIcons/Dark.png" />
                 </Grid>
                 <TextBlock
-                    Margin="0,20,0,10"
+                    Margin="0,10,0,10"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Шрифт"/>
                 <Grid Margin="0,10,0,10" Width="1265" >
@@ -104,12 +104,12 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <RadioButton x:Name="SansFont1" Content="ПТ Санс" FontSize="20" FontFamily="/Fonts/PT Sans.ttf#PT Sans" GroupName="FontRadio" HorizontalAlignment="Right" Loaded="RadioButton_Loaded" />
-                    <RadioButton x:Name="SerifFont2" Content="ПТ Сериф" FontSize="20" FontFamily="PT Serif" Grid.Row="1" Grid.Column="0"  GroupName="FontRadio"  Loaded="RadioButton_Loaded" />
-                    <RadioButton x:Name="MonoFont3" Content="ПТ Моно" FontSize="20" FontFamily="/Fonts/PT Mono.ttf#PT Mono" Grid.Row="2" Grid.Column="0" GroupName="FontRadio" Loaded="RadioButton_Loaded" />
+                    <RadioButton x:Name="SansFont1" Content="PT Sans" FontSize="20" FontFamily="/Fonts/PT Sans.ttf#PT Sans" GroupName="FontRadio" HorizontalAlignment="Left" Loaded="RadioButton_Loaded" Padding="8,0,0,0" VerticalContentAlignment="Center"  />
+                    <RadioButton x:Name="SerifFont2" Content="PT Serif" FontSize="20" FontFamily="PT Serif" Grid.Row="1" Grid.Column="0"  GroupName="FontRadio"  Loaded="RadioButton_Loaded" VerticalContentAlignment="Center" Padding="8,0,0,0"  />
+                    <RadioButton x:Name="MonoFont3" Content="PT Mono" FontSize="20" FontFamily="/Fonts/PT Mono.ttf#PT Mono" Grid.Row="2" Grid.Column="0" GroupName="FontRadio" Loaded="RadioButton_Loaded"  />
                 </Grid>
                 <TextBlock
-                    Margin="0,20,0,10"
+                    Margin="0,10,0,10"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Размер шрифта"/>
 
@@ -125,9 +125,8 @@
 
                     <Image Grid.Column="0" 
                           Margin="10,0,10,5"
-                          VerticalAlignment="Center"
-                          Stretch="None" 
-                          Source="../Assets/W10Icons/ReaderFontSize/FontSize.scale-125.png" />
+                          VerticalAlignment="Center" 
+                          Source="ms-appx:///Assets/W10Icons/Settings/Update/¦Рscale-200.png" Width="12" Height="12" />
                     <Slider x:Name="FontSizeSlider"
                             Margin="0,0,0,0"
                             Padding="0,0,0,0"
@@ -144,13 +143,12 @@
                             TickFrequency="2" />
                     <Image Grid.Column="2"
                            Margin="10,0,10,5"
-                           VerticalAlignment="Center"
-                           Stretch="None" 
-                           Source="../Assets/W10Icons/ReaderFontSize/FontSize.scale-200.png"/>
+                           VerticalAlignment="Center" 
+                           Source="../Assets/W10Icons/Settings/Update/¦Рscale-400.png" Width="25" Height="25"/>
                 </Grid>
 
                 <TextBlock
-                    Margin="0,20,0,10"
+                    Margin="0,10,0,10"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Боковые отступы"/>
 
@@ -166,9 +164,8 @@
 
                     <Image Grid.Column="0" 
                           Margin="10,0,10,5"
-                          VerticalAlignment="Center"
-                          Stretch="None" 
-                          Source="../Assets/W10Icons/ReaderSideIndent/MinIndent.png"/>
+                          VerticalAlignment="Center" 
+                          Source="../Assets/W10Icons/Settings/Update/Rectangle 4014 + Rectangle 4014 Copy + Rectangle 4014 Copy 2scale-600.png" Width="20" Height="20"/>
                     <Slider x:Name="MarginsSlider"
                             Margin="0,0,0,0"
                             Padding="0,0,0,0"
@@ -176,7 +173,7 @@
                             Grid.Column="1"
 					        Minimum="1" 
                             SmallChange="1"                            
-                            Maximum="6"
+                            Maximum="5"
                             LargeChange="1"
                             ManipulationMode="All"
                             VerticalAlignment="Center"
@@ -187,13 +184,12 @@
                             ThumbToolTipValueConverter="{StaticResource MarginSliderConverter}"/>
                     <Image Grid.Column="2"
                            Margin="10,0,10,5"
-                           VerticalAlignment="Center"
-                           Stretch="None" 
-                           Source="../Assets/W10Icons/ReaderSideIndent/MaxIndentscale-125.png"/>
+                           VerticalAlignment="Center" 
+                           Source="../Assets/W10Icons/Settings/Update/Rectangle 4014 Copy 8 + Rectangle 4014 Copy 9 + Rectangle 4014 Copy 12scale-600.png" Width="20" Height="15"/>
                 </Grid>
 
                 <TextBlock
-                    Margin="0,20,0,10"
+                    Margin="0,10,0,10"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Межстрочный интервал"/>
 
@@ -220,7 +216,7 @@
 					        Minimum="1" 
                             SmallChange="1" 
                             LargeChange="1"                            
-                            Maximum="6"
+                            Maximum="5"
                             TickPlacement="Outside" 
                             TickFrequency="1"
                             ManipulationMode="All"

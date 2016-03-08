@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Windows.Devices.Enumeration;
-using Windows.Graphics.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -12,8 +10,6 @@ using BookParser;
 using Digillect.Mvvm;
 using Digillect.Mvvm.UI;
 using LitRes.ViewModels;
-using LitResReadW10;
-using LitResReadW10.Controls;
 using LitResReadW10.Helpers;
 
 // ReSharper disable CheckNamespace
@@ -115,17 +111,15 @@ namespace LitRes.Views
 	        switch (value)
 	        {
                 case 1:
-	                return 0;
+                    return (int)(deviceWidth * 0.03f);
                 case 2:
-	                return (int)(deviceWidth * 0.05f);
+	                return (int)(deviceWidth * 0.06f);
                 case 3:
-                    return (int)(deviceWidth * 0.1f);
+                    return (int)(deviceWidth * 0.09f);
                 case 4:
-                    return (int)(deviceWidth * 0.15f);
+                    return (int)(deviceWidth * 0.12f);
                 case 5:
-                    return (int)(deviceWidth * 0.2f);
-                case 6:
-                    return (int)(deviceWidth * 0.25f);
+                    return (int)(deviceWidth * 0.15f);
             }
             return 0;
         }
@@ -154,27 +148,22 @@ namespace LitRes.Views
 	        var value = AppSettings.Default.MarginValue;
             var deviceWidth = Window.Current.CoreWindow.Bounds.Width;
 	        var percent = value/deviceWidth;
-	        if (percent >= 0.25)
-	        {
-	            MarginsSlider.Value = 6;
-	            return;
-	        }
-            if (percent >= 0.2)
+            if (percent >= 0.15)
             {
                 MarginsSlider.Value = 5;
                 return;
             }
-            if (percent >= 0.15)
+            if (percent >= 0.12)
             {
                 MarginsSlider.Value = 4;
                 return;
             }
-            if (percent >= 0.1)
+            if (percent >= 0.09)
             {
                 MarginsSlider.Value = 3;
                 return;
             }
-            if (percent >= 0.05)
+            if (percent >= 0.06)
             {
                 MarginsSlider.Value = 2;
                 return;
@@ -208,11 +197,6 @@ namespace LitRes.Views
             if (value == 1.5f)
             {
                 LineSpacingSlider.Value = 5;
-                return;
-            }
-            if (value == 2f)
-            {
-                LineSpacingSlider.Value = 6;                
             }
         }
 
@@ -370,18 +354,7 @@ namespace LitRes.Views
             if (toggle == null) return;
             if (ViewModel != null)
                 ViewModel.FitWidth = toggle.IsOn;
-            _readerPage.ViewModel.ReaderSettings.FitWidth = toggle.IsOn;
-            _readerPage.ViewModel.SaveSettings();
-            _readerPage.ChangeJustification();
         }
-
-	    private void LightSlider_Loaded(object sender, RoutedEventArgs e)
-	    {
-	        var slider = sender as Slider;
-	        if (slider == null) return;
-	        if (ViewModel != null)
-	            slider.Value = (1 - ViewModel.Brightness)*100;
-	    }
 
 	    private void RadioButton_Loaded(object sender, RoutedEventArgs e)
         {
@@ -447,7 +420,7 @@ namespace LitRes.Views
             }
         }
 
-        private void LineSpacingSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        private void LineSpacingSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             if (_readerPage == null)
                 _readerPage = Reader.Instance;
@@ -470,9 +443,6 @@ namespace LitRes.Views
                     break;
                 case 5:
                     AppSettings.Default.FontSettings.FontInterval = 1.5f;
-                    break;
-                case 6:
-                    AppSettings.Default.FontSettings.FontInterval = 2f;
                     break;
             }
             if (SystemInfoHelper.IsDesktop())
