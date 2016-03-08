@@ -19,7 +19,7 @@
                       Padding="0"
                       HorizontalAlignment="Stretch"
                       IsVerticalRailEnabled="True"
-                      VerticalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Hidden"
                       VerticalScrollMode="Enabled"
                       HorizontalScrollMode="Disabled">
             <Grid x:Name="LayoutRoot" Padding="0" Margin="0">
@@ -32,7 +32,7 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel x:Name="Title" Grid.Row="0" HorizontalAlignment="Left" Orientation="Vertical">
-                    <TextBlock Margin="0,15,0,0" 
+                    <TextBlock Margin="0,15,0,0"
                                Padding="15,0,15,0"
                                Text="{Binding AboutTitle}"
                                Style="{StaticResource BigNormalSemiBoldBlackTextStyle}" />
@@ -102,11 +102,43 @@
                                 VerticalAlignment="Top">
                                 Оцените нас
                             </TextBlock>
-                            <Image Source="/Assets/Rating.png"
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Image
+                                    Source="/Assets/SingleRating.png"
+                                    Margin="0,20,0,15"
+                                    Width="32"
+                                    Height="32"
+                                    Tapped="Star123_Tapped"/>
+                                <Image
+                                    Source="/Assets/SingleRating.png"
+                                    Margin="0,20,0,15"
+                                    Width="32"
+                                    Height="32"
+                                    Tapped="Star123_Tapped"/>
+                                <Image
+                                    Source="/Assets/SingleRating.png"
+                                    Margin="0,20,0,15"
+                                    Width="32"
+                                    Height="32" 
+                                    Tapped="Star123_Tapped"/>
+                                <Image
+                                    Source="/Assets/SingleRating.png"
+                                    Margin="0,20,0,15"
+                                    Width="32"
+                                    Height="32"
+                                    Tapped="Star45_Tapped"/>
+                                <Image
+                                    Source="/Assets/SingleRating.png"
+                                    Margin="0,20,0,15"
+                                    Width="32"
+                                    Height="32"
+                                    Tapped="Star45_Tapped"/>
+                            </StackPanel>
+                            <!--<Image Source="/Assets/Rating.png"
                                    VerticalAlignment="Top"
                                    HorizontalAlignment="Center"
                                    Stretch="None"
-                                   Margin="0,20,0,15" Tapped="RateStackPanel_Tapped" />
+                                   Margin="0,20,0,15" Tapped="RateStackPanel_Tapped" />-->
                         </StackPanel>
                         <StackPanel Grid.Row="0" Grid.Column="1" Margin="4,0,0,0" HorizontalAlignment="Stretch"
                                     Orientation="Vertical" Background="White" Tapped="FacebookStackPanel_Tapped">
@@ -128,11 +160,12 @@
                         </StackPanel>
                     </Grid>
                 </StackPanel>
+
                 <StackPanel x:Name="StackPanelWithListViews" Grid.Row="2" Margin="0,0,0,8" Padding="0">
                     <ListView
                         Padding="0">
                         <StackPanel Margin="1,0,0,0" HorizontalAlignment="Stretch"
-                                    Orientation="Vertical" Background="White" Tapped="RateStackPanel_Tapped">
+                                    Orientation="Vertical" Background="White">
                             <TextBlock
                                 Margin="0,15,0,0"
                                 TextWrapping="Wrap"
@@ -143,11 +176,38 @@
                                 VerticalAlignment="Top">
                                 Оцените нас
                             </TextBlock>
-                            <Image Source="/Assets/Rating.png"
-                                   VerticalAlignment="Top"
-                                   HorizontalAlignment="Center"
-                                   Stretch="None"
-                                   Margin="0,20,0,15" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Image
+                                    Source="/Assets/SingleRating.png"
+                                    Margin="0,20,0,15"
+                                    Width="32"
+                                    Height="32"
+                                    Tapped="Star123_Tapped"/>
+                                <Image
+                                    Source="/Assets/SingleRating.png"
+                                    Margin="0,20,0,15"
+                                    Width="32"
+                                    Height="32"
+                                    Tapped="Star123_Tapped"/>
+                                <Image
+                                    Source="/Assets/SingleRating.png"
+                                    Margin="0,20,0,15"
+                                    Width="32"
+                                    Height="32" 
+                                    Tapped="Star123_Tapped"/>
+                                <Image
+                                    Source="/Assets/SingleRating.png"
+                                    Margin="0,20,0,15"
+                                    Width="32"
+                                    Height="32"
+                                    Tapped="Star45_Tapped"/>
+                                <Image
+                                    Source="/Assets/SingleRating.png"
+                                    Margin="0,20,0,15"
+                                    Width="32"
+                                    Height="32"
+                                    Tapped="Star45_Tapped"/>
+                            </StackPanel>
                         </StackPanel>
                         <StackPanel Margin="1,0,0,0" HorizontalAlignment="Stretch"
                                     Orientation="Vertical" Background="White" Tapped="FacebookStackPanel_Tapped">
@@ -179,9 +239,9 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
 
-                        <Setter Target="StackPanelWithListViews.Visibility" Value="Collapsed" />
-                        <Setter Target="Title.Visibility" Value="Visible" />
-                        <Setter Target="StackPanelWithGridViews.Visibility" Value="Visible" />
+                        <Setter Target="StackPanelWithListViews.Visibility" Value="Visible" />
+                        <Setter Target="Title.Visibility" Value="Collapsed" />
+                        <Setter Target="StackPanelWithGridViews.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -191,9 +251,9 @@
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-                        <Setter Target="StackPanelWithListViews.Visibility" Value="Visible" />
-                        <Setter Target="Title.Visibility" Value="Collapsed" />
-                        <Setter Target="StackPanelWithGridViews.Visibility" Value="Collapsed" />
+                        <Setter Target="StackPanelWithListViews.Visibility" Value="Collapsed" />
+                        <Setter Target="Title.Visibility" Value="Visible" />
+                        <Setter Target="StackPanelWithGridViews.Visibility" Value="Visible" />
                     </VisualState.Setters>
 
                 </VisualState>
@@ -210,5 +270,5 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
     </Grid>
-    
+
 </Page>

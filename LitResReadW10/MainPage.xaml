@@ -44,7 +44,7 @@
                                 Background="Transparent"
                                 Tapped="HamburgerTapped"
                                 Orientation="Horizontal">
-                       <Border
+                        <Border
                             x:Name="PaneHamburgerButton"
                             Visibility="Visible"
                             BorderThickness="0"
@@ -55,14 +55,16 @@
                             Background="{StaticResource LitresPaneBackgroundBrush}"
                             Width="48" 
                             Height="{Binding ElementName=PaneFirstLineStackPanel, Path=Height}">
-
-                            <TextBlock
+                            <Image Source="Assets/W10Icons/Hamburger/menu_whitescale-400.png"
+                                   Width="18"
+                                   Height="18"/>
+                            <!--<TextBlock
                                 FontFamily="Segoe MDL2 Assets" 
                                 Text="&#xE700;"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 TextAlignment="Center"
-                                Foreground="White" />
+                                Foreground="White" />-->
                            
                         </Border>
                     </StackPanel>
@@ -81,6 +83,16 @@
                             Padding="0,0,0,0"
                             Style="{StaticResource SplitViewNavButtonMyBookStyle}"                          
                             Content="Мои книги" />
+                        <RadioButton 
+                            Name="MyBasketButton"
+                            Tag="MyBasket"
+                            GroupName="MainMenuGroup"
+                            Checked="PaneNavButtons_OnChecked"
+                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.Below="MyBooksButton"
+                            Padding="0,0,0,0"
+                            Style="{StaticResource SplitViewNavButtonMyBasketStyle}"
+                            Content="Отложенные"/>
                         <Border 
                             Name="FirstSeporator"
                             BorderBrush="#4F4D52" 
@@ -88,7 +100,7 @@
                             Width="250" 
                             HorizontalAlignment="Stretch" 
                             RelativePanel.AlignLeftWithPanel="True"
-                            RelativePanel.Below="MyBooksButton"
+                            RelativePanel.Below="MyBasketButton"
                             Margin="4,0"/>
                         <RadioButton 
                             x:Name="GenreButton"
@@ -216,13 +228,16 @@
                             Background="Transparent"
                             RelativePanel.AlignLeftWithPanel="True"
                             RelativePanel.AlignVerticalCenterWithPanel="True">
-                        <TextBlock
+                        <!--<TextBlock
                         FontFamily="Segoe MDL2 Assets" 
                         Text="&#xE700;"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         TextAlignment="Center"
-                        Foreground="#3B393F"/>
+                        Foreground="#3B393F"/>-->
+                        <Image Source="Assets/W10Icons/Hamburger/menu_blackscale-400.png"
+                               Width="18"
+                               Height="18"/>
                     </Border>
 
                     <TextBlock 

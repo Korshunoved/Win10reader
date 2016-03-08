@@ -52,6 +52,8 @@ namespace LitRes.Services
 		/// </summary>
 		private XCollection<Book> _myBooksByTime;
 
+	    private XCollection<Book> _myBasket;
+
 		private XCollection<Book> _interestingBooks;
 		private XCollection<Book> _noveltyBooks;
 		private XCollection<Book> _popularBooks;

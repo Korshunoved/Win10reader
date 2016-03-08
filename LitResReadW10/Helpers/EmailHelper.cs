@@ -63,5 +63,33 @@ namespace LitResReadW10.Helpers
             }
         }
 
+        public static async void OpenEmailClientWithoutPayload()
+        {
+            IDeviceInfoService _deviceInfoService = ((App)App.Current).Scope.Resolve<IDeviceInfoService>();
+
+            EmailMessage emailMessage = new EmailMessage();
+
+            var credentialsProvider = ((App)Application.Current).Scope.Resolve<ICredentialsProvider>();
+            var creds = credentialsProvider.ProvideCredentials(CancellationToken.None);
+
+            var catalogProvider = ((App)Application.Current).Scope.Resolve<ICatalogProvider>();
+            var books = await catalogProvider.GetMyBooksFromCache(CancellationToken.None);
+
+            var bookProvider = ((App)Application.Current).Scope.Resolve<IBookProvider>();
+            var exists = await bookProvider.GetExistBooks(CancellationToken.None);
+
+            var stringBuilder = new StringBuilder();
+
+            emailMessage.To.Add(new EmailRecipient("windows@litres.ru"));
+            emailMessage.Body = stringBuilder.ToString();
+            try
+            {
+                await EmailManager.ShowComposeNewEmailAsync(emailMessage);
+            }
+            catch (Exception e)
+            {
+                return;
+            }
+        }
     }
 }

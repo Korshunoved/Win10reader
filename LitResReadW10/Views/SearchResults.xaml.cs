@@ -89,7 +89,7 @@ namespace LitRes.Views
 	    {
 	        try
 	        {
-	            ViewModel.SearchQuery = SearchText;
+	            //ViewModel.SearchQuery = SearchText;
 	            await ViewModel.SearchBooks();
 	        }
 	        catch (Exception ex)

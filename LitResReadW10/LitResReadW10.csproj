@@ -233,6 +233,21 @@
     <Content Include="Assets\W10Icons\About\about_white.scale-150.png" />
     <Content Include="Assets\W10Icons\About\about_white.scale-200.png" />
     <Content Include="Assets\W10Icons\About\about_white.scale-400.png" />
+    <Content Include="Assets\W10Icons\Basket\black_basket.scale-100.png" />
+    <Content Include="Assets\W10Icons\Basket\black_basket.scale-125.png" />
+    <Content Include="Assets\W10Icons\Basket\black_basket.scale-150.png" />
+    <Content Include="Assets\W10Icons\Basket\black_basket.scale-200.png" />
+    <Content Include="Assets\W10Icons\Basket\black_basket.scale-400.png" />
+    <Content Include="Assets\W10Icons\Basket\orange_basket.scale-100.png" />
+    <Content Include="Assets\W10Icons\Basket\orange_basket.scale-125.png" />
+    <Content Include="Assets\W10Icons\Basket\orange_basket.scale-150.png" />
+    <Content Include="Assets\W10Icons\Basket\orange_basket.scale-200.png" />
+    <Content Include="Assets\W10Icons\Basket\orange_basket.scale-400.png" />
+    <Content Include="Assets\W10Icons\Basket\white_basket.scale-100.png" />
+    <Content Include="Assets\W10Icons\Basket\white_basket.scale-125.png" />
+    <Content Include="Assets\W10Icons\Basket\white_basket.scale-150.png" />
+    <Content Include="Assets\W10Icons\Basket\white_basket.scale-200.png" />
+    <Content Include="Assets\W10Icons\Basket\white_basket.scale-400.png" />
     <Content Include="Assets\W10Icons\BookmarkAdded\bookmark_added.scale-100.png" />
     <Content Include="Assets\W10Icons\BookmarkAdded\bookmark_added.scale-125.png" />
     <Content Include="Assets\W10Icons\BookmarkAdded\bookmark_added.scale-150.png" />
@@ -284,6 +299,24 @@
     <Content Include="Assets\W10Icons\Genres\shop_white.scale-150.png" />
     <Content Include="Assets\W10Icons\Genres\shop_white.scale-200.png" />
     <Content Include="Assets\W10Icons\Genres\shop_white.scale-400.png" />
+    <Content Include="Assets\W10Icons\Hamburger\menu_blackscale-100.png" />
+    <Content Include="Assets\W10Icons\Hamburger\menu_blackscale-125.png" />
+    <Content Include="Assets\W10Icons\Hamburger\menu_blackscale-150.png" />
+    <Content Include="Assets\W10Icons\Hamburger\menu_blackscale-200.png" />
+    <Content Include="Assets\W10Icons\Hamburger\menu_blackscale-400.png" />
+    <Content Include="Assets\W10Icons\Hamburger\menu_blackscale-600.png" />
+    <Content Include="Assets\W10Icons\Hamburger\menu_orangescale-100.png" />
+    <Content Include="Assets\W10Icons\Hamburger\menu_orangescale-125.png" />
+    <Content Include="Assets\W10Icons\Hamburger\menu_orangescale-150.png" />
+    <Content Include="Assets\W10Icons\Hamburger\menu_orangescale-200.png" />
+    <Content Include="Assets\W10Icons\Hamburger\menu_orangescale-400.png" />
+    <Content Include="Assets\W10Icons\Hamburger\menu_orangescale-600.png" />
+    <Content Include="Assets\W10Icons\Hamburger\menu_whitescale-100.png" />
+    <Content Include="Assets\W10Icons\Hamburger\menu_whitescale-125.png" />
+    <Content Include="Assets\W10Icons\Hamburger\menu_whitescale-150.png" />
+    <Content Include="Assets\W10Icons\Hamburger\menu_whitescale-200.png" />
+    <Content Include="Assets\W10Icons\Hamburger\menu_whitescale-400.png" />
+    <Content Include="Assets\W10Icons\Hamburger\menu_whitescale-600.png" />
     <Content Include="Assets\W10Icons\Koshelek\koshelek.scale-100.png" />
     <Content Include="Assets\W10Icons\Koshelek\koshelek.scale-125.png" />
     <Content Include="Assets\W10Icons\Koshelek\koshelek.scale-150.png" />
@@ -674,6 +707,9 @@
     <Compile Include="Views\Main.xaml.cs">
       <DependentUpon>Main.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MyBasket.xaml.cs">
+      <DependentUpon>MyBasket.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MyBooks.xaml.cs">
       <DependentUpon>MyBooks.xaml</DependentUpon>
     </Compile>
@@ -931,6 +967,10 @@
     <Page Include="Views\Main.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MyBasket.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MyBooks.xaml">
       <SubType>Designer</SubType>

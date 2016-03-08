@@ -248,7 +248,7 @@
                             <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО"
                                        MaxLines="2"
                                        FontSize="14"
-                                       FontWeight="SemiLight" />
+                                       FontWeight="Normal" />
                         </Button>
                         <StackPanel
                             Visibility="{Binding ElementName=ListViewFreeBook, Path=Visibility, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse}">
@@ -263,7 +263,7 @@
                                     <TextBlock TextWrapping="Wrap"
                                                MaxLines="2"
                                                FontSize="14"
-                                               FontWeight="SemiLight">
+                                               FontWeight="SemiBold">
                                         <Run Text="{Binding Path=PriceInRub}" />
                                         <Run Text="₽" />
                                     </TextBlock>
@@ -352,7 +352,7 @@
                     <ScrollViewer x:Name="RootScrollViewer"
                                   HorizontalAlignment="Stretch"
                                   HorizontalScrollBarVisibility="Disabled"
-                                  VerticalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Hidden"
                                   Visibility="{Binding Path=ViewModel.Entity, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}">
                         <RelativePanel
                             x:Name="RootRelativePanel">
@@ -441,7 +441,7 @@
                                     Orientation="Horizontal">
                                     <controls:ImageProgressBar
                                         Margin="0"
-                                        Value="{Binding Path=Rating}"
+                                        Value="{Binding Path=ViewModel.Entity.Rating}"
                                         Fill="{StaticResource LitResAccentBrush}"
                                         Source="/Assets/RatingDisabled.png"
                                         SourceMaskUri="/Assets/Rating.png"
@@ -678,7 +678,7 @@
                                                         Width="100"
                                                         Height="36"
                                                         Padding="5,0,5,0">
-                                                        <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО" FontSize="14" FontWeight="SemiLight"/>
+                                                        <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО" FontSize="14" FontWeight="Normal"/>
                                                     </Button>
 
                                                     <Button
@@ -688,7 +688,7 @@
                                                         Height="36"
                                                         Padding="5,0,5,0"
                                                         Tapped="BuyButton_OnTapped">
-                                                        <TextBlock TextWrapping="Wrap" MaxLines="2" FontSize="14" FontWeight="SemiLight">
+                                                        <TextBlock TextWrapping="Wrap" MaxLines="2" FontSize="14" FontWeight="SemiBold">
                                                             <Run Text="{Binding Path=PriceInRub}" />
                                                             <Run Text="₽" />
                                                         </TextBlock>

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Email;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -95,10 +97,24 @@ namespace LitRes.Views
             await Windows.System.Launcher.LaunchUriAsync(uriBing);
         }
 
-        private async void RateStackPanel_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private async void Star45_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             var uriBing = new Uri(@"ms-windows-store://review/?ProductId=9nblggh4p89b");
             await Windows.System.Launcher.LaunchUriAsync(uriBing);
+        }
+
+	    private async void Star123_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+	    {
+	        var dialog =
+	            new MessageDialog(string.Format("Если вы знаете, как нам улучшить приложение, напишите, пожалуйста",
+	                "Поддержка"))
+	            {
+	                DefaultCommandIndex = 0,
+	                CancelCommandIndex = 1
+	            };
+	        dialog.Commands.Add(new UICommand("Написать в поддержку", command => EmailHelper.OpenEmailClientWithoutPayload()));
+            dialog.Commands.Add(new UICommand("Не сейчас") { Id = 1 });
+            await dialog.ShowAsync();
         }
     }
 }
