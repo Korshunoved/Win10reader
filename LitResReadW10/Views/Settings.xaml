@@ -10,7 +10,7 @@
 	mc:Ignorable="d"
 	FontFamily="{StaticResource PhoneFontFamilyNormal}"
 	FontSize="{StaticResource PhoneFontSizeNormal}"
-	Foreground="{StaticResource LitResForegroundBrush}">
+	Foreground="{StaticResource LitResForegroundBrush}" Height="1200">
     <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}">
         <!-- 325-->
         <Grid.RowDefinitions>
@@ -106,7 +106,7 @@
                     </Grid.RowDefinitions>
                     <RadioButton x:Name="SansFont1" Content="PT Sans" FontSize="20" FontFamily="/Fonts/PT Sans.ttf#PT Sans" GroupName="FontRadio" HorizontalAlignment="Left" Loaded="RadioButton_Loaded" Padding="8,0,0,0" VerticalContentAlignment="Center"  />
                     <RadioButton x:Name="SerifFont2" Content="PT Serif" FontSize="20" FontFamily="PT Serif" Grid.Row="1" Grid.Column="0"  GroupName="FontRadio"  Loaded="RadioButton_Loaded" VerticalContentAlignment="Center" Padding="8,0,0,0"  />
-                    <RadioButton x:Name="MonoFont3" Content="PT Mono" FontSize="20" FontFamily="/Fonts/PT Mono.ttf#PT Mono" Grid.Row="2" Grid.Column="0" GroupName="FontRadio" Loaded="RadioButton_Loaded"  />
+                    <RadioButton x:Name="MonoFont3" Content="PT Mono" FontSize="20" FontFamily="/Fonts/PT Mono.ttf#PT Mono" Grid.Row="2" Grid.Column="0" GroupName="FontRadio" Loaded="RadioButton_Loaded"   Padding="8,5,0,0" />
                 </Grid>
                 <TextBlock
                     Margin="0,10,0,10"

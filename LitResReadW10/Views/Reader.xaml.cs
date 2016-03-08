@@ -56,6 +56,7 @@ namespace LitRes.Views
     {
         private bool _menuVisible;
         private bool _fullVisible;
+        private bool _readerGridLoaded;
         private int _moveCount;
         private double _fractionRead;
         private bool _syncInProgress;        
@@ -89,6 +90,7 @@ namespace LitRes.Views
             Unloaded += (sender, args) =>
             {
                 LocalBroadcastReciver.Instance.PropertyChanging -= Instance_PropertyChanging;
+                _readerGridLoaded = false;
                 _isLoaded = false;
             };
             LocalBroadcastReciver.Instance.PropertyChanging += Instance_PropertyChanging;
@@ -126,6 +128,7 @@ namespace LitRes.Views
             LayoutRoot.Background = AppSettings.Default.ColorScheme.BackgroundBrush;
             ReaderGrid.Loaded += (o, args) =>
             {
+                _readerGridLoaded = true;
                 if (AppSettings.Default.CurrentBook != null)
                     HandleLoadedBook();
             };
@@ -162,8 +165,9 @@ namespace LitRes.Views
         protected override async void OnDataLoadComplete(Session session)
         {
             Debug.WriteLine("OnDataLoadComplete Enter");
-
-           // await HandleLoadedBook();
+            
+            if (_readerGridLoaded)
+                await HandleLoadedBook();
           //  if (ViewModel.Entity == null) return;
 
           //  AddBuySection(ViewModel.Entity.Price);
