@@ -98,7 +98,18 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\FacebookLogo.png" />
+    <Content Include="Assets\AboutRating.scale-100.png" />
+    <Content Include="Assets\AboutRating.scale-125.png" />
+    <Content Include="Assets\AboutRating.scale-150.png" />
+    <Content Include="Assets\AboutRating.scale-200.png" />
+    <Content Include="Assets\AboutRating.scale-400.png" />
+    <Content Include="Assets\AboutRating.scale-600.png" />
+    <Content Include="Assets\FacebookLogo.scale-100.png" />
+    <Content Include="Assets\FacebookLogo.scale-125.png" />
+    <Content Include="Assets\FacebookLogo.scale-150.png" />
+    <Content Include="Assets\FacebookLogo.scale-200.png" />
+    <Content Include="Assets\FacebookLogo.scale-400.png" />
+    <Content Include="Assets\FacebookLogo.scale-600.png" />
     <Content Include="Assets\Icons\about_black.png" />
     <Content Include="Assets\Icons\about_orange.png" />
     <Content Include="Assets\Icons\about_white.png" />

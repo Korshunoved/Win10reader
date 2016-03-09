@@ -350,9 +350,8 @@ namespace LitRes.Views
                     StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
                     await statusBar.HideAsync();
 
-                }
-                _animInProgress = true;	            
-                if (!HideCover()) ShowCover();
+                }         
+                //if (!HideCover()) ShowCover();
             }
 	    }
 
@@ -507,6 +506,7 @@ namespace LitRes.Views
                 ControlPanel.Instance.TopBarVisibility = Visibility.Visible;
                 StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
                 await statusBar.ShowAsync();
+
             }
         }
 

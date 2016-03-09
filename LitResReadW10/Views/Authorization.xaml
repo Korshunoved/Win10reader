@@ -58,8 +58,8 @@
                 </TextBlock>
             </StackPanel>
             <StackPanel Grid.Row="4" Margin="24,12,24,0">
-                <TextBox x:Name="tbLogin" Margin="0,0,0,0" PlaceholderText="Логин" LostFocus="TextBoxLostFocus" GotFocus="TextBoxGotFocus" InputScope="EmailNameOrAddress" KeyUp="TbLogin_OnKeyUp" Style="{StaticResource LitresTextBoxStyle}" />
-                <PasswordBox x:Name="tbPassword" Margin="0,10,0,0" PlaceholderText="Пароль" LostFocus="TextBoxLostFocus" GotFocus="TextBoxGotFocus" KeyUp="TbPassword_OnKeyUp" Style="{StaticResource LitresPasswordBoxStyle}" />
+                    <TextBox x:Name="tbLogin"  Height="48"  Margin="0,0,0,0" PlaceholderText="Логин" LostFocus="TextBoxLostFocus" GotFocus="TextBoxGotFocus" InputScope="EmailNameOrAddress" KeyUp="TbLogin_OnKeyUp" Style="{StaticResource LitresTextBoxStyle}" />
+                    <PasswordBox x:Name="tbPassword"  Height="48" Margin="0,10,0,0" PlaceholderText="Пароль" LostFocus="TextBoxLostFocus" GotFocus="TextBoxGotFocus" KeyUp="TbPassword_OnKeyUp" Style="{StaticResource LitresPasswordBoxStyle}" />
                 <HyperlinkButton Margin="0,12,0,0" 
                                  NavigateUri="http://www.litres.ru/pages/password_recover/"  
                                  Foreground="{StaticResource LitResAccentBrush}" 

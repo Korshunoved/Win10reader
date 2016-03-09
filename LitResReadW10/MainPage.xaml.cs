@@ -300,7 +300,8 @@ namespace LitResReadW10
             if (!SystemInfoHelper.IsDesktop())
             {
                 PhoneSearchIconButton.Visibility = Visibility.Visible;
-                PhoneDropDownButton.Visibility = Visibility.Visible;
+                if (ControlPanel.Instance.DropDownMenuItems.Count > 0)
+                    PhoneDropDownButton.Visibility = Visibility.Visible;
             }
             PhoneSearchBox.QueryText = string.Empty;
             PhoneTopBarTitle.Visibility = Visibility.Visible;
