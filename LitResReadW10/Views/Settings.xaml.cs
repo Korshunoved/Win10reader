@@ -64,6 +64,8 @@ namespace LitRes.Views
 
 		    TwoColumnsSwitcher.IsOn = AppSettings.Default.TwoColumns;
 
+		    AutorotateSwitch.IsOn = AppSettings.Default.Autorotate;
+
             StatusBarSwitcher.Toggled -= StatusBarSwitcherOnToggled;
             StatusBarSwitcher.Toggled += StatusBarSwitcherOnToggled;
 
@@ -147,23 +149,23 @@ namespace LitRes.Views
 	    {
 	        var value = AppSettings.Default.MarginValue;
             var deviceWidth = Window.Current.CoreWindow.Bounds.Width;
-	        var percent = value/deviceWidth;
-            if (percent >= 0.15)
+	        var percent = value/deviceWidth;            
+            if (Math.Abs(percent - 0.15) <= 0.001)
             {
                 MarginsSlider.Value = 5;
                 return;
             }
-            if (percent >= 0.12)
+            if (Math.Abs(percent - 0.12) <= 0.001)
             {
                 MarginsSlider.Value = 4;
                 return;
             }
-            if (percent >= 0.09)
+            if (Math.Abs(percent - 0.09) <= 0.001)
             {
                 MarginsSlider.Value = 3;
                 return;
             }
-            if (percent >= 0.06)
+            if (Math.Abs(percent - 0.06) <= 0.001)
             {
                 MarginsSlider.Value = 2;
                 return;

@@ -245,7 +245,7 @@ namespace LitRes.Services
             var tmpBook = AppSettings.Default.CurrentBook;
             AppSettings.Default.CurrentBook = book;
             if (tmpBook != null && tmpBook.BookID != book.BookID)
-                AppSettings.Default.CurrentPage = 1;
+                AppSettings.Default.CurrentTokenOffset = 0;
         }
 
         private static BookModel CreateBook(Book item, BookSummary bookSummary)

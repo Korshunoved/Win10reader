@@ -54,7 +54,6 @@ namespace LitRes.Views
             if (index <= 0) return;
             var chapter = list.SelectedItem as Chapters;
             if (chapter == null) return;
-            AppSettings.Default.CurrentPage = chapter.Page;
             AppSettings.Default.CurrentTokenOffset = chapter.TokenId;
             if (SystemInfoHelper.IsDesktop())
                 readerPage.GoToChapter();

@@ -10,7 +10,7 @@
 	mc:Ignorable="d"
 	FontFamily="{StaticResource PhoneFontFamilyNormal}"
 	FontSize="{StaticResource PhoneFontSizeNormal}"
-	Foreground="{StaticResource LitResForegroundBrush}" Height="1200">
+	Foreground="{StaticResource LitResForegroundBrush}">
     <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}">
         <!-- 325-->
         <Grid.RowDefinitions>
@@ -40,7 +40,7 @@
                     Margin="0,10,0,10"
                     Style="{StaticResource NormalSemiBoldBlackTextStyle}" 
                     Text="Перенос слов"/>
-                <ToggleSwitch Margin="0,0,0,0" x:Name="HyphenationSwither" IsOn="{Binding ViewModel.Hyphenate, Mode=TwoWay}" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" />
+                <ToggleSwitch Margin="0,0,0,0" x:Name="HyphenationSwither" OnContent="Вкл." OffContent="Выкл." Style="{StaticResource LitresToggleSwitchStyle}" />
 
                 <TextBlock
                     Name="StatusBarText"

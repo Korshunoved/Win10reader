@@ -86,6 +86,7 @@ namespace LitRes.Views
 
             InitializeComponent();
 
+            _tokenOffset = AppSettings.Default.CurrentTokenOffset;
             Loaded += ReaderLoaded;
             Unloaded += (sender, args) =>
             {
@@ -194,9 +195,7 @@ namespace LitRes.Views
                     if (ViewModel.Status == ReaderViewModel.LoadingStatus.FullBookLoaded) Analytics.Instance.sendMessage(Analytics.ActionReadFull);
                     else if (ViewModel.Status == ReaderViewModel.LoadingStatus.TrialBookLoaded) Analytics.Instance.sendMessage(Analytics.ActionReadFragment);
                     _isLoaded = true;
-               
-                    _book = AppSettings.Default.CurrentBook;
-                    CurrentPage = AppSettings.Default.CurrentPage;
+                    _book = AppSettings.Default.CurrentBook;                    
                     if (_book == null) return;
                     _activeFontHelper = BookFactory.GetActiveFontMetrics(AppSettings.Default.FontSettings.FontFamily.Source);
                     AppSettings.Default.FontSettings.FontHelper = _activeFontHelper;                  
@@ -483,10 +482,10 @@ namespace LitRes.Views
             if (_preSelectionOffset == null)
                 _preSelectionOffset = _tokenOffset;
             int page = (int)CurrentPageSlider.Value;
-            CurrentPage = page;
-            AppSettings.Default.CurrentPage = CurrentPage;
+            CurrentPage = page;            
             int tokenOffset = (page - 1) * AppSettings.WORDS_PER_PAGE;
             _tokenOffset = tokenOffset;
+            AppSettings.Default.CurrentTokenOffset = _tokenOffset;
             await CreateController();
         }
 
@@ -564,8 +563,7 @@ namespace LitRes.Views
             _isSliderMoving = true;
             CurrentPageSlider.Value = _readController.CurrentPage;
             CurrentPage = (int) CurrentPageSlider.Value;
-            AppSettings.Default.CurrentPage = CurrentPage;
-            //   PagesText.Text = _readController.CurrentPage + "/" + _readController.TotalPages;
+            AppSettings.Default.CurrentTokenOffset = _tokenOffset;            
             _isSliderMoving = false;
             PageCanvas.Manipulator.IsFirstPage = _readController.IsFirst;
             PageCanvas.Manipulator.IsLastPage = _readController.IsLast;
