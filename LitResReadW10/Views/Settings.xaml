@@ -10,7 +10,7 @@
 	mc:Ignorable="d"
 	FontFamily="{StaticResource PhoneFontFamilyNormal}"
 	FontSize="{StaticResource PhoneFontSizeNormal}"
-	Foreground="{StaticResource LitResForegroundBrush}">
+	Foreground="{StaticResource LitResForegroundBrush}" Height="1200">
     <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}">
         <!-- 325-->
         <Grid.RowDefinitions>
@@ -165,7 +165,7 @@
                     <Image Grid.Column="0" 
                           Margin="10,0,10,5"
                           VerticalAlignment="Center" 
-                          Source="../Assets/W10Icons/Settings/Update/Rectangle 4014 + Rectangle 4014 Copy + Rectangle 4014 Copy 2scale-600.png" Width="20" Height="20"/>
+                          Source="../Assets/W10Icons/Settings/Update/MarginIconMin400.png" Width="20" Height="20"/>
                     <Slider x:Name="MarginsSlider"
                             Margin="0,0,0,0"
                             Padding="0,0,0,0"
@@ -185,7 +185,7 @@
                     <Image Grid.Column="2"
                            Margin="10,0,10,5"
                            VerticalAlignment="Center" 
-                           Source="../Assets/W10Icons/Settings/Update/Rectangle 4014 Copy 8 + Rectangle 4014 Copy 9 + Rectangle 4014 Copy 12scale-600.png" Width="20" Height="15"/>
+                           Source="../Assets/W10Icons/Settings/Update/MarginIconMax400.png" Width="20" Height="15"/>
                 </Grid>
 
                 <TextBlock
