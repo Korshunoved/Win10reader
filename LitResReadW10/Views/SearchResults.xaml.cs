@@ -28,6 +28,8 @@ namespace LitRes.Views
 			set;
 		}
 
+        public string LastSearch { get; set; }
+
 		#region Constructors/Disposer
 		public SearchResults()
 		{
@@ -89,8 +91,10 @@ namespace LitRes.Views
 	    {
 	        try
 	        {
-	            //ViewModel.SearchQuery = SearchText;
+                if (LastSearch != SearchText)
+	                ViewModel.SearchQuery = SearchText;
 	            await ViewModel.SearchBooks();
+	            LastSearch = SearchText;
 	        }
 	        catch (Exception ex)
 	        {

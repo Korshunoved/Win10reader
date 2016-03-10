@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Popups;
+using Windows.UI.Xaml;
 using Digillect;
 using Digillect.Collections;
 using Digillect.Mvvm;
@@ -44,7 +45,7 @@ namespace LitRes.ViewModels
         public XCollection<Book> BooksByTime { get; private set; }
 		public XCollection<Book> BooksByAuthors { get; private set; }
         public XCollection<Book> Basket { get; private set; } 
-		public IList<LongListGroup<Book>> BooksByAuthorsGrouped
+        public IList<LongListGroup<Book>> BooksByAuthorsGrouped
 		{
 			get { return _booksByAuthorsGrouped; }
 			private set { SetProperty( ref _booksByAuthorsGrouped, value, "BooksByAuthorsGrouped" ); }
@@ -81,9 +82,8 @@ namespace LitRes.ViewModels
 			BooksByAuthors = new XCollection<Book>();
 			BooksByAuthorsGrouped = new List<LongListGroup<Book>>();
 			BooksByNames = new XCollection<Book>();
-            Basket = new XCollection<Book>();
-
-			BookSelected = new RelayCommand<Book>( NavigateToBook, book => book != null );
+            Basket = new XCollection<Book>();         
+            BookSelected = new RelayCommand<Book>( NavigateToBook, book => book != null );
             Read = new RelayCommand<Book>(book =>
 			{
 			    if (!book.IsExpiredBook) _navigationService.Navigate("Reader", XParameters.Create("BookEntity", book), false);
@@ -460,8 +460,8 @@ namespace LitRes.ViewModels
 					}
 				}
 			    Basket = new XCollection<Book>(BooksByTime.Where(x => x.isFragment).ToList());
-                BooksByTime = new XCollection<Book>(BooksByTime.Where(x => !x.isFragment).ToList());
-                BooksByAuthors = new XCollection<Book>(BooksByAuthors.Where(x => !x.isFragment).ToList());
+                BooksByTime = new XCollection<Book>(BooksByTime.Where(x => !x.isFragment && x.IsMyBook).ToList());
+                BooksByAuthors = new XCollection<Book>(BooksByAuthors.Where(x => !x.isFragment && x.IsMyBook).ToList());
                 //BooksByTime.Add( new Book { IsEmptyElement = true } );			
             }
 		}

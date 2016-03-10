@@ -10,9 +10,9 @@
     xmlns:ui="using:Digillect.Mvvm.UI"
     xmlns:views="using:LitResReadW10.Views"
     mc:Ignorable="d"
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
-    FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="{StaticResource LitResForegroundBrush}">
+    FontFamily="{StaticResource LitresDefaultFontFamily}"
+    FontWeight="Normal"
+    FontSize="{StaticResource LitresFontSizeSmall}">
 
 
     <ui:WindowsRTPage.Resources>

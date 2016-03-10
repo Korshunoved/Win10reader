@@ -125,6 +125,52 @@ namespace LitRes.Views
 	        MinimizerText.Text = _isOpened ? "Скрыть" : "Поджанры";
 	    }
 
+        private void BuyButton_OnTapped(object sender, TappedRoutedEventArgs e)
+	    {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var book = button.DataContext as LitRes.Models.Book;
+                ViewModel.BuyBook.Execute(book);
+            }
+        }
+	}
+
+	public class GenreBooksFitting : EntityPage<Genre, GenreBooksViewModel>
+	{
+        private bool isFirstNode;
+
+		#region CreateDataSession
+		protected override Digillect.Mvvm.Session CreateDataSession( DataLoadReason reason )
+		{
+			var index = ViewParameters.GetValue<bool>( "Index" );
+
+			var session = base.CreateDataSession( reason );
+
+            isFirstNode = index;
+
+			ViewModel.PropertyChanged -= ViewModelPropertyChanged;
+			ViewModel.PropertyChanged += ViewModelPropertyChanged;
+
+			return session;
+		}
+		#endregion
+
+		void ViewModelPropertyChanged( object sender, PropertyChangedEventArgs e )
+		{
+			if( e.PropertyName == "Entity" )
+			{
+				if( ViewModel.Entity?.Children != null && ViewModel.Entity.Children.Count == 0 )
+				{
+					DeleteGenresPivotItem();
+				}
+                else if (e.PropertyName == "ChoosePaymentMethod")
+                {
+                    ChoosePaymentMethod();
+                }
+            }
+		}
+
         private async void ChoosePaymentMethod()
         {
             await ViewModel.UpdatePrice();
@@ -180,57 +226,7 @@ namespace LitRes.Views
             await dialog.ShowAsync();
         }
 
-        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "ChoosePaymentMethod")
-            {
-                ChoosePaymentMethod();
-            }
-        }
-
-        private void BuyButton_OnTapped(object sender, TappedRoutedEventArgs e)
-	    {
-            var button = sender as Button;
-            if (button != null)
-            {
-                var book = button.DataContext as LitRes.Models.Book;
-                ViewModel.BuyBook.Execute(book);
-            }
-        }
-	}
-
-	public class GenreBooksFitting : EntityPage<Genre, GenreBooksViewModel>
-	{
-        private bool isFirstNode;
-
-		#region CreateDataSession
-		protected override Digillect.Mvvm.Session CreateDataSession( DataLoadReason reason )
-		{
-			var index = ViewParameters.GetValue<bool>( "Index" );
-
-			var session = base.CreateDataSession( reason );
-
-            isFirstNode = index;
-
-			ViewModel.PropertyChanged -= ViewModelPropertyChanged;
-			ViewModel.PropertyChanged += ViewModelPropertyChanged;
-
-			return session;
-		}
-		#endregion
-
-		void ViewModelPropertyChanged( object sender, PropertyChangedEventArgs e )
-		{
-			if( e.PropertyName == "Entity" )
-			{
-				if( ViewModel.Entity?.Children != null && ViewModel.Entity.Children.Count == 0 )
-				{
-					DeleteGenresPivotItem();
-				}
-			}
-		}
-
-		protected virtual void DeleteGenresPivotItem()
+        protected virtual void DeleteGenresPivotItem()
 		{
 			
 		}

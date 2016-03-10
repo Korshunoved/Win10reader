@@ -98,7 +98,16 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\FacebookLogo.png" />
+    <Content Include="Assets\AboutRating.scale-100.png" />
+    <Content Include="Assets\AboutRating.scale-125.png" />
+    <Content Include="Assets\AboutRating.scale-150.png" />
+    <Content Include="Assets\AboutRating.scale-200.png" />
+    <Content Include="Assets\AboutRating.scale-400.png" />
+    <Content Include="Assets\FacebookLogo.scale-100.png" />
+    <Content Include="Assets\FacebookLogo.scale-125.png" />
+    <Content Include="Assets\FacebookLogo.scale-150.png" />
+    <Content Include="Assets\FacebookLogo.scale-200.png" />
+    <Content Include="Assets\FacebookLogo.scale-400.png" />
     <Content Include="Assets\Icons\about_black.png" />
     <Content Include="Assets\Icons\about_orange.png" />
     <Content Include="Assets\Icons\about_white.png" />
@@ -304,19 +313,16 @@
     <Content Include="Assets\W10Icons\Hamburger\menu_blackscale-150.png" />
     <Content Include="Assets\W10Icons\Hamburger\menu_blackscale-200.png" />
     <Content Include="Assets\W10Icons\Hamburger\menu_blackscale-400.png" />
-    <Content Include="Assets\W10Icons\Hamburger\menu_blackscale-600.png" />
     <Content Include="Assets\W10Icons\Hamburger\menu_orangescale-100.png" />
     <Content Include="Assets\W10Icons\Hamburger\menu_orangescale-125.png" />
     <Content Include="Assets\W10Icons\Hamburger\menu_orangescale-150.png" />
     <Content Include="Assets\W10Icons\Hamburger\menu_orangescale-200.png" />
     <Content Include="Assets\W10Icons\Hamburger\menu_orangescale-400.png" />
-    <Content Include="Assets\W10Icons\Hamburger\menu_orangescale-600.png" />
     <Content Include="Assets\W10Icons\Hamburger\menu_whitescale-100.png" />
     <Content Include="Assets\W10Icons\Hamburger\menu_whitescale-125.png" />
     <Content Include="Assets\W10Icons\Hamburger\menu_whitescale-150.png" />
     <Content Include="Assets\W10Icons\Hamburger\menu_whitescale-200.png" />
     <Content Include="Assets\W10Icons\Hamburger\menu_whitescale-400.png" />
-    <Content Include="Assets\W10Icons\Hamburger\menu_whitescale-600.png" />
     <Content Include="Assets\W10Icons\Koshelek\koshelek.scale-100.png" />
     <Content Include="Assets\W10Icons\Koshelek\koshelek.scale-125.png" />
     <Content Include="Assets\W10Icons\Koshelek\koshelek.scale-150.png" />
@@ -428,7 +434,6 @@
     <Content Include="Assets\W10Icons\Settings\setting_black copyscale-150.png" />
     <Content Include="Assets\W10Icons\Settings\setting_black copyscale-200.png" />
     <Content Include="Assets\W10Icons\Settings\setting_black copyscale-400.png" />
-    <Content Include="Assets\W10Icons\Settings\setting_black copyscale-600.png" />
     <Content Include="Assets\W10Icons\Settings\setting_black.scale-100.png" />
     <Content Include="Assets\W10Icons\Settings\setting_black.scale-125.png" />
     <Content Include="Assets\W10Icons\Settings\setting_black.scale-150.png" />
@@ -465,7 +470,6 @@
     <Content Include="Assets\W10Icons\Settings\Update\¦Рscale-150.png" />
     <Content Include="Assets\W10Icons\Settings\Update\¦Рscale-200.png" />
     <Content Include="Assets\W10Icons\Settings\Update\¦Рscale-400.png" />
-    <Content Include="Assets\W10Icons\Settings\Update\¦Рscale-600.png" />
     <Content Include="Assets\W10Icons\Shop\shop_orange.scale-100.png" />
     <Content Include="Assets\W10Icons\Shop\shop_orange.scale-125.png" />
     <Content Include="Assets\W10Icons\Shop\shop_orange.scale-150.png" />

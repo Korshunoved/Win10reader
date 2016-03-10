@@ -69,12 +69,6 @@ namespace BookParser
 
         public BookModel CurrentBook { get; set; }
 
-        public int CurrentPage
-        {
-            get { return _settingsStorage.GetValueWithDefault("CurrentPage", 1); }
-            set { _settingsStorage.SetValue("CurrentPage", value); }
-        }
-
         public IEnumerable<ChapterModel> Chapters { get; set; } 
 
         public int CurrentTokenOffset

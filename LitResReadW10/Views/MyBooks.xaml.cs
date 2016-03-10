@@ -1,4 +1,6 @@
-﻿using Digillect.Mvvm.UI;
+﻿using System;
+using System.ComponentModel;
+using Digillect.Mvvm.UI;
 using LitRes.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -24,10 +26,22 @@ namespace LitRes.Views
 
         void MyBooks_Loaded(object sender, RoutedEventArgs e)
         {
+            ViewModel.PropertyChanged -= ViewModelOnPropertyChanged;
+            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
             ViewModel.LoadMyBooks();
 
             Analytics.Instance.sendMessage(Analytics.ViewMyBooks);
         }
+
+	    private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+	    {
+	        if (e.PropertyName.Contains("BooksByTime"))
+	        {
+	            MyBooksEmptyStackPanel.Visibility = ViewModel.BooksByTime.Count > 0
+	                ? Visibility.Collapsed
+	                : Visibility.Visible;
+	        }
+	    }
 
 	    protected override void OnNavigatedTo(NavigationEventArgs e)
 	    {
@@ -58,8 +72,9 @@ namespace LitRes.Views
 
 	    protected override void OnNavigatedFrom(NavigationEventArgs e)
 	    {
+            ControlPanel.Instance.DropDownMenuItems.Clear();
             ControlPanel.Instance.DropDownButtonVisibility = Visibility.Collapsed;
-            base.OnNavigatedFrom(e);
+            base.OnNavigatedFrom(e);            
 	    }
 
 	    #endregion
@@ -94,9 +109,9 @@ namespace LitRes.Views
 	    {
 	        throw new System.NotImplementedException();
 	    }
-	}
+    }
 
-	public class MyBooksFitting : ViewModelPage<MyBooksViewModel>
+    public class MyBooksFitting : ViewModelPage<MyBooksViewModel>
 	{
 	}
 }
