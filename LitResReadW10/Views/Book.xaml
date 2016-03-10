@@ -444,7 +444,7 @@
                                         Value="{Binding Path=ViewModel.Entity.Rating}"
                                         Fill="{StaticResource LitResAccentBrush}"
                                         Source="/Assets/RatingDisabled.png"
-                                        SourceMaskUri="/Assets/Rating.png"
+                                        SourceMaskUri="/Assets/Rating.scale-100.png"
                                         Minimum="0"
                                         Maximum="10"
                                         HorizontalAlignment="Left" />
@@ -519,6 +519,7 @@
             </PivotItem>
             <PivotItem Header="Серия"
                        Tag="1990565"
+                        Margin="10"
                        Visibility="{Binding Path=ViewModel.Entity.Description.Hidden.TitleInfo.Sequence, 
                                             Converter={StaticResource VisibilityConverter}}"
                        Loaded="PivotItemSequence_OnLoaded">
@@ -717,7 +718,7 @@
                     </controls:PartialLoadedListView.ItemTemplate>
                 </controls:PartialLoadedListView>
             </PivotItem>
-            <PivotItem Header="Также читают" Tag="1990566">
+            <PivotItem Header="Также читают" Tag="1990566" Margin="10">
                 <controls:PartialLoadedListView x:Name="ReadWithBooks"
                                                 ItemsSource="{Binding ViewModel.ReadWithBooks}"
                                                 Tapped="ReadWithBooks_OnTapped"
@@ -828,7 +829,7 @@
                                     <TextBlock Grid.Row="1"
                                                Margin="0"
                                                Style="{StaticResource SmallBlackTextStyle}"
-                                               FontWeight="Medium"
+                                               FontWeight="Normal"
                                                MaxHeight="160"
                                                TextTrimming="WordEllipsis"
                                                Text="{Binding Path=TextRecense.Text, Converter={StaticResource HtmlConverter}}"

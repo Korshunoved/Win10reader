@@ -102,43 +102,44 @@
                                 VerticalAlignment="Top">
                                 Оцените нас
                             </TextBlock>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <Image
                                     Source="/Assets/SingleRating.png"
                                     Margin="0,20,0,15"
-                                    Width="32"
-                                    Height="32"
+                                    Width="40"
+                                    Height="40"
                                     Tapped="Star123_Tapped"/>
                                 <Image
                                     Source="/Assets/SingleRating.png"
                                     Margin="0,20,0,15"
-                                    Width="32"
-                                    Height="32"
+                                    Width="40"
+                                    Height="40"
                                     Tapped="Star123_Tapped"/>
                                 <Image
                                     Source="/Assets/SingleRating.png"
                                     Margin="0,20,0,15"
-                                    Width="32"
-                                    Height="32" 
+                                    Width="40"
+                                    Height="40" 
                                     Tapped="Star123_Tapped"/>
                                 <Image
                                     Source="/Assets/SingleRating.png"
                                     Margin="0,20,0,15"
-                                    Width="32"
-                                    Height="32"
+                                    Width="40"
+                                    Height="40"
                                     Tapped="Star45_Tapped"/>
                                 <Image
                                     Source="/Assets/SingleRating.png"
                                     Margin="0,20,0,15"
-                                    Width="32"
-                                    Height="32"
+                                    Width="40"
+                                    Height="40"
                                     Tapped="Star45_Tapped"/>
-                            </StackPanel>
-                            <!--<Image Source="/Assets/Rating.png"
+                            </StackPanel>-->
+                            <Image Source="/Assets/AboutRating.png"
                                    VerticalAlignment="Top"
                                    HorizontalAlignment="Center"
-                                   Stretch="None"
-                                   Margin="0,20,0,15" Tapped="RateStackPanel_Tapped" />-->
+                                   Height="26"
+                                   Width="172"
+                                   Margin="0,20,0,15" Tapped="Star45_Tapped" />
                         </StackPanel>
                         <StackPanel Grid.Row="0" Grid.Column="1" Margin="4,0,0,0" HorizontalAlignment="Stretch"
                                     Orientation="Vertical" Background="White" Tapped="FacebookStackPanel_Tapped">
@@ -156,7 +157,7 @@
                                    VerticalAlignment="Top"
                                    HorizontalAlignment="Center"
                                    Stretch="None"
-                                   Margin="0,20,0,15" />
+                                   Margin="0,20,0,30" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -176,38 +177,45 @@
                                 VerticalAlignment="Top">
                                 Оцените нас
                             </TextBlock>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <Image
                                     Source="/Assets/SingleRating.png"
                                     Margin="0,20,0,15"
-                                    Width="32"
-                                    Height="32"
+                                    Width="40"
+                                    Height="40"
                                     Tapped="Star123_Tapped"/>
                                 <Image
                                     Source="/Assets/SingleRating.png"
                                     Margin="0,20,0,15"
-                                    Width="32"
-                                    Height="32"
+                                    Width="40"
+                                    Height="40"
                                     Tapped="Star123_Tapped"/>
                                 <Image
                                     Source="/Assets/SingleRating.png"
                                     Margin="0,20,0,15"
-                                    Width="32"
-                                    Height="32" 
+                                    Width="40"
+                                    Height="40" 
                                     Tapped="Star123_Tapped"/>
                                 <Image
                                     Source="/Assets/SingleRating.png"
                                     Margin="0,20,0,15"
-                                    Width="32"
-                                    Height="32"
+                                    Width="40"
+                                    Height="40"
                                     Tapped="Star45_Tapped"/>
                                 <Image
                                     Source="/Assets/SingleRating.png"
                                     Margin="0,20,0,15"
-                                    Width="32"
-                                    Height="32"
+                                    Width="40"
+                                    Height="40"
                                     Tapped="Star45_Tapped"/>
-                            </StackPanel>
+                            </StackPanel>-->
+                            <Image Source="/Assets/AboutRating.png"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Center"
+                                   Height="52"
+                                   Width="344"
+                                   Stretch="None"
+                                   Margin="0,20,0,15" Tapped="Star45_Tapped" />
                         </StackPanel>
                         <StackPanel Margin="1,0,0,0" HorizontalAlignment="Stretch"
                                     Orientation="Vertical" Background="White" Tapped="FacebookStackPanel_Tapped">
@@ -225,7 +233,7 @@
                                    VerticalAlignment="Top"
                                    HorizontalAlignment="Center"
                                    Stretch="None"
-                                   Margin="0,20,0,15" />
+                                   Margin="0,20,0,30" />
                         </StackPanel>
                     </ListView>
                 </StackPanel>

@@ -58,6 +58,7 @@ namespace LitRes.Views
 
 	    protected override void OnNavigatedFrom(NavigationEventArgs e)
 	    {
+            ControlPanel.Instance.DropDownMenuItems.Clear();
             ControlPanel.Instance.DropDownButtonVisibility = Visibility.Collapsed;
             base.OnNavigatedFrom(e);
 	    }

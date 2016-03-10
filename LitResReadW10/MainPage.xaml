@@ -304,6 +304,7 @@
                         FontWeight="SemiBold"
                         FontFamily="Segoe UI"
                         KeyUp="PhoneSearchBox_OnKeyUp"
+                        KeyDown="PhoneSearchBox_OnKeyUp"
                         FontSize="16"
                         Foreground="Black"
                         HorizontalAlignment="Stretch"

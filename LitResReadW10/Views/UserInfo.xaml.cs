@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Navigation;
 using Autofac;
 using Digillect.Mvvm.Services;
 using LitResReadW10;
+using LitResReadW10.Controls;
 using LitResReadW10.Helpers;
 
 namespace LitRes.Views
@@ -24,6 +25,7 @@ namespace LitRes.Views
 	public partial class UserInfo : UserInfoFitting
 	{
 		public static readonly DependencyProperty TranslateYProperty = DependencyProperty.Register( "TranslateY", typeof( double ), typeof( UserInfo ), new PropertyMetadata( 0d, OnRenderXPropertyChanged ) );
+        public string UserInfoTitle => SystemInfoHelper.IsDesktop() ? "Профиль" : string.Empty;
         private INavigationService _navigationService = ((App)App.Current).Scope.Resolve<INavigationService>();
       
         #region Constructors/Disposer
@@ -60,7 +62,8 @@ namespace LitRes.Views
 
 		private void PageLoaded( object sender, RoutedEventArgs e )
 		{
-			BindToKeyboardFocus();
+            if (!SystemInfoHelper.IsDesktop()) ControlPanel.Instance.TopBarTitle = "Профиль";
+            BindToKeyboardFocus();
 		    ViewModel.LoadUserInfoProceed();
 		}
 
