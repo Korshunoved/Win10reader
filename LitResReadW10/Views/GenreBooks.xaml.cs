@@ -164,12 +164,12 @@ namespace LitRes.Views
 				{
 					DeleteGenresPivotItem();
 				}
-                else if (e.PropertyName == "ChoosePaymentMethod")
-                {
-                    ChoosePaymentMethod();
-                }
             }
-		}
+            else if (e.PropertyName == "ChoosePaymentMethod")
+            {
+                ChoosePaymentMethod();
+            }
+        }
 
         private async void ChoosePaymentMethod()
         {
