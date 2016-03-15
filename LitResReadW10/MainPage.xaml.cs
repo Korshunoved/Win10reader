@@ -200,11 +200,11 @@ namespace LitResReadW10
             }
             else if (navButton.Tag.Equals("EditorsChoice"))
             {
-                _navigationService.Navigate("ShopEditorsChoice");
+                _navigationService.Navigate(SystemInfoHelper.HasInternet() ? "ShopEditorsChoice" : "MyBooks");
             }
             else
             {
-                _navigationService.Navigate("ShopEditorsChoice");
+                _navigationService.Navigate(SystemInfoHelper.HasInternet() ? "ShopEditorsChoice" : "MyBooks");
             }
 
             if (_previousNavButton == null) _previousNavButton = navButton;

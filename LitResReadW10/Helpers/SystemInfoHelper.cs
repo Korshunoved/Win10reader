@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using Windows.Networking.Connectivity;
+using Autofac;
 using LitRes.Services;
 
 namespace LitResReadW10.Helpers
@@ -11,6 +12,13 @@ namespace LitResReadW10.Helpers
         {
             var deviceFamily = DeviceInfoService.DeviceFamily;
             return !string.IsNullOrEmpty(deviceFamily) && deviceFamily.Equals("Windows.Desktop");
+        }
+
+        public static bool HasInternet()
+        {
+            var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+            return (connectionProfile != null &&
+                    connectionProfile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess);
         }
     }
 }

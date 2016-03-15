@@ -25,7 +25,7 @@ namespace LitRes.Views
         void MyBooks_Loaded(object sender, RoutedEventArgs e)
         {
             ViewModel.LoadMyBooks();
-
+            MyBooksEmptyStackPanel.Visibility = ViewModel.BooksByTime.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
             Analytics.Instance.sendMessage(Analytics.ViewMyBooks);
         }
 

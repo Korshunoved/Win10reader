@@ -13,6 +13,7 @@ using LitRes.Models;
 using LitRes.ValueConverters;
 using LitRes.ViewModels;
 using LitResReadW10.Controls;
+using LitResReadW10.Helpers;
 
 namespace LitRes.Views
 {
@@ -53,6 +54,10 @@ namespace LitRes.Views
             };
             ControlPanel.Instance.DropDownMenuItems.Add(firstItem);
             ControlPanel.Instance.DropDownMenuItems.Add(secondItem);
+            if (!SystemInfoHelper.HasInternet())
+            {
+                NoConnection.Visibility = Visibility.Visible;
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

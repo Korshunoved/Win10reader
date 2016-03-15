@@ -434,6 +434,22 @@
     </ui:WindowsRTPage.Resources>
 
     <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}">
+        <StackPanel
+                        x:Name="NoConnection"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical"
+                        Visibility="Collapsed">
+            <Image Source="../Assets/W10Images/NoConnection/error_big.png"
+                               Stretch="None" />
+
+            <TextBlock
+                            Margin="0,30,0,0"
+                            TextAlignment="Center"
+                            Foreground="{StaticResource LitresLightGreyBrush}"
+                            FontSize="{StaticResource LitresFontSizeBigMedium}"
+                            Text="Нет доступа к сети" />
+        </StackPanel>
         <ScrollViewer x:Name="GenresScrollViewer"
                       Margin="0"
                       Background="Transparent"
