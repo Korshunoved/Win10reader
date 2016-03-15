@@ -532,7 +532,7 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="GenresTextBox.Margin" Value="-6,0,0,0" />
+                       <!-- <Setter Target="GenresTextBox.Margin" Value="-6,0,0,0" />-->
                     </VisualState.Setters>
                 </VisualState>
 

@@ -7,6 +7,7 @@ using Autofac;
 using Digillect.Mvvm.UI;
 using LitRes.ViewModels;
 using LitResReadW10.Controls;
+using LitResReadW10.Helpers;
 
 namespace LitResReadW10.Views
 {
@@ -28,11 +29,12 @@ namespace LitResReadW10.Views
         {
             CheckWellcomeScreen();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
-            ViewModel.LoadMyBooks();
             if (!SystemInfoHelper.HasInternet())
             {
                 NoConnection.Visibility = Visibility.Visible;
+                return;
             }
+            ViewModel.LoadMyBooks();
         }
 
         private void CheckWellcomeScreen()

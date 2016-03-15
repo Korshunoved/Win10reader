@@ -511,6 +511,11 @@
     <Content Include="Assets\W10Images\MyBooksEmpty\Group Copy.scale-150.png" />
     <Content Include="Assets\W10Images\MyBooksEmpty\Group Copy.scale-200.png" />
     <Content Include="Assets\W10Images\MyBooksEmpty\Group Copy.scale-400.png" />
+    <Content Include="Assets\W10Images\NoConnection\error_big.scale-100.png" />
+    <Content Include="Assets\W10Images\NoConnection\error_big.scale-125.png" />
+    <Content Include="Assets\W10Images\NoConnection\error_big.scale-150.png" />
+    <Content Include="Assets\W10Images\NoConnection\error_big.scale-200.png" />
+    <Content Include="Assets\W10Images\NoConnection\error_big.scale-400.png" />
     <Content Include="Assets\W10Images\Person\Person.scale-100.png" />
     <Content Include="Assets\W10Images\Person\Person.scale-125.png" />
     <Content Include="Assets\W10Images\Person\Person.scale-150.png" />

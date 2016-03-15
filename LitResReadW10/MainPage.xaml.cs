@@ -44,7 +44,7 @@ namespace LitResReadW10
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_BackRequested;
             
-            CheckNavButton(EditorsChoiceButton, false);
+            CheckNavButton(SystemInfoHelper.HasInternet() ? EditorsChoiceButton : MyBooksButton, false);
         }
 
         private void OnNavigatingToPage(object sender, NavigatingCancelEventArgs e)
@@ -200,7 +200,7 @@ namespace LitResReadW10
             }
             else if (navButton.Tag.Equals("EditorsChoice"))
             {
-                _navigationService.Navigate(SystemInfoHelper.HasInternet() ? "ShopEditorsChoice" : "MyBooks");
+                _navigationService.Navigate("ShopEditorsChoice"); 
             }
             else
             {
