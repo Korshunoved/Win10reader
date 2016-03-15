@@ -858,7 +858,7 @@
                     <Thumb x:Name="HorizontalThumb"
 							Style="{StaticResource SliderThumbStyle}"
 							DataContext="{TemplateBinding Value}"
-							Height="24"
+							Height="20"
 							Width="8"
 							Grid.Row="0"
 							Grid.RowSpan="3"

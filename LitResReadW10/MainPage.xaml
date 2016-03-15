@@ -292,7 +292,7 @@
                         Tapped="PhoneSearchButton_OnTapped"
                         Visibility="Visible"
                         Style="{StaticResource IconButtonStyle}">
-                        <Image Stretch="None" Source="../Assets/W10Icons/Search/search_black.png" />
+                        <Image Source="../Assets/W10Icons/Search/search_black.png" Stretch="None" />
                     </Button>
                     <SearchBox
                         x:Name="PhoneSearchBox"

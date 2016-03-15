@@ -105,7 +105,7 @@ namespace BookParser
             set { _settingsStorage.SetValue("HideMenu", value); }
         }
 
-        public Thickness Margin => new Thickness(MarginValue,0, MarginValue,0);
+        public Thickness Margin => new Thickness(MarginValue, 0, MarginValue, -5);
 
         public int MarginValue
         {

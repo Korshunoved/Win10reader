@@ -539,8 +539,8 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ItemHeaderLast.Margin" Value="-5,0,0,0" />
-                        <Setter Target="ItemHeaderBookmarks.Margin" Value="-5,0,0,0" />
+                       <!-- <Setter Target="ItemHeaderLast.Margin" Value="-5,0,0,0" />-->
+                       <!-- <Setter Target="ItemHeaderBookmarks.Margin" Value="-5,0,0,0" />-->
                     </VisualState.Setters>
                 </VisualState>
 

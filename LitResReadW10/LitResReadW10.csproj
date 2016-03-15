@@ -21,7 +21,7 @@
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundlePlatforms>x86|arm</AppxBundlePlatforms>
     <AppxBundle>Always</AppxBundle>
-    <PackageCertificateThumbprint>31013A5D5A78D5A34462CFF0FE3BA657B9A1C7B5</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>2AF039B0EF3C4D6DE38EA1057503B25AC3658A23</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -172,21 +172,17 @@
     <Content Include="Assets\Square44x44Logo.targetsize-16.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\StoreImages\24\read.scale-100.png" />
+    <Content Include="Assets\StoreImages\24\read.scale-125.png" />
+    <Content Include="Assets\StoreImages\24\read.scale-150.png" />
+    <Content Include="Assets\StoreImages\24\read.scale-200.png" />
+    <Content Include="Assets\StoreImages\24\read.scale-400.png" />
     <Content Include="Assets\StoreImages\read_150%401,25x.png" />
     <Content Include="Assets\StoreImages\read_150%401,5x.png" />
     <Content Include="Assets\StoreImages\read_150%402x.png" />
     <Content Include="Assets\StoreImages\read_150%403x.png" />
     <Content Include="Assets\StoreImages\read_150.png" />
     <Content Include="Assets\StoreImages\read_16.png" />
-    <Content Include="Assets\StoreImages\read_24%401,25x.png" />
-    <Content Include="Assets\StoreImages\read_24%401,5x.png" />
-    <Content Include="Assets\StoreImages\read_24%402x.png" />
-    <Content Include="Assets\StoreImages\read_24%404x.png" />
-    <Content Include="Assets\StoreImages\read_24.scale-100.png" />
-    <Content Include="Assets\StoreImages\read_24.scale-125.png" />
-    <Content Include="Assets\StoreImages\read_24.scale-150.png" />
-    <Content Include="Assets\StoreImages\read_24.scale-200.png" />
-    <Content Include="Assets\StoreImages\read_24.scale-400.png" />
     <Content Include="Assets\StoreImages\read_256.png" />
     <Content Include="Assets\StoreImages\read_310%401,25x.png" />
     <Content Include="Assets\StoreImages\read_310%401,5x.png" />
@@ -818,7 +814,9 @@
     <Content Include="Assets\Vignette.png" />
     <Content Include="Assets\welcome_back.png" />
     <Content Include="Assets\WideLogo.png" />
-    <Content Include="Properties\Default.rd.xml" />
+    <Content Include="Properties\Default.rd.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />

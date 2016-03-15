@@ -19,6 +19,7 @@
         <Grid x:Name="Top"              
               Grid.Row="0"
               VerticalAlignment="Top"
+             
               Margin="0,5,0,0"
               Height="40">
 
@@ -176,7 +177,7 @@
             </RelativePanel>
         </Grid>
 
-        <Grid x:Name="Center"
+        <!--<Grid x:Name="Center"
               Grid.Row="1"
               Grid.RowSpan="2"
               Visibility="Collapsed">
@@ -192,39 +193,34 @@
                            Foreground="{StaticResource LitResAccentBrush}" 
                            FontSize="{StaticResource PhoneFontSizeSmall}" 
                            FontFamily="{StaticResource PhoneFontFamilyNormal}" />
-                <controls:ReaderPageHeader HorizontalAlignment="Center" Margin="0,15,0,0" Padding="0" Width="310"/>
+                <controls:ReaderPageHeader Opacity="0" HorizontalAlignment="Center" Margin="0,15,0,0" Padding="0" Width="310"/>
             </StackPanel>
-        </Grid>
+        </Grid>-->
 
         <Grid x:Name="Bottom" 
               Grid.Row="2"
-              Visibility="Visible" 
-              VerticalAlignment="Bottom"
+              Visibility="Visible"
+              Canvas.ZIndex="10000"
               Background="Transparent"
-              Margin="0,0,0,0" >
-            <Grid.RenderTransform>
-                <TranslateTransform />
-            </Grid.RenderTransform>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid x:Name="BuyBookMenu" Grid.Row="0" Height="0">
+              Margin="0,0,0,-5" Padding="0" >
+          
+            <!--<Grid x:Name="BuyBookMenu" Grid.Row="0" Height="0" Visibility="Visible">
                 <StackPanel Orientation="Horizontal">
                     <Button Style="{StaticResource WhiteButton}" Tapped="BuyBookMenuTap" Margin="18,12,12,12" Content="Купить"/>
                     <TextBlock x:Name="BuyBookText" TextWrapping="Wrap" Width="342" FontSize="19.5" Margin="0,12,12,12" />
                 </StackPanel>
-            </Grid>
+            </Grid>-->
 
-            <Slider x:Name="CurrentPageSlider"
+            <Slider x:Name="CurrentPageSlider"      
                     Opacity="0"
 					Minimum="1" SmallChange="1" LargeChange="10"
                     ManipulationMode="All"
                     Margin="15,0,15,0" 
-                    VerticalAlignment="Bottom"
-                    Template="{StaticResource LitresSlider}"  />
+                    VerticalAlignment="Stretch"
+                    Template="{StaticResource LitresSlider}" />
         </Grid>
 
-        <controls:ReaderPageHeader Grid.Row="0" x:Name="PageHeader" />
+        <controls:ReaderPageHeader Grid.Row="0" x:Name="PageHeader" Opacity="0" />
         <Grid 
             x:Name="TopGrid"
             Grid.Row="1" Grid.RowSpan="2" Visibility="Visible" >
@@ -258,22 +254,12 @@
             </RelativePanel>
         </Grid>
 
-        <Border 
-            x:Name="BrightnessBorder"
-            Grid.Row="0" 
-                Grid.RowSpan="3" 
-                Background="Black" 
-                Visibility="Collapsed"
-                IsHitTestVisible="False"
-                HorizontalAlignment="Stretch" 
-                Opacity="{Binding ViewModel.ReaderSettings.Brightness}"
-                VerticalAlignment="Stretch" Canvas.ZIndex="1000"/>
         <Grid Grid.Row="0" Name="BusyGrid" Visibility="Collapsed" Canvas.ZIndex="2000" Grid.RowSpan="3" Background="Transparent">
-            <ProgressBar x:Name="BusyProgress" Margin="24,2,24,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{StaticResource LitResAccentBrush}" IsIndeterminate="True" />
+            <ProgressBar x:Name="BusyProgress" Margin="24,2,24,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Foreground="{StaticResource LitResAccentBrush}" IsIndeterminate="True" />
             <StackPanel></StackPanel>
         </Grid>
        
-        <Grid x:Name="ReaderGrid" Margin="0,0,0,31" Grid.Row="1">
+        <Grid x:Name="ReaderGrid" Margin="0,0,0,0" Grid.Row="1" Opacity="0">
             <controls1:ThreePagePanel Grid.Row="0" 
                                       x:Name="PageCanvas" 
                                       Tapped="PageCanvas_Tapped"

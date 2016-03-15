@@ -46,7 +46,7 @@ namespace LitRes.Views
 	    protected override void OnNavigatedTo(NavigationEventArgs e)
 	    {
             ControlPanel.Instance.TopBarTitle = "Мои книги";
-            ControlPanel.Instance.DropDownButtonVisibility = Visibility.Visible;
+            ControlPanel.Instance.DropDownButtonVisibility = Visibility.Collapsed;
 
             ControlPanel.Instance.DropDownMenuItems.Clear();
 

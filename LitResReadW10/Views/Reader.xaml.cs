@@ -111,7 +111,7 @@ namespace LitRes.Views
         {
             if (e.PropertyName.Equals("OnUpdated"))
             {
-                Center.Visibility = Visibility.Visible;
+               // Center.Visibility = Visibility.Visible;
             }
         }
         #endregion
@@ -120,13 +120,13 @@ namespace LitRes.Views
         async void ReaderLoaded(object sender, RoutedEventArgs e)
         {
             _moveCount = 0;
-            if (BrightnessBorder.Visibility == Visibility.Collapsed)
-                BrightnessBorder.Visibility = Visibility.Visible;
             await ViewModel.LoadSettings();
             if (Instance != null)
                 TopGrid.Visibility=Visibility.Collapsed;            
             Instance = this;            
             LayoutRoot.Background = AppSettings.Default.ColorScheme.BackgroundBrush;
+            BusyGrid.Visibility = Visibility.Visible;
+            BusyProgress.IsIndeterminate = true;
             ReaderGrid.Loaded += (o, args) =>
             {
                 _readerGridLoaded = true;
@@ -211,6 +211,8 @@ namespace LitRes.Views
 
         public async void UpdateBook()
         {
+            BusyGrid.Visibility = Visibility.Collapsed;
+            BusyProgress.IsIndeterminate = false;
             PageHeader.ProgressIndicatorVisible = false;
             await ViewModel.Reload();
             await HandleLoadedBook();
@@ -260,8 +262,7 @@ namespace LitRes.Views
                 CurrentPageSlider.ManipulationCompleted -= CurrentPageSliderOnManipulationCompleted;
                
                 CurrentPageSlider.ManipulationStarted += CurrentPageSliderOnManipulationStarted;
-                CurrentPageSlider.ManipulationCompleted += CurrentPageSliderOnManipulationCompleted;
-
+                CurrentPageSlider.ManipulationCompleted += CurrentPageSliderOnManipulationCompleted;               
                 PageCanvas.SetSize(ReaderGrid.ActualWidth, ReaderGrid.ActualHeight, ReaderGrid.ActualWidth, ReaderGrid.ActualHeight);
                 PageCanvas.Clear();
                 LayoutRoot.SizeChanged -= LayoutRoot_SizeChanged;
@@ -276,6 +277,8 @@ namespace LitRes.Views
             }
             else if (ViewModel.LoadingException != null)
             {
+                BusyGrid.Visibility = Visibility.Collapsed;
+                BusyProgress.IsIndeterminate = false;
                 PageHeader.ProgressIndicatorVisible = false;
                 await new MessageDialog("Ошибка получения книги. Попробуйте попозже.").ShowAsync();
                 _navigationService.GoBack();
@@ -471,6 +474,8 @@ namespace LitRes.Views
 
                 Bottom.Visibility = Visibility.Visible;
 
+                BusyGrid.Visibility = Visibility.Collapsed;
+                BusyProgress.IsIndeterminate = false;
                 PageHeader.ProgressIndicatorVisible = false;
             }
         }
@@ -509,6 +514,8 @@ namespace LitRes.Views
 
             Bottom.Visibility = Visibility.Visible;
 
+            BusyGrid.Visibility = Visibility.Collapsed;
+            BusyProgress.IsIndeterminate = false;
             PageHeader.ProgressIndicatorVisible = false;
         }
 
@@ -518,7 +525,8 @@ namespace LitRes.Views
             {
                 return;
             }
-
+            
+            
             BusyGrid.Visibility = Visibility.Visible;
             BusyProgress.IsIndeterminate = true;
 
@@ -541,6 +549,8 @@ namespace LitRes.Views
 
             BusyGrid.Visibility = Visibility.Collapsed;
             BusyProgress.IsIndeterminate = false;
+            PageHeader.ProgressIndicatorVisible = false;
+            if (ReaderGrid.Opacity < 1) ReaderGrid.Opacity = 1;
         }
 
         private int? _oldOffset;

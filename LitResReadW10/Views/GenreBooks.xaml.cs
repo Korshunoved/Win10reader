@@ -34,7 +34,7 @@ namespace LitRes.Views
         {
             base.OnNavigatedTo(e);
             ControlPanel.Instance.TopBarTitle = ViewModel.Entity.Title;
-            ControlPanel.Instance.DropDownButtonVisibility = Visibility.Visible;
+            ControlPanel.Instance.DropDownButtonVisibility = Visibility.Collapsed;
             ControlPanel.Instance.DropDownMenuItems.Clear();
 
             var firstItem = new MenuFlyoutItem {Text = "Популярные"};
