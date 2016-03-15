@@ -10,9 +10,8 @@
 	d:DesignHeight="24" >
 
 	<StackPanel Name="LayoutRoot" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-		<StackPanel Name="networkAvailability" Background="Black" Opacity="0.5" Visibility="Collapsed">
-			<TextBlock Foreground="White" Text="нет интернет-соединения" Margin="24,2,24,4"/>
-		</StackPanel>
+        <StackPanel Name="networkAvailability" Background="White" Opacity="1" Visibility="Collapsed">
+        </StackPanel>
 		<ProgressBar x:Name="loadingProgress" Margin="24,2,24,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Foreground="{StaticResource LitResAccentBrush}" />
 	</StackPanel>
 </UserControl>

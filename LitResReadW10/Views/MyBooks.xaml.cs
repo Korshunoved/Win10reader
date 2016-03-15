@@ -29,7 +29,7 @@ namespace LitRes.Views
             ViewModel.PropertyChanged -= ViewModelOnPropertyChanged;
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
             ViewModel.LoadMyBooks();
-
+            MyBooksEmptyStackPanel.Visibility = ViewModel.BooksByTime.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
             Analytics.Instance.sendMessage(Analytics.ViewMyBooks);
         }
 
