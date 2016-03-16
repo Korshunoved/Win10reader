@@ -7,6 +7,7 @@ using Autofac;
 using Digillect.Mvvm.UI;
 using LitRes.ViewModels;
 using LitResReadW10.Controls;
+using LitResReadW10.Helpers;
 
 namespace LitResReadW10.Views
 {

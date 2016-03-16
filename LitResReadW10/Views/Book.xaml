@@ -402,6 +402,17 @@
                                     </TextBlock>
                                 </Button>
 
+                                <Button
+                                    HorizontalAlignment="Stretch"
+                                    Tapped="onBuyBookTaped"
+                                    Style="{StaticResource GreenButtonStyle}"
+                                    Visibility="{Binding ViewModel.CanGetBook, Converter={StaticResource VisibilityConverter}}"
+                                    IsEnabled="{Binding ViewModel.Entity.IsInPurchase, Converter={StaticResource BuyBookButtonEnableConverter}}">
+                                    <TextBlock>
+                                        БЕСПЛАТНО
+                                    </TextBlock>
+                                </Button>
+
                                 <Button x:Name="ReadButton"
                                         Margin="0,10,0,0"
                                         Content="{Binding ViewModel.ReadButtonText}"

@@ -31,7 +31,7 @@ namespace LitRes.Services.Connectivity
 
         public Task<CatalogSearchResponse> SearchCatalog(IDictionary<string, object> parameters, CancellationToken cancellationToken, string url = "wp8-ebook.litres.ru", bool sid = true)
 		{
-			return _connection.ProcessRequest<CatalogSearchResponse>("catalit_browser", false, false, cancellationToken, parameters, ConnectivityRequestType.GET, url, true);
+			return _connection.ProcessRequest<CatalogSearchResponse>("catalit_browser", false, sid, cancellationToken, parameters, ConnectivityRequestType.GET, url, true);
 		}
 
         public Task<Rootobject> SearchAll(IDictionary<string, object> parameters, CancellationToken cancellationToken, string url = "wp8-ebook.litres.ru", bool sid = true)

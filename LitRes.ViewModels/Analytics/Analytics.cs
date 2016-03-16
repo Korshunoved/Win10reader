@@ -66,11 +66,11 @@ namespace LitRes
             {
                 if (msg.StartsWith("Action_"))
                 {
-                 //   GoogleAnalytics.EasyTracker.GetTracker().SendEvent("Action", msg, null, 0);
+                   GoogleAnalytics.EasyTracker.GetTracker().SendEvent("Action", msg, null, 0);
                 }
                 else
                 {
-                  //  GoogleAnalytics.EasyTracker.GetTracker().SendView(msg);
+                   GoogleAnalytics.EasyTracker.GetTracker().SendView(msg);
                 }
             }
             catch (Exception e)

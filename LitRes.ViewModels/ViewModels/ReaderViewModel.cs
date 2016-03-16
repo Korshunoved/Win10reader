@@ -442,7 +442,7 @@ namespace LitRes.ViewModels
                 }
             }
 
-            if (string.IsNullOrEmpty(bookFolderName))
+            if (status == LoadingStatus.NoBookLoaded)
             {
                 try
                 {
