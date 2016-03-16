@@ -292,6 +292,13 @@ namespace LitRes.Views
             ViewModel.UpdateButtons();
 
             Analytics.Instance.sendMessage(Analytics.ViewBookcard);
+            if (!SystemInfoHelper.HasInternet())
+            {
+                NoConnection.Visibility = Visibility.Visible;
+                NoConnection2.Visibility = Visibility.Visible;
+                NoConnection3.Visibility = Visibility.Visible;
+                RecenceStackPanel.Visibility=Visibility.Collapsed;
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

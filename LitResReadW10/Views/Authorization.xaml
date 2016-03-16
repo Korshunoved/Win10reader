@@ -11,10 +11,82 @@
 	mc:Ignorable="d"
 	FontFamily="{StaticResource PhoneFontFamilyNormal}"
 	FontSize="{StaticResource PhoneFontSizeNormal}"
-	Foreground="{StaticResource LitResForegroundBrush}">
+	Foreground="{StaticResource LitResForegroundBrush}" >
+    <views1:AuthorizationFitting.Resources>
+        <Style x:Key="LoginButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}"/>
+            <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}"/>
+            <Setter Property="Padding" Value="8,4,8,4"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="UseSystemFocusVisuals" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <!-- <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>-->
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </views1:AuthorizationFitting.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot">
+        <controls:PageHeader x:Name="pageHeader"/>
         <ScrollViewer 
             HorizontalAlignment="Stretch" 
             VerticalAlignment="Stretch" 
@@ -22,65 +94,93 @@
             VerticalScrollMode="Auto" 
             HorizontalScrollBarVisibility="Disabled"
             VerticalScrollBarVisibility="Hidden">
-        <Grid x:Name="InnerRoot" Style="{StaticResource LayoutRoot}" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="24"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.RenderTransform>
-                <CompositeTransform/>
-            </Grid.RenderTransform>
+            <Grid x:Name="InnerRoot" Style="{StaticResource LayoutRoot}" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="24"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.RenderTransform>
+                    <CompositeTransform/>
+                </Grid.RenderTransform>
 
-            <TextBlock Grid.Row="1" x:Name="ProfileTitle" Margin="24,0,0,0" Text="Профиль" Style="{StaticResource BigNormalSemiBoldBlackTextStyle}" />
-            <TextBlock Grid.Row="2" Margin="24,12,0,0" Text="Авторизация" Style="{StaticResource BigNormalBlackTextStyle}" />
-            <StackPanel Grid.Row="3" Margin="24,12,24,0" Visibility="{Binding ViewModel.AccountName, Converter={StaticResource VisibilityConverter}}">
-                <Border Background="White" Padding="15,10,15,10">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Assets/W10Icons/Profile/profile_black.png" Stretch="None"/>
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Margin="0,0,0,0" 
+                <TextBlock Grid.Row="1" x:Name="ProfileTitle" Margin="24,0,0,0" Text="Профиль" Style="{StaticResource BigNormalSemiBoldBlackTextStyle}" />
+                <TextBlock Grid.Row="2" Margin="24,12,0,0" Text="Авторизация" Style="{StaticResource BigNormalBlackTextStyle}" />
+                <StackPanel Grid.Row="3" Margin="24,12,24,0" Visibility="{Binding ViewModel.AccountName, Converter={StaticResource VisibilityConverter}}">
+                    <Border Background="White" Padding="15,10,15,10">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Assets/W10Icons/Profile/profile_black.png" Stretch="None"/>
+                            <StackPanel Orientation="Vertical" Margin="10,0,0,0">
+                                <TextBlock Margin="0,0,0,0" 
                                     TextWrapping="Wrap" 
                                     Style="{StaticResource SmallBlackTextStyle}"
                                     Text="Ваш временный аккаунт:"/>
-                            <TextBlock Margin="0,0,0,0" 
+                                <TextBlock Margin="0,0,0,0" 
                                     TextWrapping="Wrap" 
                                     Style="{StaticResource SmallSemiBoldBlackTextStyle}"
                                     Text="{Binding Path=ViewModel.AccountName, Converter={StaticResource StringCharTrimConverter}, ConverterParameter=@}"/>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </Border>
-                <TextBlock Margin="0,12,0,0" TextWrapping="Wrap" Style="{StaticResource SmallBlackTextStyle}" >
+                    </Border>
+                    <TextBlock Margin="0,12,0,0" TextWrapping="Wrap" Style="{StaticResource SmallBlackTextStyle}" >
 				<Run Text="Вы можете войти под ранее созданным аккаунтом или зарегистрировать новый, сохранив все приобретенные книги."/>
-                </TextBlock>
-            </StackPanel>
-            <StackPanel Grid.Row="4" Margin="24,12,24,0">
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Row="4" Margin="24,12,24,0">
                     <TextBox x:Name="tbLogin"  Height="48"  Margin="0,0,0,0" PlaceholderText="Логин" LostFocus="TextBoxLostFocus" GotFocus="TextBoxGotFocus" InputScope="EmailNameOrAddress" KeyUp="TbLogin_OnKeyUp" Style="{StaticResource LitresTextBoxStyle}" />
-                    <PasswordBox x:Name="tbPassword"  Height="48" Margin="0,10,0,0" PlaceholderText="Пароль" LostFocus="TextBoxLostFocus" GotFocus="TextBoxGotFocus" KeyUp="TbPassword_OnKeyUp" Style="{StaticResource LitresPasswordBoxStyle}" />
-                <HyperlinkButton Margin="0,12,0,0" 
+                    <PasswordBox x:Name="tbPassword"  Height="48" Margin="0,10,0,0" PlaceholderText="Пароль" LostFocus="TextBoxLostFocus" GotFocus="TextBoxGotFocus" KeyUp="TbPassword_OnKeyUp" Style="{StaticResource LitresPasswordBoxStyle}"  PasswordRevealMode="Peek" />
+                    <HyperlinkButton Margin="0,12,0,0" 
                                  NavigateUri="http://www.litres.ru/pages/password_recover/"  
                                  Foreground="{StaticResource LitResAccentBrush}" 
                                  HorizontalAlignment="Center" 
                                  FontSize="{StaticResource LitresFontSizeSmall}" 
                                  Content="Забыли пароль?"/>
-            </StackPanel>
-            <Grid Grid.Row="5" Margin="24,12,24,24">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Stretch" Style="{StaticResource OrangeButtonStyle}" Content="ВОЙТИ" Click="SignIn" />
-                <Button Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Stretch" Style="{StaticResource BlackButtonStyle}" Content="РЕГИСТРАЦИЯ" Click="Registration_Click" />
+                </StackPanel>
+                <Grid Grid.Row="5" Margin="24,12,24,24">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Stretch" Style="{StaticResource OrangeButtonStyle}" Content="ВОЙТИ" Click="SignIn" />
+                    <Button Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Stretch" Style="{StaticResource BlackButtonStyle}" Content="РЕГИСТРАЦИЯ" Click="Registration_Click" />
+                </Grid>
+                <Grid Grid.Row="6"  Margin="24,0,24,10" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="70" />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Вход через социальные сети" Foreground="Black" FontSize="24" TextWrapping="Wrap" Margin="0,0,0,10" />
+                    <Button  Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,0,10" Width="300" Height="48" Style="{StaticResource LoginButtonStyle}">
+                        <Button.Background>
+                            <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/W10Icons/Authorization/VK.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,0,10"  Width="300" Height="48" Style="{StaticResource LoginButtonStyle}">
+                        <Button.Background>
+                            <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/W10Icons/Authorization/Facebook.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,0,10"  Width="300" Height="48" Style="{StaticResource LoginButtonStyle}">
+                        <Button.Background>
+                            <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/W10Icons/Authorization/Twitter.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,0,10"  Width="300" Height="48" Style="{StaticResource LoginButtonStyle}">
+                        <Button.Background>
+                            <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/W10Icons/Authorization/Library.png"/>
+                        </Button.Background>
+                    </Button>
+                </Grid>
             </Grid>
-            <controls:PageHeader x:Name="pageHeader"/>
-        </Grid>
         </ScrollViewer>
+
     </Grid>
 
 </views1:AuthorizationFitting>

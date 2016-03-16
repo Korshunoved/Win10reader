@@ -64,8 +64,8 @@ namespace LitRes.ViewModels
 			_catalogProvider = catalogProvider;
 		    _bookProvider = bookProvider;
 
-            RegisterAction(MainPart).AddPart(session => LoadCredential(session), session => true);
-            RegisterAction(LoginPart).AddPart(session => LoginProceed(session), session => true);
+            RegisterAction(MainPart).AddPart(LoadCredential, session => true);
+            RegisterAction(LoginPart).AddPart(LoginProceed, session => true);
 
 		}
 		#endregion
@@ -80,7 +80,7 @@ namespace LitRes.ViewModels
 		#endregion
 
 		#region LoadCredential
-		private async Task LoadCredential(Session session)
+		public async Task LoadCredential(Session session)
 		{
 			var credential = _credentialsProvider.ProvideCredentials( session.Token );
 			if(credential != null)
@@ -157,8 +157,6 @@ namespace LitRes.ViewModels
 			_bookmarksProvider.Clear();
 			_catalogProvider.Clear();		    
 		}
-		#endregion
-
-		
-	}
+        #endregion
+    }
 }

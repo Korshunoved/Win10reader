@@ -1,4 +1,6 @@
 ﻿using System;
+using Windows.Devices.Enumeration;
+using Windows.Graphics.Display;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Popups;
@@ -39,6 +41,7 @@ namespace LitRes.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+
             if (!SystemInfoHelper.IsDesktop()) 
             {
                 ControlPanel.Instance.TopBarTitle = "Профиль";
@@ -49,9 +52,10 @@ namespace LitRes.Views
 
 
         private void PageLoaded( object sender, RoutedEventArgs e )
-		{
+        {
+            ViewModel.LoadCredential(new Session());
 			BindToKeyboardFocus();
-		}
+        }
 
 		private void BindToKeyboardFocus()
 		{

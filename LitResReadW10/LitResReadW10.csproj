@@ -18,10 +18,10 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>LitResReadW10_StoreKey.pfx</PackageCertificateKeyFile>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundlePlatforms>x86|arm</AppxBundlePlatforms>
     <AppxBundle>Always</AppxBundle>
-    <PackageCertificateThumbprint>2AF039B0EF3C4D6DE38EA1057503B25AC3658A23</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>9D404FD82CF630A591D921727CAA201C9BE6E1C6</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -238,6 +238,10 @@
     <Content Include="Assets\W10Icons\About\about_white.scale-150.png" />
     <Content Include="Assets\W10Icons\About\about_white.scale-200.png" />
     <Content Include="Assets\W10Icons\About\about_white.scale-400.png" />
+    <Content Include="Assets\W10Icons\Authorization\Facebook.png" />
+    <Content Include="Assets\W10Icons\Authorization\Library.png" />
+    <Content Include="Assets\W10Icons\Authorization\Twitter.png" />
+    <Content Include="Assets\W10Icons\Authorization\VK.png" />
     <Content Include="Assets\W10Icons\Basket\black_basket.scale-100.png" />
     <Content Include="Assets\W10Icons\Basket\black_basket.scale-125.png" />
     <Content Include="Assets\W10Icons\Basket\black_basket.scale-150.png" />

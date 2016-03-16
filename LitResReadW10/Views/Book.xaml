@@ -523,72 +523,90 @@
                        Visibility="{Binding Path=ViewModel.Entity.Description.Hidden.TitleInfo.Sequence, 
                                             Converter={StaticResource VisibilityConverter}}"
                        Loaded="PivotItemSequence_OnLoaded">
-                <controls:PartialLoadedListView x:Name="SequenceBooks"
+                <Grid>
+                    <StackPanel
+                        x:Name="NoConnection"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical"
+                        Visibility="Collapsed">
+                        <Image Source="../Assets/W10Images/NoConnection/error_big.png"
+                               Stretch="None" />
+
+                        <TextBlock
+                            Margin="0,30,0,0"
+                            TextAlignment="Center"
+                            Foreground="{StaticResource LitresLightGreyBrush}"
+                            FontSize="{StaticResource LitresFontSizeBigMedium}"
+                            Text="Нет доступа к сети" />
+                    </StackPanel>
+                    <controls:PartialLoadedListView x:Name="SequenceBooks"
                                                 ItemsSource="{Binding ViewModel.SequenceBooks}"
                                                 Tapped="ReadWithBooks_OnTapped"
                                                 ItemContainerStyle="{StaticResource ListViewStretchStyle}">
-                    <controls:PartialLoadedListView.ItemTemplate>
-                        <DataTemplate>
-                            <ContentPresenter
+                        <controls:PartialLoadedListView.ItemTemplate>
+                            <DataTemplate>
+                                <ContentPresenter
                                 Opacity="{Binding Id, Converter={StaticResource BookOpacityConverter}}"
                                 x:Name="SequenceBookMinicart">
-                                <ContentPresenter.ContentTemplate>
-                                    <DataTemplate>
-                                        <Grid Margin="0"
+                                    <ContentPresenter.ContentTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0"
                                               MinHeight="240"
                                               MaxWidth="600"
                                               VerticalAlignment="Top"
                                               HorizontalAlignment="Stretch"
                                               Background="{StaticResource LitResWhiteBrush}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"></ColumnDefinition>
-                                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="auto"></RowDefinition>
-                                                <RowDefinition Height="*"></RowDefinition>
-                                            </Grid.RowDefinitions>
-                                            <Grid
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="auto"></RowDefinition>
+                                                    <RowDefinition Height="*"></RowDefinition>
+                                                </Grid.RowDefinitions>
+
+                                                <Grid
                                                 Grid.Row="0"
                                                 Grid.Column="0"
                                                 Grid.RowSpan="2"
                                                 Margin="12,13,0,13"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left">
-                                                <Image x:Name="CoverPreviewImage"
+                                                    <Image x:Name="CoverPreviewImage"
                                                        Grid.Row="0"
                                                        Source="{Binding Path=CoverPreviewSized}"
                                                        Stretch="None"
                                                        VerticalAlignment="Top" />
-                                            </Grid>
+                                                </Grid>
 
-                                            <RelativePanel
+                                                <RelativePanel
                                                 Grid.Column="1"
                                                 Grid.Row="0"
                                                 Grid.RowSpan="2"
                                                 HorizontalAlignment="Stretch"
                                                 Margin="12,8,12,13">
 
-                                                <Grid
+                                                    <Grid
                                                     x:Name="TopInfoGrid"
                                                     RelativePanel.AlignTopWithPanel="True"
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Stretch"
                                                     Margin="0,27,0,0">
 
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="0.75*" />
-                                                        <ColumnDefinition Width="0.25*" />
-                                                    </Grid.ColumnDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="0.75*" />
+                                                            <ColumnDefinition Width="0.25*" />
+                                                        </Grid.ColumnDefinitions>
 
-                                                    <StackPanel
+                                                        <StackPanel
                                                         Grid.Column="0"
                                                         Grid.ColumnSpan="2"
                                                         HorizontalAlignment="Stretch"
                                                         VerticalAlignment="Stretch"
                                                         Orientation="Vertical">
 
-                                                        <TextBlock
+                                                            <TextBlock
                                                             MaxLines="2"
                                                             Margin="0"
                                                             HorizontalAlignment="Left"
@@ -600,7 +618,7 @@
                                                             FontSize="18"
                                                             FontWeight="Medium"
                                                             Foreground="Black" />
-                                                        <TextBlock
+                                                            <TextBlock
                                                             Margin="0"
                                                             TextWrapping="Wrap"
                                                             TextTrimming="WordEllipsis"
@@ -611,12 +629,12 @@
                                                             Foreground="#626065"
                                                             Text="{Binding Converter={StaticResource BookAuthorConverter}}" />
 
-                                                        <StackPanel
+                                                            <StackPanel
                                                             Margin="0,8,0,0"
                                                             HorizontalAlignment="Left"
                                                             Orientation="Horizontal"
                                                             Visibility="{Binding Path=IsMyBook, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse ,FallbackValue=Collapsed}">
-                                                            <controls:ImageProgressBar
+                                                                <controls:ImageProgressBar
                                                                 Margin="0"
                                                                 Value="{Binding Path=Rating}"
                                                                 Fill="{StaticResource LitResAccentBrush}"
@@ -625,7 +643,7 @@
                                                                 Minimum="0"
                                                                 Maximum="10"
                                                                 HorizontalAlignment="Left" />
-                                                            <TextBlock
+                                                                <TextBlock
                                                                 Margin="5,0,0,0"
                                                                 FontSize="14"
                                                                 FontFamily="Segoe UI"
@@ -633,10 +651,10 @@
                                                                 FontWeight="SemiLight"
                                                                 VerticalAlignment="Center"
                                                                 Text="{Binding Path=Recenses, Converter={StaticResource Formatter}, ConverterParameter=(\{0\})}" />
+                                                            </StackPanel>
                                                         </StackPanel>
-                                                    </StackPanel>
-                                                </Grid>
-                                                <!--<StackPanel
+                                                    </Grid>
+                                                    <!--<StackPanel
                                                     RelativePanel.AlignLeftWithPanel="True"
                                                     RelativePanel.AlignRightWithPanel="True"
                                                     RelativePanel.Below="{Binding ElementName=TopInfoGrid}"
@@ -670,32 +688,32 @@
                                                         </ProgressBar.RenderTransform>
                                                     </ProgressBar>
                                                 </StackPanel>-->
-                                                <Grid
+                                                    <Grid
                                                     RelativePanel.AlignRightWithPanel="True"
                                                     RelativePanel.AlignBottomWithPanel="True">
-                                                    <Button
+                                                        <Button
                                                         Style="{StaticResource GreenButtonStyle}"
                                                         Visibility="{Binding Path=isFreeBook, Converter={StaticResource VisibilityConverter}}"
                                                         Width="100"
                                                         Height="36"
                                                         Padding="5,0,5,0">
-                                                        <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО" FontSize="14" FontWeight="Normal"/>
-                                                    </Button>
+                                                            <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО" FontSize="14" FontWeight="Normal"/>
+                                                        </Button>
 
-                                                    <Button
+                                                        <Button
                                                         Style="{StaticResource GreenButtonStyle}"
                                                         Visibility="{Binding Path=IsBookWithPrice, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse}"
                                                         Width="72"
                                                         Height="36"
                                                         Padding="5,0,5,0"
                                                         Tapped="BuyButton_OnTapped">
-                                                        <TextBlock TextWrapping="Wrap" MaxLines="2" FontSize="14" FontWeight="SemiBold">
+                                                            <TextBlock TextWrapping="Wrap" MaxLines="2" FontSize="14" FontWeight="SemiBold">
                                                             <Run Text="{Binding Path=PriceInRub}" />
                                                             <Run Text="₽" />
-                                                        </TextBlock>
-                                                    </Button>
+                                                            </TextBlock>
+                                                        </Button>
 
-                                                    <!--<StackPanel
+                                                        <!--<StackPanel
                                                         Visibility="{Binding Path=IsMyBook, Converter={StaticResource VisibilityConverter}}">
                                                         <Button
                                                             Style="{StaticResource OrangeButtonStyle}"
@@ -708,31 +726,68 @@
                                                             <TextBlock TextWrapping="Wrap" Text="ЧИТАТЬ" />
                                                         </Button>
                                                     </StackPanel>-->
-                                                </Grid>
-                                            </RelativePanel>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ContentPresenter.ContentTemplate>
-                            </ContentPresenter>
-                        </DataTemplate>
-                    </controls:PartialLoadedListView.ItemTemplate>
-                </controls:PartialLoadedListView>
+                                                    </Grid>
+                                                </RelativePanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ContentPresenter.ContentTemplate>
+                                </ContentPresenter>
+                            </DataTemplate>
+                        </controls:PartialLoadedListView.ItemTemplate>
+                    </controls:PartialLoadedListView>
+                </Grid>
+               
             </PivotItem>
             <PivotItem Header="Также читают" Tag="1990566" Margin="10">
-                <controls:PartialLoadedListView x:Name="ReadWithBooks"
+                <Grid>
+                    <StackPanel
+                        x:Name="NoConnection3"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical"
+                        Visibility="Collapsed">
+                        <Image Source="../Assets/W10Images/NoConnection/error_big.png"
+                               Stretch="None" />
+
+                        <TextBlock
+                            Margin="0,30,0,0"
+                            TextAlignment="Center"
+                            Foreground="{StaticResource LitresLightGreyBrush}"
+                            FontSize="{StaticResource LitresFontSizeBigMedium}"
+                            Text="Нет доступа к сети" />
+                    </StackPanel>
+                    <controls:PartialLoadedListView x:Name="ReadWithBooks"
                                                 ItemsSource="{Binding ViewModel.ReadWithBooks}"
                                                 Tapped="ReadWithBooks_OnTapped"
                                                 ItemTemplateSelector="{StaticResource ListBoxBookTemplate}"
                                                 ItemContainerStyle="{StaticResource ListViewStretchStyle}">
 
-                </controls:PartialLoadedListView>
+                    </controls:PartialLoadedListView>
+                </Grid>
+                
             </PivotItem>
             <PivotItem Header="Отзывы"
                        Padding="0"
                        Margin="10"
                        Tag="1990564">
                 <Grid Margin="0,0,0,0">
-                    <StackPanel Orientation="Vertical"
+                    <StackPanel
+                        x:Name="NoConnection2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical"
+                        Visibility="Collapsed">
+                        <Image Source="../Assets/W10Images/NoConnection/error_big.png"
+                               Stretch="None" />
+
+                        <TextBlock
+                            Margin="0,30,0,0"
+                            TextAlignment="Center"
+                            Foreground="{StaticResource LitresLightGreyBrush}"
+                            FontSize="{StaticResource LitresFontSizeBigMedium}"
+                            Text="Нет доступа к сети" />
+                    </StackPanel>
+                    <StackPanel x:Name="RecenceStackPanel" Orientation="Vertical"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Center"
                                 Visibility="{Binding ViewModel.RecenseExist, 

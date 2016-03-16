@@ -429,11 +429,17 @@ namespace LitRes.ViewModels
                     {
                         _bookProvider.GetBookFromStorage(book);
                     }
-                    else
+                    else if (book.IsMyBook)
                     {
                         await _bookProvider.GetFullBook(book, session.Token);
+                        status = LoadingStatus.FullBookLoaded;
                     }
-                    Status = LoadingStatus.FullBookLoaded;
+                    else
+                    {
+                        await _bookProvider.GetTrialBook(book, session.Token);
+                        status = LoadingStatus.TrialBookLoaded;
+                    }
+                   
                 }
                 catch (Exception e)
                 {
@@ -442,7 +448,7 @@ namespace LitRes.ViewModels
                 }
             }
 
-            if (string.IsNullOrEmpty(bookFolderName))
+            if (status == LoadingStatus.NoBookLoaded)
             {
                 try
                 {
