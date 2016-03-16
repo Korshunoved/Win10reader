@@ -100,7 +100,7 @@ namespace LitRes.Services
                         return _devicesInnerRefs["fly"][DeviceModel];
                     }
                 }                
-                return 19777642;
+                return 217176046;
             }
         }
 
@@ -119,7 +119,7 @@ namespace LitRes.Services
                         return _devicesInAppRefs["fly"][DeviceModel];
                     }
                 }
-                return 19777642;
+                return 217176042;
             }
         }
 
