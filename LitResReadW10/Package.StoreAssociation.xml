@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <StoreAssociation xmlns="http://schemas.microsoft.com/appx/2010/storeassociation">
-  <Publisher>CN=5EB928D3-3ECB-436F-80E8-6D32C420944A</Publisher>
-  <PublisherDisplayName>doITfast</PublisherDisplayName>
+  <Publisher>CN=9C4AAB6F-1A1F-40B9-9295-BE4E4E5EB23E</Publisher>
+  <PublisherDisplayName>SalesUpNow</PublisherDisplayName>
   <GeneratePackageHash>http://www.w3.org/2001/04/xmlenc#sha256</GeneratePackageHash>
   <SupportedLocales>
     <Language Code="af" InMinimumRequirementSet="true" />
@@ -358,15 +358,11 @@
     <Language Code="zu-za" InMinimumRequirementSet="true" />
   </SupportedLocales>
   <ProductReservedInfo>
-    <MainPackageIdentityName>13724doITfast.SuperLITRES</MainPackageIdentityName>
+    <MainPackageIdentityName>SalesUpNow.LitresReadTest</MainPackageIdentityName>
     <ReservedNames>
-      <ReservedName>SuperLITRES</ReservedName>
+      <ReservedName>LitresReadTest</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
-  <AccountPackageIdentityNames>
-    <MainPackageIdentityName>13724doITfast.LitresNEWsolution</MainPackageIdentityName>
-    <MainPackageIdentityName>13724doITfast.LitresWin10new</MainPackageIdentityName>
-    <MainPackageIdentityName>13724doITfast.NewLitresTest</MainPackageIdentityName>
-  </AccountPackageIdentityNames>
-  <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9NBLGGH4R7PC" />
+  <AccountPackageIdentityNames />
+  <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9NBLGGH4R1DL" />
 </StoreAssociation>

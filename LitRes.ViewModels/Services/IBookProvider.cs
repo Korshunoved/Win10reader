@@ -15,7 +15,7 @@ namespace LitRes.Services
         bool TrialBookExistsInLocalStorage(int bookId);
         Task RemoveFullBookInLocalStorage(Book book);
         void RemoveTrialBookInLocalStorage(Book book);
-        void GetBookFromStorage(Book book);
+        void GetBookFromStorage(Book book, bool isTrial);
         Task ClearLibrariesBooks(CancellationToken token);
         Task ClearNotLoadedBooks(CancellationToken token);
     }

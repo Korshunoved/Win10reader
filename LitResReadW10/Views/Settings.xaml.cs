@@ -54,6 +54,8 @@ namespace LitRes.Views
             if (_readerPage == null)
                 _readerPage = Reader.Instance;
 
+		    _readerPage.FromSettings = true;
+
 		    GetLineSpacingValue();
 
 		    GetMarginValue();

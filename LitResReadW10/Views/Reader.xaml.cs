@@ -67,7 +67,7 @@ namespace LitRes.Views
         private ReadController _readController;
         private int _tokenOffset;
         public int CurrentPage;
-
+        public bool FromSettings;
         private readonly INavigationService _navigationService = ((App)App.Current).Scope.Resolve<INavigationService>();
 
         public bool IsHardwareBack => ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons");
@@ -85,8 +85,7 @@ namespace LitRes.Views
             Debug.WriteLine("Reader()");    
 
             InitializeComponent();
-
-            _tokenOffset = AppSettings.Default.CurrentTokenOffset;
+         
             Loaded += ReaderLoaded;
             Unloaded += (sender, args) =>
             {
@@ -121,9 +120,13 @@ namespace LitRes.Views
         {
             _moveCount = 0;
             await ViewModel.LoadSettings();
-            if (Instance != null)
-                TopGrid.Visibility=Visibility.Collapsed;            
-            Instance = this;            
+            if (AppSettings.Default.CurrentTokenOffset > 0 || (Instance != null && Instance.FromSettings))
+            {
+                TopGrid.Visibility=Visibility.Collapsed;
+                FromSettings = false;
+            }            
+            Instance = this;
+            _tokenOffset = AppSettings.Default.CurrentTokenOffset;
             LayoutRoot.Background = AppSettings.Default.ColorScheme.BackgroundBrush;
             BusyGrid.Visibility = Visibility.Visible;
             BusyProgress.IsIndeterminate = true;
@@ -274,6 +277,7 @@ namespace LitRes.Views
                 }
                 else
                     Redraw();
+                ViewModel.ReaderLoaded = true;
             }
             else if (ViewModel.LoadingException != null)
             {

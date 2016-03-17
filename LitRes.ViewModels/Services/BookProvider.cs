@@ -150,10 +150,11 @@ namespace LitRes.Services
             ParseBook(book);
         }
 
-        public void GetBookFromStorage(Book item)
+        public void GetBookFromStorage(Book item, bool isTrial)
         {
-            var bookStorageFileStream = new IsolatedStorageFileStream(CreateBookPath(item), FileMode.Open,
-                IsolatedStorageFile.GetUserStoreForApplication());
+            var bookStorageFileStream =
+                new IsolatedStorageFileStream(isTrial ? CreateTrialBookPath(item) : CreateBookPath(item), FileMode.Open,
+                    IsolatedStorageFile.GetUserStoreForApplication());
             var previewGenerator = BookFactory.GetPreviewGenerator(item.TypeBook.ToString(), item.BookTitle, bookStorageFileStream);
             var bookSummary = previewGenerator.GetBookPreview();
             var book = CreateBook(item, bookSummary);
@@ -207,6 +208,11 @@ namespace LitRes.Services
         private static string CreateBookPath(Book item)
         {
             return Path.Combine(CatalogPath + item.Id + ModelConstants.BOOK_FILE_DATA_PATH);
+        }
+
+        private static string CreateTrialBookPath(Book item)
+        {
+            return Path.Combine(CatalogPath + item.Id +".trial" + ModelConstants.BOOK_FILE_DATA_PATH);
         }
 
         private static string CreateImagesPath(Book item)
@@ -278,7 +284,7 @@ namespace LitRes.Services
 
         public bool TrialBookExistsInLocalStorage(int bookId)
         {
-            var path = Path.Combine(CatalogPath + bookId + ModelConstants.BOOK_FILE_DATA_PATH + ".trial");            
+            var path = Path.Combine(CatalogPath + bookId + ".trial" + ModelConstants.BOOK_FILE_DATA_PATH);            
             return _fileCacheService.FileExists(path);
         }
 

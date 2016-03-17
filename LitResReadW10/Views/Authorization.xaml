@@ -148,7 +148,7 @@
                     <Button Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Stretch" Style="{StaticResource OrangeButtonStyle}" Content="ВОЙТИ" Click="SignIn" />
                     <Button Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Stretch" Style="{StaticResource BlackButtonStyle}" Content="РЕГИСТРАЦИЯ" Click="Registration_Click" />
                 </Grid>
-                <Grid Grid.Row="6"  Margin="24,0,24,10" >
+                <Grid Grid.Row="6"  Margin="24,0,24,10" Visibility="Collapsed">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="70" />
                         <RowDefinition />

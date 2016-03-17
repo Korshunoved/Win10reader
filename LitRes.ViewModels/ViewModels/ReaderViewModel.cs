@@ -219,6 +219,8 @@ namespace LitRes.ViewModels
             return Load(new Session(LoadBookPart));
         }
 
+        public bool ReaderLoaded { get; set; }
+
         #region LoadSettings
         public async Task LoadSettings()
         {
@@ -416,56 +418,68 @@ namespace LitRes.ViewModels
             string bookFolderName = null;
 
             Exception exception = null;
-            LoadingStatus status = LoadingStatus.BeforeLoaded;
-
-            var credentials =  _credentialsProvider.ProvideCredentials(session.Token);
-            var exist = _bookProvider.FullBookExistsInLocalStorage(book.Id);
-
-            if (credentials != null || exist)
+            LoadingStatus status = LoadingStatus.BeforeLoaded;       
+            
+            if (ReaderLoaded)
+                status = LoadingStatus.FullBookLoaded;
+            else
             {
-                try
+                var credentials = _credentialsProvider.ProvideCredentials(session.Token);
+                var exist = _bookProvider.FullBookExistsInLocalStorage(book.Id);
+                var existTrial = _bookProvider.TrialBookExistsInLocalStorage(book.Id);
+                if (AppSettings.Default.CurrentBook != null && book.Id.ToString() != AppSettings.Default.CurrentBook.BookID)
+                    AppSettings.Default.CurrentTokenOffset = 0;
+                if (credentials != null || exist)
                 {
-                    if (exist)
+                    try
                     {
-                        _bookProvider.GetBookFromStorage(book);
+                        if (existTrial)
+                        {
+                            _bookProvider.GetBookFromStorage(book, true);
+                        }
+                        else if (exist)
+                        {
+                            _bookProvider.GetBookFromStorage(book, false);
+                            status = LoadingStatus.FullBookLoaded;
+                        }
+                        else if (book.IsMyBook)
+                        {
+                            await _bookProvider.GetFullBook(book, session.Token);
+                            status = LoadingStatus.FullBookLoaded;
+                        }
+                        else
+                        {
+                            await _bookProvider.GetTrialBook(book, session.Token);
+                            status = LoadingStatus.TrialBookLoaded;
+                        }
+
                     }
-                    else if (book.IsMyBook)
+                    catch (Exception e)
                     {
-                        await _bookProvider.GetFullBook(book, session.Token);
-                        status = LoadingStatus.FullBookLoaded;
+                        exception = e;
+                        status = LoadingStatus.NoBookLoaded;
                     }
-                    else
+                }
+
+                if (status == LoadingStatus.NoBookLoaded)
+                {
+                    try
                     {
-                        await _bookProvider.GetTrialBook(book, session.Token);
+                        if (exist)
+                        {
+                            _bookProvider.GetBookFromStorage(book, true);
+                        }
+                        else
+                        {
+                            await _bookProvider.GetTrialBook(book, session.Token);
+                        }
                         status = LoadingStatus.TrialBookLoaded;
                     }
-                   
-                }
-                catch (Exception e)
-                {
-                    exception = e;
-                    status = LoadingStatus.NoBookLoaded;
-                }
-            }
-
-            if (status == LoadingStatus.NoBookLoaded)
-            {
-                try
-                {
-                    if (exist)
+                    catch (Exception e)
                     {
-                        _bookProvider.GetBookFromStorage(book);
+                        exception = e;
+                        status = LoadingStatus.NoBookLoaded;
                     }
-                    else
-                    {
-                        await _bookProvider.GetTrialBook(book, session.Token);
-                    }
-                    status = LoadingStatus.TrialBookLoaded;
-                }
-                catch (Exception e)
-                {
-                    exception = e;
-                    status = LoadingStatus.NoBookLoaded;
                 }
             }
 
