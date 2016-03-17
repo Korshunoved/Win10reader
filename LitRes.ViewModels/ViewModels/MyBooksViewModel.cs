@@ -449,9 +449,9 @@ namespace LitRes.ViewModels
                         }));
                         
 				    }
-				    catch (Exception ex)
+				    catch (Exception)
 				    {
-				        ex = ex;
+                        //
 				    }
 				    if( booksWithoutAuthors.Count > 0 )
 					{
