@@ -48,7 +48,12 @@ namespace LitRes.Views
             ControlPanel.Instance.IsSearchPageOpened = true;
             ControlPanel.Instance.PhoneSearchBox.QuerySubmitted += PhoneSearchBox_QuerySubmitted;
             ControlPanel.Instance.PhoneSearchBox.KeyUp += PhoneSearchBox_KeyUp;
-            if(e.NavigationMode == NavigationMode.New) SearchBooks();
+            if (!SystemInfoHelper.HasInternet())
+            {
+                NoConnection.Visibility = Visibility.Visible;
+                return;
+            }
+            if (e.NavigationMode == NavigationMode.New) SearchBooks();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

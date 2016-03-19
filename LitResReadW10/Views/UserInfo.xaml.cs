@@ -189,6 +189,7 @@ namespace LitRes.Views
             }
             catch (Exception)
             {
+                    await new MessageDialog("Не найдено интернет-соединение", "Внимание").ShowAsync();
             }
         }
 

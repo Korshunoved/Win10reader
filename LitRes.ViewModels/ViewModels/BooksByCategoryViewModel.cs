@@ -38,7 +38,7 @@ namespace LitRes.ViewModels
 			Popular,
 			Novelty,
 			Interesting,
-			NokiaCollection = 3734,
+			NokiaCollection = 2634,
             FreeBooks = 4,
             Tags = 5,
             Genre = 6,

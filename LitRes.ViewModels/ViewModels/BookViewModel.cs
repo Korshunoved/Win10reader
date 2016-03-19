@@ -546,12 +546,19 @@ namespace LitRes.ViewModels
 		{
 			if( !string.IsNullOrEmpty( author?.Id ) )
 			{
-				var isExist = await LoadPerson( author.Id );
-				if( isExist )
-				{
-                    Analytics.Instance.sendMessage(Analytics.ActionGotoAuthor);
-					_navigationService.Navigate( "Person", XParameters.Create( "Id", author.Id ) );
-				}
+			    try
+			    {
+                    var isExist = await LoadPerson(author.Id);
+                    if (isExist)
+                    {
+                        Analytics.Instance.sendMessage(Analytics.ActionGotoAuthor);
+                        _navigationService.Navigate("Person", XParameters.Create("Id", author.Id));
+                    }
+                }
+			    catch (Exception)
+			    {
+			        await new MessageDialog("Не найдено интернет-соединение", "Внимание").ShowAsync();
+			    }
 			}
 		}
 

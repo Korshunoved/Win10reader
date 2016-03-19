@@ -195,7 +195,7 @@
               Visibility="Visible"
               Canvas.ZIndex="10000"
               Background="Transparent"
-              Margin="0,0,0,-5" Padding="0" >
+              Margin="0,10,0,0" Padding="0" >
           
             <!--<Grid x:Name="BuyBookMenu" Grid.Row="0" Height="0" Visibility="Visible">
                 <StackPanel Orientation="Horizontal">

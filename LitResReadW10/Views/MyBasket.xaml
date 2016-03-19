@@ -435,6 +435,22 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch">
             <StackPanel
+                        x:Name="NoConnection"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical"
+                        Visibility="Collapsed">
+                <Image Source="../Assets/W10Images/NoConnection/error_big.png"
+                               Stretch="None" />
+
+                <TextBlock
+                            Margin="0,30,0,0"
+                            TextAlignment="Center"
+                            Foreground="{StaticResource LitresLightGreyBrush}"
+                            FontSize="{StaticResource LitresFontSizeBigMedium}"
+                            Text="Нет доступа к сети" />
+            </StackPanel>
+            <StackPanel
                 x:Name="MyBooksEmptyStackPanel"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -570,8 +586,8 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ItemHeaderLast.Margin" Value="-5,0,0,0" />
-                        <Setter Target="ItemHeaderBookmarks.Margin" Value="-5,0,0,0" />
+                        <!--<Setter Target="ItemHeaderLast.Margin" Value="-5,0,0,0" />-->
+                        <!--<Setter Target="ItemHeaderBookmarks.Margin" Value="-5,0,0,0" />-->
                     </VisualState.Setters>
                 </VisualState>
 

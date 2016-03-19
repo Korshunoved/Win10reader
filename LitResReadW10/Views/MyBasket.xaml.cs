@@ -9,6 +9,7 @@ using Digillect.Mvvm.UI;
 using LitRes.Models;
 using LitRes.ViewModels;
 using LitResReadW10.Controls;
+using LitResReadW10.Helpers;
 
 namespace LitResReadW10.Views
 {
@@ -24,6 +25,12 @@ namespace LitResReadW10.Views
 
         void MyBasket_Loaded(object sender, RoutedEventArgs e)
         {
+            if (!SystemInfoHelper.HasInternet())
+            {
+                NoConnection.Visibility = Visibility.Visible;
+                MyBooksEmptyStackPanel.Visibility = Visibility.Collapsed;
+                return;
+            }
             ViewModel.LoadMyBooks();
         }
 

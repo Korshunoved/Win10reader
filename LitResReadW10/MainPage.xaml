@@ -68,7 +68,7 @@
                            
                         </Border>
                     </StackPanel>
-                    <ScrollViewer Grid.Row="0" Grid.RowSpan="2" VerticalScrollBarVisibility="Hidden">
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
                         <RelativePanel Grid.Row="1" 
                                 Margin="0,0,0,0"
                                 Padding="0,0,0,0"

@@ -67,7 +67,7 @@ namespace LitResReadW10
                 var arguments = toastArgs.Argument;
 
                 // User input from <input> can be retrieved using the UserInput property. The UserInput is a ValueSet and the key is the pre-defined id attribute in the <input> element in the payload.
-                RootFrame.Navigate(typeof(MyBooks));
+                //RootFrame.Navigate(typeof(MyBooks));
 
                 // Navigate accordingly
             }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Digillect.Mvvm;
 using Digillect.Mvvm.Services;
 
@@ -7,6 +8,7 @@ using LitRes.Services;
 using LitRes.Services.Connectivity;
 using Digillect.Collections;
 using System.ComponentModel;
+using Windows.UI.Popups;
 using Digillect;
 
 namespace LitRes.ViewModels
@@ -124,7 +126,15 @@ namespace LitRes.ViewModels
 
 	    public async void LoadUserInfoProceed()
 	    {
-	        await Load(new Session(LoadUserInfoPart));
+	        try
+	        {
+                await Load(new Session(LoadUserInfoPart));
+            }
+	        catch (Exception)
+	        {
+                await new MessageDialog("Не найдено интернет-соединение", "Внимание").ShowAsync();
+            }
+	       
 	    }
 
         private async Task LoadUserInfoProceed(Session session)
