@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Xml.Linq;
 using System.Threading.Tasks;
-
+using System.Xml.Linq;
+using Windows.ApplicationModel.Store;
 using Digillect.Mvvm.Services;
-
 using LitRes.Exceptions;
 using LitRes.Models;
-
-using Windows.ApplicationModel.Store;
 
 namespace LitRes.Services
 {
@@ -75,10 +72,7 @@ namespace LitRes.Services
 			{
 				return _listings.ProductListings[book.InappName];
 			}
-			else
-			{
-				throw new CatalitPurchaseException( "Продукт не найден", 100 );
-			}
+		    throw new CatalitPurchaseException( "Продукт не найден", 100 );
 		}
 
         private async Task<ProductListing> FindProductForId(string productId)
@@ -97,18 +91,22 @@ namespace LitRes.Services
             {
                 return _listings.ProductListings[productId];
             }
-            else
-            {
-                throw new CatalitPurchaseException("Продукт не найден", 100);
-            }
+            throw new CatalitPurchaseException("Продукт не найден", 100);
         }
 
 		public void CheckProductIsUsed( string productId )
 		{
-			if( CurrentApp.LicenseInformation.ProductLicenses[productId].IsActive )
-			{
-				CurrentApp.ReportProductFulfillment( productId );
-			}
+		    try
+		    {
+		        if (CurrentApp.LicenseInformation.ProductLicenses[productId].IsActive)
+		        {
+		            CurrentApp.ReportProductFulfillment(productId);
+		        }
+		    }
+		    catch (Exception e)
+		    {
+		        // ignored
+		    }
 		}
 
 	    public void CheckProductIsUsed(DepositType dt)
