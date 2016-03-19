@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <StoreAssociation xmlns="http://schemas.microsoft.com/appx/2010/storeassociation">
-  <Publisher>CN=9C4AAB6F-1A1F-40B9-9295-BE4E4E5EB23E</Publisher>
-  <PublisherDisplayName>SalesUpNow</PublisherDisplayName>
+  <Publisher>CN=3B60AC7C-8BCD-4D97-811A-96A9685879C1</Publisher>
+  <PublisherDisplayName>LitRes ltd.</PublisherDisplayName>
   <GeneratePackageHash>http://www.w3.org/2001/04/xmlenc#sha256</GeneratePackageHash>
   <SupportedLocales>
     <Language Code="af" InMinimumRequirementSet="true" />
@@ -358,11 +358,42 @@
     <Language Code="zu-za" InMinimumRequirementSet="true" />
   </SupportedLocales>
   <ProductReservedInfo>
-    <MainPackageIdentityName>SalesUpNow.LitresReadTest</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.litreswin10test</MainPackageIdentityName>
     <ReservedNames>
-      <ReservedName>LitresReadTest</ReservedName>
+      <ReservedName>litres_win10test</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
-  <AccountPackageIdentityNames />
-  <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9NBLGGH4R1DL" />
+  <AccountPackageIdentityNames>
+    <MainPackageIdentityName>LitResLTD.Loudbook</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.MyBook</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.Ozon</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.2594FDA4B408</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.Bookmate</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.iMobilco</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.-</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.2093618AD36DD</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.290518E76D131</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.31788F90D64B3</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.4506099DD72BA</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.582265A18AEE2</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.127263F52A0B6</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.5763667C26E18</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.6856F1C0F45D</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.Samsung</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.7767556AF537</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.VAIO</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.47544AA0E0127</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.123457B8E604E</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.567116E587C8C</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.39741AB29D56B</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.287282B30F5C</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.10721C42546BC</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.418354CC7124F</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.3981E45076FE</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.22553DF8A516</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.62683AE12FA89</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.370747EDD2BE0</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.56593569C23B3</MainPackageIdentityName>
+  </AccountPackageIdentityNames>
+  <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9NBLGGH4RG5P" />
 </StoreAssociation>

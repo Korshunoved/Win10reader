@@ -96,6 +96,20 @@ namespace LitRes.ViewModels
 
                     break;
                 }
+                case "test":
+                    {
+                        visual.TitleText = new ToastText { Text = "Обновления вашей библиотеки" };
+                        visual.BodyTextLine1 = new ToastText() { Text = parametrs["text"] };
+
+                        var openButton = new ToastButton("Открыть", new QueryString
+                    {
+                        {"action", "openCollection"},                       
+                    }.ToString())
+                        { ActivationType = ToastActivationType.Foreground };
+                        actions.Buttons.Add(openButton);
+
+                        break;
+                    }
             }
 
             var content = new ToastContent()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Windows.Devices.Enumeration;
 using Windows.Graphics.Display;
 using Windows.System;
@@ -88,9 +89,16 @@ namespace LitRes.Views
 		//	MoveUp.Begin();
 		}
 
-		private void Registration_Click(object sender, RoutedEventArgs eventArgs)
+		private async void Registration_Click(object sender, RoutedEventArgs eventArgs)
         {
-			Focus(FocusState.Programmatic);
+            if (!SystemInfoHelper.HasInternet())
+            {
+                string caption = "Внимание";
+                string required = "Проверьте интернет-соединение";
+                await new MessageDialog(required, caption).ShowAsync();                
+                return;
+            }
+            Focus(FocusState.Programmatic);
             _navigationService.Navigate( "Registration", SystemInfoHelper.IsDesktop());
 		}
 
@@ -112,13 +120,22 @@ namespace LitRes.Views
 
 		#region View Events
 		private async void SignIn( object sender, RoutedEventArgs eventArgs )
-		{
+		{		 
+                    
 			Focus(FocusState.Programmatic);
 
 			string caption = "Внимание";
 			string required = "Все поля обязательны для заполнения";
 
-			if( tbLogin.Text == string.Empty )
+            if (!SystemInfoHelper.HasInternet())
+            {
+                caption = "Внимание";
+                required = "Проверьте интернет-соединение";
+                await new MessageDialog(required, caption).ShowAsync();                
+                return;
+            }
+
+            if ( tbLogin.Text == string.Empty )
 			{
 				await new MessageDialog( required, caption).ShowAsync();
 				tbLogin.Focus(FocusState.Keyboard);
@@ -150,9 +167,10 @@ namespace LitRes.Views
 			{
 				await ViewModel.Login( new CatalitCredentials { Login = tbLogin.Text, Password = tbPassword.Password } );
 			}
-			catch( Exception )
+			catch( Exception e)
 			{
-				return;
+                await new MessageDialog("Вы ввели неверный логин или пароль", caption).ShowAsync();
+                return;
 			}
 
 			if( ViewModel.Credential != null )

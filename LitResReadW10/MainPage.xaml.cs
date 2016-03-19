@@ -25,6 +25,8 @@ namespace LitResReadW10
     {
         public Frame AppFrame => this.frame;
 
+        public Frame CurrentOpenedFrame;
+
         public ControlPanel MainControlPanel { get; set; }
 
         private readonly INavigationService _navigationService = ((App) App.Current).Scope.Resolve<INavigationService>();
@@ -112,6 +114,27 @@ namespace LitResReadW10
 
         private void BackRequested(ref bool handled)
         {
+            if (CurrentOpenedFrame != null)
+            {
+                SubFrameDialog.Children.Remove(ContentDialogFrame);
+                ContentDialogFrame = null;
+                ((WindowsRTApplication)Application.Current).RootSubFrame = null;
+                ContentDialogFrame = new Frame()
+                {
+                    Width = 500,
+                    MinHeight = 200,
+                    MaxHeight = 700,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Padding = new Thickness(0, 0, 0, 0),
+                    Margin = new Thickness(0, 0, 0, 0),
+                    BorderThickness = new Thickness(1, 1, 1, 1),
+                    BorderBrush = new SolidColorBrush(Colors.Black)
+                };
+                SubFrameDialog.Children.Add(ContentDialogFrame);
+                ((WindowsRTApplication)Application.Current).RootSubFrame = ContentDialogFrame;
+                SubFrameDialog.Visibility = Visibility.Collapsed;
+            }
             //// Check to see if this is the top-most page on the app back stack.
             if (this.AppFrame.CanGoBack && !handled)
             {
@@ -144,11 +167,16 @@ namespace LitResReadW10
             if (navButton.Tag.Equals("About"))
             {
                 
-                _navigationService.Navigate("About", SystemInfoHelper.IsDesktop());
+                
                 if (SystemInfoHelper.IsDesktop())
                 {
+                    CurrentOpenedFrame = _navigationService.NavigateToFrame("About");
                     CheckNavButton(_previousNavButton);
                     return;
+                }
+                else
+                {
+                    _navigationService.Navigate("About", SystemInfoHelper.IsDesktop());
                 }
             }
             else if (navButton.Tag.Equals("Shop"))
@@ -220,16 +248,26 @@ namespace LitResReadW10
         private RadioButton _previousNavButton;
         private bool _navButtonManualChecked = false;
 
-        private async void ToUserInfo()
+        private void ToUserInfo()
         {
             var creds =  _credentialsProvider.ProvideCredentials(CancellationToken.None);
 
             if (creds != null && creds.IsRealAccount)
             {
+                if (SystemInfoHelper.IsDesktop())
+                {
+                    CurrentOpenedFrame = _navigationService.NavigateToFrame("UserInfo");
+                    return;
+                }
                 _navigationService.Navigate("UserInfo", SystemInfoHelper.IsDesktop());
             }
             else
             {
+                if (SystemInfoHelper.IsDesktop())
+                {
+                    CurrentOpenedFrame = _navigationService.NavigateToFrame("Authorization");
+                    return;
+                }
                 _navigationService.Navigate("Authorization", SystemInfoHelper.IsDesktop());
             }
         }

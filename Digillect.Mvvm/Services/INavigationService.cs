@@ -20,6 +20,7 @@
 #endregion
 
 using System.Diagnostics.Contracts;
+using Windows.UI.Xaml.Controls;
 
 namespace Digillect.Mvvm.Services
 {
@@ -35,12 +36,14 @@ namespace Digillect.Mvvm.Services
 		/// <param name="viewName">Name of the view.</param>
 		void Navigate( string viewName, bool openInSubFrame = false );
 
-		/// <summary>
-		///     Navigates to the specified view with parameters.
-		/// </summary>
-		/// <param name="viewName">Name of the view.</param>
-		/// <param name="parameters">The parameters.</param>
-		void Navigate( string viewName, XParameters parameters, bool openInSubFrame = false);
+        Frame NavigateToFrame(string viewName);
+
+        /// <summary>
+        ///     Navigates to the specified view with parameters.
+        /// </summary>
+        /// <param name="viewName">Name of the view.</param>
+        /// <param name="parameters">The parameters.</param>
+        void Navigate( string viewName, XParameters parameters, bool openInSubFrame = false);
 
 		/// <summary>
 		///     Navigated to the previous view, if any.

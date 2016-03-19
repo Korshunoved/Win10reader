@@ -32,6 +32,7 @@ using Autofac;
 using Digillect.Mvvm.UI;
 using Windows.Storage;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 using Digillect.Runtime.Serialization;
@@ -131,14 +132,20 @@ namespace Digillect.Mvvm.Services
 			Navigate( viewName, null, openInSubFrame);
 		}
 
-		/// <summary>
-		///     Navigates to the specified view with parameters.
-		/// </summary>
-		/// <param name="viewName">Name of the view.</param>
-		/// <param name="parameters">The parameters.</param>
-		/// <exception cref="System.ArgumentNullException">viewName</exception>
-		/// <exception cref="System.ArgumentException">viewName</exception>
-		public async void Navigate( string viewName, XParameters parameters, bool openInSubFrame = false)
+	    public Frame NavigateToFrame(string viewName)
+	    {
+	        var frame = NavigateWithFrame(viewName, null);
+	        return frame;
+	    }
+
+	    /// <summary>
+        ///     Navigates to the specified view with parameters.
+        /// </summary>
+        /// <param name="viewName">Name of the view.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <exception cref="System.ArgumentNullException">viewName</exception>
+        /// <exception cref="System.ArgumentException">viewName</exception>
+        public async void Navigate( string viewName, XParameters parameters, bool openInSubFrame = false)
 		{
 			var context = new NavigationContext { ViewName = viewName, Parameters = parameters };
 
@@ -177,10 +184,33 @@ namespace Digillect.Mvvm.Services
             //else ((WindowsRTApplication)Application.Current).RootFrame.Navigate(descriptor.Type, context.Parameters);
         }
 
-		/// <summary>
-		///     Navigated to the previous view, if any.
-		/// </summary>
-		public void GoBack(bool backInSubFrame = false)
+	    public Frame NavigateWithFrame(string viewName, XParameters parameters)
+	    {
+	        var context = new NavigationContext {ViewName = viewName, Parameters = parameters};
+
+	        if (context.Cancel)
+	        {
+	            return null;
+	        }
+
+	        ViewDescriptor descriptor;
+
+	        if (!_views.TryGetValue(context.ViewName, out descriptor))
+	        {
+	            throw new ArgumentException(String.Format("View with name '{0}' is not registered.", context.ViewName),
+	                "viewName");
+	        }
+
+	        Frame subFrame = ((WindowsRTApplication) Application.Current).RootSubFrame;
+	        subFrame.Navigate(descriptor.Type, context.Parameters);
+	        ((UIElement) subFrame.Parent).Visibility = Visibility.Visible;
+	        return subFrame;
+	    }
+
+	    /// <summary>
+        ///     Navigated to the previous view, if any.
+        /// </summary>
+        public void GoBack(bool backInSubFrame = false)
 		{
 			if( !_navigationIsInProgress )
 			{

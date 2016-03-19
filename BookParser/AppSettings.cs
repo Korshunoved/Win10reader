@@ -91,7 +91,7 @@ namespace BookParser
 
         public bool Autorotate
         {
-            get { return _settingsStorage.GetValueWithDefault("Autorotate", false); }
+            get { return _settingsStorage.GetValueWithDefault("Autorotate", true); }
             set { _settingsStorage.SetValue("Autorotate", value); }
         }
 

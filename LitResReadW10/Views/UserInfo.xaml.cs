@@ -60,11 +60,16 @@ namespace LitRes.Views
 			( ( UserInfo ) d ).UpdateTopMargin( ( double ) e.NewValue );
 		}
 
-		private void PageLoaded( object sender, RoutedEventArgs e )
+		private async void PageLoaded( object sender, RoutedEventArgs e )
 		{
             if (!SystemInfoHelper.IsDesktop()) ControlPanel.Instance.TopBarTitle = "Профиль";
             BindToKeyboardFocus();
+            if (SystemInfoHelper.HasInternet())
 		    ViewModel.LoadUserInfoProceed();
+            else
+            {
+                await new MessageDialog("Не найдено интернет-соединение", "Внимание").ShowAsync();
+            }
 		}
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)

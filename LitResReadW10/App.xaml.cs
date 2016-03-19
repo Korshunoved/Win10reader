@@ -1,11 +1,15 @@
 ﻿using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Autofac;
 using Digillect.Mvvm.Services;
 using Digillect.Mvvm.UI;
 using LitRes;
 using LitRes.Services;
+using LitRes.Views;
+using Microsoft.QueryStringDotNET;
 
 namespace LitResReadW10
 {
@@ -46,6 +50,29 @@ namespace LitResReadW10
                 //this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
+        }
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            // TODO: Initialize root frame just like in OnLaunched
+
+            // Handle toast activation
+            if (args.Kind == ActivationKind.ToastNotification)
+            {
+                var toastArgs = args as ToastNotificationActivatedEventArgs;
+
+                // Get arguments corresponding to this activation;
+                // When tapping the body of the toast caused this activation, the app receives the value of “launch” property of ;
+                // When the activation is caused by using tapping on an action inside the toast, the app receives the value of “arguments” property of ; 
+                var arguments = toastArgs.Argument;
+
+                // User input from <input> can be retrieved using the UserInput property. The UserInput is a ValueSet and the key is the pre-defined id attribute in the <input> element in the payload.
+                RootFrame.Navigate(typeof(MyBooks));
+
+                // Navigate accordingly
+            }
+
+            // TODO: Handle other types of activation
         }
 
         protected override void NavigateRootFrame(LaunchActivatedEventArgs e)

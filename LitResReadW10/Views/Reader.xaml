@@ -35,17 +35,8 @@
                     RelativePanel.AlignLeftWithPanel="True" 
                     RelativePanel.AlignHorizontalCenterWithPanel="True">
                     <Button 
-                    x:Name="BackButton"
-                    Visibility="Collapsed"
-                    Margin="0"
-                    Height="40"
-                    Width="40"
-                    Tapped="BackButton_OnTapped"
-                    Style="{StaticResource ReaderButtonStyle}">
-                        <!--<Image Stretch="None" Source="../Assets/ReaderBar/ReaderBackIcon.png"/>-->
-                    </Button>
-                    <Button 
                     x:Name="AddBookmarkButton"
+                    Visibility="Collapsed"
                     Margin="0"
                     Height="40"
                     Width="40"
@@ -96,6 +87,7 @@
                 </Button>
                 <Button
                     x:Name="BookmarsButton"
+                     Visibility="Collapsed"
                     RelativePanel.LeftOf="SettingsButton" 
                     RelativePanel.AlignHorizontalCenterWithPanel="True"
                     Tapped="BookmarsButton_OnTapped"
@@ -165,6 +157,7 @@
                 </Button>
                 <Button 
                     x:Name="SearchButton"
+                     Visibility="Collapsed"
                     IsEnabled="False"
                     Opacity="0.3"
                     RelativePanel.LeftOf="ContentsButton" 

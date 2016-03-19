@@ -21,6 +21,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using Windows.UI.Xaml.Controls;
 
 namespace Digillect.Mvvm.Services
 {
@@ -80,7 +81,12 @@ namespace Digillect.Mvvm.Services
 
 		#region Implementation of INavigationService
 		public abstract void Navigate( string viewName, bool openInSubFrame = true);
-		public abstract void Navigate( string viewName, XParameters parameters, bool openInSubFrame = true);
+	    public Frame NavigateToFrame(string viewName)
+	    {
+	        throw new NotImplementedException();
+	    }
+
+	    public abstract void Navigate( string viewName, XParameters parameters, bool openInSubFrame = true);
 		public abstract void GoBack(bool backInSubFrame = false);
 	    public abstract bool CanGoBack(bool backInSubFrame = false);
 

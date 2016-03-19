@@ -387,11 +387,6 @@ namespace LitRes.Views
 
         private bool _isReaderInitilized = false;
 
-        private void BackButton_OnTapped(object sender, TappedRoutedEventArgs e)
-        {
-            
-        }
-
         private void Instance_PropertyChanging(object sender, PropertyChangingEventArgs e)
         {
             var chapter = sender as BookChaptersViewModel.Chapter;

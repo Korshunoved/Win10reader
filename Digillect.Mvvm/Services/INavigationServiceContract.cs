@@ -21,6 +21,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using Windows.UI.Xaml.Controls;
 
 namespace Digillect.Mvvm.Services
 {
@@ -33,7 +34,12 @@ namespace Digillect.Mvvm.Services
 			//Contract.Requires<ArgumentNullException>( viewName != null, "viewName" );
 		}
 
-		public void Navigate( string viewName, XParameters parameters, bool openInSubFrame = true)
+	    public Frame NavigateToFrame(string viewName)
+	    {
+	        throw new NotImplementedException();
+	    }
+
+	    public void Navigate( string viewName, XParameters parameters, bool openInSubFrame = true)
 		{
 			//Contract.Requires<ArgumentNullException>( viewName != null, "viewName" );
 		}
