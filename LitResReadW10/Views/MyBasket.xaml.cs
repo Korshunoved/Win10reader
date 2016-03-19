@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -41,6 +42,14 @@ namespace LitResReadW10.Views
         private void pageHeader_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ChoosePaymentMethod")
+            {
+                ChoosePaymentMethod();
+            }
         }
 
         private void MyBasketGridView_OnItemClick(object sender, ItemClickEventArgs e)
