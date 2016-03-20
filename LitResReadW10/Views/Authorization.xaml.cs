@@ -82,12 +82,14 @@ namespace LitRes.Views
 		private void TextBoxLostFocus( object sender, RoutedEventArgs e )
 		{
 			//MoveDown.Begin();
+		    ControlPanel.Instance.TopBarVisibility = Visibility.Visible;
 		}
 
 		private void TextBoxGotFocus( object sender, RoutedEventArgs e )
 		{
-		//	MoveUp.Begin();
-		}
+            //	MoveUp.Begin();
+            ControlPanel.Instance.TopBarVisibility = Visibility.Collapsed;
+        }
 
 		private async void Registration_Click(object sender, RoutedEventArgs eventArgs)
         {
