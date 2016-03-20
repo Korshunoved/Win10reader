@@ -122,7 +122,7 @@ namespace LitRes.Views
 		private async void SignIn( object sender, RoutedEventArgs eventArgs )
 		{		 
                     
-			Focus(FocusState.Programmatic);
+			Focus(FocusState.Keyboard);
 
 			string caption = "Внимание";
 			string required = "Все поля обязательны для заполнения";
