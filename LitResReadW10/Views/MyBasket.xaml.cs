@@ -32,6 +32,7 @@ namespace LitResReadW10.Views
                 MyBooksEmptyStackPanel.Visibility = Visibility.Collapsed;
                 return;
             }
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
             ViewModel.LoadMyBooks();
         }
 
