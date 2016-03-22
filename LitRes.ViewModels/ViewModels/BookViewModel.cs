@@ -180,7 +180,7 @@ namespace LitRes.ViewModels
             RegisterAction(LoadMoreSequenceBooksPart).AddPart(session => LoadSequenceBooks(session, Entity), session => !_isEndOfListSequenceBooks);
             RegisterAction(LoadPersonPart).AddPart((session) => LoadPerson(session), (session) => true);
 
-            RegisterAction(BuyBookPart).AddPart((session) => BuyBookAsync(session, Entity), (session) => true);
+            RegisterAction(BuyBookPart).AddPart((session) => BuyBookAsync(session, Book), (session) => true);
             RegisterAction(BuyBookLitresPart).AddPart((session) => BuyBookFromLitres(session, Book), (session) => true);
             RegisterAction(CreditCardInfoPart).AddPart(session => CreditCardInfoAsync(session), (session) => true) ;
             RegisterAction(SelfServiceRequestPart).AddPart((session) => SelfServiceRequestProcessing(session, Entity), (session) => true);

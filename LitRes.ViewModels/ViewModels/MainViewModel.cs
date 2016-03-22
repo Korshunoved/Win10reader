@@ -41,6 +41,7 @@ namespace LitRes.ViewModels
         #endregion
 
         private const string BuyBookLitresPart = "BuyBookLitresPart";
+        private const string BuyBookPart = "BuyBook";
         private const string CreditCardInfoPart = "CreditCardInfoPart";
 
         public const string MyBooksPart = "MyBooks";
@@ -113,6 +114,8 @@ namespace LitRes.ViewModels
 		public RelayCommand ShowAbout { get; private set; }
 		public RelayCommand ShowNotifications { get; private set; }
         public RelayCommand RunCreditCardPaymentProcess { get; private set; }
+        public RelayCommand BuyBookFromMicrosoft { get; private set; }
+
         public RelayCommand<Book> ShowCreditCardView { get; private set; }
 
 
@@ -149,6 +152,7 @@ namespace LitRes.ViewModels
                 _booksPerPage = 30;
             }
             ////MyBooks reload allways, may change account information
+            RegisterAction(BuyBookPart).AddPart((session) => BuyBookAsync(session, Book), (session) => true);
             RegisterAction(MyBooksPart).AddPart( session =>  LoadMyBooks(session), session => true);
             RegisterAction(BuyBookLitresPart).AddPart((session) => BuyBookFromLitres(session, Book), (session) => true);
             RegisterAction(CreditCardInfoPart).AddPart(session => CreditCardInfoAsync(session), (session) => true);
@@ -178,8 +182,9 @@ namespace LitRes.ViewModels
 			ShowNewBooks = new RelayCommand(() => _navigationService.Navigate("BooksByCategory", XParameters.Create("category", (int) BooksByCategoryViewModel.BooksViewModelTypeEnum.Novelty)));
 			GenreSelected = new RelayCommand<int>(ChooseGenre);
 			ShowSearchHistory = new RelayCommand(() => _navigationService.Navigate("Search"));
+            BuyBookFromMicrosoft = new RelayCommand(BuyBookFromMicrosoftAsync);
 
-			ShowAuthorization = new RelayCommand(() => _navigationService.Navigate("Authorization"));
+            ShowAuthorization = new RelayCommand(() => _navigationService.Navigate("Authorization"));
             ShowRegistration = new RelayCommand(() => _navigationService.Navigate("Registration"));
 			ShowUserInfo = new RelayCommand( ToUserInfo );
             RunCreditCardPaymentProcess = new RelayCommand(CreditCardInfo);
@@ -201,6 +206,19 @@ namespace LitRes.ViewModels
             OnPropertyChanged(new PropertyChangedEventArgs("BuyBookStart"));
 	        Book = book;
             await Load(new Session(BuyBookLitresPart));
+        }
+
+        private async void BuyBookFromMicrosoftAsync()
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs("HidePopup"));
+            try
+            {
+                await Load(new Session(BuyBookPart));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         private async void CreditCardInfo()
@@ -289,6 +307,11 @@ namespace LitRes.ViewModels
             {
                 OnPropertyChanged(new PropertyChangedEventArgs("ChoosePaymentMethod"));
             }
+        }
+
+        private async Task BuyBookAsync(Session session, Book book)
+        {
+            await _litresPurchaseService.BuyBook(book, CancellationToken.None);
         }
 
         public async Task UpdatePrice()

@@ -305,7 +305,7 @@ namespace LitRes.Views
                 BorderBrush = new SolidColorBrush(Colors.Gray),
                 Background = new SolidColorBrush(Colors.Transparent)
             };
-            //storeButton.Tapped += (sender, args) => { ViewModel.BuyBookFromMicrosoft.Execute(null); dialog.Hide(); };
+            storeButton.Tapped += (sender, args) => { ViewModel.BuyBookFromMicrosoft.Execute(null); dialog.Hide(); };
             panel.Children.Add(storeButton);
 
             panel.Children.Add(new TextBlock
