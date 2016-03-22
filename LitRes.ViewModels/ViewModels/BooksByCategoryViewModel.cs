@@ -51,6 +51,7 @@ namespace LitRes.ViewModels
         public const string MainPart = "Main";
 		public const string LoadMorePart = "LoadMorePart";
         private const string BuyBookLitresPart = "BuyBookLitresPart";
+        private const string BuyBookPart = "BuyBook";
         private const string CreditCardInfoPart = "CreditCardInfoPart";
 
         public const string BooksTypeParameter = "BooksViewModelType";
@@ -111,6 +112,7 @@ namespace LitRes.ViewModels
             RegisterAction(LoadMorePart).AddPart(session => LoadBooks(session), session => !_isEndOfList);
             RegisterAction(BuyBookLitresPart).AddPart((session) => BuyBookFromLitres(session, Book), (session) => true);
             RegisterAction(CreditCardInfoPart).AddPart(session => CreditCardInfoAsync(session), (session) => true);
+            RegisterAction(BuyBookPart).AddPart((session) => BuyBookAsync(session, Book), (session) => true);
             //RegisterPart( MainPart, ( session, part ) => LoadBooks( session ), ( session, part ) => !_loaded, true );
             //RegisterPart( LoadMorePart, ( session, part ) => LoadBooks( session ), ( session, part ) => !_isEndOfList, false );
 
@@ -121,6 +123,7 @@ namespace LitRes.ViewModels
             BuyBook = new RelayCommand<Book>(book => BuyBookFromLitresAsync(book));
             RunCreditCardPaymentProcess = new RelayCommand(CreditCardInfo);
             ShowCreditCardView = new RelayCommand<Book>(book => _navigationService.Navigate("CreditCardPurchase", XParameters.Create("BookEntity", book)), book => book != null);
+            BuyBookFromMicrosoft = new RelayCommand(BuyBookFromMicrosoftAsync);
 
         }
 		#endregion
@@ -269,6 +272,24 @@ namespace LitRes.ViewModels
                     }
                 }
             }
+        }
+
+        private async void BuyBookFromMicrosoftAsync()
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs("HidePopup"));
+            try
+            {
+                await Load(new Session(BuyBookPart));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private async Task BuyBookAsync(Session session, Book book)
+        {
+            await _litresPurchaseService.BuyBook(book, CancellationToken.None);
         }
 
         private async void BuyBookFromLitresAsync(Book book)

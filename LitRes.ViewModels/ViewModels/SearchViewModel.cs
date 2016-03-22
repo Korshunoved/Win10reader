@@ -23,8 +23,7 @@ namespace LitRes.ViewModels
 		private const string LoadAllDataPart = "LoadAllData";
         private const string BuyBookLitresPart = "BuyBookLitresPart";
         private const string CreditCardInfoPart = "CreditCardInfoPart";
-
-
+        private const string BuyBookPart = "BuyBook";
 
         private readonly ICatalogProvider _catalogProvider;
 		private readonly INavigationService _navigationService;
@@ -149,6 +148,7 @@ namespace LitRes.ViewModels
         public RelayCommand<Book> BuyBook { get; private set; }
         public RelayCommand RunCreditCardPaymentProcess { get; private set; }
         public RelayCommand<Book> ShowCreditCardView { get; private set; }
+        public RelayCommand BuyBookFromMicrosoft { get; private set; }
         public double AccoundDifferencePrice { get; private set; }
 
 
@@ -182,10 +182,12 @@ namespace LitRes.ViewModels
             RegisterAction(LoadAllDataPart).AddPart(SearchAll, session => true);
             RegisterAction(BuyBookLitresPart).AddPart((session) => BuyBookFromLitres(session, Book), (session) => true);
             RegisterAction(CreditCardInfoPart).AddPart(session => CreditCardInfoAsync(session), (session) => true);
+            RegisterAction(BuyBookPart).AddPart((session) => BuyBookAsync(session, Book), (session) => true);
 
             BuyBook = new RelayCommand<Book>(book => BuyBookFromLitresAsync(book));
             RunCreditCardPaymentProcess = new RelayCommand(CreditCardInfo);
             ShowCreditCardView = new RelayCommand<Book>(book => _navigationService.Navigate("CreditCardPurchase", XParameters.Create("BookEntity", book)), book => book != null);
+            BuyBookFromMicrosoft = new RelayCommand(BuyBookFromMicrosoftAsync);
 
             BookSelected = new RelayCommand<Book>(book => _navigationService.Navigate("Book", XParameters.Create("BookEntity", book)), book => book != null);
             PersonSelected = new RelayCommand<Person>(person => _navigationService.Navigate("Person", XParameters.Create("Id", person.Id)), person => person != null);
@@ -526,6 +528,24 @@ namespace LitRes.ViewModels
                     }
                 }
             }
+        }
+
+        private async void BuyBookFromMicrosoftAsync()
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs("HidePopup"));
+            try
+            {
+                await Load(new Session(BuyBookPart));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private async Task BuyBookAsync(Session session, Book book)
+        {
+            await _litresPurchaseService.BuyBook(book, CancellationToken.None);
         }
 
         private async void BuyBookFromLitresAsync(Book book)

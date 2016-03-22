@@ -190,6 +190,12 @@ namespace LitRes.Services
 		        }
                 catch (Exception ex)
                 {
+                    var dialog = new MessageDialog("Оплата через Windows Store временно недоступна, пожалуйста, выберите другой вариант оплаты")
+                    {
+                        DefaultCommandIndex = 0
+                    };
+                    dialog.Commands.Add(new UICommand("Ок") { Id = 1 });
+                    await dialog.ShowAsync();
                     Debug.WriteLine(ex.Message);
                 }
             }
