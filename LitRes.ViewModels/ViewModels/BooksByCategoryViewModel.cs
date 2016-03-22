@@ -94,6 +94,7 @@ namespace LitRes.ViewModels
         public RelayCommand LoadMoreCalled { get; private set; }
         public RelayCommand RunCreditCardPaymentProcess { get; private set; }
         public RelayCommand<Book> ShowCreditCardView { get; private set; }
+        public RelayCommand BuyBookFromMicrosoft { get; private set; }
         #endregion
 
         #region Constructors/Disposer

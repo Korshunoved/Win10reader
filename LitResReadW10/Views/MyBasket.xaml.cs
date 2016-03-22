@@ -107,25 +107,25 @@ namespace LitResReadW10.Views
             creditButton.Tapped += (sender, args) => { ViewModel.RunCreditCardPaymentProcess.Execute(null); dialog.Hide(); };
             panel.Children.Add(creditButton);
 
-            //var storeButton = new Button
-            //{
-            //    Margin = new Thickness(0, 10, 0, 5),
-            //    HorizontalAlignment = HorizontalAlignment.Stretch,
-            //    Content = $"оплатить через Windows Store",
-            //    BorderThickness = new Thickness(2),
-            //    BorderBrush = new SolidColorBrush(Colors.Gray),
-            //    Background = new SolidColorBrush(Colors.Transparent)
-            //};
+            var storeButton = new Button
+            {
+                Margin = new Thickness(0, 10, 0, 5),
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                Content = $"оплатить через Windows Store",
+                BorderThickness = new Thickness(2),
+                BorderBrush = new SolidColorBrush(Colors.Gray),
+                Background = new SolidColorBrush(Colors.Transparent)
+            };
             //storeButton.Tapped += (sender, args) => { ViewModel.BuyBookFromMicrosoft.Execute(null); dialog.Hide(); };
-            //panel.Children.Add(storeButton);
+            panel.Children.Add(storeButton);
 
-            //panel.Children.Add(new TextBlock
-            //{
-            //    Margin = new Thickness(0, 0, 0, 10),
-            //    Text = "Внимание! К цене будет добавлена комисия Windows Store.",
+            panel.Children.Add(new TextBlock
+            {
+                Margin = new Thickness(0, 0, 0, 10),
+                Text = "Внимание! К цене будет добавлена комисия Windows Store.",
 
-            //    TextWrapping = TextWrapping.Wrap,
-            //});
+                TextWrapping = TextWrapping.Wrap,
+            });
             dialog.Content = panel;
             await dialog.ShowAsync();
         }
