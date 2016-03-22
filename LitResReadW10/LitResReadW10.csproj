@@ -590,8 +590,10 @@
     <Compile Include="Crypto\EncryptionProvider.cs" />
     <Compile Include="Helpers\EmailHelper.cs" />
     <Compile Include="Helpers\LocalBroadcastReciver.cs" />
+    <Compile Include="Helpers\MD5.cs" />
     <Compile Include="Helpers\ResolutionHelper.cs" />
     <Compile Include="Helpers\SystemInfoHelper.cs" />
+    <Compile Include="Helpers\TileImageHelper.cs" />
     <Compile Include="Interaction\ManipulationListener.cs" />
     <Compile Include="Interaction\PointManipulationEventArgs.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -1061,6 +1063,12 @@
     <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="RestSharp.Portable, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParty\RestSharp.Portable.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
