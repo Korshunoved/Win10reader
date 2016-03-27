@@ -36,13 +36,13 @@
                     RelativePanel.AlignHorizontalCenterWithPanel="True">
                     <Button 
                     x:Name="AddBookmarkButton"
-                    Visibility="Collapsed"
+                    Visibility="Visible"
                     Margin="0"
                     Height="40"
                     Width="40"
-                    IsEnabled="False"
-                    Opacity="0.3"
-                    Style="{StaticResource ReaderButtonStyle}">
+                    IsEnabled="True"
+                    Opacity="1"
+                    Style="{StaticResource ReaderButtonStyle}" Tapped="AddBookmarkButton_Tapped">
                         <Image Stretch="None" Source="../Assets/W10Icons/Bookmark/bookmark_gray.png"/>
                     </Button>
                 </StackPanel>
@@ -87,14 +87,14 @@
                 </Button>
                 <Button
                     x:Name="BookmarsButton"
-                     Visibility="Collapsed"
+                     Visibility="Visible"
                     RelativePanel.LeftOf="SettingsButton" 
                     RelativePanel.AlignHorizontalCenterWithPanel="True"
                     Tapped="BookmarsButton_OnTapped"
                     Height="40"
                     Width="40"
-                    IsEnabled="False"
-                    Opacity="0.3"
+                    IsEnabled="True"
+                    Opacity="1"
                     Style="{StaticResource ReaderButtonStyle}">
                     <Image Stretch="None"  Opacity="0.6" Source="../Assets/W10Icons/Bookmarks/bookmarks_icon.png"/>
                     <FlyoutBase.AttachedFlyout >
@@ -251,7 +251,22 @@
             <ProgressBar x:Name="BusyProgress" Margin="24,2,24,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Foreground="{StaticResource LitResAccentBrush}" IsIndeterminate="True" />
             <StackPanel></StackPanel>
         </Grid>
+        <Grid Grid.Row="0" Name="BookmarkGrid" Visibility="Collapsed" Canvas.ZIndex="2000" Grid.RowSpan="3"
+              Background="Transparent">
+            <Grid.Resources>
+                <Storyboard x:Name="BookmarkStoryboard">
+                    <DoubleAnimation
+                        Storyboard.TargetName="BookmarkGrid"
+                        Storyboard.TargetProperty="Opacity"
+                        From="1.0" To="0.0" Duration="0:0:2"/>
+                </Storyboard>
+            </Grid.Resources>
+            <Image Source="../Assets/W10Icons/Bookmark/bookmark_added_popup.png" VerticalAlignment="Center"
+                   HorizontalAlignment="Center" MaxWidth="200">
+            </Image>
+        </Grid>
        
+
         <Grid x:Name="ReaderGrid" Margin="0,0,0,10" Grid.Row="1" Opacity="0">
             <controls1:ThreePagePanel Grid.Row="0" 
                                       x:Name="PageCanvas" 

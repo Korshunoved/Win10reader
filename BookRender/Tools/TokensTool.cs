@@ -50,7 +50,7 @@ namespace BookRender.Tools
 
             book.TokenCount = positions.Count;
             book.WordCount = tokens.Count(t => t is TextToken);
-            book.CurrentTokenID = Math.Min(tokens.Count() - 1, book.CurrentTokenID);
+            book.CurrentTokenID = Math.Min(tokens.Count - 1, book.CurrentTokenID);
 
             parser.BuildChapters();
 

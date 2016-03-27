@@ -7,20 +7,17 @@ using Digillect.Mvvm.UI;
 
 using LitRes.Helpers;
 using LitRes.LibraryTools;
-//using LitRes.LiveTileAgent;
 using LitRes.Models;
 using LitRes.ValueConverters;
 using LitRes.ViewModels;
 using System.ComponentModel;
 using System.Threading;
-using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Graphics.Display;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
-using Windows.UI.Input;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -28,6 +25,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Autofac;
@@ -35,6 +33,7 @@ using BookParser;
 using BookParser.Fonts;
 using BookParser.Models;
 using BookParser.Parsers;
+using BookRender.Tools;
 using Digillect;
 using Digillect.Mvvm.Services;
 using LitResReadW10;
@@ -42,7 +41,6 @@ using LitResReadW10.Controllers;
 using LitResReadW10.Controls;
 using LitResReadW10.Controls.Manipulators;
 using LitResReadW10.Helpers;
-using LitResReadW10.Interaction;
 
 namespace LitRes.Views
 {
@@ -54,13 +52,13 @@ namespace LitRes.Views
 
     public partial class Reader : IExpiredCallBack
     {
-        private bool _menuVisible;
-        private bool _fullVisible;
+        //private bool _menuVisible;
+        //private bool _fullVisible;
         private bool _readerGridLoaded;
-        private int _moveCount;
-        private double _fractionRead;
-        private bool _syncInProgress;        
-        private bool _isBuyShowed;
+        //private int _moveCount;
+        //private double _fractionRead;
+        //private bool _syncInProgress;        
+        //private bool _isBuyShowed;
         private bool _isLoaded;
         private IFontHelper _activeFontHelper;
         private BookModel _book;
@@ -74,8 +72,10 @@ namespace LitRes.Views
 
         public static Reader Instance;
 
-        private ManipulationListener _pageManipulationListener;
-        private ManipulationListener _textManipulationListener;
+        //private ManipulationListener _pageManipulationListener;
+        //private ManipulationListener _textManipulationListener;
+
+        private readonly BookTool _bookTool;
 
         private readonly SemaphoreSlim _event = new SemaphoreSlim(1, 1);
 
@@ -98,6 +98,7 @@ namespace LitRes.Views
             Window.Current.SizeChanged += Current_SizeChanged;
            
             if (ExpirationGuardian.Instance != null) ExpirationGuardian.Instance.AddCallBack(this);
+            _bookTool = new BookTool();
         }
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
@@ -118,7 +119,7 @@ namespace LitRes.Views
         #region ReaderLoaded
         async void ReaderLoaded(object sender, RoutedEventArgs e)
         {
-            _moveCount = 0;
+            //_moveCount = 0;
             await ViewModel.LoadSettings();
             if (AppSettings.Default.CurrentTokenOffset > 0 || (Instance != null && Instance.FromSettings))
             {
@@ -130,12 +131,8 @@ namespace LitRes.Views
             LayoutRoot.Background = AppSettings.Default.ColorScheme.BackgroundBrush;
             BusyGrid.Visibility = Visibility.Visible;
             BusyProgress.IsIndeterminate = true;
-            ReaderGrid.Loaded += (o, args) =>
-            {
-                _readerGridLoaded = true;
-                if (AppSettings.Default.CurrentBook != null)
-                    HandleLoadedBook();
-            };
+            ReaderGrid.Loaded -= ReaderGridOnLoaded;
+            ReaderGrid.Loaded += ReaderGridOnLoaded; 
             var currentOrientation = DisplayInformation.GetForCurrentView().CurrentOrientation;
             DisplayInformation.AutoRotationPreferences = AppSettings.Default.Autorotate ? DisplayOrientations.None : currentOrientation;
             if (SystemInfoHelper.IsDesktop()) return;
@@ -146,6 +143,14 @@ namespace LitRes.Views
             if (!hideBar) return;
             await statusBar.HideAsync();
         }
+
+        private async void ReaderGridOnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            _readerGridLoaded = true;
+            if (AppSettings.Default.CurrentBook != null)
+                await HandleLoadedBook();
+        }
+
         #endregion
 
         #region CreateDataSession
@@ -223,7 +228,7 @@ namespace LitRes.Views
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            _moveCount = 0;
+            //_moveCount = 0;
 
             base.OnNavigatedFrom(e);
             if (e.NavigationMode == NavigationMode.Back || (e.Uri != null && string.Equals(e.Uri.OriginalString, "/Views/Main.xaml")) )
@@ -339,34 +344,34 @@ namespace LitRes.Views
             }
         }*/
                 
-        private async void BuyBookMenuTap(object sender, TappedRoutedEventArgs e)
-        {
-            Analytics.Instance.sendMessage(Analytics.ActionBuyFromFragment);
-            try
-            {
+        //private async void BuyBookMenuTap(object sender, TappedRoutedEventArgs e)
+        //{
+        //    Analytics.Instance.sendMessage(Analytics.ActionBuyFromFragment);
+        //    try
+        //    {
 
-                ViewModel.BuyBook.Execute(null);
+        //        ViewModel.BuyBook.Execute(null);
 
-                await ViewModel.BuyBookAsync();
+        //        await ViewModel.BuyBookAsync();
 
-                if( ViewModel.Entity.IsMyBook )
-                {
+        //        if( ViewModel.Entity.IsMyBook )
+        //        {
 
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.StackTrace);
-            }
-        }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Debug.WriteLine(ex.StackTrace);
+        //    }
+        //}
         
-        private async void HideMenu()
+        private void HideMenu()
         {
             CurrentPageSlider.Opacity = 0;
             TopRelativePanel.Visibility = Visibility.Collapsed;
         }
 
-        private async void ShowMenu()
+        private void ShowMenu()
         {
             CurrentPageSlider.Opacity = 1;           
             TopRelativePanel.Visibility = Visibility.Visible;
@@ -374,43 +379,30 @@ namespace LitRes.Views
 
         public void ExpiredCallBack(Models.Book book)
         {
-            if (ViewModel.Entity.Id.Equals(book.Id))
+            if (!ViewModel.Entity.Id.Equals(book.Id)) return;
+            var cancelArgs = new CancelEventArgs();
+            do
             {
-                var cancelArgs = new CancelEventArgs();
-                do
-                {
-                    cancelArgs.Cancel = false;
-                 //   OnBackKeyPress(cancelArgs);
-                } while (cancelArgs.Cancel == true);
-            }
+                cancelArgs.Cancel = false;                 
+            } while (cancelArgs.Cancel);
         }
-
-        private bool _isReaderInitilized = false;
 
         private void Instance_PropertyChanging(object sender, PropertyChangingEventArgs e)
         {
             var chapter = sender as BookChaptersViewModel.Chapter;
             if (chapter != null)
             {
-               if (SystemInfoHelper.IsDesktop())
-                {
-                    TocFrame.BackStack.Clear();
-                    FlyoutBase.GetAttachedFlyout(ContentsButton)?.Hide();
-                }
+                if (!SystemInfoHelper.IsDesktop()) return;
+                TocFrame.BackStack.Clear();
+                FlyoutBase.GetAttachedFlyout(ContentsButton)?.Hide();
                 return;
             }
 
             var bookmark = sender as Bookmark;
-            if (bookmark != null)
-            {
-                if (SystemInfoHelper.IsDesktop())
-                {
-                    BookmarksFrame.BackStack.Clear();
-                    FlyoutBase.GetAttachedFlyout(BookmarsButton)?.Hide();
-                }
-                return;
-            }
-
+            if (bookmark == null) return;
+            if (!SystemInfoHelper.IsDesktop()) return;
+            BookmarksFrame.BackStack.Clear();
+            FlyoutBase.GetAttachedFlyout(BookmarsButton)?.Hide();
         }
 
         public static Brush ColorToBrush(string color) // color = "#E7E44D"
@@ -454,29 +446,29 @@ namespace LitRes.Views
             if (!_isLoaded)
                 return;
 
-            //using (await overlayAwait)
-            {
-                await _event.WaitAsync();
+            await _event.WaitAsync();
 
-                Background = AppSettings.Default.ColorScheme.BackgroundBrush;
+            Background = AppSettings.Default.ColorScheme.BackgroundBrush;
 
-                PageCanvas.Clear();
-                PageCanvas.SetSize(ReaderGrid.ActualWidth, ReaderGrid.ActualHeight, ReaderGrid.ActualWidth, ReaderGrid.ActualHeight);
-                PageCanvas.Manipulator = new ManipulatorFactory(PageCanvas).CreateManipulator(AppSettings.Default.FlippingStyle, AppSettings.Default.FlippingMode);
+            PageCanvas.Clear();
+            PageCanvas.SetSize(ReaderGrid.ActualWidth, ReaderGrid.ActualHeight, ReaderGrid.ActualWidth,
+                ReaderGrid.ActualHeight);
+            PageCanvas.Manipulator =
+                new ManipulatorFactory(PageCanvas).CreateManipulator(AppSettings.Default.FlippingStyle,
+                    AppSettings.Default.FlippingMode);
 
-                await CreateController();
+            await CreateController();
 
-                _event.Release();
+            _event.Release();
 
-                if (BookCoverBack.Visibility == Visibility.Visible)
-                    BookCoverBack.Visibility = Visibility.Collapsed;
+            if (BookCoverBack.Visibility == Visibility.Visible)
+                BookCoverBack.Visibility = Visibility.Collapsed;
 
-                Bottom.Visibility = Visibility.Visible;
+            Bottom.Visibility = Visibility.Visible;
 
-                BusyGrid.Visibility = Visibility.Collapsed;
-                BusyProgress.IsIndeterminate = false;
-                PageHeader.ProgressIndicatorVisible = false;
-            }
+            BusyGrid.Visibility = Visibility.Collapsed;
+            BusyProgress.IsIndeterminate = false;
+            PageHeader.ProgressIndicatorVisible = false;
         }
 
         private int? _preSelectionOffset;
@@ -550,17 +542,11 @@ namespace LitRes.Views
             BusyProgress.IsIndeterminate = false;
             PageHeader.ProgressIndicatorVisible = false;
             if (ReaderGrid.Opacity < 1) ReaderGrid.Opacity = 1;
-        }
-
-        private int? _oldOffset;
+        }        
 
         private async Task TurnPage(bool isRight)
-        {
-            _oldOffset = null;
-           
-            await _event.WaitAsync();
-
-           // AppBar.CancelPageSelectionMode();
+        {                      
+            await _event.WaitAsync();           
 
             if (isRight)
                 await _readController.ShowNextPage();
@@ -681,11 +667,32 @@ namespace LitRes.Views
                // Debug.WriteLine("Swipe Left");
                 await TurnPage(false);
             }
+        }        
+
+        private async void AddBookmarkButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var book = AppSettings.Default.CurrentBook;
+            int lastTokenId;
+            var offset = 30;
+            var tokenId = _tokenOffset - offset;
+            var text = _bookTool.GetText(book, tokenId, 20, out lastTokenId);
+            var chapter = _bookTool.GetChapterByToken(tokenId);
+            var xpointer = "fb2#xpointer(point(/1/2/4/5.630))";
+            var percent = Convert.ToString((int)Math.Ceiling(CurrentPageSlider.Value / (CurrentPageSlider.Maximum / 100)));
+            await ViewModel.AddBookmark(text, xpointer, chapter, false, percent);
+            BookmarkGrid.Visibility = Visibility.Visible;
+            BookmarkStoryboard.Begin();
+            BookmarkStoryboard.Completed += BookmarkStoryboardOnCompleted;
+        }
+
+        private void BookmarkStoryboardOnCompleted(object sender, object o)
+        {
+            BookmarkGrid.Visibility = Visibility.Collapsed;
         }
     }
 
 
-    public partial class ReaderFitting : ViewModelPage<ReaderViewModel>
+    public class ReaderFitting : ViewModelPage<ReaderViewModel>
     {
     }
 }

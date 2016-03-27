@@ -266,6 +266,7 @@
     <Content Include="Assets\W10Icons\Bookmarks\bookmarks_icon.scale-125.png" />
     <Content Include="Assets\W10Icons\Bookmarks\bookmarks_icon.scale-150.png" />
     <Content Include="Assets\W10Icons\Bookmarks\bookmarks_icon.scale-200.png" />
+    <Content Include="Assets\W10Icons\Bookmark\bookmark_added_popup.png" />
     <Content Include="Assets\W10Icons\Bookmark\bookmark_gray.scale-100.png" />
     <Content Include="Assets\W10Icons\Bookmark\bookmark_gray.scale-125.png" />
     <Content Include="Assets\W10Icons\Bookmark\bookmark_gray.scale-150.png" />
@@ -543,7 +544,7 @@
     <Content Include="Assets\Fonts\common_descriptor.txt" />
     <Content Include="Assets\Fonts\common_spritefont.txt" />
     <Content Include="Fonts\common.descriptor" />
-    <Content Include="Fonts\common.spritefont" />
+    <None Include="Fonts\common.spritefont" />
     <None Include="packages.config" />
     <None Include="project.json" />
     <PRIResource Include="Strings\ru-ru\Resources.resw" />
@@ -803,7 +804,7 @@
     <Content Include="Assets\Icons\sync_icn.png" />
     <Content Include="Assets\icon_bought.png" />
     <Content Include="Assets\icon_foler.png" />
-    <Content Include="Assets\litres_icon_listen.png" />
+    <None Include="Assets\litres_icon_listen.png" />
     <Content Include="Assets\Logo.png" />
     <Content Include="Assets\RegistrationHelpIcon1.png" />
     <Content Include="Assets\RegistrationHelpIcon2.png" />
@@ -824,7 +825,7 @@
     <Content Include="Assets\tmp\Book2.png" />
     <Content Include="Assets\tmp\Book3.png" />
     <Content Include="Assets\Vignette.png" />
-    <Content Include="Assets\welcome_back.png" />
+    <None Include="Assets\welcome_back.png" />
     <Content Include="Assets\WideLogo.png" />
     <Content Include="Properties\Default.rd.xml">
       <SubType>Designer</SubType>
