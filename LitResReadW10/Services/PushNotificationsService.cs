@@ -48,19 +48,19 @@ namespace LitRes.Services
                    try
                    {
                        _channel = await PushNotificationChannelManager.CreatePushNotificationChannelForApplicationAsync();
-                       var newParametres = new Dictionary<string,string>();
-                       newParametres.Add("type","test");
-                       newParametres.Add("text", "Бесплатная книга из раздела Популярное теперь в вашей библиотеке!");
-                       newParametres.Add("spam_pack_id", "test");
-                       await Task.Delay(10000);
-                       ViewModels.PushNotificationsViewModel.Instance.ShowToast(newParametres);
+                       //var newParametres = new Dictionary<string,string>();
+                       //newParametres.Add("type","test");
+                       //newParametres.Add("text", "Бесплатная книга из раздела Популярное теперь в вашей библиотеке!");
+                       //newParametres.Add("spam_pack_id", "test");
+                       //await Task.Delay(10000);
+                       //ViewModels.PushNotificationsViewModel.Instance.ShowToast(newParametres);
                        _channel.PushNotificationReceived += (sender, args) =>
                        {
                            OpenNotification(args);
                        };
 
                        Debug.WriteLine($"URI: {_channel.Uri}");
-                       await _notificationsProvider.SubscribeDevice(_channel.Uri, CancellationToken.None);
+                      await _notificationsProvider.SubscribeDevice(_channel.Uri, CancellationToken.None);
                    }
 
                    catch (Exception ex)

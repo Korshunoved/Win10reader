@@ -148,6 +148,7 @@ namespace LitRes.ViewModels
         public RelayCommand<Book> BuyBook { get; private set; }
         public RelayCommand RunCreditCardPaymentProcess { get; private set; }
         public RelayCommand<Book> ShowCreditCardView { get; private set; }
+        public RelayCommand<Book> Read { get; private set; }
         public RelayCommand BuyBookFromMicrosoft { get; private set; }
         public double AccoundDifferencePrice { get; private set; }
 
@@ -206,6 +207,12 @@ namespace LitRes.ViewModels
                 .AddValue("id", sequence.Id)
                 .AddValue("title", sequence.Name)
                 .ToImmutable()), sequence => sequence != null);
+            Read = new RelayCommand<Book>(book =>
+            {
+                if (!book.IsExpiredBook)
+                    _navigationService.Navigate("Reader", XParameters.Create("BookEntity", book), false);
+                else new MessageDialog("Истёк срок выдачи.").ShowAsync();
+            });
 
             //CollectionSelected = new RelayCommand<Book.SequenceInfo>(sequence => _navigationService.Navigate("BooksByCategory", XParameters.Empty.ToBuilder()
             //    .AddValue("category", 8)

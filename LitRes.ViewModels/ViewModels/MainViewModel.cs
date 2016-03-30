@@ -98,7 +98,8 @@ namespace LitRes.ViewModels
         public Book Book { get; private set; }
 
         public RelayCommand ShowMyBooks { get; private set; }
-		public RelayCommand<Book> BookSelected { get; private set; }
+        public RelayCommand<Book> Read { get; private set; }
+        public RelayCommand<Book> BookSelected { get; private set; }
         public RelayCommand<Book> BuyBook { get; private set; }
         public RelayCommand ShowInterestingBooks { get; private set; }
 		public RelayCommand ShowPopularBooks { get; private set; }
@@ -183,6 +184,12 @@ namespace LitRes.ViewModels
 			GenreSelected = new RelayCommand<int>(ChooseGenre);
 			ShowSearchHistory = new RelayCommand(() => _navigationService.Navigate("Search"));
             BuyBookFromMicrosoft = new RelayCommand(BuyBookFromMicrosoftAsync);
+            Read = new RelayCommand<Book>(book =>
+            {
+                if (!book.IsExpiredBook)
+                    _navigationService.Navigate("Reader", XParameters.Create("BookEntity", book), false);
+                else new MessageDialog("Истёк срок выдачи.").ShowAsync();
+            });
 
             ShowAuthorization = new RelayCommand(() => _navigationService.Navigate("Authorization"));
             ShowRegistration = new RelayCommand(() => _navigationService.Navigate("Registration"));
@@ -275,6 +282,10 @@ namespace LitRes.ViewModels
             }
             if (userInfo == null) return;
             if (!string.IsNullOrEmpty(book.InGifts) && book.InGifts.Equals("1"))
+            {
+                await _litresPurchaseService.BuyBookFromLitres(book, session.Token);
+            }
+            else if (book.isFreeBook)
             {
                 await _litresPurchaseService.BuyBookFromLitres(book, session.Token);
             }

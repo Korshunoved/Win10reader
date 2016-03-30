@@ -96,6 +96,7 @@ namespace LitRes.ViewModels
         public RelayCommand RunCreditCardPaymentProcess { get; private set; }
         public RelayCommand<Book> ShowCreditCardView { get; private set; }
         public RelayCommand BuyBookFromMicrosoft { get; private set; }
+        public RelayCommand<Book> Read { get; private set; }
         #endregion
 
         #region Constructors/Disposer
@@ -124,6 +125,12 @@ namespace LitRes.ViewModels
             RunCreditCardPaymentProcess = new RelayCommand(CreditCardInfo);
             ShowCreditCardView = new RelayCommand<Book>(book => _navigationService.Navigate("CreditCardPurchase", XParameters.Create("BookEntity", book)), book => book != null);
             BuyBookFromMicrosoft = new RelayCommand(BuyBookFromMicrosoftAsync);
+            Read = new RelayCommand<Book>(book =>
+            {
+                if (!book.IsExpiredBook)
+                    _navigationService.Navigate("Reader", XParameters.Create("BookEntity", book), false);
+                else new MessageDialog("Истёк срок выдачи.").ShowAsync();
+            });
 
         }
 		#endregion

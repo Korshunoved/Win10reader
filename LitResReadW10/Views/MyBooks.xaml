@@ -165,9 +165,9 @@
                                 Width="100"
                                 Height="36"
                                 Padding="5,0,5,0"
-                             Visibility="Collapsed">
-                                <!--Visibility="{Binding Path=isFreeBook, Converter={StaticResource VisibilityConverter}}">-->
-                                <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО"
+                                Visibility="{Binding Path=isFreeBook, Converter={StaticResource VisibilityConverter}}">
+                            <!--Visibility="Collapsed">-->
+                            <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО"
                                            MaxLines="2"
                                            FontSize="14"
                                            FontWeight="Normal" />

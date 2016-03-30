@@ -63,7 +63,7 @@ namespace LitRes.Services.Connectivity
             return await ProcessInternalRequest<T>(method, true, true, cancellationToken);
 	    }
 
-        public async Task<T> ProcessRequest<T>(string method, bool secureConnection, CancellationToken cancellationToken, IDictionary<string, object> parameters = null, ConnectivityRequestType requestType = ConnectivityRequestType.POST, string url = "wp8-ebook.litres.ru", bool additionalParams = true)
+        public async Task<T> ProcessRequest<T>(string method, bool secureConnection, CancellationToken cancellationToken, IDictionary<string, object> parameters = null, ConnectivityRequestType requestType = ConnectivityRequestType.POST, string url = "win10-ebook.litres.ru", bool additionalParams = true)
 		{
 			return await ProcessInternalRequest<T>( method, secureConnection, false, cancellationToken, parameters, requestType, url, additionalParams);
 		}
@@ -140,7 +140,7 @@ namespace LitRes.Services.Connectivity
             }   
         }
 
-        private async Task<T> ProcessInternalRequest<T>(string method, bool secureConnection, bool staticRequest, CancellationToken cancellationToken, IDictionary<string, object> parameters = null, ConnectivityRequestType requestType = ConnectivityRequestType.POST, string url = "wp8-ebook.litres.ru", bool additionalParams = true)
+        private async Task<T> ProcessInternalRequest<T>(string method, bool secureConnection, bool staticRequest, CancellationToken cancellationToken, IDictionary<string, object> parameters = null, ConnectivityRequestType requestType = ConnectivityRequestType.POST, string url = "win10-ebook.litres.ru", bool additionalParams = true)
 		{
 			string req = method;
 			if( !staticRequest && requestType == ConnectivityRequestType.POST )

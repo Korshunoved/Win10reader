@@ -14,9 +14,9 @@ namespace LitRes.Services.Connectivity
 	{
 		Task<Genre> GetGenres( CancellationToken cancellationToken );
         Task<BannersResponse> GetBanners(IDictionary<string, object> parameters, CancellationToken cancellationToken);
-        Task<CatalogSearchResponse> SearchCatalog(IDictionary<string, object> parameters, CancellationToken cancellationToken, string url = "wp8-ebook.litres.ru", bool sid = true);
-        Task<Rootobject> SearchAll(IDictionary<string, object> parameters, CancellationToken cancellationToken, string url = "wp8-ebook.litres.ru", bool sid = true);
-	    Task<CatalogSearchResponse> SearchAudioCatalog(IDictionary<string, object> parameters,CancellationToken cancellationToken, string url = "wp8-ebook.litres.ru", bool sid = true);
+        Task<CatalogSearchResponse> SearchCatalog(IDictionary<string, object> parameters, CancellationToken cancellationToken, string url = "win10-ebook.litres.ru", bool sid = true);
+        Task<Rootobject> SearchAll(IDictionary<string, object> parameters, CancellationToken cancellationToken, string url = "win10-ebook.litres.ru", bool sid = true);
+	    Task<CatalogSearchResponse> SearchAudioCatalog(IDictionary<string, object> parameters,CancellationToken cancellationToken, string url = "win10-ebook.litres.ru", bool sid = true);
 		Task<CatalogSearchResponse> GetMyBooks( IDictionary<string, object> parameters, CancellationToken cancellationToken );
 		Task<AddRecenseResponse> AddRecense( IDictionary<string, object> parameters, CancellationToken cancellationToken );
 		Task<RecensesResponse> GetRecenses( IDictionary<string, object> parameters, CancellationToken cancellationToken );

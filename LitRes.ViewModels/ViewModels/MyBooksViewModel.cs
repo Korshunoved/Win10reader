@@ -480,7 +480,7 @@ namespace LitRes.ViewModels
 						BooksByAuthorsGrouped.Add( group );
 					}
 				}
-			    Basket = new XCollection<Book>(BooksByTime.Where(x => x.isFragment).ToList());
+			    Basket = new XCollection<Book>(BooksByTime.Where(x => x.isFragment && !x.IsMyBook).ToList());
                 BooksByTime = new XCollection<Book>(BooksByTime.Where(x => !x.isFragment && x.IsMyBook).ToList());
                 BooksByAuthors = new XCollection<Book>(BooksByAuthors.Where(x => !x.isFragment && x.IsMyBook).ToList());
                 //BooksByTime.Add( new Book { IsEmptyElement = true } );			

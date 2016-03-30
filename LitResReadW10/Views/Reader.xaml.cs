@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Input;
 using Windows.UI.Popups;
+using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -119,6 +121,7 @@ namespace LitRes.Views
         async void ReaderLoaded(object sender, RoutedEventArgs e)
         {
             _moveCount = 0;
+       //     ViewModel.ChangeEntity(new Session());
             await ViewModel.LoadSettings();
             if (AppSettings.Default.CurrentTokenOffset > 0 || (Instance != null && Instance.FromSettings))
             {
@@ -146,6 +149,7 @@ namespace LitRes.Views
             if (!hideBar) return;
             await statusBar.HideAsync();
         }
+
         #endregion
 
         #region CreateDataSession
@@ -250,7 +254,9 @@ namespace LitRes.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ControlPanel.Instance.ReaderMode();
+
             base.OnNavigatedTo(e);
+           
             Analytics.Instance.sendMessage(Analytics.ViewReader);
         }
         

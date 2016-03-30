@@ -20,11 +20,11 @@
             <valueConverters:UrlToImageConverter x:Key="UrlToImageConverter" />
             <DataTemplate x:Key="BookMinicartTemplate">
                 <Grid Margin="0"
-              MinHeight="240"
-              MaxWidth="600"
-              VerticalAlignment="Top"
-              HorizontalAlignment="Stretch"
-              Background="{StaticResource LitResWhiteBrush}">
+                      MinHeight="240"
+                      MaxWidth="600"
+                      VerticalAlignment="Top"
+                      HorizontalAlignment="Stretch"
+                      Background="{StaticResource LitResWhiteBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -34,33 +34,33 @@
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid
-                Grid.Row="0"
-                Grid.Column="0"
-                Grid.RowSpan="2"
-                Style="{StaticResource CoverGrid}"
-                Margin="12,12,0,12"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Left">
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.RowSpan="2"
+                        Style="{StaticResource CoverGrid}"
+                        Margin="12,12,0,12"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left">
                         <Image x:Name="CoverPreviewImage"
-                       Grid.Row="0"
-                       Source="{Binding Path=CoverPreviewSized}"
-                       Stretch="None"
-                       VerticalAlignment="Top" />
+                               Grid.Row="0"
+                               Source="{Binding Path=CoverPreviewSized}"
+                               Stretch="None"
+                               VerticalAlignment="Top" />
                     </Grid>
 
                     <RelativePanel
-                Grid.Column="1"
-                Grid.Row="0"
-                Grid.RowSpan="2"
-                HorizontalAlignment="Stretch"
-                Margin="12,8,12,13">
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        HorizontalAlignment="Stretch"
+                        Margin="12,8,12,13">
 
                         <Grid
-                    x:Name="TopInfoGrid"
-                    RelativePanel.AlignTopWithPanel="True"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Margin="0,27,0,0">
+                            x:Name="TopInfoGrid"
+                            RelativePanel.AlignTopWithPanel="True"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Margin="0,27,0,0">
 
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.75*" />
@@ -68,67 +68,67 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        Orientation="Vertical">
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Orientation="Vertical">
 
                                 <TextBlock
-                            MaxLines="2"
-                            Margin="0"
-                            HorizontalAlignment="Left"
-                            TextAlignment="Left"
-                            Text="{Binding Path=Description.Hidden.TitleInfo.BookTitle}"
-                            TextWrapping="Wrap"
-                            TextTrimming="WordEllipsis"
-                            FontFamily="Segoe UI"
-                            FontSize="18"
-                            FontWeight="Medium"
-                            Foreground="Black" />
+                                    MaxLines="2"
+                                    Margin="0"
+                                    HorizontalAlignment="Left"
+                                    TextAlignment="Left"
+                                    Text="{Binding Path=Description.Hidden.TitleInfo.BookTitle}"
+                                    TextWrapping="Wrap"
+                                    TextTrimming="WordEllipsis"
+                                    FontFamily="Segoe UI"
+                                    FontSize="18"
+                                    FontWeight="Medium"
+                                    Foreground="Black" />
                                 <TextBlock
-                            Margin="0"
-                            TextWrapping="Wrap"
-                            TextTrimming="WordEllipsis"
-                            MaxLines="2"
-                            FontSize="18"
-                            FontWeight="SemiLight"
-                            FontFamily="Segoe UI"
-                            Foreground="#626065"
-                            Text="{Binding Converter={StaticResource BookAuthorConverter}}" />
+                                    Margin="0"
+                                    TextWrapping="Wrap"
+                                    TextTrimming="WordEllipsis"
+                                    MaxLines="2"
+                                    FontSize="18"
+                                    FontWeight="SemiLight"
+                                    FontFamily="Segoe UI"
+                                    Foreground="#626065"
+                                    Text="{Binding Converter={StaticResource BookAuthorConverter}}" />
 
                                 <StackPanel
-                            Margin="0,8,0,0"
-                            HorizontalAlignment="Left"
-                            Orientation="Horizontal"
-                            Visibility="{Binding Path=IsMyBook, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse ,FallbackValue=Collapsed}">
+                                    Margin="0,8,0,0"
+                                    HorizontalAlignment="Left"
+                                    Orientation="Horizontal"
+                                    Visibility="{Binding Path=IsMyBook, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse ,FallbackValue=Collapsed}">
                                     <controls:ImageProgressBar
-                                Margin="0"
-                                Value="{Binding Path=Rating}"
-                                Fill="{StaticResource LitResAccentBrush}"
-                                Source="/Assets/RatingDisabled.png"
-                                SourceMaskUri="/Assets/Rating.png"
-                                Minimum="0"
-                                Maximum="10"
-                                HorizontalAlignment="Left" />
+                                        Margin="0"
+                                        Value="{Binding Path=Rating}"
+                                        Fill="{StaticResource LitResAccentBrush}"
+                                        Source="/Assets/RatingDisabled.png"
+                                        SourceMaskUri="/Assets/Rating.png"
+                                        Minimum="0"
+                                        Maximum="10"
+                                        HorizontalAlignment="Left" />
                                     <TextBlock
-                                Margin="5,0,0,0"
-                                FontSize="14"
-                                FontFamily="Segoe UI"
-                                Foreground="#626065"
-                                FontWeight="SemiLight"
-                                VerticalAlignment="Center"
-                                Text="{Binding Path=Recenses, Converter={StaticResource Formatter}, ConverterParameter=(\{0\})}" />
+                                        Margin="5,0,0,0"
+                                        FontSize="14"
+                                        FontFamily="Segoe UI"
+                                        Foreground="#626065"
+                                        FontWeight="SemiLight"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Path=Recenses, Converter={StaticResource Formatter}, ConverterParameter=(\{0\})}" />
                                 </StackPanel>
                             </StackPanel>
                         </Grid>
                         <StackPanel
-                    RelativePanel.AlignLeftWithPanel="True"
-                    RelativePanel.AlignRightWithPanel="True"
-                    RelativePanel.Below="{Binding ElementName=TopInfoGrid}"
-                    HorizontalAlignment="Stretch"
-                    Margin="0,10,0,10"
-                    Visibility="{Binding Path=IsMyBook, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}">
+                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.Below="{Binding ElementName=TopInfoGrid}"
+                            HorizontalAlignment="Stretch"
+                            Margin="0,10,0,10"
+                            Visibility="{Binding Path=IsMyBook, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}">
                             <!--<TextBlock
                         Margin="0,0,0,10"
                         MaxLines="2"
@@ -156,64 +156,65 @@
                     </ProgressBar>-->
                         </StackPanel>
                         <Grid
-                    RelativePanel.AlignRightWithPanel="True"
-                    RelativePanel.AlignBottomWithPanel="True"
-                    Margin="0,10,0,10">
+                            RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.AlignBottomWithPanel="True"
+                            Margin="0,10,0,10">
                             <Button
-                        x:Name="ListViewFreeBook"
-                        Style="{StaticResource GreenButtonStyle}"
-                        Width="100"
-                        Height="36"
-                        Padding="5,0,5,0"
-                        Visibility="{Binding Path=isFreeBook, Converter={StaticResource VisibilityConverter}}">
-                                <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО"
-                                   MaxLines="2"
-                                   FontSize="14"
-                                   FontWeight="Normal" />
-                            </Button>
-                            <StackPanel
-                        Visibility="{Binding ElementName=ListViewFreeBook, Path=Visibility, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse}">
-                                <StackPanel
-                            Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=price|visibility, FallbackValue=Collapsed}">
-                                    <Button
+                                x:Name="ListViewFreeBook"
                                 Style="{StaticResource GreenButtonStyle}"
-                                Width="72"
+                                Width="100"
                                 Height="36"
-                                Padding="5,0,5,0">
-                                        <TextBlock TextWrapping="Wrap"
+                                Padding="5,0,5,0"
+                                Visibility="{Binding Path=isFreeBook, Converter={StaticResource VisibilityConverter}}">
+                                <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО"
                                            MaxLines="2"
                                            FontSize="14"
-                                           FontWeight="SemiBold">
-                                    <Run Text="{Binding Path=PriceInRub}" />
-                                    <Run Text="₽" />
+                                           FontWeight="Normal" />
+                            </Button>
+                            <StackPanel
+                                Visibility="{Binding ElementName=ListViewFreeBook, Path=Visibility, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse}">
+                                <StackPanel
+                                    Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=price|visibility, FallbackValue=Collapsed}">
+                                    <Button
+                                        Style="{StaticResource GreenButtonStyle}"
+                                        Width="72"
+                                        Height="36"
+                                        Padding="5,0,5,0">
+                                        <TextBlock TextWrapping="Wrap"
+                                                   MaxLines="2"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold">
+                                            <Run Text="{Binding Path=PriceInRub}" />
+                                            <Run Text="₽" />
                                         </TextBlock>
                                     </Button>
                                 </StackPanel>
                             </StackPanel>
-                            <StackPanel Visibility="{Binding Path=IsMyBook, Converter={StaticResource VisibilityConverter}}">
+                            <StackPanel
+                                Visibility="{Binding Path=IsMyBook, Converter={StaticResource VisibilityConverter}}">
                                 <StackPanel
-                            Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=trial|inverse|visibility, FallbackValue=Collapsed}">
+                                    Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=trial|inverse|visibility, FallbackValue=Collapsed}">
                                     <Button
-                                Style="{StaticResource OrangeButtonStyle}"
-                                Width="72"
-                                Height="36"
-                                Padding="5,0,5,0"
-                                Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|inverse|visibility, FallbackValue=Collapsed}">
+                                        Style="{StaticResource OrangeButtonStyle}"
+                                        Width="72"
+                                        Height="36"
+                                        Padding="5,0,5,0"
+                                        Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|inverse|visibility, FallbackValue=Collapsed}">
                                         <TextBlock TextWrapping="Wrap"
-                                           Text="СКАЧАТЬ"
-                                           FontSize="14"
-                                           FontWeight="SemiLight" />
+                                                   Text="СКАЧАТЬ"
+                                                   FontSize="14"
+                                                   FontWeight="SemiLight" />
                                     </Button>
                                     <Button
-                                Style="{StaticResource OrangeButtonStyle}"
-                                Width="72"
-                                Height="36"
-                                Padding="5,0,5,0"
-                                Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|visibility, FallbackValue=Collapsed}">
+                                        Style="{StaticResource OrangeButtonStyle}"
+                                        Width="72"
+                                        Height="36"
+                                        Padding="5,0,5,0"
+                                        Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|visibility, FallbackValue=Collapsed}">
                                         <TextBlock TextWrapping="Wrap"
-                                           Text="ЧИТАТЬ"
-                                           FontSize="14"
-                                           FontWeight="SemiLight" />
+                                                   Text="ЧИТАТЬ"
+                                                   FontSize="14"
+                                                   FontWeight="SemiLight" />
                                     </Button>
                                 </StackPanel>
                             </StackPanel>
@@ -224,11 +225,11 @@
 
             <DataTemplate x:Key="BookMinicartGridTemplate">
                 <Grid Margin="0"
-              Width="350"
-              Height="250"
-              VerticalAlignment="Top"
-              HorizontalAlignment="Stretch"
-              Background="{StaticResource LitResWhiteBrush}">
+                      Width="350"
+                      Height="250"
+                      VerticalAlignment="Top"
+                      HorizontalAlignment="Stretch"
+                      Background="{StaticResource LitResWhiteBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -238,30 +239,31 @@
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid
-                Grid.Row="0"
-                Grid.Column="0"
-                Grid.RowSpan="2"
-                Style="{StaticResource CoverGrid}"
-                Margin="12,12,0,12"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Left">
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.RowSpan="2"
+                        Style="{StaticResource CoverGrid}"
+                        Margin="12,12,0,12"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left">
 
-                        <Image Grid.Row="0" Source="{Binding Path=CoverPreviewSized}" Stretch="None" VerticalAlignment="Top" />
+                        <Image Grid.Row="0" Source="{Binding Path=CoverPreviewSized}" Stretch="None"
+                               VerticalAlignment="Top" />
                     </Grid>
 
                     <RelativePanel
-                Grid.Column="1"
-                Grid.Row="0"
-                HorizontalAlignment="Stretch"
-                Grid.RowSpan="2"
-                Margin="12,13,12,13">
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        HorizontalAlignment="Stretch"
+                        Grid.RowSpan="2"
+                        Margin="12,13,12,13">
 
                         <Grid
-                    x:Name="TopInfoGrid"
-                    RelativePanel.AlignTopWithPanel="True"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Margin="0,27,0,0">
+                            x:Name="TopInfoGrid"
+                            RelativePanel.AlignTopWithPanel="True"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Margin="0,27,0,0">
 
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.75*" />
@@ -269,68 +271,68 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel
-                        Grid.Column="0"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        Orientation="Vertical">
+                                Grid.Column="0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Orientation="Vertical">
 
                                 <TextBlock
-                            MaxLines="2"
-                            Margin="0"
-                            HorizontalAlignment="Left"
-                            TextAlignment="Left"
-                            Text="{Binding Path=Description.Hidden.TitleInfo.BookTitle}"
-                            TextWrapping="Wrap"
-                            TextTrimming="WordEllipsis"
-                            FontFamily="Segoe UI"
-                            FontSize="18"
-                            FontWeight="Medium"
-                            Foreground="Black" />
+                                    MaxLines="2"
+                                    Margin="0"
+                                    HorizontalAlignment="Left"
+                                    TextAlignment="Left"
+                                    Text="{Binding Path=Description.Hidden.TitleInfo.BookTitle}"
+                                    TextWrapping="Wrap"
+                                    TextTrimming="WordEllipsis"
+                                    FontFamily="Segoe UI"
+                                    FontSize="18"
+                                    FontWeight="Medium"
+                                    Foreground="Black" />
                                 <TextBlock
-                            Margin="0"
-                            MaxLines="2"
-                            TextWrapping="Wrap"
-                            TextTrimming="WordEllipsis"
-                            FontSize="18"
-                            FontWeight="SemiLight"
-                            FontFamily="Segoe UI"
-                            Foreground="#626065"
-                            Text="{Binding Converter={StaticResource BookAuthorConverter}}" />
+                                    Margin="0"
+                                    MaxLines="2"
+                                    TextWrapping="Wrap"
+                                    TextTrimming="WordEllipsis"
+                                    FontSize="18"
+                                    FontWeight="SemiLight"
+                                    FontFamily="Segoe UI"
+                                    Foreground="#626065"
+                                    Text="{Binding Converter={StaticResource BookAuthorConverter}}" />
 
                                 <StackPanel
-                            Visibility="{Binding Path=IsMyBook, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse ,FallbackValue=Collapsed}"
-                            Margin="0,5,0,0"
-                            HorizontalAlignment="Left"
-                            Orientation="Horizontal">
+                                    Visibility="{Binding Path=IsMyBook, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse ,FallbackValue=Collapsed}"
+                                    Margin="0,5,0,0"
+                                    HorizontalAlignment="Left"
+                                    Orientation="Horizontal">
                                     <controls:ImageProgressBar
-                                Margin="0"
-                                Value="{Binding Path=Rating}"
-                                Fill="{StaticResource LitResAccentBrush}"
-                                Source="/Assets/RatingDisabled.png"
-                                SourceMaskUri="/Assets/Rating.png"
-                                Minimum="0"
-                                Maximum="10"
-                                HorizontalAlignment="Left" />
+                                        Margin="0"
+                                        Value="{Binding Path=Rating}"
+                                        Fill="{StaticResource LitResAccentBrush}"
+                                        Source="/Assets/RatingDisabled.png"
+                                        SourceMaskUri="/Assets/Rating.png"
+                                        Minimum="0"
+                                        Maximum="10"
+                                        HorizontalAlignment="Left" />
                                     <TextBlock
-                                Margin="5,0,0,0"
-                                FontSize="14"
-                                FontFamily="Segoe UI"
-                                Foreground="#626065"
-                                FontWeight="SemiLight"
-                                VerticalAlignment="Center"
-                                Text="{Binding Path=Recenses, Converter={StaticResource Formatter}, ConverterParameter=(\{0\})}" />
+                                        Margin="5,0,0,0"
+                                        FontSize="14"
+                                        FontFamily="Segoe UI"
+                                        Foreground="#626065"
+                                        FontWeight="SemiLight"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Path=Recenses, Converter={StaticResource Formatter}, ConverterParameter=(\{0\})}" />
                                 </StackPanel>
 
                             </StackPanel>
 
                         </Grid>
                         <StackPanel
-                    RelativePanel.AlignLeftWithPanel="True"
-                    RelativePanel.AlignRightWithPanel="True"
-                    RelativePanel.Below="{Binding ElementName=TopInfoGrid}"
-                    HorizontalAlignment="Stretch"
-                    Margin="0,10,0,10"
-                    Visibility="{Binding Path=IsMyBook, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}">
+                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.Below="{Binding ElementName=TopInfoGrid}"
+                            HorizontalAlignment="Stretch"
+                            Margin="0,10,0,10"
+                            Visibility="{Binding Path=IsMyBook, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}">
 
                             <!--<TextBlock
                         Margin="0,0,0,10"
@@ -360,69 +362,70 @@
                     </ProgressBar>-->
                         </StackPanel>
                         <Grid
-                    x:Name="ButtomButtonGrid"
-                    RelativePanel.AlignRightWithPanel="True"
-                    RelativePanel.AlignBottomWithPanel="True"
-                    Margin="0,10,0,10">
+                            x:Name="ButtomButtonGrid"
+                            RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.AlignBottomWithPanel="True"
+                            Margin="0,10,0,10">
                             <Button
-                        x:Name="GridFreeButton"
-                        Style="{StaticResource GreenButtonStyle}"
-                        Width="100"
-                        Height="36"
-                        Padding="5,0,5,0"
-                        Visibility="{Binding Path=isFreeBook, Converter={StaticResource VisibilityConverter}}">
+                                x:Name="GridFreeButton"
+                                Style="{StaticResource GreenButtonStyle}"
+                                Width="100"
+                                Height="36"
+                                Padding="5,0,5,0"
+                                Visibility="{Binding Path=isFreeBook, Converter={StaticResource VisibilityConverter}}">
                                 <TextBlock TextWrapping="Wrap"
-                                   Text="БЕСПЛАТНО"
-                                   MaxLines="2"
-                                   FontSize="14"
-                                   FontWeight="Normal" />
+                                           Text="БЕСПЛАТНО"
+                                           MaxLines="2"
+                                           FontSize="14"
+                                           FontWeight="Normal" />
                             </Button>
 
                             <StackPanel
-                        Visibility="{Binding ElementName=GridFreeButton, Path=Visibility, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse}">
+                                Visibility="{Binding ElementName=GridFreeButton, Path=Visibility, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse}">
                                 <StackPanel
-                            Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=price|visibility, FallbackValue=Collapsed}">
+                                    Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=price|visibility, FallbackValue=Collapsed}">
                                     <Button
-                                Style="{StaticResource GreenButtonStyle}"
-                                Width="72"
-                                Height="36"
-                                Padding="5,0,5,0">
+                                        Style="{StaticResource GreenButtonStyle}"
+                                        Width="72"
+                                        Height="36"
+                                        Padding="5,0,5,0">
                                         <TextBlock TextWrapping="Wrap"
-                                           MaxLines="2"
-                                           FontSize="14"
-                                           FontWeight="SemiBold">
-                                    <Run Text="{Binding Path=PriceInRub}" />
-                                    <Run Text="₽" />
+                                                   MaxLines="2"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold">
+                                            <Run Text="{Binding Path=PriceInRub}" />
+                                            <Run Text="₽" />
                                         </TextBlock>
                                     </Button>
                                 </StackPanel>
                             </StackPanel>
-                            <StackPanel Visibility="{Binding Path=IsMyBook, Converter={StaticResource VisibilityConverter}}">
+                            <StackPanel
+                                Visibility="{Binding Path=IsMyBook, Converter={StaticResource VisibilityConverter}}">
                                 <StackPanel
-                            Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=trial|inverse|visibility, FallbackValue=Collapsed}">
+                                    Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=trial|inverse|visibility, FallbackValue=Collapsed}">
                                     <Button
-                                Style="{StaticResource OrangeButtonStyle}"
-                                Width="72"
-                                Height="36"
-                                Padding="5,0,5,0"
-                                Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|inverse|visibility, FallbackValue=Collapsed}">
+                                        Style="{StaticResource OrangeButtonStyle}"
+                                        Width="72"
+                                        Height="36"
+                                        Padding="5,0,5,0"
+                                        Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|inverse|visibility, FallbackValue=Collapsed}">
                                         <TextBlock TextWrapping="Wrap"
-                                           Text="СКАЧАТЬ"
-                                           MaxLines="2"
-                                           FontSize="14"
-                                           FontWeight="SemiLight" />
+                                                   Text="СКАЧАТЬ"
+                                                   MaxLines="2"
+                                                   FontSize="14"
+                                                   FontWeight="SemiLight" />
                                     </Button>
                                     <Button
-                                Style="{StaticResource OrangeButtonStyle}"
-                                Width="72"
-                                Height="36"
-                                Padding="5,0,5,0"
-                                Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|visibility, FallbackValue=Collapsed}">
+                                        Style="{StaticResource OrangeButtonStyle}"
+                                        Width="72"
+                                        Height="36"
+                                        Padding="5,0,5,0"
+                                        Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|visibility, FallbackValue=Collapsed}">
                                         <TextBlock TextWrapping="Wrap"
-                                           Text="ЧИТАТЬ"
-                                           MaxLines="2"
-                                           FontSize="14"
-                                           FontWeight="SemiLight" />
+                                                   Text="ЧИТАТЬ"
+                                                   MaxLines="2"
+                                                   FontSize="14"
+                                                   FontWeight="SemiLight" />
                                     </Button>
                                 </StackPanel>
                             </StackPanel>
@@ -435,20 +438,20 @@
 
     <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}">
         <StackPanel
-                        x:Name="NoConnection"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Vertical"
-                        Visibility="Collapsed">
+            x:Name="NoConnection"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Vertical"
+            Visibility="Collapsed">
             <Image Source="../Assets/W10Images/NoConnection/error_big.png"
-                               Stretch="None" />
+                   Stretch="None" />
 
             <TextBlock
-                            Margin="0,30,0,0"
-                            TextAlignment="Center"
-                            Foreground="{StaticResource LitresLightGreyBrush}"
-                            FontSize="{StaticResource LitresFontSizeBigMedium}"
-                            Text="Нет доступа к сети" />
+                Margin="0,30,0,0"
+                TextAlignment="Center"
+                Foreground="{StaticResource LitresLightGreyBrush}"
+                FontSize="{StaticResource LitresFontSizeBigMedium}"
+                Text="Нет доступа к сети" />
         </StackPanel>
         <ScrollViewer x:Name="GenresScrollViewer"
                       Margin="0"
@@ -532,7 +535,7 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                       <!-- <Setter Target="GenresTextBox.Margin" Value="-6,0,0,0" />-->
+                        <!-- <Setter Target="GenresTextBox.Margin" Value="-6,0,0,0" />-->
                     </VisualState.Setters>
                 </VisualState>
 

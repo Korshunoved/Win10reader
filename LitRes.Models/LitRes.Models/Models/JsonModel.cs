@@ -57,7 +57,7 @@ namespace LitRes.Models.JsonModels
                 {
                     try
                     {
-                        var imageUrl = string.Format("{0}{1}", "http://wp8-ebook.litres.ru", seria.img);
+                        var imageUrl = string.Format("{0}{1}", "http://win10-ebook.litres.ru", seria.img);
 
                         sequences.Add(new Book.SequenceInfo
                         {
@@ -85,7 +85,7 @@ namespace LitRes.Models.JsonModels
                 {
                     try
                     {
-                        var imageUrl = string.Format("{0}{1}", "http://wp8-ebook.litres.ru", collection.img);
+                        var imageUrl = string.Format("{0}{1}", "http://win10-ebook.litres.ru", collection.img);
 
                         sequences.Add(new Book.CollectionsInfo
                         {
@@ -156,8 +156,8 @@ namespace LitRes.Models.JsonModels
             var result = new Book
             {
                 Id = int.Parse(id),
-                Cover = $@"http://wp8-ebook.litres.ru{img}",
-                CoverPreview = $@"http://wp8-ebook.litres.ru{img}",
+                Cover = $@"http://win10-ebook.litres.ru{img}",
+                CoverPreview = $@"http://win10-ebook.litres.ru{img}",
                 Price = base_price,
                 BasePrice = base_price,
                 Description = new Book.TextDescription
