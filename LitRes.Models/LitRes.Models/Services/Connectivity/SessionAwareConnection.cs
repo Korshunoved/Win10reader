@@ -23,7 +23,7 @@ namespace LitRes.Services.Connectivity
 			_sessionEstablisherService = sessionEstablisherService;
 		}
 
-        public async Task<T> ProcessRequest<T>(string method, bool secureConnection, bool sessionRequired, CancellationToken cancellationToken, IDictionary<string, object> parameters = null, ConnectivityRequestType requestType = ConnectivityRequestType.POST, string url = "wp8-ebook.litres.ru", bool additionalParams = true)
+        public async Task<T> ProcessRequest<T>(string method, bool secureConnection, bool sessionRequired, CancellationToken cancellationToken, IDictionary<string, object> parameters = null, ConnectivityRequestType requestType = ConnectivityRequestType.POST, string url = "win10-ebook.litres.ru", bool additionalParams = true)
 		{
 			Dictionary<string, object> parametersWithSession = null;
 

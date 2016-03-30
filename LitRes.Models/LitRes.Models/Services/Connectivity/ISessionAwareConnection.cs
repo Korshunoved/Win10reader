@@ -27,7 +27,7 @@ namespace LitRes.Services.Connectivity
 		/// <param name="cancellationToken">Token to cancel asynchronous request.</param>
 		/// <param name="parameters">Request parameters.</param>
 		/// <returns>Server response as object of correct type.</returns>
-        Task<T> ProcessRequest<T>(string method, bool secureConnection, bool sessionRequired, CancellationToken cancellationToken, IDictionary<string, object> parameters = null, ConnectivityRequestType requestType = ConnectivityRequestType.POST, string url = "wp8-ebook.litres.ru", bool additionalParams = true);
+        Task<T> ProcessRequest<T>(string method, bool secureConnection, bool sessionRequired, CancellationToken cancellationToken, IDictionary<string, object> parameters = null, ConnectivityRequestType requestType = ConnectivityRequestType.POST, string url = "win10-ebook.litres.ru", bool additionalParams = true);
 
 		/// <summary>
 		/// Executes request for special uri without any parameters.

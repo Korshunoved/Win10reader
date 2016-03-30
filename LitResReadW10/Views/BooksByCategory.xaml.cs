@@ -114,8 +114,11 @@ namespace LitRes.Views
             var button = sender as Button;
             if (button != null)
             {
-                var book = button.DataContext as LitRes.Models.Book;
-                ViewModel.BuyBook.Execute(book);
+                var book = button.DataContext as Models.Book;
+                if (book != null && book.isFreeBook)
+                    ViewModel.Read.Execute(book);
+                else 
+                    ViewModel.BuyBook.Execute(book);
             }
         }
 

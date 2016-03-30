@@ -191,8 +191,9 @@
                                 Width="100"
                                 Height="36"
                                 Padding="5,0,5,0"
-                                 Visibility="Collapsed">
-                                <!--Visibility="{Binding Path=isFreeBook, Converter={StaticResource VisibilityConverter}}">-->
+                                Tapped="BuyButton_OnTapped" 
+                                Visibility="{Binding Path=isFreeBook, Converter={StaticResource VisibilityConverter}}">
+                                <!--Visibility="Collapsed">-->
                                 <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО"
                                            MaxLines="2"
                                            FontSize="14"
@@ -227,7 +228,7 @@
                                         Width="72"
                                         Height="36"
                                         Padding="5,0,5,0"
-                                         Visibility="Collapsed">
+                                        Visibility="Collapsed">
                                         <!--Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|inverse|visibility, FallbackValue=Collapsed}">-->
                                         <TextBlock TextWrapping="Wrap"
                                                    Text="СКАЧАТЬ"
@@ -239,7 +240,7 @@
                                         Width="72"
                                         Height="36"
                                         Padding="5,0,5,0"
-                                         Visibility="Collapsed">
+                                        Visibility="Collapsed">
                                         <!--Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|visibility, FallbackValue=Collapsed}">-->
                                         <TextBlock TextWrapping="Wrap"
                                                    Text="ЧИТАТЬ"
@@ -401,8 +402,9 @@
                                 Width="100"
                                 Height="36"
                                 Padding="5,0,5,0"
-                                 Visibility="Collapsed">
-                                <!--Visibility="{Binding Path=isFreeBook, Converter={StaticResource VisibilityConverter}}">-->
+                                Tapped="BuyButton_OnTapped" 
+                                Visibility="{Binding Path=isFreeBook, Converter={StaticResource VisibilityConverter}}">
+                                <!--Visibility="Collapsed">-->
                                 <TextBlock TextWrapping="Wrap"
                                            Text="БЕСПЛАТНО"
                                            MaxLines="2"
@@ -419,7 +421,7 @@
                                         Width="72"
                                         Height="36"
                                         Padding="5,0,5,0"
-                                        
+
                                         Tapped="BuyButton_OnTapped">
                                         <TextBlock TextWrapping="Wrap"
                                                    MaxLines="2"
@@ -440,7 +442,7 @@
                                         Width="72"
                                         Height="36"
                                         Padding="5,0,5,0"
-                                         Visibility="Collapsed">
+                                        Visibility="Collapsed">
                                         <!--Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|inverse|visibility, FallbackValue=Collapsed}">-->
                                         <TextBlock TextWrapping="Wrap"
                                                    Text="СКАЧАТЬ"
@@ -453,7 +455,7 @@
                                         Width="72"
                                         Height="36"
                                         Padding="5,0,5,0"
-                                         Visibility="Collapsed">
+                                        Visibility="Collapsed">
                                         <!--Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|visibility, FallbackValue=Collapsed}">-->
                                         <TextBlock TextWrapping="Wrap"
                                                    Text="ЧИТАТЬ"
@@ -472,20 +474,20 @@
 
     <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}">
         <StackPanel
-                        x:Name="NoConnection"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Vertical"
-                        Visibility="Collapsed">
+            x:Name="NoConnection"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Vertical"
+            Visibility="Collapsed">
             <Image Source="../Assets/W10Images/NoConnection/error_big.png"
-                               Stretch="None" />
+                   Stretch="None" />
 
             <TextBlock
-                            Margin="0,30,0,0"
-                            TextAlignment="Center"
-                            Foreground="{StaticResource LitresLightGreyBrush}"
-                            FontSize="{StaticResource LitresFontSizeBigMedium}"
-                            Text="Нет доступа к сети" />
+                Margin="0,30,0,0"
+                TextAlignment="Center"
+                Foreground="{StaticResource LitresLightGreyBrush}"
+                FontSize="{StaticResource LitresFontSizeBigMedium}"
+                Text="Нет доступа к сети" />
         </StackPanel>
         <ScrollViewer Grid.Row="0"
                       Padding="0,0,0,0"

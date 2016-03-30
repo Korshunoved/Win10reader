@@ -1502,7 +1502,7 @@ namespace LitRes.Services
                             { "disable_cache", 1}
                         };
 
-            return await _client.SearchAll(parameters, cancellationToken, "http://wp8-ebook.litres.ru/pages/search_rmd2/");
+            return await _client.SearchAll(parameters, cancellationToken, "http://win10-ebook.litres.ru/pages/search_rmd2/");
         }
 
 		public async Task<XCollection<Book>> SearchBooks(int fromPosition, string searchString, CancellationToken cancellationToken)

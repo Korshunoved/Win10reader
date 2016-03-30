@@ -23,6 +23,10 @@
         </StackPanel>
         <ScrollViewer Grid.Row="1"   Margin="10,0,10,0" VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled" VerticalAlignment="Stretch">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+                <TextBlock x:Name="SecondaryTileTextBlock" Margin="0,0,0,10"
+                           
+                           Style="{StaticResource TitleTextBlockStyle}"
+                           Text="Добавить на домашний экран" Tapped="SecondaryTileTextBlock_Tapped" />
                 <TextBlock
                     Margin="0,0,0,10"
                     Visibility="{Binding MobileVisibility}"

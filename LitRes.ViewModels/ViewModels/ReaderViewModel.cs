@@ -350,6 +350,17 @@ namespace LitRes.ViewModels
             }
             OnPropertyChanged(new PropertyChangedEventArgs("IncProgress"));
         }
+
+        public async void ChangeEntity(Session session)
+        {
+            if (Entity != null) return;
+            XCollection<Book> myBooks = await _catalogProvider.GetAllMyBooks(session.Token);            
+            foreach (var book in myBooks.Where(book => book.Id == Id))
+            {
+                Entity = book;
+                return;
+            }
+        }
         #endregion
 
         #region CreateBookmark

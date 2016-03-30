@@ -1,12 +1,15 @@
 ﻿using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Autofac;
+using Digillect;
 using Digillect.Mvvm.Services;
 using Digillect.Mvvm.UI;
 using LitRes;
+using LitRes.Models;
 using LitRes.Services;
 using LitRes.Views;
 using Microsoft.QueryStringDotNET;
@@ -22,6 +25,7 @@ namespace LitResReadW10
         internal const string PhoneRegexPattern = @"^\+7[0-9]{10,10}$";
         internal const int LoginLength = 3;
         internal const int PasswordLength = 3;
+        public static string TileBookId;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -44,6 +48,14 @@ namespace LitResReadW10
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             base.OnLaunched(e);
+            if (e.Arguments.Length > 0)
+            {
+              //  new MessageDialog(e.Kind.ToString()).ShowAsync();
+                TileBookId = e.Arguments;
+                var book = new LitRes.Models.Book {Id = int.Parse(TileBookId)};
+                RootFrame.Navigate(typeof(Reader), XParameters.Create("BookEntity", book));
+            }
+
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {

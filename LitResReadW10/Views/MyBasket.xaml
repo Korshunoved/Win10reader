@@ -159,20 +159,38 @@
                         RelativePanel.AlignBottomWithPanel="True"
                         Margin="0,10,0,10">
                         <Button
-                        Style="{StaticResource GreenButtonStyle}"
-                        Width="72"
-                        Height="36"
-                        Padding="5,0,5,0"
-                        Tapped="BuyButton_OnTapped">
-                            <TextBlock TextWrapping="Wrap"
-                                   MaxLines="2"
-                                   FontSize="14"
-                                   FontWeight="SemiBold">
-                            <Run Text="{Binding Path=PriceInRub}" />
-                            <Run Text="₽" />
-                            </TextBlock>
+                                x:Name="ListViewFreeBook"
+                                Style="{StaticResource GreenButtonStyle}"
+                                Width="100"
+                                Height="36"
+                                Padding="5,0,5,0"
+                                Visibility="{Binding Path=isFreeBook, Converter={StaticResource VisibilityConverter}}">
+                            <!--Visibility="Collapsed">-->
+                            <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО"
+                                           MaxLines="2"
+                                           FontSize="14"
+                                           FontWeight="Normal" />
                         </Button>
-
+                        <StackPanel
+                                Visibility="{Binding ElementName=ListViewFreeBook, Path=Visibility, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse}">
+                            <StackPanel
+                                    Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=price|visibility, FallbackValue=Collapsed}">
+                                <Button
+                                        Style="{StaticResource GreenButtonStyle}"
+                                        Width="72"
+                                        Height="36"
+                                        Padding="5,0,5,0"
+                                        Tapped="BuyButton_OnTapped">
+                                    <TextBlock TextWrapping="Wrap"
+                                                   MaxLines="2"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold">
+                                            <Run Text="{Binding Path=PriceInRub}" />
+                                            <Run Text="₽" />
+                                    </TextBlock>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
                     </Grid>
                 </RelativePanel>
             </Grid>
@@ -318,19 +336,41 @@
                         RelativePanel.AlignRightWithPanel="True"
                         RelativePanel.AlignBottomWithPanel="True">
                         <Button
-                            Style="{StaticResource GreenButtonStyle}"
-                            Width="72"
-                            Height="36"
-                            Padding="5,0,5,0"
-                            Tapped="BuyButton_OnTapped">
+                                x:Name="GridFreeButton"
+                                Style="{StaticResource GreenButtonStyle}"
+                                Width="100"
+                                Height="36"
+                                Padding="5,0,5,0"
+                                Visibility="{Binding Path=isFreeBook, Converter={StaticResource VisibilityConverter}}">
+                            <!--Visibility="Collapsed">-->
                             <TextBlock TextWrapping="Wrap"
-                                       MaxLines="2"
-                                       FontSize="14"
-                                       FontWeight="SemiBold">
-                                <Run Text="{Binding Path=PriceInRub}" />
-                                <Run Text="₽" />
-                            </TextBlock>
+                                           Text="БЕСПЛАТНО"
+                                           MaxLines="2"
+                                           FontSize="14"
+                                           FontWeight="Normal" />
                         </Button>
+
+                        <StackPanel
+                                Visibility="{Binding ElementName=GridFreeButton, Path=Visibility, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse}">
+                            <StackPanel
+                                    Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=price|visibility, FallbackValue=Collapsed}">
+                                <Button
+                                        Style="{StaticResource GreenButtonStyle}"
+                                        Width="72"
+                                        Height="36"
+                                        Padding="5,0,5,0"
+
+                                        Tapped="BuyButton_OnTapped">
+                                    <TextBlock TextWrapping="Wrap"
+                                                   MaxLines="2"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold">
+                                            <Run Text="{Binding Path=PriceInRub}" />
+                                            <Run Text="₽" />
+                                    </TextBlock>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
                         <!--<ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource BookMinicartButtonTemplateSelector}" />-->
                     </Grid>
                 </RelativePanel>

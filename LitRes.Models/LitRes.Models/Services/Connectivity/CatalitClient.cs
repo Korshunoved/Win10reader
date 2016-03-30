@@ -29,17 +29,17 @@ namespace LitRes.Services.Connectivity
             return _connection.ProcessRequest<BannersResponse>("catalit_banners", false, false, cancellationToken, parameters);
 		}
 
-        public Task<CatalogSearchResponse> SearchCatalog(IDictionary<string, object> parameters, CancellationToken cancellationToken, string url = "wp8-ebook.litres.ru", bool sid = true)
+        public Task<CatalogSearchResponse> SearchCatalog(IDictionary<string, object> parameters, CancellationToken cancellationToken, string url = "win10-ebook.litres.ru", bool sid = true)
 		{
 			return _connection.ProcessRequest<CatalogSearchResponse>("catalit_browser", false, sid, cancellationToken, parameters, ConnectivityRequestType.GET, url, true);
 		}
 
-        public Task<Rootobject> SearchAll(IDictionary<string, object> parameters, CancellationToken cancellationToken, string url = "wp8-ebook.litres.ru", bool sid = true)
+        public Task<Rootobject> SearchAll(IDictionary<string, object> parameters, CancellationToken cancellationToken, string url = "win10-ebook.litres.ru", bool sid = true)
         {
             return _connection.ProcessJsonRequest<Rootobject>(url, "GET", cancellationToken, parameters, false);
         }
 
-        public Task<CatalogSearchResponse> SearchAudioCatalog(IDictionary<string, object> parameters, CancellationToken cancellationToken, string url = "wp8-ebook.litres.ru", bool sid = true)
+        public Task<CatalogSearchResponse> SearchAudioCatalog(IDictionary<string, object> parameters, CancellationToken cancellationToken, string url = "win10-ebook.litres.ru", bool sid = true)
         {
             return _connection.ProcessRequest<CatalogSearchResponse>("catalit_browser", false, sid, cancellationToken, parameters, ConnectivityRequestType.POST, url);
         }
@@ -143,7 +143,7 @@ namespace LitRes.Services.Connectivity
 
 		public Task<RawFile> SubscribeDevice(IDictionary<string, object> parameters, CancellationToken cancellationToken)
 		{
-			return _connection.ProcessRequest<RawFile>("fake", false, true, cancellationToken, parameters);
+			return _connection.ProcessRequest<RawFile>("fake", false, true, cancellationToken, parameters, ConnectivityRequestType.GET);
 		}
 
         public Task<RawFile> SendSpampack(IDictionary<string, object> parameters, CancellationToken cancellationToken)

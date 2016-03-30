@@ -79,7 +79,7 @@ namespace LitRes.Services
             }
         }
 
-		public int AppId => 6;
+		public int AppId => 93;
 
 	    public int LibAppId => 14;
 

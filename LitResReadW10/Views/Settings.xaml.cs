@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -451,6 +452,37 @@ namespace LitRes.Views
             }
             if (SystemInfoHelper.IsDesktop())
                 _readerPage.UpdateSettings();
+        }
+
+        private async void SecondaryTileTextBlock_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var uri150X150Logo = new Uri("ms-appx:///Assets/OrangeBlank150x150Logo.png");
+            var uri310X150Logo = new Uri("ms-appx:///Assets/OrangeBlank310x150Logo.png");
+            var uri310X310Logo = new Uri("ms-appx:///Assets/OrangeBlank310x310Logo.png");
+            var uri44X44Logo = new Uri("ms-appx:///Assets/OrangeBlank44x44Logo.png");
+            var uri71X71Logo = new Uri("ms-appx:///Assets/OrangeBlank71x71Logo.png");
+
+            var book = _readerPage.ViewModel.Entity;
+            var secondaryTile = new SecondaryTile(book.Id.ToString(), book.BookTitle,
+                book.Id.ToString(), uri150X150Logo, TileSize.Square150x150)
+            {
+                VisualElements =
+                {
+                    Square310x310Logo = uri310X310Logo,
+                    Square44x44Logo = uri44X44Logo,
+                    Square71x71Logo = uri71X71Logo,
+                    Wide310x150Logo = uri310X150Logo,
+                    ForegroundText = ForegroundText.Light,
+                    ShowNameOnSquare150x150Logo = true,
+                    ShowNameOnSquare310x310Logo = true,
+                    ShowNameOnWide310x150Logo = true
+                },
+                RoamingEnabled = false
+            };
+
+
+            //secondaryTile.
+            await secondaryTile.RequestCreateAsync();
         }
     }
 

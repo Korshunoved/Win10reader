@@ -200,8 +200,8 @@ namespace LitRes.Services
 			var parameters = new Dictionary<string, object>
 				{
 					{"action", "store_device_key"},									
-					{"token", token},
-                    {"app", 93}			
+					{"token", token}
+                    //{"app", 93}			
 					//{"mac", _deviceInfoService.DeviceId}
                    
 				};

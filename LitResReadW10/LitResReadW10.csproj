@@ -142,6 +142,13 @@
     <Content Include="Assets\Icons\ThemeIcons\Sepia.png" />
     <Content Include="Assets\Icons\ThemeIcons\Dark.png" />
     <Content Include="Assets\Icons\ThemeIcons\Light.png" />
+    <Content Include="Assets\OrangeBlank150x150Logo.png" />
+    <Content Include="Assets\OrangeBlank30x30Logo.png" />
+    <Content Include="Assets\OrangeBlank310x150Logo.png" />
+    <Content Include="Assets\OrangeBlank310x310Logo.png" />
+    <Content Include="Assets\OrangeBlank44x44Logo.png" />
+    <Content Include="Assets\OrangeBlank70x70Logo.png" />
+    <Content Include="Assets\OrangeBlank71x71Logo.png" />
     <Content Include="Assets\Rating.scale-100.png" />
     <Content Include="Assets\Rating.scale-125.png" />
     <Content Include="Assets\Rating.scale-150.png" />
@@ -625,6 +632,7 @@
     <Compile Include="ValueConverters\BooleanToColorConverter.cs" />
     <Compile Include="ValueConverters\BuyBookButtonEnableConverter.cs" />
     <Compile Include="ValueConverters\BuyBookButtonVisibleConverter.cs" />
+    <Compile Include="ValueConverters\CacheImageFileConverter.cs" />
     <Compile Include="ValueConverters\CommaListConverter.cs" />
     <Compile Include="ValueConverters\ConverterBase.cs" />
     <Compile Include="ValueConverters\CoverConverter.cs" />

@@ -12,7 +12,7 @@ using System.Text;
 //{
 //    internal class RestClientService : IRestClientService
 //    {
-//        public Task<IRestResponse> ProcessRequest(IRestRequest request, bool secureConnection, CancellationToken cancellationToken, string url = "wp8-ebook.litres.ru")
+//        public Task<IRestResponse> ProcessRequest(IRestRequest request, bool secureConnection, CancellationToken cancellationToken, string url = "win10-ebook.litres.ru")
 //        {
 //            //url = "whub.litres.ru"; // test domen
 //            var client = new RestClient(string.Format("http{0}://{1}/pages", secureConnection ? "s" : "", url));
@@ -24,7 +24,7 @@ using System.Text;
 
 //        public Task<IRestResponse> ProcessStaticRequest(IRestRequest request, CancellationToken cancellationToken)
 //        {
-//            var client = new RestClient("http://wp8-ebook.litres.ru/static");
+//            var client = new RestClient("http://win10-ebook.litres.ru/static");
 
 //            return client.ExecuteRequestAsync(request, cancellationToken);
 //        }
@@ -56,7 +56,7 @@ namespace LitRes.Services.Connectivity
 {
     internal class RestClientService : IRestClientService
     {
-        public Task<IRestResponse> ProcessRequest(IRestRequest request, bool secureConnection, CancellationToken cancellationToken, string url = "wp8-ebook.litres.ru")
+        public Task<IRestResponse> ProcessRequest(IRestRequest request, bool secureConnection, CancellationToken cancellationToken, string url = "win10-ebook.litres.ru")
         {
             //url = "whub.litres.ru"; // test domen
             var client = new RestClient(string.Format("http{0}://{1}/pages", secureConnection ? "s" : "", url));
@@ -68,7 +68,7 @@ namespace LitRes.Services.Connectivity
 
         public Task<IRestResponse> ProcessStaticRequest(IRestRequest request, CancellationToken cancellationToken)
         {
-            var client = new RestClient("http://wp8-ebook.litres.ru/static");
+            var client = new RestClient("http://win10-ebook.litres.ru/static");
 #if DEBUG
             RequestToString(request, client);
 #endif
