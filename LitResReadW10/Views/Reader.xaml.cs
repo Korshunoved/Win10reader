@@ -673,11 +673,12 @@ namespace LitRes.Views
         {
             var book = AppSettings.Default.CurrentBook;
             int lastTokenId;
-            var offset = 30;
+            var offset = 50;
             var tokenId = _tokenOffset - offset;
-            var text = _bookTool.GetText(book, tokenId, 20, out lastTokenId);
+            var text = _bookTool.GetLastParagraphByToken(book, tokenId, 40, out lastTokenId);
             var chapter = _bookTool.GetChapterByToken(tokenId);
-            var xpointer = "fb2#xpointer(point(/1/2/4/5.630))";
+            var xpointer = ViewModel.GetXPointer(text);
+            if (xpointer == null) return;
             var percent = Convert.ToString((int)Math.Ceiling(CurrentPageSlider.Value / (CurrentPageSlider.Maximum / 100)));
             await ViewModel.AddBookmark(text, xpointer, chapter, false, percent);
             BookmarkGrid.Visibility = Visibility.Visible;

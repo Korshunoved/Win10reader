@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Xml.Linq;
 using BookParser.Data;
 
 namespace BookParser.Parsers
@@ -9,6 +10,8 @@ namespace BookParser.Parsers
         Dictionary<string, int> Anchors { get; }
 
         List<BookChapter> Chapters { get; }
+
+        XElement Root { get; set; }
 
         void BuildChapters();
 

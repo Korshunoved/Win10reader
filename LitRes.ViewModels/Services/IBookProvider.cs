@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using BookParser.Parsers;
 using Digillect.Collections;
 using LitRes.Models;
 
@@ -15,7 +16,8 @@ namespace LitRes.Services
         bool TrialBookExistsInLocalStorage(int bookId);
         Task RemoveFullBookInLocalStorage(Book book);
         void RemoveTrialBookInLocalStorage(Book book);
-        void GetBookFromStorage(Book book, bool isTrial);
+        IBookSummaryParser GetBookFromStorage(Book book, bool isTrial);
+        IBookSummaryParser GetSummaryParser(Book book, bool isTrial);
         Task ClearLibrariesBooks(CancellationToken token);
         Task ClearNotLoadedBooks(CancellationToken token);
     }

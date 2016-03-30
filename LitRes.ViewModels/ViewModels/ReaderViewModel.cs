@@ -14,9 +14,12 @@ using LitRes.Services;
 using LitRes.Services.Connectivity;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Xml.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using BookParser;
+using BookParser.Parsers;
+using BookParser.Parsers.Fb2;
 using Digillect;
 
 namespace LitRes.ViewModels
@@ -211,6 +214,9 @@ namespace LitRes.ViewModels
             get { return _settings; }
             set { SetProperty(ref _settings, value, "ReaderSettings"); }
         }
+
+        public IBookSummaryParser BookSummary { get; set; }
+        
         #endregion
 
         protected override Task LoadEntity(Session session)
@@ -435,21 +441,23 @@ namespace LitRes.ViewModels
                     {
                         if (existTrial)
                         {
-                            _bookProvider.GetBookFromStorage(book, true);
+                           BookSummary = _bookProvider.GetBookFromStorage(book, true);
                         }
                         else if (exist)
                         {
-                            _bookProvider.GetBookFromStorage(book, false);
+                            BookSummary = _bookProvider.GetBookFromStorage(book, false);
                             status = LoadingStatus.FullBookLoaded;
                         }
                         else if (book.IsMyBook)
                         {
                             await _bookProvider.GetFullBook(book, session.Token);
+                            BookSummary = _bookProvider.GetSummaryParser(book, false);
                             status = LoadingStatus.FullBookLoaded;
                         }
                         else
                         {
                             await _bookProvider.GetTrialBook(book, session.Token);
+                            BookSummary = _bookProvider.GetSummaryParser(book, true);
                             status = LoadingStatus.TrialBookLoaded;
                         }
 
@@ -819,6 +827,71 @@ namespace LitRes.ViewModels
         public async void UpdateExistBook(Book book)
         {
             await _catalogProvider.UpdateExistBook(book);
+        }
+
+        const string XpointerStartMagicWord = "fb2#xpointer(point(";
+        const string XpointerEndMagicWord = "))";
+        public static string XpointerFormatString { get; } = XpointerStartMagicWord + "{0}" + XpointerEndMagicWord;
+
+        public string GetXPointer(string pattern)
+        {
+            var root = BookSummary.Root;
+            XAttribute attribute = root.Attribute("xmlns");
+            XNamespace _ns = attribute.Value;
+            var body = root.Element(_ns + "body");
+            var block = FindFirst(body, pattern);
+            StringBuilder buffer = new StringBuilder();
+            bool hasPoint = false;
+            if (block != null)
+            {
+
+                while (block != null)
+                {
+                    if (!block.HasElements)
+                    {
+                        var foundString = block.Value.Replace(Convert.ToChar(160).ToString(), " ");
+                        int position = foundString.IndexOf(pattern, StringComparison.Ordinal);
+                        if (position > 0)
+                        {
+                            buffer.Insert(0, (position + 1).ToString());
+                            buffer.Insert(0, ".");
+                            hasPoint = true;
+                        }
+                    }
+                    buffer.Insert(0, (block.ElementsBeforeSelf().Count() + 1).ToString());
+                    buffer.Insert(0, "/");
+                    block = block.Parent;
+                }
+            }
+            else
+            {
+                return null;
+            }
+            if (!hasPoint)
+                buffer.Append(".1");
+            return string.Format(XpointerFormatString, buffer);
+        }
+
+        private XElement FindFirst(XElement parent, string pattern)
+        {
+            foreach (var element in parent.Elements())
+            {
+                if (!element.HasElements)
+                {
+                    if (element.Value.Contains("Бонифаций"))
+                        Debug.WriteLine("asdasd");
+                    var tmp = pattern.Replace(" ", string.Empty).Replace(Convert.ToChar(160).ToString(), "");
+                    var elemText = element.Value.Replace(" ", "").Replace(Convert.ToChar(160).ToString(), "");
+                    if (elemText.Contains(tmp) || tmp.Contains(elemText))
+                        return element;
+                }
+                else
+                {
+                    var block = FindFirst(element, pattern);
+                    if (block != null) return block;
+                }
+            }
+            return null;
         }
     }
 }

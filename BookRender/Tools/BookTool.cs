@@ -15,7 +15,7 @@ namespace BookRender.Tools
         {
             lastTokenId = -1;
             var result = new List<string>();
-
+            
             using (var tokenIterator = new BookTokenIterator(book.GetTokensPath(), TokensTool.GetTokens(book.BookID)))
             {
                 int words = 0;
@@ -56,13 +56,41 @@ namespace BookRender.Tools
             var chapter = string.Empty;
             for (var i = chapters.Count - 1; i >= 0; i--)
             {
-                chapter = chapters[i].Title.TrimEnd().Replace("\r\n", " - ");
+                chapter = chapters[i].Title.TrimEnd().Replace("\r\n", " - ").Trim();
                 if (!string.IsNullOrEmpty(chapter))
                 {
                     break;
                 }
             }
             return chapter;
+        }
+
+        public string GetLastParagraphByToken(BookModel book, int tokenOffset, int wordsCount, out int lastTokenId)
+        {
+            lastTokenId = -1;
+            var result = new List<string>();
+
+            using (var tokenIterator = new BookTokenIterator(book.GetTokensPath(), TokensTool.GetTokens(book.BookID)))
+            {
+                int words = 0;
+                tokenIterator.MoveTo(tokenOffset);
+                while (tokenIterator.MoveNext() && words < wordsCount)
+                {
+                    if (tokenIterator.Current is NewPageToken && result.Count > 0)
+                        break;
+
+                    var textToken = tokenIterator.Current as TextToken;
+                    var tagToken = tokenIterator.Current as TagOpenToken;
+                    if (tagToken != null && tagToken.Name.Contains("p"))
+                       result.Clear();
+                    if (textToken == null)
+                        continue;
+                    lastTokenId = textToken.ID;
+                    result.Add(textToken.Text);
+                    words++;
+                }
+            }
+            return string.Join(" ", result);
         }
     }
 }

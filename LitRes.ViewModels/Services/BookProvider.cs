@@ -150,19 +150,26 @@ namespace LitRes.Services
             ParseBook(book);
         }
 
-        public void GetBookFromStorage(Book item, bool isTrial)
+        public IBookSummaryParser GetBookFromStorage(Book item, bool isTrial)
         {
-            var bookStorageFileStream =
-                new IsolatedStorageFileStream(isTrial ? CreateTrialBookPath(item) : CreateBookPath(item), FileMode.Open,
-                    IsolatedStorageFile.GetUserStoreForApplication());
-            var previewGenerator = BookFactory.GetPreviewGenerator(item.TypeBook.ToString(), item.BookTitle, bookStorageFileStream);
+            var previewGenerator = GetSummaryParser(item, isTrial);
             var bookSummary = previewGenerator.GetBookPreview();
             var book = CreateBook(item, bookSummary);
             book.LoadInfo(book.GetFolderPath() + "/bookinfo");
             var chapters = ToolsRepository.GetChapters(book.BookID, book.GetChaptersPath());
             var chapterModels = chapters as ChapterModel[] ?? chapters.ToArray();
             AppSettings.Default.Chapters = chapterModels;
-            ReplaceBookInSettings(book);            
+            ReplaceBookInSettings(book);
+            return previewGenerator;
+        }
+
+        public IBookSummaryParser GetSummaryParser(Book item, bool isTrial)
+        {
+            var bookStorageFileStream =
+                new IsolatedStorageFileStream(isTrial ? CreateTrialBookPath(item) : CreateBookPath(item), FileMode.Open,
+                    IsolatedStorageFile.GetUserStoreForApplication());
+            var previewGenerator = BookFactory.GetPreviewGenerator(item.TypeBook.ToString(), item.BookTitle, bookStorageFileStream);
+            return previewGenerator;
         }
 
         private void ParseBook(Book item)

@@ -1,23 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Xml.Linq;
-using Windows.Foundation;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Imaging;
 using BookParser.Common.ExtensionMethods;
 using BookParser.Data;
-using BookParser.Extensions;
 using BookParser.IO;
-using BookParser.Models;
 using BookParser.Styling;
-using BookParser.Tokens;
 
 namespace BookParser.Parsers.Fb2
 {
@@ -43,7 +35,7 @@ namespace BookParser.Parsers.Fb2
                 XDocument xmlDocument = source.GetXmlDocument();
                 _root = xmlDocument.Root;
             }
-
+          
             if (_root == null)
             {
                 throw new Exception("Can't load book.");
@@ -54,6 +46,7 @@ namespace BookParser.Parsers.Fb2
                 throw new Exception("Can't load book.");
             }
             _ns = attribute.Value;
+            Root = _root;
         }
 
         public override ITokenParser GetTokenParser()

@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Threading;
+using System.Xml.Linq;
 using Windows.UI.Xaml.Media.Imaging;
 using BookParser.Common.ExtensionMethods;
 using BookParser.Data;
@@ -44,6 +45,7 @@ namespace BookParser.Parsers
         public Dictionary<string, int> Anchors { get; private set; }
 
         public List<BookChapter> Chapters { get; private set; }
+        public XElement Root { get; set; }
 
         public List<TokenBase> Tokens { get; set; } 
 
