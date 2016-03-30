@@ -442,6 +442,8 @@ namespace LitRes.ViewModels
                         if (existTrial)
                         {
                            BookSummary = _bookProvider.GetBookFromStorage(book, true);
+                           status = LoadingStatus.TrialBookLoaded;
+                            book.IsMyBook = false;
                         }
                         else if (exist)
                         {

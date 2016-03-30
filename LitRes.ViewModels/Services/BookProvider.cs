@@ -165,8 +165,9 @@ namespace LitRes.Services
 
         public IBookSummaryParser GetSummaryParser(Book item, bool isTrial)
         {
+            var bookFolder = item.IsMyBook ? item.Id.ToString() : item.Id + ".trial";
             var bookStorageFileStream =
-                new IsolatedStorageFileStream(isTrial ? CreateTrialBookPath(item) : CreateBookPath(item), FileMode.Open,
+                new IsolatedStorageFileStream(isTrial ? CreateTrialBookPath(item) : CreateBookPath(bookFolder), FileMode.Open,
                     IsolatedStorageFile.GetUserStoreForApplication());
             var previewGenerator = BookFactory.GetPreviewGenerator(item.TypeBook.ToString(), item.BookTitle, bookStorageFileStream);
             return previewGenerator;
@@ -174,11 +175,12 @@ namespace LitRes.Services
 
         private void ParseBook(Book item)
         {
+            var bookFolder = item.IsMyBook ? item.Id.ToString() : item.Id + ".trial";
             try
             {
                 using (var storeForApplication = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    using (var bookStorageFileStream = new IsolatedStorageFileStream(CreateBookPath(item), FileMode.Open, storeForApplication))
+                    using (var bookStorageFileStream = new IsolatedStorageFileStream(CreateBookPath(bookFolder), FileMode.Open, storeForApplication))
                     {
                         var previewGenerator = BookFactory.GetPreviewGenerator(item.TypeBook.ToString(), item.BookTitle, bookStorageFileStream);
                         var bookSummary = previewGenerator.GetBookPreview();
@@ -198,12 +200,22 @@ namespace LitRes.Services
 
         private static string PrepareFilePath(Book item, IsolatedStorageFile storage)
         {
-            if (!storage.DirectoryExists(item.Id.ToString()))
+            if (item.IsMyBook)
             {
-                storage.CreateDirectory(Path.Combine(CatalogPath,item.Id.ToString()));
+                if (!storage.DirectoryExists(item.Id.ToString()))
+                {
+                    storage.CreateDirectory(Path.Combine(CatalogPath, item.Id.ToString()));
+                }
+            }
+            else
+            {
+                if (!storage.DirectoryExists(item.Id + ".trial"))
+                {
+                    storage.CreateDirectory(Path.Combine(CatalogPath, item.Id + ".trial"));
+                }
             }
 
-            var bookPath = CreateBookPath(item);
+            var bookPath = item.IsMyBook ? CreateBookPath(item.Id.ToString()) : CreateBookPath(item.Id + ".trial");
             if (storage.FileExists(bookPath))
             {
                 storage.DeleteFile(bookPath);
@@ -212,9 +224,9 @@ namespace LitRes.Services
             return bookPath;
         }
 
-        private static string CreateBookPath(Book item)
+        private static string CreateBookPath(string folderName)
         {
-            return Path.Combine(CatalogPath + item.Id + ModelConstants.BOOK_FILE_DATA_PATH);
+            return Path.Combine(CatalogPath + folderName + ModelConstants.BOOK_FILE_DATA_PATH);
         }
 
         private static string CreateTrialBookPath(Book item)
