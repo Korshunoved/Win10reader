@@ -117,13 +117,15 @@ namespace LitRes.Views
 		private void TextBoxLostFocus( object sender, RoutedEventArgs e )
 		{
             //	MoveDown.Begin();
-            ControlPanel.Instance.TopBarVisibility = Visibility.Visible;
+            if (!SystemInfoHelper.IsDesktop())
+                ControlPanel.Instance.TopBarVisibility = Visibility.Visible;
         }
 
 		private void TextBoxGotFocus( object sender, RoutedEventArgs e )
 		{
             //MoveUp.Begin();
-            ControlPanel.Instance.TopBarVisibility = Visibility.Collapsed;
+            if (!SystemInfoHelper.IsDesktop())
+                ControlPanel.Instance.TopBarVisibility = Visibility.Collapsed;
         }
 
 	    //private void Hyperlink_OnClick(Hyperlink sender, HyperlinkClickEventArgs args)

@@ -209,7 +209,8 @@ namespace BookRender.PageRender
                                        Margin = new Thickness(offsetX + context.OffsetX, top + context.OffsetY, 0.0, 0.0),
                                        Width = item.Width,
                                        Height = item.Height,
-                                       ImageStream = bookImage.CreateStream()
+                                       ImageStream = bookImage.CreateStream(),
+                                       Base64String = bookImage.Data
                                    };
             return imageContext;
         }

@@ -27,14 +27,14 @@ namespace BookRender.Tools
                 {
                     file =
                         FileStorage.Instance.GetFile(
-                            Path.Combine(CatalogPath + id + ModelConstants.BOOK_FILE_DATA_REF_PATH));
+                            Path.Combine(CatalogPath + id + ModelConstants.BookFileDataRefPath));
                 }
                 catch (Exception)
                 {
 
                     file =
                         FileStorage.Instance.GetFile(
-                            Path.Combine(CatalogPath + id + ".trial" + ModelConstants.BOOK_FILE_DATA_REF_PATH));
+                            Path.Combine(CatalogPath + id + ".trial" + ModelConstants.BookFileDataRefPath));
                 }
                 using (file)
                 {

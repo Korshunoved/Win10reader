@@ -29,14 +29,14 @@ namespace BookParser.Models
         {
             return
                 Path.Combine(CatalogPath + (model.Hidden ? model.BookID + ".trial" : model.BookID) +
-                             ModelConstants.BOOK_TOKENS_PATH);
+                             ModelConstants.BookTokensPath);
         }
 
         public static string GetTokensRefPath(this BookModel model)
         {
             return
                 Path.Combine(CatalogPath + (model.Hidden ? model.BookID + ".trial" : model.BookID) +
-                             ModelConstants.BOOK_FILE_DATA_REF_PATH);
+                             ModelConstants.BookFileDataRefPath);
         }
 
         public static string GetFolderPath(this BookModel model)
@@ -46,12 +46,12 @@ namespace BookParser.Models
 
         public static string GetBookPath(this BookModel model)
         {
-            return Path.Combine(CatalogPath + (model.Hidden ? model.BookID + ".trial" : model.BookID) + ModelConstants.BOOK_FILE_DATA_PATH);
+            return Path.Combine(CatalogPath + (model.Hidden ? model.BookID + ".trial" : model.BookID) + ModelConstants.BookFileDataPath);
         }
 
         public static string GetChaptersPath(this BookModel model)
         {
-            return Path.Combine(CatalogPath + (model.Hidden ? model.BookID + ".trial" : model.BookID) + ModelConstants.BOOK_CHAPTERS_FILE_NAME);
+            return Path.Combine(CatalogPath + (model.Hidden ? model.BookID + ".trial" : model.BookID) + ModelConstants.BookChaptersFileName);
         }
 
         public static string GetBookFullCoverPath(string bookId)

@@ -98,8 +98,19 @@ namespace BookRender.Tools
             {
                 using (var storage = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    var imagesFilePath = Path.Combine(bookId, ModelConstants.BOOK_IMAGES_FILE_NAME);
-                    using (var imagesFileStream = storage.OpenFile(imagesFilePath, FileMode.Open, FileAccess.Read))
+                    var imagesFilePath = Path.Combine(ModelConstants.BooksFolder + bookId + ModelConstants.BookImagesFileName);
+                    var trialbookImagesFilePath =
+                        Path.Combine(ModelConstants.BooksFolder + bookId + ".trial" + ModelConstants.BookImagesFileName);
+                    IsolatedStorageFileStream imagesFileStream;
+                    try
+                    {
+                        imagesFileStream = storage.OpenFile(imagesFilePath, FileMode.Open, FileAccess.Read);
+                    }
+                    catch (Exception)
+                    {
+                        imagesFileStream = storage.OpenFile(trialbookImagesFilePath, FileMode.Open, FileAccess.Read);                      
+                    }
+                    using (imagesFileStream)
                     {
                         var imagesXml = XDocument.Load(imagesFileStream).Root;
 

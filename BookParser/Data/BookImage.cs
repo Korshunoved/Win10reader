@@ -20,6 +20,7 @@
 using System;
 using System.IO;
 using System.Xml.Linq;
+using Windows.Storage.Streams;
 using BookParser.Common.ExtensionMethods;
 
 namespace BookParser.Data
@@ -46,7 +47,7 @@ namespace BookParser.Data
 
         public int Height { get; set; }
 
-        public Stream CreateStream()
+        public MemoryStream CreateStream()
         {
             return new MemoryStream(Convert.FromBase64String(Data));
         }

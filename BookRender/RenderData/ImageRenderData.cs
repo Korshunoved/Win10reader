@@ -18,6 +18,7 @@
  */
 
 using System.IO;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 
 namespace BookRender.RenderData
@@ -30,6 +31,8 @@ namespace BookRender.RenderData
 
         public Thickness Margin { get; set; }
 
-        public Stream ImageStream { get; set; }
+        public string Base64String { get; set; }
+
+        public MemoryStream ImageStream { get; set; }
     }
 }

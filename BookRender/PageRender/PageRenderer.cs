@@ -23,6 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Storage.Streams;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -100,15 +101,24 @@ namespace BookRender.PageRender
 
         private static Image RenderImageContext(ImageRenderData imageRenderData)
         {
-            var bitmapImage = new BitmapImage();
-            bitmapImage.SetSource(imageRenderData.ImageStream.AsRandomAccessStream());
+            var imageBytes = Convert.FromBase64String(imageRenderData.Base64String);
+            var image = new BitmapImage();
+            using (InMemoryRandomAccessStream ms = new InMemoryRandomAccessStream())
+            {
+                using (DataWriter writer = new DataWriter(ms.GetOutputStreamAt(0)))
+                {
+                    writer.WriteBytes((byte[])imageBytes);
+                    writer.StoreAsync().GetResults();
+                }
+                image.SetSource(ms);
+            }
 
             return new Image
                         {
                             Margin = imageRenderData.Margin,
                             VerticalAlignment = VerticalAlignment.Top,
                             HorizontalAlignment = HorizontalAlignment.Left,
-                            Source = bitmapImage,
+                            Source = image,
                             Width = imageRenderData.Width,
                             Height = imageRenderData.Height
                         };

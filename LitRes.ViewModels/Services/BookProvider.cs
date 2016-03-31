@@ -226,17 +226,17 @@ namespace LitRes.Services
 
         private static string CreateBookPath(string folderName)
         {
-            return Path.Combine(CatalogPath + folderName + ModelConstants.BOOK_FILE_DATA_PATH);
+            return Path.Combine(CatalogPath + folderName + ModelConstants.BookFileDataPath);
         }
 
         private static string CreateTrialBookPath(Book item)
         {
-            return Path.Combine(CatalogPath + item.Id +".trial" + ModelConstants.BOOK_FILE_DATA_PATH);
+            return Path.Combine(CatalogPath + item.Id +".trial" + ModelConstants.BookFileDataPath);
         }
 
         private static string CreateImagesPath(string folderName)
         {
-            return Path.Combine(CatalogPath + folderName + ModelConstants.BOOK_IMAGES_FILE_NAME);
+            return Path.Combine(CatalogPath + folderName + ModelConstants.BookImagesFileName);
         }
 
         private void SaveBook(Book item, BookSummary bookSummary, IBookSummaryParser previewGenerator, IsolatedStorageFile storeForApplication)
@@ -299,13 +299,13 @@ namespace LitRes.Services
 
         public bool FullBookExistsInLocalStorage(int bookId)
         {
-            var path = Path.Combine(CatalogPath + bookId + ModelConstants.BOOK_FILE_DATA_PATH); //
+            var path = Path.Combine(CatalogPath + bookId + ModelConstants.BookFileDataPath); //
             return _fileCacheService.FileExists(path);
         }
 
         public bool TrialBookExistsInLocalStorage(int bookId)
         {
-            var path = Path.Combine(CatalogPath + bookId + ".trial" + ModelConstants.BOOK_FILE_DATA_PATH);            
+            var path = Path.Combine(CatalogPath + bookId + ".trial" + ModelConstants.BookFileDataPath);            
             return _fileCacheService.FileExists(path);
         }
 

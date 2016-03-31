@@ -79,7 +79,7 @@ namespace BookParser.Parsers
             if (_page.FirstTokenID < 0)
                 _page.FirstTokenID = block.FirstTokenID;
 
-            double height = block.Height * AppSettings.Default.FontSettings.FontInterval;  //TODO: add this to app settings
+            double height = block.Height * AppSettings.Default.FontSettings.FontInterval;
             if (_height + height <= _pageSize.Height)
             {
                 _height += height;

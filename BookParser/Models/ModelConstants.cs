@@ -21,10 +21,11 @@ namespace BookParser.Models
 {
     public static class ModelConstants
     {
-        public const string BOOK_FILE_DATA_REF_PATH = "/bookfile.data.ref";
-        public const string BOOK_TOKENS_PATH = "/bookfile.data.tokens";
-        public const string BOOK_FILE_DATA_PATH = "/bookfile.data";
-        public const string BOOK_IMAGES_FILE_NAME = "/images.xml";
-        public const string BOOK_CHAPTERS_FILE_NAME = "/chapters.xml";
+        public const string BookFileDataRefPath = "/bookfile.data.ref";
+        public const string BookTokensPath = "/bookfile.data.tokens";
+        public const string BookFileDataPath = "/bookfile.data";
+        public const string BookImagesFileName = "/images.xml";
+        public const string BookChaptersFileName = "/chapters.xml";
+        public const string BooksFolder = "MyBooks/";
     }
 }

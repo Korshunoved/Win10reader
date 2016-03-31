@@ -857,23 +857,29 @@ namespace LitRes.ViewModels
             bool hasPoint = false;
             if (block != null)
             {
-
-                while (block != null)
+                try
                 {
-                    if (!block.HasElements)
+                    while (block != null)
                     {
-                        var foundString = block.Value.Replace(Convert.ToChar(160).ToString(), " ");
-                        int position = foundString.IndexOf(pattern, StringComparison.Ordinal);
-                        if (position > 0)
+                        if (!block.HasElements)
                         {
-                            buffer.Insert(0, (position + 1).ToString());
-                            buffer.Insert(0, ".");
-                            hasPoint = true;
+                            var foundString = block.Value.Replace(Convert.ToChar(160).ToString(), " ");
+                            int position = foundString.IndexOf(pattern, StringComparison.Ordinal);
+                            if (position > 0)
+                            {
+                                buffer.Insert(0, (position + 1).ToString());
+                                buffer.Insert(0, ".");
+                                hasPoint = true;
+                            }
                         }
+                        buffer.Insert(0, (block.ElementsBeforeSelf().Count() + 1).ToString());
+                        buffer.Insert(0, "/");
+                        block = block.Parent;
                     }
-                    buffer.Insert(0, (block.ElementsBeforeSelf().Count() + 1).ToString());
-                    buffer.Insert(0, "/");
-                    block = block.Parent;
+                }
+                catch (Exception)
+                {
+                    return null;
                 }
             }
             else
@@ -887,24 +893,31 @@ namespace LitRes.ViewModels
 
         private XElement FindFirst(XElement parent, string pattern)
         {
-            foreach (var element in parent.Elements())
+            try
             {
-                if (!element.HasElements)
+                foreach (var element in parent.Elements())
                 {
-                    if (element.Value.Contains("Бонифаций"))
-                        Debug.WriteLine("asdasd");
-                    var tmp = pattern.Replace(" ", string.Empty).Replace(Convert.ToChar(160).ToString(), "");
-                    var elemText = element.Value.Replace(" ", "").Replace(Convert.ToChar(160).ToString(), "");
-                    if (elemText!=string.Empty && (elemText.Contains(tmp) || tmp.Contains(elemText)))
-                        return element;
+                    if (!element.HasElements)
+                    {
+                        if (element.Value.Contains("Бонифаций"))
+                            Debug.WriteLine("asdasd");
+                        var tmp = pattern.Replace(" ", string.Empty).Replace(Convert.ToChar(160).ToString(), "");
+                        var elemText = element.Value.Replace(" ", "").Replace(Convert.ToChar(160).ToString(), "");
+                        if (elemText != string.Empty && (elemText.Contains(tmp) || tmp.Contains(elemText)))
+                            return element;
+                    }
+                    else
+                    {
+                        var block = FindFirst(element, pattern);
+                        if (block != null) return block;
+                    }
                 }
-                else
-                {
-                    var block = FindFirst(element, pattern);
-                    if (block != null) return block;
-                }
+                return null;
             }
-            return null;
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }

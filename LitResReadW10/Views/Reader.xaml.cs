@@ -711,7 +711,14 @@ namespace LitRes.Views
             var text = _bookTool.GetLastParagraphByToken(book, tokenId, 40, out lastTokenId);
             var chapter = _bookTool.GetChapterByToken(tokenId);
             var xpointer = ViewModel.GetXPointer(text);
-            if (xpointer == null) return;
+            if (xpointer == null)
+            {
+                await
+                    new MessageDialog(
+                        "Не удалось добавить закладку. Попробуйте еще раз, или перейдите на другую страницу.",
+                        "Внимание").ShowAsync();
+                return;
+            }
             var percent = Convert.ToString((int)Math.Ceiling(CurrentPageSlider.Value / (CurrentPageSlider.Maximum / 100)));
             await ViewModel.AddBookmark(text, xpointer, chapter, false, percent);
             BookmarkGrid.Visibility = Visibility.Visible;

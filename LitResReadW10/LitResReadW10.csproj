@@ -444,6 +444,12 @@
     <Content Include="Assets\W10Icons\Search\search_white.scale-150.png" />
     <Content Include="Assets\W10Icons\Search\search_white.scale-200.png" />
     <Content Include="Assets\W10Icons\Search\search_white.scale-400.png" />
+    <Content Include="Assets\W10Icons\Settings\Pin\pinscale-100.png" />
+    <Content Include="Assets\W10Icons\Settings\Pin\pinscale-125.png" />
+    <Content Include="Assets\W10Icons\Settings\Pin\pinscale-150.png" />
+    <Content Include="Assets\W10Icons\Settings\Pin\pinscale-200.png" />
+    <Content Include="Assets\W10Icons\Settings\Pin\pinscale-400.png" />
+    <Content Include="Assets\W10Icons\Settings\Pin\pinscale-600.png" />
     <Content Include="Assets\W10Icons\Settings\setting_black copyscale-100.png" />
     <Content Include="Assets\W10Icons\Settings\setting_black copyscale-125.png" />
     <Content Include="Assets\W10Icons\Settings\setting_black copyscale-150.png" />
