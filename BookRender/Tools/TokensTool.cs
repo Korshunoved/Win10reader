@@ -21,22 +21,36 @@ namespace BookRender.Tools
         public static List<int> GetTokens(string id)
         {
             var tokensCache = new Cache<string, List<int>>(delegate
+            {
+                FileWrapper file = null;
+                try
                 {
-                    using (var file = FileStorage.Instance.GetFile(Path.Combine(CatalogPath + id + ModelConstants.BOOK_FILE_DATA_REF_PATH)))
+                    file =
+                        FileStorage.Instance.GetFile(
+                            Path.Combine(CatalogPath + id + ModelConstants.BOOK_FILE_DATA_REF_PATH));
+                }
+                catch (Exception)
+                {
+
+                    file =
+                        FileStorage.Instance.GetFile(
+                            Path.Combine(CatalogPath + id + ".trial" + ModelConstants.BOOK_FILE_DATA_REF_PATH));
+                }
+                using (file)
+                {
+                    using (file.Lock())
                     {
-                        using (file.Lock())
+                        file.Seek(0, SeekOrigin.Begin);
+                        var capacity = file.Reader.ReadInt32();
+                        var list = new List<int>(capacity);
+                        for (var index = 0; index < capacity; ++index)
                         {
-                            file.Seek(0, SeekOrigin.Begin);
-                            var capacity = file.Reader.ReadInt32();
-                            var list = new List<int>(capacity);
-                            for (var index = 0; index < capacity; ++index)
-                            {
-                                list.Add(file.Reader.ReadInt32());
-                            }
-                            return list;
+                            list.Add(file.Reader.ReadInt32());
                         }
+                        return list;
                     }
-                });
+                }
+            });
 
             return tokensCache.Get(id);
         }

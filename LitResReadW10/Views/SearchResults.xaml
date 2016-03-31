@@ -208,7 +208,8 @@
                                 Visibility="{Binding Path=isFreeBook, Converter={StaticResource VisibilityConverter}}"
                                 Width="100"
                                 Height="36"
-                                Padding="5,0,5,0">
+                                Padding="5,0,5,0"
+                                Tapped="BuyButton_OnTapped">
                                 <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО" FontSize="14" FontWeight="Normal" />
                             </Button>
                             <StackPanel

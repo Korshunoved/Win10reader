@@ -167,14 +167,14 @@
                                     Width="100"
                                     Height="36"
                                     Padding="5,0,5,0"
-                                    Tapped="BuyButton_OnTapped"
-                                    Visibility="{Binding Path=InGifts, Converter={StaticResource VisibilityConverter}}">
-                                <!--Visibility="Collapsed">-->
+                                    Visibility="{Binding Path=InGifts, Converter={StaticResource VisibilityConverter}}"
+                                    Tapped="BuyButton_OnTapped">
                            
                                 <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО"
+                                            
                                                MaxLines="2"
                                                FontSize="14"
-                                               FontWeight="Normal" />
+                                               FontWeight="Normal"  />
                             </Button>
                         </StackPanel>
                         <StackPanel

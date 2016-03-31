@@ -214,11 +214,7 @@ namespace BookParser
             set { _settingsStorage.SetValue("IsFirstTimeRunning", value); }
         }
 
-        public int Brightness
-        {
-            get { return _settingsStorage.GetValueWithDefault("Brightness", 100); }
-            set { _settingsStorage.SetValue("Brightness", value); }
-        }
+        public BookmarkModel Bookmark { get; set; }
     }
 
     public enum ColorSchemes

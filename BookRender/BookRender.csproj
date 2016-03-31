@@ -118,6 +118,7 @@
     <Compile Include="RenderData\TextRenderData.cs" />
     <Compile Include="RenderData\WordRenderData.cs" />
     <Compile Include="Tools\BookData.cs" />
+    <Compile Include="Tools\BookSearch.cs" />
     <Compile Include="Tools\BookTool.cs" />
     <Compile Include="Tools\TokensTool.cs" />
     <Compile Include="Tools\ToolsRepository.cs" />

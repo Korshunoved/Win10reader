@@ -234,14 +234,15 @@ namespace LitRes.Services
             return Path.Combine(CatalogPath + item.Id +".trial" + ModelConstants.BOOK_FILE_DATA_PATH);
         }
 
-        private static string CreateImagesPath(Book item)
+        private static string CreateImagesPath(string folderName)
         {
-            return Path.Combine(CatalogPath + item.Id + ModelConstants.BOOK_IMAGES_FILE_NAME);
+            return Path.Combine(CatalogPath + folderName + ModelConstants.BOOK_IMAGES_FILE_NAME);
         }
 
         private void SaveBook(Book item, BookSummary bookSummary, IBookSummaryParser previewGenerator, IsolatedStorageFile storeForApplication)
         {
-            using (var imageStorageFileStream = new IsolatedStorageFileStream(CreateImagesPath(item), FileMode.Create, storeForApplication))
+            var bookFolder = item.IsMyBook ? item.Id.ToString() : item.Id + ".trial";
+            using (var imageStorageFileStream = new IsolatedStorageFileStream(CreateImagesPath(bookFolder), FileMode.Create, storeForApplication))
             {
                 previewGenerator.SaveImages(imageStorageFileStream);
             }
@@ -275,14 +276,15 @@ namespace LitRes.Services
 
         private static BookModel CreateBook(Book item, BookSummary bookSummary)
         {
+            var trial = !(item.isFreeBook || item.IsMyBook);
             var book = new BookModel
             {
                 BookID = item.Id.ToString(),
                 Title = bookSummary.Title.SafeSubstring(1024),
                 Author = bookSummary.AuthorName.SafeSubstring(1024),
                 Type = item.Type,
-                Hidden = true,
-                Trial = bookSummary.IsTrial,
+                Hidden = trial,
+                Trial = trial,
                 Deleted = false,
                 CreatedDate = DateTime.Now.ToFileTimeUtc(),
                 UniqueID = bookSummary.UniqueId.SafeSubstring(1024),

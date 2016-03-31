@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using LitRes.Models;
 using LitRes.ValueConverters;
 using LitRes.ViewModels;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
@@ -63,6 +65,7 @@ namespace LitRes.Views
         private IFontHelper _activeFontHelper;
         private BookModel _book;
         private ReadController _readController;
+        private BookSearch _bookSearch;
         private int _tokenOffset;
         public int CurrentPage;
         public bool FromSettings;
@@ -276,8 +279,22 @@ namespace LitRes.Views
                 LayoutRoot.SizeChanged -= LayoutRoot_SizeChanged;
                 LayoutRoot.SizeChanged += LayoutRoot_SizeChanged;
 
-                if (CurrentPage > 0)
+                if (AppSettings.Default.Bookmark != null)
                 {
+                    var book = AppSettings.Default.CurrentBook;
+                    _bookSearch = new BookSearch(book);
+                    var query = new List<string>(AppSettings.Default.Bookmark.Text.Split(' ').ToList());
+                    _bookSearch.Init();
+                    var result = await _bookSearch.Search(book, AppSettings.Default.Bookmark.Text, query.Count);
+                    if (result.Count > 0)
+                    {
+                        AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
+                    }
+                }
+
+                if (CurrentPage > 0 || AppSettings.Default.Bookmark != null)
+                {
+                    AppSettings.Default.Bookmark = null;
                     GoToChapter();
                 }
                 else
@@ -364,7 +381,22 @@ namespace LitRes.Views
         //        Debug.WriteLine(ex.StackTrace);
         //    }
         //}
-        
+
+        public async void GoToBookmark()
+        {
+            var book = AppSettings.Default.CurrentBook;
+            _bookSearch = new BookSearch(book);
+            var query = new List<string>(AppSettings.Default.Bookmark.Text.Split(' ').ToList());
+            _bookSearch.Init();
+            var result = await _bookSearch.Search(book, AppSettings.Default.Bookmark.Text, query.Count);
+            if (result.Count > 0)
+            {
+                AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
+            }
+            AppSettings.Default.Bookmark = null;
+            GoToChapter();
+        }
+
         private void HideMenu()
         {
             CurrentPageSlider.Opacity = 0;
@@ -422,10 +454,11 @@ namespace LitRes.Views
         {
             if (SystemInfoHelper.IsDesktop())
             {
-                FlyoutBase.ShowAttachedFlyout((Button)sender);
-                BookmarksFrame.Navigate(typeof(BookBookmarks), XParameters.Create("BookEntity", ViewModel.Entity));
+                FlyoutBase.ShowAttachedFlyout((Button) sender);
+                BookmarksFrame.Navigate(typeof (BookBookmarks), XParameters.Create("BookEntity", ViewModel.Entity));
             }
-            else _navigationService.Navigate("BookBookmarks", XParameters.Create("BookEntity", ViewModel.Entity));
+            else
+                _navigationService.Navigate("BookBookmarks", XParameters.Create("BookEntity", ViewModel.Entity));
         }
 
         public async void UpdateSettings()

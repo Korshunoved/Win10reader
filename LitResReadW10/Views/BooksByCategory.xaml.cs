@@ -185,7 +185,20 @@ namespace LitRes.Views
             }
         }
 
-    }
+	    private void ListViewFreeBook_OnLoaded(object sender, RoutedEventArgs e)
+	    {
+           /* var button = sender as Button;
+	        var book = button?.DataContext as Models.Book;
+	        if (book != null && book.BookTitle.Contains("Амазонка"))
+	        {
+	            int abc = 5 + 5;
+	        }
+	           
+	        if (book != null && (book.isFreeBook || (book.InGifts != null && book.InGifts.Contains("1")) || book.Price == 0.0))
+	            button.Visibility = Visibility.Visible;
+            else if (button != null) button.Visibility = Visibility.Collapsed;*/
+	    }
+	}
 
     public class BooksByCategoryFitting : ViewModelPage<BooksByCategoryViewModel>
 	{

@@ -177,6 +177,7 @@
 		<Property Name="ArtId" Type="string" SerializationName="art-id"/>
 		<Property Name="LastUpdate" Type="string" SerializationName="last-update"/>
     <Property Name="Percent" Type="string" SerializationName="percent"/>
+    <Property Name="ToDelete" Type="bool" SerializationName="to-delete"/>
 
 		<Property Name="Note" Type="Hidden" SerializationName="Note" Serialization="element"/>
 		<Property Name="ExtractInfo" Type="Extract" SerializationName="Extract" Serialization="element"/>

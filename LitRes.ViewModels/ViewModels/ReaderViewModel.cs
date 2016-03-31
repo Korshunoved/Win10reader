@@ -461,7 +461,7 @@ namespace LitRes.ViewModels
                             BookSummary = _bookProvider.GetBookFromStorage(book, false);
                             status = LoadingStatus.FullBookLoaded;
                         }
-                        else if (book.IsMyBook)
+                        else if (book.IsMyBook || book.isFreeBook)
                         {
                             await _bookProvider.GetFullBook(book, session.Token);
                             BookSummary = _bookProvider.GetSummaryParser(book, false);
@@ -850,8 +850,8 @@ namespace LitRes.ViewModels
         {
             var root = BookSummary.Root;
             XAttribute attribute = root.Attribute("xmlns");
-            XNamespace _ns = attribute.Value;
-            var body = root.Element(_ns + "body");
+            XNamespace ns = attribute.Value;
+            var body = root.Element(ns + "body");
             var block = FindFirst(body, pattern);
             StringBuilder buffer = new StringBuilder();
             bool hasPoint = false;
@@ -895,7 +895,7 @@ namespace LitRes.ViewModels
                         Debug.WriteLine("asdasd");
                     var tmp = pattern.Replace(" ", string.Empty).Replace(Convert.ToChar(160).ToString(), "");
                     var elemText = element.Value.Replace(" ", "").Replace(Convert.ToChar(160).ToString(), "");
-                    if (elemText.Contains(tmp) || tmp.Contains(elemText))
+                    if (elemText!=string.Empty && (elemText.Contains(tmp) || tmp.Contains(elemText)))
                         return element;
                 }
                 else

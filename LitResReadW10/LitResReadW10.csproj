@@ -269,6 +269,12 @@
     <Content Include="Assets\W10Icons\BookmarkAdded\bookmark_added.scale-125.png" />
     <Content Include="Assets\W10Icons\BookmarkAdded\bookmark_added.scale-150.png" />
     <Content Include="Assets\W10Icons\BookmarkAdded\bookmark_added.scale-200.png" />
+    <Content Include="Assets\W10Icons\BookmarkDelete\CombinedShapescale-100.png" />
+    <Content Include="Assets\W10Icons\BookmarkDelete\CombinedShapescale-125.png" />
+    <Content Include="Assets\W10Icons\BookmarkDelete\CombinedShapescale-150.png" />
+    <Content Include="Assets\W10Icons\BookmarkDelete\CombinedShapescale-200.png" />
+    <Content Include="Assets\W10Icons\BookmarkDelete\CombinedShapescale-400.png" />
+    <Content Include="Assets\W10Icons\BookmarkDelete\CombinedShapescale-600.png" />
     <Content Include="Assets\W10Icons\Bookmarks\bookmarks_icon.scale-100.png" />
     <Content Include="Assets\W10Icons\Bookmarks\bookmarks_icon.scale-125.png" />
     <Content Include="Assets\W10Icons\Bookmarks\bookmarks_icon.scale-150.png" />
@@ -549,7 +555,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Assets\Fonts\common_descriptor.txt" />
-    <Content Include="Assets\Fonts\common_spritefont.txt" />
     <Content Include="Fonts\common.descriptor" />
     <None Include="Fonts\common.spritefont" />
     <None Include="packages.config" />

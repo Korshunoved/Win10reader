@@ -288,7 +288,7 @@ namespace LitRes.ViewModels
                 }
 
                 //Load exist books
-                Basket = await _bookProvider.GetExistBooks(session.Token);
+               // Basket = await _bookProvider.GetExistBooks(session.Token);
                 //if (exist != null && exist.Count > 0)
                 //{
                 //    clone = clone ?? new XCollection<Book>();
