@@ -63,6 +63,8 @@ namespace LitRes.ValueConverters
 
 				if( annotation == "inverse" )
 					visible = !visible;
+			    if (annotation == "free_button")
+			        visible = !visible;
 			}
 			
 			//Debug.WriteLine( "O2V: {0} ({1}) -> {2}", type, annotation, visible ? "Visible" : "Collapsed" );
