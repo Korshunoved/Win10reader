@@ -56,6 +56,9 @@ namespace LitRes.Views
 
             _timer.Tick += RefreshTimer;
             _timer.Start();
+            if (ViewModel.CanGetBook)
+                ReadButton.Visibility = Visibility.Collapsed;
+
             //await TileImageHelper.CreateNormalTileImage(ViewModel.Entity.Cover, NormalTileGrid);
         }
 

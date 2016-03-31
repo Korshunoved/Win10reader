@@ -52,12 +52,12 @@ namespace LitRes.ViewModels
                     visual.TitleText = new ToastText { Text = "Обновления автора" };
                     visual.BodyTextLine1 = new ToastText() {Text = parametrs["text"]};
 
-                    var openButton = new ToastButton("Открыть", new QueryString
-                    {
-                        {"action", "openAuthor"},
-                        {"internalId", parametrs["internal_id"]}
-                    }.ToString()) {ActivationType = ToastActivationType.Foreground};
-                    actions.Buttons.Add(openButton);
+                    //var openButton = new ToastButton("Открыть", new QueryString
+                    //{
+                    //    {"action", "openAuthor"},
+                    //    {"internalId", parametrs["internal_id"]}
+                    //}.ToString()) {ActivationType = ToastActivationType.Foreground};
+                    //actions.Buttons.Add(openButton);
                     
 
                     break;
@@ -67,18 +67,18 @@ namespace LitRes.ViewModels
                     visual.TitleText = new ToastText { Text = "Обновления книги" };
                     visual.BodyTextLine1 = new ToastText() {Text = parametrs["text"]};
 
-                    var openButton = new ToastButton("Открыть", new QueryString
-                    {
-                        {"action", "openBook"},
-                        {"internalId", parametrs["internal_id"]}
-                    }.ToString()) {ActivationType = ToastActivationType.Foreground};
-                    var holdButton = new ToastButton("Отложить", new QueryString()
-                    {
-                        {"action", "holdBook"},
-                        {"internalId", parametrs["internal_id"]}
-                    }.ToString()) {ActivationType = ToastActivationType.Background};
-                    actions.Buttons.Add(openButton);
-                    actions.Buttons.Add(holdButton);
+                    //var openButton = new ToastButton("Открыть", new QueryString
+                    //{
+                    //    {"action", "openBook"},
+                    //    {"internalId", parametrs["internal_id"]}
+                    //}.ToString()) {ActivationType = ToastActivationType.Foreground};
+                    //var holdButton = new ToastButton("Отложить", new QueryString()
+                    //{
+                    //    {"action", "holdBook"},
+                    //    {"internalId", parametrs["internal_id"]}
+                    //}.ToString()) {ActivationType = ToastActivationType.Background};
+                    //actions.Buttons.Add(openButton);
+                    //actions.Buttons.Add(holdButton);
                     
                     break;
                 }
@@ -87,29 +87,29 @@ namespace LitRes.ViewModels
                     visual.TitleText = new ToastText { Text = "Обновления коллекции" };
                     visual.BodyTextLine1 = new ToastText() {Text = parametrs["text"]};
 
-                    var openButton = new ToastButton("Открыть", new QueryString
-                    {
-                        {"action", "openCollection"},
-                        {"internalId", parametrs["internal_id"]}
-                    }.ToString()) {ActivationType = ToastActivationType.Foreground};
-                    actions.Buttons.Add(openButton);
+                    //var openButton = new ToastButton("Открыть", new QueryString
+                    //{
+                    //    {"action", "openCollection"},
+                    //    {"internalId", parametrs["internal_id"]}
+                    //}.ToString()) {ActivationType = ToastActivationType.Foreground};
+                    //actions.Buttons.Add(openButton);
 
                     break;
                 }
-                case "test":
-                    {
-                        visual.TitleText = new ToastText { Text = "Обновления вашей библиотеки" };
-                        visual.BodyTextLine1 = new ToastText() { Text = parametrs["text"] };
+                //case "test":
+                //    {
+                //        visual.TitleText = new ToastText { Text = "Обновления вашей библиотеки" };
+                //        visual.BodyTextLine1 = new ToastText() { Text = parametrs["text"] };
 
-                        var openButton = new ToastButton("Открыть", new QueryString
-                    {
-                        {"action", "openCollection"},                       
-                    }.ToString())
-                        { ActivationType = ToastActivationType.Foreground };
-                        actions.Buttons.Add(openButton);
+                //        var openButton = new ToastButton("Открыть", new QueryString
+                //    {
+                //        {"action", "openCollection"},                       
+                //    }.ToString())
+                //        { ActivationType = ToastActivationType.Foreground };
+                //        actions.Buttons.Add(openButton);
 
-                        break;
-                    }
+                //        break;
+                //    }
             }
 
             var content = new ToastContent()
