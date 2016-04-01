@@ -16,6 +16,9 @@ namespace LitRes.Models
 	{
         public string PriceInRub => Price.ToString(CultureInfo.InvariantCulture).Replace('.', ',');
 
+	    public bool IsFreeBook => isFreeBook || (InGifts != null && InGifts.Contains("1")) || Price == 0.0;
+	
+
         public partial class Annotation
 		{
 			//private static Regex reg = new Regex( "<p\\b[^>]*>(.*?)</p>" );

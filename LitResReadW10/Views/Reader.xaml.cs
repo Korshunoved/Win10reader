@@ -13,7 +13,9 @@ using LitRes.ValueConverters;
 using LitRes.ViewModels;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
+using System.Xml.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Graphics.Display;
@@ -449,9 +451,11 @@ namespace LitRes.Views
             }
             return null;
         }
-
+        
+        public List<BookmarkModel> Bookmarks { get; set; } 
         private void BookmarsButton_OnTapped(object sender, TappedRoutedEventArgs e)
         {
+            Bookmarks = AppSettings.Default.CurrentBook.LoadBookmarks(AppSettings.Default.CurrentBook.GetBookmarksPath());
             if (SystemInfoHelper.IsDesktop())
             {
                 FlyoutBase.ShowAttachedFlyout((Button) sender);
@@ -721,6 +725,18 @@ namespace LitRes.Views
             }
             var percent = Convert.ToString((int)Math.Ceiling(CurrentPageSlider.Value / (CurrentPageSlider.Maximum / 100)));
             await ViewModel.AddBookmark(text, xpointer, chapter, false, percent);
+            var bookmark = new BookmarkModel
+            {
+                BookID = book.BookID,
+                BookmarkID = ViewModel.CurrentBookmark.Id,
+                TokenID = _tokenOffset,
+                Chapter = chapter,
+                Percent = percent,
+                Text = text,
+                CurrentPage = (int)CurrentPageSlider.Value,
+                Pages = (int)CurrentPageSlider.Maximum
+            };
+            book.SaveBookmark(book.GetBookmarksPath(), bookmark);
             BookmarkGrid.Visibility = Visibility.Visible;
             BookmarkStoryboard.Begin();
             BookmarkStoryboard.Completed += BookmarkStoryboardOnCompleted;

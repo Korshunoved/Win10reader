@@ -57,6 +57,8 @@ namespace LitRes.Views
 
 		    _readerPage.FromSettings = true;
 
+		    SecondaryTileButton.Visibility = _readerPage.ViewModel.Entity.IsMyBook ? Visibility.Visible : Visibility.Collapsed;
+
 		    GetLineSpacingValue();
 
 		    GetMarginValue();

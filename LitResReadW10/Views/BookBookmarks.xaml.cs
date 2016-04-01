@@ -28,6 +28,9 @@ namespace LitRes.Views
 
 		private void BookBookmarks_Loaded( object sender, RoutedEventArgs e )
 		{
+		    var reader = Reader.Instance;
+		    if (reader != null)
+		        ViewModel.LocalBookmarks = reader.Bookmarks;
             Analytics.Instance.sendMessage(Analytics.ViewBookmarks);
 			ViewModel.LoadBookmarks();
 		}
@@ -41,13 +44,13 @@ namespace LitRes.Views
 	    {
 	        var list = sender as ListView;
 	        var item = list.SelectedItem;
-            var bookmark = item as Bookmark;
+            var bookmark = item as DisplayBookmark;
 	        if (bookmark != null)
 	        {                
 	            var myBookmark = new BookmarkModel
 	            {
 	                BookID = bookmark.Id,
-	                Text = bookmark.NoteText.Text
+	                Text = bookmark.Text
 	            };
 	            AppSettings.Default.Bookmark = myBookmark;
 	        }
@@ -61,31 +64,32 @@ namespace LitRes.Views
         }
 
         private void BookmarksListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {         
-            var bookmark = ((FrameworkElement)e.OriginalSource).DataContext as Bookmark;
-            if (bookmark == null) return;
-            XCollection<Bookmark> bookmarks = new XCollection<Bookmark>();
-            bookmarks.Add(bookmark);
-            ViewModel.DeleteBookmarks(bookmarks);
-            //foreach (var bookmark1 in ViewModel.Bookmarks.Where(bookmark1 => bookmark1.Id == bookmark.Id))
-            //{
-            //    bookmark1.ToDelete = true;
-            //}
+        {
+            var bookmark = ((FrameworkElement)e.OriginalSource).DataContext as DisplayBookmark;
+            DeleteBookmark(bookmark);
         }
 
         private void BookmarksListView_Holding(object sender, HoldingRoutedEventArgs e)
         {
-            var bookmark = ((FrameworkElement)e.OriginalSource).DataContext as Bookmark;
+            var bookmark = ((FrameworkElement)e.OriginalSource).DataContext as DisplayBookmark;
+            DeleteBookmark(bookmark);
+        }
+
+	    private void DeleteBookmark(DisplayBookmark bookmark)
+	    {            
             if (bookmark == null) return;
             XCollection<Bookmark> bookmarks = new XCollection<Bookmark>();
-            bookmarks.Add(bookmark);
-            ViewModel.DeleteBookmarks(bookmarks);
-            //foreach (var bookmark1 in ViewModel.Bookmarks.Where(bookmark1 => bookmark1.Id == bookmark.Id))
-            //{
-            //    bookmark1.ToDelete = true;
-            //}
+            foreach (var bookmark1 in ViewModel.Bookmarks)
+            {
+                if (bookmark1.Id == bookmark.Id)
+                {
+                    bookmarks.Add(bookmark1);    
+                }
+            }
+            if (bookmarks.Count > 0)
+                ViewModel.DeleteBookmarks(bookmarks);
         }
-    }
+	}
 
     public class BookBookmarksFitting : EntityPage<Models.Book, BookBookmarksViewModel>
 	{

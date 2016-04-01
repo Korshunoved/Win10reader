@@ -216,6 +216,8 @@ namespace LitRes.ViewModels
         }
 
         public IBookSummaryParser BookSummary { get; set; }
+
+        public Bookmark CurrentBookmark { get; set; }
         
         #endregion
 
@@ -267,7 +269,7 @@ namespace LitRes.ViewModels
             bool isCurrent = session.Parameters.GetValue<bool>("IsCurrent");
             string percent = session.Parameters.GetValue<string>("Percent");
             Bookmark bookmark = CreateBookmark(text, xpointer, chapter, isCurrent, percent);
-
+            CurrentBookmark = bookmark;
             if (bookmark != null)
             {
                 await _bookmarksProvider.AddBookmark(bookmark, session.Token);

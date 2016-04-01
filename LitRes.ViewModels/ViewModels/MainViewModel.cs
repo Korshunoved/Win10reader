@@ -353,6 +353,9 @@ namespace LitRes.ViewModels
 
 			//Add Nokia collection
 		    var deviceManufacturer = _deviceInfoService?.DeviceManufacturer.ToLower();
+#if DEBUG
+		    deviceManufacturer = "nokia";
+#endif
             if (genres?.Children != null && genres.Children.Count > 0 && !string.IsNullOrEmpty(deviceManufacturer) && deviceManufacturer.Contains( "nokia" ))
 			{
                 if (genres.Children[0].Id != (int)CategoriesTagTypeEnum.NokiaBoardTag)
@@ -713,17 +716,19 @@ namespace LitRes.ViewModels
 		#region ChooseGenre
 		private void ChooseGenre(int index)
 		{
-			if (index >= 0)
-			{
-                if(Genres[index].Id >= 0) 
-                    _navigationService.Navigate("GenreBooks", XParameters.Empty.ToBuilder().AddValue("id", index).AddValue("Index", true ).ToImmutable());
-                else if(Genres[index].Id == (int)CategoriesTagTypeEnum.NokiaBoardTag) 
-                    _navigationService.Navigate( "BooksByCategory", XParameters.Create( "category", ( int ) BooksByCategoryViewModel.BooksViewModelTypeEnum.NokiaCollection ) );
-                else if(Genres[index].Id == (int)CategoriesTagTypeEnum.FreeBooksTag)
-                    _navigationService.Navigate("FreeBooksByCategory", XParameters.Create("category", (int)BooksByCategoryViewModel.BooksViewModelTypeEnum.FreeBooks));
-			}
+		    if (index < 0) return;
+		    if (Genres[index].Id >= 0)
+		        _navigationService.Navigate("GenreBooks",
+		            XParameters.Empty.ToBuilder().AddValue("id", index).AddValue("Index", true).ToImmutable());
+		    else if (Genres[index].Id == (int) CategoriesTagTypeEnum.NokiaBoardTag)
+		        _navigationService.Navigate("BooksByCategory",
+		            XParameters.Create("category", (int) BooksByCategoryViewModel.BooksViewModelTypeEnum.NokiaCollection));
+		    else if (Genres[index].Id == (int) CategoriesTagTypeEnum.FreeBooksTag)
+		        _navigationService.Navigate("BooksByCategory",
+		            XParameters.Create("category", (int) BooksByCategoryViewModel.BooksViewModelTypeEnum.FreeBooks));
 		}
-		#endregion	
+
+	    #endregion	
 		#region ToMyBooks
 		private void ToMyBooks()
 		{

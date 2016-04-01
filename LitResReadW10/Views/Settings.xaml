@@ -23,12 +23,12 @@
         </StackPanel>
         <ScrollViewer Grid.Row="1"   Margin="10,0,10,0" VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled" VerticalAlignment="Stretch">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Padding="0">
-                <Button Style="{StaticResource WhiteButtonStyle}" Tapped="SecondaryTileTextBlock_Tapped" HorizontalAlignment="Stretch" Height="54">
-                    <RelativePanel Height="39" VerticalAlignment="Center">
-                        <Image Source="../Assets/W10Icons/Settings/Pin/pinscale-600.png" MaxHeight="20" Margin="0,0,0,0" RelativePanel.AlignLeftWith="SecondaryTileTextBlock" RelativePanel.AlignVerticalCenterWith="SecondaryTileTextBlock" />
-                        <TextBlock Grid.ColumnSpan="2" x:Name="SecondaryTileTextBlock" Margin="50,10,5,10" TextAlignment="Center"
+                <Button Name="SecondaryTileButton" Style="{StaticResource WhiteButtonStyle}" Tapped="SecondaryTileTextBlock_Tapped" HorizontalAlignment="Stretch" Height="54">
+                    <RelativePanel Height="39" VerticalAlignment="Center" Width="265">
+                        <Image x:Name="Image" Source="../Assets/W10Icons/Settings/Pin/pinscale-600.png" MaxHeight="20" Margin="20,0,0,0" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignLeftWith="SecondaryTileTextBlock" RelativePanel.AlignVerticalCenterWith="SecondaryTileTextBlock" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Height="15" />
+                        <TextBlock x:Name="SecondaryTileTextBlock" Margin="0" TextAlignment="Center" RelativePanel.AlignRightWithPanel="True"
                            Text="НА ДОМАШНИЙ ЭКРАН" Foreground="{StaticResource LitresOrangeBrush}" FontWeight="SemiBold" VerticalAlignment="Center"
-                               Grid.Column="0" Height="27" Width="215" FontSize="18.667" HorizontalAlignment="Center" Padding="0,5,0,0" />
+                              Height="27" Width="215" FontSize="16" HorizontalAlignment="Center" Padding="0,4,0,0" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
                     </RelativePanel>
                 </Button>
                 <TextBlock

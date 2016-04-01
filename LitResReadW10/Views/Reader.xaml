@@ -96,7 +96,7 @@
                     IsEnabled="True"
                     Opacity="1"
                     Style="{StaticResource ReaderButtonStyle}">
-                    <Image Stretch="None"  Opacity="0.6" Source="../Assets/W10Icons/Bookmarks/bookmarks_icon.png"/>
+                    <Image Stretch="None"  Opacity="1" Source="../Assets/W10Icons/Bookmarks/bookmarks_icon.png"/>
                     <FlyoutBase.AttachedFlyout >
                         <Flyout Placement="Bottom">
                             <Flyout.FlyoutPresenterStyle>
