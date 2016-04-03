@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BookParser.Models;
 using Digillect;
 using Digillect.Collections;
 using Digillect.Mvvm;
@@ -11,7 +13,28 @@ using LitRes.Services;
 
 namespace LitRes.ViewModels
 {
-	public class BookBookmarksViewModel : EntityViewModel<Book>
+    public class DisplayBookmark : XObject
+    {
+        public string Id { get; set; }
+
+        public string BookID { get; set; }
+
+        public string Title { get; set; }
+
+        public string Percent { get; set; }
+
+        public string Text { get; set; }
+
+        public string LastUpdate { get; set; }
+
+        public string CurrentPage { get; set; }
+
+        public string TotalPages { get; set; }
+
+        public string XPointer { get; set; }
+    }
+
+    public class BookBookmarksViewModel : EntityViewModel<Book>
 	{
 		public const string LoadBookmarksPart = "LoadBookmarks";
 		public const string BookIdParameter = "BookId";
@@ -26,7 +49,11 @@ namespace LitRes.ViewModels
 		#region Public Properties
 		public XCollection<Bookmark> Bookmarks { get; private set; }
 
-		public RelayCommand<Bookmark> ReadByBookmark { get; private set; }
+        public List<BookmarkModel> LocalBookmarks { get; set; }
+
+        public XCollection<DisplayBookmark> DisplayBookmarks { get; private set; }
+
+        public RelayCommand<Bookmark> ReadByBookmark { get; private set; }
 		public RelayCommand BookBookmarksEdit { get; private set; }
 		#endregion
 
@@ -38,6 +65,8 @@ namespace LitRes.ViewModels
 			_navigationService = navigationService;
 
 			Bookmarks = new XCollection<Bookmark>();
+
+            DisplayBookmarks = new XCollection<DisplayBookmark>();
 
             RegisterAction(LoadBookmarksPart).AddPart(LoadBookmarks, session => true);
             RegisterAction(DeletePart).AddPart(DeleteBookmarks, session => true);
@@ -67,6 +96,13 @@ namespace LitRes.ViewModels
 			var session = new Session( DeletePart );
 
 			session.AddParameter( "delete", bookmarks );
+
+		    var bookmark = bookmarks[0];
+
+		    foreach (var displayBookmark in DisplayBookmarks.Where(displayBookmark => displayBookmark.Id == bookmark.Id))
+		    {
+		        DisplayBookmarks.Remove(displayBookmark);
+		    }
 
 			return Load(session);
 		}
@@ -117,7 +153,30 @@ namespace LitRes.ViewModels
                 bookmarksSorted.Sort(CompareXPointer);
 
                 Bookmarks.Update(bookmarksSorted);
-			}
+
+                /*   */
+			    foreach (var bookmark in LocalBookmarks.Select(localBookmark => new DisplayBookmark
+			    {
+			        Id = localBookmark.BookmarkID,
+			        CurrentPage = localBookmark.CurrentPage.ToString(),
+			        TotalPages = localBookmark.Pages.ToString(),
+			        Percent = localBookmark.Percent,
+			    }))
+			    {
+			        DisplayBookmarks.Add(bookmark);
+			    }
+
+
+			    foreach (var bookmark in Bookmarks)
+			    {
+			        foreach (var displayBookmark in DisplayBookmarks.Where(displayBookmark => bookmark.Id == displayBookmark.Id))
+			        {
+			            displayBookmark.Title = bookmark.Title;
+			            displayBookmark.LastUpdate = bookmark.LastUpdate;
+			            displayBookmark.Text = bookmark.NoteText.Text;
+			        }
+			    }
+            }
 		}
 
 	    private int CompareXPointer(Bookmark bookmark1, Bookmark bookmark2)

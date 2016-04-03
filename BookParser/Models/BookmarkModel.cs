@@ -23,20 +23,23 @@ namespace BookParser.Models
 { 
     public class BookmarkModel : BaseTable
     {
-      
-        public int BookmarkID { get; set; }
-
+        public string BookmarkID { get; set; }
    
         public string BookID { get; set; }
 
+        public string Chapter { get; set; }
      
         public int TokenID { get; set; }
-
       
         public int EndTokenID { get; set; }
 
+        public string Percent { get; set; }
      
         public string Text { get; set; }
+
+        public int CurrentPage { get; set; }
+
+        public int Pages { get; set; }
 
         [Obsolete]
         public bool Highlight { get; set; }

@@ -18,6 +18,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Xml.Linq;
@@ -105,6 +106,102 @@ namespace BookParser.Models
                     }
                 }
             }
+        }
+
+        public List<BookmarkModel> LoadBookmarks(string path)
+        {
+            try
+            {
+                using (var storage = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    var document = new XDocument();
+                    using (var inFile = storage.OpenFile(path, FileMode.Open, FileAccess.Read))
+                    {
+                        document = XDocument.Load(inFile);
+                        inFile.Dispose();
+                    }
+                    var list = new List<BookmarkModel>();
+                    foreach (var xElement in document.Root.Elements())
+                    {
+                        var bookmark = new BookmarkModel();
+                        foreach (var attr in xElement.Attributes())
+                        {
+                            switch (attr.Name.ToString())
+                            {
+                                case "id":
+                                    bookmark.BookmarkID = attr.Value;
+                                    break;
+                                case "tokenId":
+                                    bookmark.TokenID = int.Parse(attr.Value);
+                                    break;
+                                case "percent":
+                                    bookmark.Percent = attr.Value;
+                                    break;
+                                case "currentPage":
+                                    bookmark.CurrentPage = int.Parse(attr.Value);
+                                    break;
+                                case "pages":
+                                    bookmark.Pages = int.Parse(attr.Value);
+                                    break;
+                                case "chapter":
+                                    bookmark.Chapter = attr.Value;
+                                    break;
+                                case "text":
+                                    bookmark.Text = attr.Value;
+                                    break;
+                            }
+                        }
+                        list.Add(bookmark);
+                    }
+                    return list;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public void SaveBookmark(string path, BookmarkModel bookmark)
+        {
+            using (var storage = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                var exist = storage.FileExists(path);
+                var document = new XDocument();
+                var isAdded = false;
+                if (exist)
+                {
+                    using (var inFile = storage.OpenFile(path, FileMode.Open, FileAccess.Read))
+                    {
+                        document = XDocument.Load(inFile);
+                        var root = document.Root;
+                        root.Add(PrepareBookmark(bookmark));
+                        isAdded = true;
+                        inFile.Dispose();
+                    }
+                }
+                using (var outFile = storage.OpenFile(path, FileMode.Create, FileAccess.Write))
+                {
+                    var root = document.Root ?? new XElement("bookmarks");
+                    if (document.Root == null) document.Add(root);
+                    if (!isAdded)
+                        root.Add(PrepareBookmark(bookmark));
+                    document.Save(outFile);
+                }
+            }
+        }
+
+        public XElement PrepareBookmark(BookmarkModel bookmark)
+        {
+            var bookmarkElem = new XElement("bookmark");
+            bookmarkElem.Add(new XAttribute("id", bookmark.BookmarkID));
+            bookmarkElem.Add(new XAttribute("tokenId", bookmark.TokenID));
+            bookmarkElem.Add(new XAttribute("percent", bookmark.Percent));
+            bookmarkElem.Add(new XAttribute("currentPage", bookmark.CurrentPage));
+            bookmarkElem.Add(new XAttribute("pages", bookmark.Pages));
+            bookmarkElem.Add(new XAttribute("chapter", bookmark.Chapter));
+            bookmarkElem.Add(new XAttribute("text", bookmark.Text ?? string.Empty));
+            return bookmarkElem;
         }
     }
 }

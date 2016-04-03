@@ -52,12 +52,12 @@
         <ListView Grid.Row="1" Margin="10,0,10,0"
                   Padding="0,0,0,0"
                   x:Name="BookmarksListView"
-                  ItemsSource="{Binding ViewModel.Bookmarks}"
+                  ItemsSource="{Binding ViewModel.DisplayBookmarks}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
                   Tapped="BookmarksListView_OnTapped"
-                  ItemContainerStyle="{StaticResource ListViewStretchStyle}" 
-                  ManipulationMode="All" 
+                  ItemContainerStyle="{StaticResource ListViewStretchStyle}"
+                  ManipulationMode="All"
                   RightTapped="BookmarksListView_RightTapped" Holding="BookmarksListView_Holding">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -68,8 +68,8 @@
                         </Grid.ColumnDefinitions>
                         <Grid x:Name="DeleteGrid"
                               Canvas.ZIndex="2"
-                              Visibility="Collapsed"  
-                              Background="{StaticResource LitresWhiteBrush}" 
+                              Visibility="Collapsed"
+                              Background="{StaticResource LitresWhiteBrush}"
                               Grid.ColumnSpan="2">
                             <Grid.RowDefinitions>
                                 <RowDefinition MinHeight="60" />
@@ -94,9 +94,9 @@
                             VerticalAlignment="Stretch"
                             Background="{StaticResource LitresWhiteBrush}">
                             <StackPanel Orientation="Vertical" Margin="10,10,10,10">
-
                                 <RelativePanel HorizontalAlignment="Stretch">
-                                    <TextBlock Text="{Binding Path=Title}"
+                                    <TextBlock Name="TextBlock"
+                                               Text="{Binding Path=Title}"
                                                RelativePanel.AlignLeftWithPanel="True"
                                                RelativePanel.AlignVerticalCenterWithPanel="True"
                                                TextTrimming="WordEllipsis"
@@ -108,20 +108,25 @@
                                         TextWrapping="NoWrap"
                                         RelativePanel.AlignRightWithPanel="True"
                                         RelativePanel.AlignVerticalCenterWithPanel="True"
-                                        Style="{StaticResource SmallNormalLightGrayTextStyle}" />
+                                        RelativePanel.Below="TextBlock"
+                                        Style="{StaticResource SmallNormalLightGrayTextStyle}"
+                                        HorizontalAlignment="Right" />
                                 </RelativePanel>
 
-                                <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                <StackPanel Margin="0,-19,0,0" Orientation="Horizontal">
                                     <TextBlock
                                         TextTrimming="WordEllipsis"
                                         TextWrapping="NoWrap"
                                         Style="{StaticResource SmallNormalOrangeTextStyle}"
-                                        Text="120" />
+                                        Text="{Binding Path=CurrentPage}" />
                                     <TextBlock
                                         TextTrimming="WordEllipsis"
                                         TextWrapping="NoWrap"
-                                        Style="{StaticResource SmallNormalLightGrayTextStyle}"
-                                        Text=" / 420 страниц" />
+                                        Style="{StaticResource SmallNormalLightGrayTextStyle}">
+                                        <Run Text="/"></Run>
+                                        <Run Text="{Binding Path=TotalPages}"></Run>
+                                        <Run Text=" страниц"></Run>
+                                    </TextBlock>
                                 </StackPanel>
 
                                 <Border

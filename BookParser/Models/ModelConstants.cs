@@ -24,6 +24,7 @@ namespace BookParser.Models
         public const string BookFileDataRefPath = "/bookfile.data.ref";
         public const string BookTokensPath = "/bookfile.data.tokens";
         public const string BookFileDataPath = "/bookfile.data";
+        public const string BookmarksFilePath = "/bookmarks.xml";
         public const string BookImagesFileName = "/images.xml";
         public const string BookChaptersFileName = "/chapters.xml";
         public const string BooksFolder = "MyBooks/";

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using BookParser;
 using BookParser.IO;
 using BookParser.Models;
@@ -62,6 +63,9 @@ namespace BookRender.Tools
                     break;
                 }
             }
+            RegexOptions options = RegexOptions.None;
+            Regex regex = new Regex("[ ]{2,}", options);
+            chapter = regex.Replace(chapter, " ");
             return chapter;
         }
 

@@ -436,7 +436,9 @@
                                         HorizontalAlignment="Stretch"
                                         Command="{Binding ViewModel.Read}"
                                         IsEnabled="{Binding ViewModel.Entity, Converter={StaticResource ReadBookButtonEnableConverter}}"
-                                        Visibility="{Binding Path=ViewModel.Entity.IsDrmOrEpub, Converter={StaticResource VisibilityConverter},ConverterParameter=inverse, FallbackValue=Collapsed}" />
+                                        Visibility="Collapsed"/>
+                                        <!--Visibility="{Binding Path=ViewModel.Entity.IsDrmOrEpub, Converter={StaticResource VisibilityConverter},ConverterParameter=inverse, FallbackValue=Collapsed}" />-->
+                                   
                             </StackPanel>
 
                             <StackPanel
