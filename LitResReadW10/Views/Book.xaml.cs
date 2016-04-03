@@ -23,6 +23,7 @@ namespace LitRes.Views
 {
 	[View("Book")]
     [ViewParameter("BookEntity", typeof(Models.Book), Required = false)]
+    [ViewParameter("BookEntityId", typeof(int), Required = false)]
     [ViewParameter("hidden", typeof(string),Required = false)]
 	public partial class Book : BookFitting
 	{        
@@ -40,12 +41,11 @@ namespace LitRes.Views
 		{
 			ViewModel.PropertyChanged -= ViewModel_PropertyChanged;
 			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
-
+            
             if (!string.IsNullOrEmpty(ViewParameters.GetValue<string>("hidden")))
 		    {
 		        ViewModel.IsHiddenBook = true;
 		    }
-
             return base.CreateDataSession( reason );  
 		}
 		#endregion
@@ -287,9 +287,10 @@ namespace LitRes.Views
 			}
 		}
         
-	    protected override void OnNavigatedTo(NavigationEventArgs e)
+	    protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             ControlPanel.Instance.TopBarTitle = "Книга";
+	        
             base.OnNavigatedTo(e);
 
             ViewModel.UpdateButtons();
