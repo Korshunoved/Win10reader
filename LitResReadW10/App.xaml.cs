@@ -125,6 +125,7 @@ namespace LitResReadW10
                 }
                 default:
                 {
+                    RootFrame.Navigate(typeof (MainPage));
                     return;
                 }
             }
