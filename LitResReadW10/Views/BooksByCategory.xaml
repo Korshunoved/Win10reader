@@ -245,8 +245,8 @@
                                    ItemContainerStyle="{StaticResource ListViewStretchStyle}"
                                    IsPullToRefreshEnabled="False"
                                    ScrollViewer.IsHorizontalRailEnabled="False"
-                                   ScrollViewer.HorizontalScrollBarVisibility="Hidden" 
-                                   ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                    Tapped="CategoryBooks_OnTapped"/>
         <!--ItemTemplateSelector="{Binding ViewModel.BooksViewModelType, Converter={StaticResource EnumCategoryTemplateConverter}}"-->
         <controls:PageHeader Grid.Row="0" x:Name="pageHeader"/>
