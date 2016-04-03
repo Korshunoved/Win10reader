@@ -112,7 +112,7 @@ namespace LitRes.ViewModels
 		}
         public bool SimCardDetected => _deviceInfoService.IsSimCardDetected;
 
-	    public string ReadButtonText => Entity!=null && (Entity.IsMyBook || Entity.isFreeBook) && !Entity.isFragment ? "ЧИТАТЬ" : "ЧИТАТЬ ФРАГМЕНТ";
+	    public string ReadButtonText => Entity!=null && (Entity.IsMyBook || Entity.IsFreeBook) && !Entity.isFragment ? "ЧИТАТЬ" : "ЧИТАТЬ ФРАГМЕНТ";
 
 	    public bool IsHiddenBook { get; set; }
         public Book RelatedAudioBook { get; set; }

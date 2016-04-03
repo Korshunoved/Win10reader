@@ -124,7 +124,18 @@ namespace Digillect.Mvvm.UI
             //Window.Current.Activate();
         }
 
-		protected override void OnSearchActivated( SearchActivatedEventArgs args )
+	    protected override void OnActivated(IActivatedEventArgs args)
+	    {
+	        base.OnActivated(args);
+	        if (args.Kind != ActivationKind.ToastNotification || RootFrame != null) return;
+	        RootFrame = CreateRootFrame();
+	        InitializeIoC();
+	        RootFrame.NavigationFailed += OnNavigationFailed;
+	        Window.Current.Content = RootFrame;
+	        Window.Current.Activate();
+	    }
+
+	    protected override void OnSearchActivated( SearchActivatedEventArgs args )
 		{
 			base.OnSearchActivated( args );
 

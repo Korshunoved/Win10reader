@@ -242,7 +242,7 @@
                             Width="100"
                             Height="36"
                             Padding="5,0,5,0"
-                            Visibility="{Binding Path=isFreeBook, Converter={StaticResource VisibilityConverter}}">
+                            Visibility="{Binding Path=IsFreeBook, Converter={StaticResource VisibilityConverter}}">
                             <!--Visibility="Collapsed">-->
                             <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО"
                                        MaxLines="2"
@@ -722,7 +722,7 @@
                                                     RelativePanel.AlignBottomWithPanel="True">
                                                         <Button
                                                         Style="{StaticResource GreenButtonStyle}"
-                                                        Visibility="{Binding Path=isFreeBook, Converter={StaticResource VisibilityConverter}}"
+                                                        Visibility="{Binding Path=IsFreeBook, Converter={StaticResource VisibilityConverter}}"
                                                         Width="100"
                                                         Height="36"
                                                         Padding="5,0,5,0">

@@ -466,7 +466,7 @@ namespace LitRes.Views
 
             var book = _readerPage.ViewModel.Entity;
             var secondaryTile = new SecondaryTile(book.Id.ToString(), book.BookTitle,
-                book.Id.ToString(), uri150X150Logo, TileSize.Square150x150)
+                "secondary_tile_id=" + book.Id, uri150X150Logo, TileSize.Square150x150)
             {
                 VisualElements =
                 {

@@ -1,4 +1,5 @@
-﻿using Windows.ApplicationModel;
+﻿using System.Threading;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -48,14 +49,13 @@ namespace LitResReadW10
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             base.OnLaunched(e);
-            if (e.Arguments.Length > 0)
+            if (e.Arguments.Length > 0 && e.Arguments.Contains("secondary_tile_id"))
             {
               //  new MessageDialog(e.Kind.ToString()).ShowAsync();
-                TileBookId = e.Arguments;
+                TileBookId = e.Arguments.Split('=')[1];
                 var book = new LitRes.Models.Book {Id = int.Parse(TileBookId)};
                 RootFrame.Navigate(typeof(Reader), XParameters.Create("BookEntity", book));
             }
-
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
@@ -66,25 +66,70 @@ namespace LitResReadW10
 
         protected override void OnActivated(IActivatedEventArgs args)
         {
-            // TODO: Initialize root frame just like in OnLaunched
-
-            // Handle toast activation
-            if (args.Kind == ActivationKind.ToastNotification)
+            base.OnActivated(args);
+            if (args.Kind != ActivationKind.ToastNotification) return;
+            var toastArgs = args as ToastNotificationActivatedEventArgs;
+            if (toastArgs == null) return;
+            var argument = toastArgs.Argument;
+            var arguments = argument.Split('&');
+            var type = "";
+            var action = "";
+            var internalId = "";
+            foreach (var s in arguments)
             {
-                var toastArgs = args as ToastNotificationActivatedEventArgs;
-
-                // Get arguments corresponding to this activation;
-                // When tapping the body of the toast caused this activation, the app receives the value of “launch” property of ;
-                // When the activation is caused by using tapping on an action inside the toast, the app receives the value of “arguments” property of ; 
-                var arguments = toastArgs.Argument;
-
-                // User input from <input> can be retrieved using the UserInput property. The UserInput is a ValueSet and the key is the pre-defined id attribute in the <input> element in the payload.
-                //RootFrame.Navigate(typeof(MyBooks));
-
-                // Navigate accordingly
+                if (s.Contains("type="))
+                {
+                    type = s.Split('=')[1];
+                }
+                else if (s.Contains("action"))
+                {
+                    action = s.Split('=')[1];
+                }
+                else if (s.Contains("internal_id="))
+                {
+                    internalId = s.Split('=')[1];
+                }
+            }
+            if (internalId == "") return;
+            switch (type)
+            {
+                case "b":
+                {
+                    switch (action)
+                    {
+                        case "read":
+                        {
+                            var book = new LitRes.Models.Book {Id = int.Parse(internalId)};
+                            RootFrame.Navigate(typeof(Reader), XParameters.Create("BookEntity", book));
+                            break;
+                        }
+                        case "about":
+                        {
+                            var book = new LitRes.Models.Book { Id = int.Parse(internalId) };
+                            RootFrame.Navigate(typeof(LitRes.Views.Book), XParameters.Create("BookEntity", book));
+                            break;
+                        }
+                        default:
+                        {
+                            var book = new LitRes.Models.Book { Id = int.Parse(internalId) };
+                            RootFrame.Navigate(typeof(LitRes.Views.Book), XParameters.Create("BookEntity", book));
+                            break;
+                        }
+                    }
+                    break;
+                }
+                case "a":
+                {
+                    RootFrame.Navigate(typeof(LitRes.Views.Person), XParameters.Create("Id", internalId));
+                    break;
+                }
+                default:
+                {
+                    RootFrame.Navigate(typeof (MainPage));
+                    return;
+                }
             }
 
-            // TODO: Handle other types of activation
         }
 
         protected override void NavigateRootFrame(LaunchActivatedEventArgs e)
