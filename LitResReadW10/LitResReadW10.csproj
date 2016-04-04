@@ -648,6 +648,7 @@
     <Compile Include="ValueConverters\ConverterBase.cs" />
     <Compile Include="ValueConverters\CoverConverter.cs" />
     <Compile Include="ValueConverters\DateTimeStringFormatter.cs" />
+    <Compile Include="ValueConverters\DeclensionConverter.cs" />
     <Compile Include="ValueConverters\DiscountVisibilityConverter.cs" />
     <Compile Include="ValueConverters\DrmBookOpacityConverter.cs" />
     <Compile Include="ValueConverters\EnableBrushConverter.cs" />

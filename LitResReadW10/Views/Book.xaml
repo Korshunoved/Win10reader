@@ -407,7 +407,7 @@
 
                                 <Button
                                     HorizontalAlignment="Stretch"
-                                    Tapped="onBuyBookTaped"
+                                    Tapped="OnBuyBookTaped"
                                     Style="{StaticResource GreenButtonStyle}"
                                     Visibility="{Binding ViewModel.CanBuyBook, Converter={StaticResource VisibilityConverter}}"
                                     IsEnabled="{Binding ViewModel.Entity.IsInPurchase, Converter={StaticResource BuyBookButtonEnableConverter}}">
@@ -420,7 +420,7 @@
 
                                 <Button
                                     HorizontalAlignment="Stretch"
-                                    Tapped="onBuyBookTaped"
+                                    Tapped="OnBuyBookTaped"
                                     Style="{StaticResource GreenButtonStyle}"
                                     Visibility="{Binding ViewModel.CanGetBook, Converter={StaticResource VisibilityConverter}}"
                                     IsEnabled="{Binding ViewModel.Entity.IsInPurchase, Converter={StaticResource BuyBookButtonEnableConverter}}">

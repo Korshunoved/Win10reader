@@ -27,6 +27,7 @@ namespace LitResReadW10
         internal const int LoginLength = 3;
         internal const int PasswordLength = 3;
         public static string TileBookId;
+        public static bool IsLaunched { get; set; }
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -49,6 +50,7 @@ namespace LitResReadW10
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             base.OnLaunched(e);
+            IsLaunched = true;
             if (e.Arguments.Length > 0 && e.Arguments.Contains("secondary_tile_id"))
             {
               //  new MessageDialog(e.Kind.ToString()).ShowAsync();
@@ -68,6 +70,12 @@ namespace LitResReadW10
         {
             base.OnActivated(args);
             if (args.Kind != ActivationKind.ToastNotification) return;
+            if (!IsLaunched)
+            {
+                IsLaunched = true;
+                RootFrame.Navigate(typeof (MainPage));
+            }
+            //NavigateRootFrame(e);
             var toastArgs = args as ToastNotificationActivatedEventArgs;
             if (toastArgs == null) return;
             var argument = toastArgs.Argument;
@@ -109,9 +117,22 @@ namespace LitResReadW10
                             RootFrame.Navigate(typeof(LitRes.Views.Book), XParameters.Create("BookEntity", book));
                             break;
                         }
-                        default:
+                        case "cart":
                         {
                             var book = new LitRes.Models.Book { Id = int.Parse(internalId) };
+                            RootFrame.Navigate(typeof(LitRes.Views.Book), XParameters.Create("BookEntity", book));
+                            break;
+                        }
+                        case "buy":
+                        {
+                            var book = new LitRes.Models.Book { Id = int.Parse(internalId) };
+                            LitRes.Views.Book.NavigationReason = "buy";
+                            RootFrame.Navigate(typeof(LitRes.Views.Book), XParameters.Create("BookEntity", book));
+                            break;
+                        }
+                        default:
+                        {
+                            var book = new LitRes.Models.Book { Id = int.Parse(internalId) };        
                             RootFrame.Navigate(typeof(LitRes.Views.Book), XParameters.Create("BookEntity", book));
                             break;
                         }
@@ -125,7 +146,6 @@ namespace LitResReadW10
                 }
                 default:
                 {
-                    RootFrame.Navigate(typeof (MainPage));
                     return;
                 }
             }

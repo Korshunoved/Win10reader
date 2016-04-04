@@ -52,6 +52,7 @@
             <valueConverters:CommaListConverter x:Key="CommaListConverter"/>
             <valueConverters:GenreBrushConverter x:Key="GenreBrushConverter"/>
             <valueConverters:ToStringConverter x:Key="ToStringConverter"/>
+            <valueConverters:DeclensionConverter x:Key="DeclensionConverter"/>
             <valueConverters:ToCurrentPageConverter x:Key="ToCurrentPageConverter"/>
             <valueConverters:InterlineageSliderConverter x:Key="InterlineageSliderConverter"/>
             <valueConverters:MarginSliderConverter x:Key="MarginSliderConverter"/>

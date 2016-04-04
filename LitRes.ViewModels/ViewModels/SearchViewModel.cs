@@ -138,6 +138,40 @@ namespace LitRes.ViewModels
             }
         }
 
+	    public string MoreOtherBooksText
+	    {
+	        get
+	        {
+	            if (MoreOtherBooksCount == 0)
+	                return "книг";
+	            var lastTwoDigit = MoreOtherBooksCount%100;
+	            var lastDigit = MoreOtherBooksCount%10;
+                switch (lastDigit)
+	            {
+                    case 1:
+	                {
+	                    return "книга";
+	                }
+                    case 2:
+	                {
+	                    return lastTwoDigit != 12 ? "книги" : "книг";
+	                }
+                    case 3:
+                    {
+                        return lastTwoDigit != 13 ? "книги" : "книг";
+                    }
+                    case 4:
+                    {
+                        return lastTwoDigit != 13 ? "книги" : "книг";
+                    }
+                    default:
+	                {
+	                    return "книг";
+	                }
+                }
+	        }
+	    }
+
         public Rootobject AllResultsObject { get; set; }
 
         public RelayCommand<Book> BookSelected { get; private set; }
