@@ -260,7 +260,7 @@
                                Style="{StaticResource SmallSemiBoldBlackTextStyle}" />
                     <TextBlock Style="{StaticResource SmallNormalLightGrayTextStyle}">
                         <Run Text="{Binding Path=Number, Converter={StaticResource ToStringConverter}}" />
-                        <Run>книг</Run>
+                        <Run Text="{Binding Path=Number, Converter={StaticResource DeclensionConverter}, ConverterParameter=book-l}"/>
                     </TextBlock>
                     <Grid Width="47"
                           Margin="0,10,0,0"
@@ -293,7 +293,7 @@
                                    Style="{StaticResource SmallSemiBoldBlackTextStyle}" />
                         <TextBlock Style="{StaticResource SmallNormalLightGrayTextStyle}">
                             <Run Text="{Binding Path=ArtsCount, Converter={StaticResource ToStringConverter}}" />
-                            <Run>книг</Run>
+                            <Run Text="{Binding Path=ArtsCount, Converter={StaticResource DeclensionConverter}, ConverterParameter=book-l}"/>
                         </TextBlock>
                     </StackPanel>
                 </Grid>
@@ -467,9 +467,8 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center">
                                 <Run>ЕЩЕ</Run>
-                                <Run
-                                    Text="{Binding ViewModel.MorePersonsCount, Converter={StaticResource ToStringConverter}}" />
-                                <Run>АВТОРА</Run>
+                                <Run Text="{Binding ViewModel.MorePersonsCount, Converter={StaticResource ToStringConverter}}" />
+                                <Run Text="{Binding ViewModel.MorePersonsCount, Converter={StaticResource DeclensionConverter}, ConverterParameter=author-u}"/>
                             </TextBlock>
                         </Button>
                     </ListView.Footer>
@@ -537,9 +536,8 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center">
                                 <Run>ЕЩЕ</Run>
-                                <Run
-                                    Text="{Binding ViewModel.MoreSequencesCount, Converter={StaticResource ToStringConverter}}" />
-                                <Run>СЕРИЙ</Run>
+                                <Run Text="{Binding ViewModel.MoreSequencesCount, Converter={StaticResource ToStringConverter}}" />
+                                <Run Text="{Binding ViewModel.MoreSequencesCount, Converter={StaticResource DeclensionConverter}, ConverterParameter=series-u}"/>
                             </TextBlock>
                         </Button>
                     </ListView.Footer>
@@ -583,7 +581,7 @@
                                 VerticalAlignment="Center">
                                 <Run>ЕЩЕ</Run>
                                 <Run Text="{Binding ViewModel.MoreOtherBooksCount}" />
-                                <Run>КНИГ</Run>
+                                <Run Text="{Binding ViewModel.MoreOtherBooksCount, Converter={StaticResource DeclensionConverter}, ConverterParameter=book-u}"/>
                             </TextBlock>
                         </Button>
                     </ListView.Footer>

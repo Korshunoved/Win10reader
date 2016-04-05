@@ -29,6 +29,8 @@ namespace LitRes.Views
 	{        
         private DispatcherTimer _timer;
 	    private bool _animInProgress;
+
+        public static string NavigationReason { get; set; }
 		#region Constructors/Disposer
 		public Book()
 		{
@@ -50,13 +52,16 @@ namespace LitRes.Views
 		}
 		#endregion
 
-        protected override async void OnDataLoadComplete(Session session)
+        protected override void OnDataLoadComplete(Session session)
         {
             _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
 
             _timer.Tick += RefreshTimer;
             _timer.Start();
             ReadButton.Visibility = ViewModel.CanGetBook ? Visibility.Collapsed : Visibility.Visible;
+            if (!NavigationReason.Contains("buy")) return;
+            ViewModel.BuyBook.Execute(null);
+            NavigationReason = string.Empty;
 
             //await TileImageHelper.CreateNormalTileImage(ViewModel.Entity.Cover, NormalTileGrid);
         }
@@ -340,7 +345,7 @@ namespace LitRes.Views
 
 	    private void PivotItemSequence_OnLoaded(object sender, RoutedEventArgs e)
 	    {
-            if (ViewModel.Entity!=null && ViewModel.Entity.Description.Hidden.TitleInfo.Sequence == null)
+            if (ViewModel.Entity?.Description != null && ViewModel.Entity.Description.Hidden.TitleInfo.Sequence == null)
             {
                 PivotControl.Items?.Remove(sender);
             }
@@ -386,7 +391,7 @@ namespace LitRes.Views
             
         }
         
-	    private async void onBuyBookTaped(object sender, TappedRoutedEventArgs e)
+	    private async void OnBuyBookTaped(object sender, TappedRoutedEventArgs e)
 	    {
             ViewModel.BuyBook.Execute(null);
 	    }

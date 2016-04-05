@@ -153,7 +153,14 @@ namespace LitRes.Services.Connectivity
 			parameters = parameters ?? new Dictionary<string, object>();
             if (additionalParams)
             {
-                parameters.Add("app", _deviceInfoService.AppId);
+                try
+                {
+                    parameters.Add("app", _deviceInfoService.AppId);
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
                 parameters.Add("currency", _deviceInfoService.Currency);
                 //if (!parameters.ContainsKey("lfrom")) parameters.Add("lfrom", _deviceInfoService.WinMobileRefId);
                 //if (!parameters.ContainsKey("pin")) parameters.Add("pin", _deviceInfoService.DeviceModel);
