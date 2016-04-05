@@ -13,9 +13,7 @@ using LitRes.ValueConverters;
 using LitRes.ViewModels;
 using System.ComponentModel;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Xml.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Graphics.Display;
@@ -29,7 +27,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Autofac;
@@ -71,7 +68,7 @@ namespace LitRes.Views
         private int _tokenOffset;
         public int CurrentPage;
         public bool FromSettings;
-        private readonly INavigationService _navigationService = ((App)App.Current).Scope.Resolve<INavigationService>();
+        private readonly INavigationService _navigationService = ((App)Application.Current).Scope.Resolve<INavigationService>();
 
         public bool IsHardwareBack => ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons");
 
@@ -436,7 +433,7 @@ namespace LitRes.Views
             if (bookmark == null) return;
             if (!SystemInfoHelper.IsDesktop()) return;
             BookmarksFrame.BackStack.Clear();
-            FlyoutBase.GetAttachedFlyout(BookmarsButton)?.Hide();
+            FlyoutBase.GetAttachedFlyout(BookmarksButton)?.Hide();
         }
 
         public static Brush ColorToBrush(string color) // color = "#E7E44D"
@@ -455,6 +452,8 @@ namespace LitRes.Views
         public List<BookmarkModel> Bookmarks { get; set; } 
         private void BookmarsButton_OnTapped(object sender, TappedRoutedEventArgs e)
         {
+            var brush = ColorToBrush("#3b393f");
+            BookmarksButton.Background = brush;           
             Bookmarks = AppSettings.Default.CurrentBook.LoadBookmarks(AppSettings.Default.CurrentBook.GetBookmarksPath());
             if (SystemInfoHelper.IsDesktop())
             {
@@ -658,7 +657,7 @@ namespace LitRes.Views
             var brush = ColorToBrush("#3b393f");
             ContentsButton.Background = brush;
             ContentsImage.Source =
-                new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Toc/toc.white.scale-100.png", UriKind.Absolute));
+                new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Toc/toc.white.png", UriKind.Absolute));
             if (SystemInfoHelper.IsDesktop())
             {
                 FlyoutBase.ShowAttachedFlyout((Button) sender);
@@ -670,13 +669,13 @@ namespace LitRes.Views
         private void TocFrame_Unloaded(object sender, RoutedEventArgs e)
         {
             ContentsButton.Background = new SolidColorBrush(Colors.Transparent);
-            ContentsImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Toc/toc.scale-100.png", UriKind.Absolute));
+            ContentsImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Toc/toc.png", UriKind.Absolute));
         }
 
         private void SettingsFrame_Unloaded(object sender, RoutedEventArgs e)
         {
             SettingsButton.Background = new SolidColorBrush(Colors.Transparent);
-            SettingsImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Settings/setting_black copyscale-200.png", UriKind.Absolute));
+            SettingsImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Settings/setting_black.png", UriKind.Absolute));
             SettingsImage.Opacity = 0.6;
         }
 
@@ -745,6 +744,11 @@ namespace LitRes.Views
         private void BookmarkStoryboardOnCompleted(object sender, object o)
         {
             BookmarkGrid.Visibility = Visibility.Collapsed;
+        }
+
+        private void BookmarksFrame_Unloaded(object sender, RoutedEventArgs e)
+        {
+            BookmarksButton.Background = new SolidColorBrush(Colors.Transparent);          
         }
     }
 

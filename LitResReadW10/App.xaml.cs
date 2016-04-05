@@ -1,19 +1,12 @@
-﻿using System.Threading;
-using Windows.ApplicationModel;
+﻿using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.UI.Popups;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 using Autofac;
 using Digillect;
 using Digillect.Mvvm.Services;
 using Digillect.Mvvm.UI;
 using LitRes;
-using LitRes.Models;
 using LitRes.Services;
 using LitRes.Views;
-using Microsoft.QueryStringDotNET;
 
 namespace LitResReadW10
 {
@@ -157,11 +150,6 @@ namespace LitResReadW10
             RootFrame.Navigate(typeof(MainPage), e.Arguments);
         }
 
-       
-        void HandleNavigationFailed(NavigationFailedEventArgs eventArgs)
-        {
-            base.HandleNavigationFailed(eventArgs);
-        }
 
         /// <summary>
         /// Invoked when application execution is being suspended.  Application state is saved

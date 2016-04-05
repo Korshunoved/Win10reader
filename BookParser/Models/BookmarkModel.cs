@@ -40,9 +40,6 @@ namespace BookParser.Models
         public int CurrentPage { get; set; }
 
         public int Pages { get; set; }
-
-        [Obsolete]
-        public bool Highlight { get; set; }
       
         public int Color { get; set; }
     }

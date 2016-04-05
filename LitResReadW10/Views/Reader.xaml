@@ -56,7 +56,7 @@
                     Height="40"
                     Width="40" Background="Transparent" 
                     Style="{StaticResource LitresReaderButtonStyle}">
-                    <Image Name="SettingsImage" Stretch="UniformToFill" Source="../Assets/W10Icons/Settings/setting_black copyscale-200.png" Width="14" Height="14"/>
+                    <Image Name="SettingsImage" Stretch="UniformToFill" Source="../Assets/W10Icons/Settings/setting_black.png" Width="14" Height="14"/>
 
                     <FlyoutBase.AttachedFlyout >
                         <Flyout Placement="Bottom">
@@ -86,16 +86,17 @@
                     </FlyoutBase.AttachedFlyout>
                 </Button>
                 <Button
-                    x:Name="BookmarsButton"
+                    x:Name="BookmarksButton"
                      Visibility="Visible"
                     RelativePanel.LeftOf="SettingsButton" 
                     RelativePanel.AlignHorizontalCenterWithPanel="True"
+                    Background="Transparent"
                     Tapped="BookmarsButton_OnTapped"
                     Height="40"
                     Width="40"
                     IsEnabled="True"
                     Opacity="1"
-                    Style="{StaticResource ReaderButtonStyle}">
+                    Style="{StaticResource LitresReaderButtonStyle}">
                     <Image Stretch="None"  Opacity="1" Source="../Assets/W10Icons/Bookmarks/bookmarks_icon.png"/>
                     <FlyoutBase.AttachedFlyout >
                         <Flyout Placement="Bottom">
@@ -114,16 +115,16 @@
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
                                 Padding="0"
-                                Margin="0"
+                                Margin="0,0,10,0"
                                 BorderThickness="1"
                                 BorderBrush="Black"
-                                x:Name="BookmarksFrame"/>
+                                x:Name="BookmarksFrame" Unloaded="BookmarksFrame_Unloaded"/>
                         </Flyout>
                     </FlyoutBase.AttachedFlyout>
                 </Button>
                 <Button 
                     x:Name="ContentsButton"
-                    RelativePanel.LeftOf="BookmarsButton" 
+                    RelativePanel.LeftOf="BookmarksButton" 
                     RelativePanel.AlignHorizontalCenterWithPanel="True"
                     Height="40"
                     Width="40"
@@ -286,6 +287,7 @@
                         <Setter Target="SettingsButton.Margin" Value="0,0,20,0" />
                         <Setter Target="SettingsButton.Style" Value="{StaticResource LitresReaderButtonStyle}"/>
                         <Setter Target="ContentsButton.Style" Value="{StaticResource LitresReaderButtonStyle}"/>
+                        <Setter Target="BookmarksButton.Style" Value="{StaticResource LitresReaderButtonStyle}"/>
                     </VisualState.Setters>
 
                 </VisualState>
@@ -297,6 +299,7 @@
                     <VisualState.Setters>
                         <Setter Target="SettingsButton.Style" Value="{StaticResource LitresReaderButtonStyleMobile}"/>
                         <Setter Target="ContentsButton.Style" Value="{StaticResource LitresReaderButtonStyleMobile}"/>
+                        <Setter Target="BookmarksButton.Style" Value="{StaticResource LitresReaderButtonStyleMobile}"/>
                     </VisualState.Setters>
                 </VisualState>
                 
