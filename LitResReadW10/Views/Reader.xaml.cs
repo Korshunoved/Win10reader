@@ -69,6 +69,7 @@ namespace LitRes.Views
         public int CurrentPage;
         public bool FromSettings;
         private readonly INavigationService _navigationService = ((App)Application.Current).Scope.Resolve<INavigationService>();
+        private double _pageSliderValue;
 
         public bool IsHardwareBack => ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons");
 
@@ -166,7 +167,7 @@ namespace LitRes.Views
 
             ViewModel.PropertyChanged -= ViewModel_PropertyChanged;
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
-            ViewModel.DeffaultSettings = (ResolutionHelper.isFullHD) ? ReaderSettingsViewModel.DeffaultSettingsType.DeffaultSettingsTypeHD : ReaderSettingsViewModel.DeffaultSettingsType.DeffaultSettingsTypeNormal;
+            ViewModel.DeffaultSettings = (ResolutionHelper.isFullHD) ? ReaderSettingsViewModel.DeffaultSettingsType.DeffaultSettingsTypeHd : ReaderSettingsViewModel.DeffaultSettingsType.DeffaultSettingsTypeNormal;
             Debug.WriteLine("Reader CreateDataSession");
 
             return base.CreateDataSession(reason);
@@ -272,7 +273,11 @@ namespace LitRes.Views
                 CurrentPageSlider.ManipulationCompleted -= CurrentPageSliderOnManipulationCompleted;
                
                 CurrentPageSlider.ManipulationStarted += CurrentPageSliderOnManipulationStarted;
-                CurrentPageSlider.ManipulationCompleted += CurrentPageSliderOnManipulationCompleted;               
+                CurrentPageSlider.ManipulationCompleted += CurrentPageSliderOnManipulationCompleted;           
+                
+                CurrentPageSlider.Tapped -= CurrentPageSliderOnTapped;
+                CurrentPageSlider.Tapped += CurrentPageSliderOnTapped;
+
                 PageCanvas.SetSize(ReaderGrid.ActualWidth, ReaderGrid.ActualHeight, ReaderGrid.ActualWidth, ReaderGrid.ActualHeight);
                 PageCanvas.Clear();
                 LayoutRoot.SizeChanged -= LayoutRoot_SizeChanged;
@@ -308,6 +313,12 @@ namespace LitRes.Views
                 await new MessageDialog("Ошибка получения книги. Попробуйте попозже.").ShowAsync();
                 _navigationService.GoBack();
             }            
+        }
+
+        private void CurrentPageSliderOnTapped(object sender, TappedRoutedEventArgs tappedRoutedEventArgs)
+        {
+            if (_pageSliderValue != CurrentPageSlider.Value)
+                OnSliderClickOrMoved();
         }
 
         private void CurrentPageSliderOnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs manipulationCompletedRoutedEventArgs)
@@ -568,7 +579,8 @@ namespace LitRes.Views
             {
                 CurrentPageSlider.Value = _readController.TotalPages;                
             }
-            
+
+            _pageSliderValue = CurrentPageSlider.Value;
             PageCanvas.Manipulator.UpdatePanelsVisibility();
             PageCanvas.Manipulator.IsFirstPage = _readController.IsFirst;
             PageCanvas.Manipulator.IsLastPage = _readController.IsLast;

@@ -559,7 +559,6 @@
     <Content Include="Styles\DefaultStyles.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Assets\Fonts\common_descriptor.txt" />
     <Content Include="Fonts\common.descriptor" />
     <None Include="Fonts\common.spritefont" />
     <None Include="packages.config" />
@@ -794,12 +793,6 @@
     <Content Include="Assets\FileAssociations\file_176x176.png" />
     <Content Include="Assets\FileAssociations\file_33x33.png" />
     <Content Include="Assets\FileAssociations\file_69x69.png" />
-    <Content Include="Assets\FontsExamples\mono_1280.png" />
-    <Content Include="Assets\FontsExamples\mono_800.png" />
-    <Content Include="Assets\FontsExamples\sans_1280.png" />
-    <Content Include="Assets\FontsExamples\sans_800.png" />
-    <Content Include="Assets\FontsExamples\serif_1280.png" />
-    <Content Include="Assets\FontsExamples\serif_800.png" />
     <Content Include="Assets\GridBackground.png" />
     <Content Include="Assets\Icons\About.png" />
     <Content Include="Assets\Icons\account.png" />

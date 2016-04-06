@@ -49,18 +49,13 @@ namespace BookParser.Parsers
 
         public PageInfo GetPage(IEnumerable<TokenBlockBase> lines)
         {
-            foreach (TokenBlockBase tokenBlock in lines)
-            {
-                if (!AppendToPage(tokenBlock))
-                    return _page;
-            }
-            return _page;
+            return lines.Any(tokenBlock => !AppendToPage(tokenBlock)) ? _page : _page;
         }
 
         private bool AppendToPage(TokenBlockBase tokenBlock)
         {
-            if (tokenBlock is PageBreakBlock)
-                return BreakPage();
+            //if (tokenBlock is PageBreakBlock)
+             //   return BreakPage();
 
             if (tokenBlock is ImageTokenBlock)
                 return AppendToPage((ImageTokenBlock)tokenBlock);
@@ -102,7 +97,7 @@ namespace BookParser.Parsers
                 return true;
 
             _page.Paragraphs.Last().MarginBottom += block.Height;
-            _height += block.Height * AppSettings.Default.FontSettings.FontInterval;  //TODO: add this to app settings
+            _height += block.Height * AppSettings.Default.FontSettings.FontInterval;
             return true;
         }
 
@@ -129,10 +124,7 @@ namespace BookParser.Parsers
 
         private bool BreakPage()
         {
-            if (!_page.Paragraphs.Any())
-                return true;
-
-            return false;
+            return !_page.Paragraphs.Any();
         }
 
         private void AddImageParagraph(ImageTokenBlock block, Size size)

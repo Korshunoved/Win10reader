@@ -24,7 +24,9 @@ namespace LitRes.Views
 	    private Reader _readerPage;
 
 	    private bool _marginSliderValueChanging;
+	    private bool _fontSliderValueChanging;
 	    private double  _marginSliderValue;
+	    private double _fontSliderValue;
 
 	    public Visibility MobileVisibility { get; set; }
 
@@ -83,14 +85,20 @@ namespace LitRes.Views
             AutorotateSwitch.Toggled -= AutorotateSwitchOnToggled;
             AutorotateSwitch.Toggled += AutorotateSwitchOnToggled;
 
+		    _fontSliderValueChanging = false;
+            FontSizeSlider.Value = AppSettings.Default.FontSettings.FontSize;
+            _fontSliderValue = FontSizeSlider.Value;
+            FontSizeSlider.Tapped -= FontSizeSliderOnTapped;
+            FontSizeSlider.Tapped += FontSizeSliderOnTapped;
+            FontSizeSlider.ManipulationDelta -= FontSizeSliderOnManipulationDelta;
+            FontSizeSlider.ManipulationDelta += FontSizeSliderOnManipulationDelta;
             FontSizeSlider.ManipulationCompleted -= FontSizeSliderOnManipulationCompleted;
             FontSizeSlider.ManipulationCompleted += FontSizeSliderOnManipulationCompleted;
-		    FontSizeSlider.Minimum = SystemInfoHelper.IsDesktop() ? 16 : 14;
-		    FontSizeSlider.Maximum = SystemInfoHelper.IsDesktop() ? 24 : 22;
-		    FontSizeSlider.StepFrequency = 2;
-            FontSizeSlider.Value = AppSettings.Default.FontSettings.FontSize;
             FontSizeSlider.ValueChanged -= FontSizeSliderOnValueChanged;
             FontSizeSlider.ValueChanged += FontSizeSliderOnValueChanged;
+            FontSizeSlider.Minimum = SystemInfoHelper.IsDesktop() ? 16 : 14;
+		    FontSizeSlider.Maximum = SystemInfoHelper.IsDesktop() ? 24 : 22;
+		    FontSizeSlider.StepFrequency = 2;
 
             JustificationSwither.Toggled -= JustificationSwither_Toggled;
             JustificationSwither.Toggled += JustificationSwither_Toggled;
@@ -111,6 +119,17 @@ namespace LitRes.Views
 
             GetTheme();		    
 		}
+
+	    private void FontSizeSliderOnTapped(object sender, TappedRoutedEventArgs tappedRoutedEventArgs)
+	    {
+            if (_fontSliderValue == FontSizeSlider.Value) return;
+            OnFontSliderValueChanged();
+        }
+
+	    private void FontSizeSliderOnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs manipulationDeltaRoutedEventArgs)
+	    {
+	        _fontSliderValueChanging = true;
+	    }
 
 	    private int CalculateMargin(int value)
 	    {
@@ -303,19 +322,26 @@ namespace LitRes.Views
             var value = (int)slider.Value;
 	        var margin = CalculateMargin(value);
             AppSettings.Default.MarginValue = margin;
+	        _marginSliderValue = margin;
             if (SystemInfoHelper.IsDesktop() && !_marginSliderValueChanging)
                 _readerPage.UpdateSettings();
         }
 
-	    private void FontSizeSliderOnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs manipulationCompletedRoutedEventArgs)
+        private void FontSizeSliderOnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs manipulationCompletedRoutedEventArgs)
+        {
+            _fontSliderValueChanging = false;
+            OnFontSliderValueChanged();
+        }
+
+        private void OnFontSliderValueChanged()
 	    {
             if (_readerPage == null)
                 _readerPage = Reader.Instance;
-            var slider = sender as Slider;
+            var slider = FontSizeSlider;
             if (slider == null) return;
-
             var value = (int)slider.Value;
-	        AppSettings.Default.FontSettings.FontSize = value;
+            AppSettings.Default.FontSettings.FontSize = value;
+            _fontSliderValue = value;
             if (SystemInfoHelper.IsDesktop())
                 _readerPage.UpdateSettings();
         }
@@ -343,8 +369,6 @@ namespace LitRes.Views
                 _readerPage = Reader.Instance;
             var toggle = sender as ToggleSwitch;
             if (toggle == null) return;
-            if (ViewModel != null)
-                ViewModel.AnimationMoveToPage = toggle.IsOn;
         }
 
         private void Font_Unchecked(object sender, RoutedEventArgs e)
@@ -359,8 +383,6 @@ namespace LitRes.Views
                 _readerPage = Reader.Instance;
             var toggle = sender as ToggleSwitch;
             if (toggle == null) return;
-            if (ViewModel != null)
-                ViewModel.FitWidth = toggle.IsOn;
         }
 
 	    private void RadioButton_Loaded(object sender, RoutedEventArgs e)

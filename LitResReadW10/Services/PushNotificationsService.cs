@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Networking.PushNotifications;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
 using Autofac;
+using BookParser;
 using LitRes.Services.Connectivity;
 
 namespace LitRes.Services
@@ -19,19 +17,31 @@ namespace LitRes.Services
 	    private readonly INotificationsProvider _notificationsProvider;
 		private readonly ICredentialsProvider _credentialsProvider;
 
-	    private PushNotificationChannel _channel;
+	    public PushNotificationChannel Channel;
 
-        public PushNotificationsService(INotificationsProvider notificationsProvider, ICredentialsProvider credentialsProvider)
+	    public static PushNotificationsService Instance { get; set; }
+
+        private readonly SettingsStorage _settingsStorage = new SettingsStorage();
+
+	    private readonly bool _pushEnabled;
+
+	    public PushNotificationsService(INotificationsProvider notificationsProvider,
+	        ICredentialsProvider credentialsProvider)
+	    {
+	        _notificationsProvider = notificationsProvider;
+	        _credentialsProvider = credentialsProvider;
+
+	        //ViewModels.PushNotificationsViewModel.Instance.NotificationsProvider = _notificationsProvider;
+	        if (Instance == null)
+	            Instance = this;
+
+            _pushEnabled = _settingsStorage.GetValueWithDefault("PushNotifications", true);
+        }
+
+	    public async void Start()
 		{
-			_notificationsProvider = notificationsProvider;
-			_credentialsProvider = credentialsProvider;
-
-            //ViewModels.PushNotificationsViewModel.Instance.NotificationsProvider = _notificationsProvider;
-		}
-
-		public async void Start()
-		{
-			await AcquirePushChannel();
+            if (_pushEnabled)
+                await AcquirePushChannel();
 		}
 
 		public async Task AcquirePushChannel()
@@ -47,7 +57,7 @@ namespace LitRes.Services
 
                    try
                    {
-                       _channel = await PushNotificationChannelManager.CreatePushNotificationChannelForApplicationAsync();
+                       Channel = await PushNotificationChannelManager.CreatePushNotificationChannelForApplicationAsync();
                        //var newParametres = new Dictionary<string, string>();
                        //newParametres.Add("type", "test");
                        //newParametres.Add("text", "Бесплатная книга из раздела Популярное теперь в вашей библиотеке!");
@@ -59,8 +69,8 @@ namespace LitRes.Services
                            //OpenNotification(args);
                        //};
 
-                       Debug.WriteLine($"URI: {_channel.Uri}");
-                       await _notificationsProvider.SubscribeDevice(_channel.Uri, CancellationToken.None);
+                       Debug.WriteLine($"URI: {Channel.Uri}");
+                       await _notificationsProvider.SubscribeDevice(Channel.Uri, CancellationToken.None);
                    }
 
                    catch (Exception ex)

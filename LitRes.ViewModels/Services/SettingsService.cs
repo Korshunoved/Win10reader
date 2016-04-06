@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -37,7 +35,7 @@ namespace LitRes.Services
 
 				if( _settings == null )
 				{
-                    if (DeffaultSettings == ReaderSettingsViewModel.DeffaultSettingsType.DeffaultSettingsTypeHD) _settings = new ReaderSettings {SystemTiles = false, Margin = 2, Brightness = 1, Theme = 2, Font = 1, FontSize = 0, CharacterSpacing = 1, Hyphenate = true, Autorotate = true, LastUpdate = DateTime.Now, AnimationMoveToPage = true };
+                    if (DeffaultSettings == ReaderSettingsViewModel.DeffaultSettingsType.DeffaultSettingsTypeHd) _settings = new ReaderSettings {SystemTiles = false, Margin = 2, Brightness = 1, Theme = 2, Font = 1, FontSize = 0, CharacterSpacing = 1, Hyphenate = true, Autorotate = true, LastUpdate = DateTime.Now, AnimationMoveToPage = true };
                     else _settings = new ReaderSettings { SystemTiles = false, Margin = 2, Brightness = 0, Theme = 2, Font = 1, FontSize = 2, CharacterSpacing = 0, Hyphenate = true, Autorotate = true, LastUpdate = DateTime.Now, AnimationMoveToPage = true };
 				}
 			}
