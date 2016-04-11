@@ -22,6 +22,7 @@ namespace LitRes.ViewModels
 	public class MyBooksViewModel : ViewModel
 	{
 		public const string MainPart = "Main";
+	    public const string BasketPart = "Basket";
 		public const string ReloadPart = "Reload";
 		public const string RefreshPart = "Refresh";
         public const string UpdatePart = "Update";
@@ -73,7 +74,8 @@ namespace LitRes.ViewModels
             _profileProvider = profileProvider;
             _credentialsProvider = credentialsProvider;
             RegisterAction(MainPart).AddPart((session) => LoadMyBooks(session), (session) => !_loaded);
-		    RegisterAction(ReloadPart).AddPart((session) => ReloadMyBooks(session), (session) => true);
+            RegisterAction(BasketPart).AddPart((session) => LoadMyBasket(session), (session) => !_loaded);
+            RegisterAction(ReloadPart).AddPart((session) => ReloadMyBooks(session), (session) => true);
 		    RegisterAction(RefreshPart).AddPart((session) => RefreshMyBooks(session), (session) => true);
 		    RegisterAction(UpdatePart).AddPart((session) => UpdateMyBooks(session), (session) => true);
             RegisterAction(BuyBookLitresPart).AddPart((session) => BuyBookFromLitres(session, Book), (session) => true);
@@ -97,7 +99,33 @@ namespace LitRes.ViewModels
             BuyBookFromMicrosoft = new RelayCommand(BuyBookFromMicrosoftAsync);
         }
 
-        #endregion
+        public async void LoadMyBasket()
+        {
+            await Load(new Session(BasketPart));
+        }
+
+        private async Task LoadMyBasket(Session session)
+	    {
+            try
+            {
+                XCollection<Book> myBasket = await _catalogProvider.GetBooksInBasket(session.Token);
+
+                if (myBasket != null)
+                {
+                    Basket = myBasket.Clone(false);
+
+                    OnPropertyChanged(new PropertyChangedEventArgs("Basket"));
+                }
+
+                _loaded = true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+	    #endregion
 
         private async void BuyBookFromMicrosoftAsync()
         {
@@ -480,9 +508,9 @@ namespace LitRes.ViewModels
 						BooksByAuthorsGrouped.Add( group );
 					}
 				}
-			    Basket = new XCollection<Book>(BooksByTime.Where(x => x.isFragment && !x.IsMyBook).ToList());
-                BooksByTime = new XCollection<Book>(BooksByTime.Where(x => !x.isFragment && x.IsMyBook).ToList());
-                BooksByAuthors = new XCollection<Book>(BooksByAuthors.Where(x => !x.isFragment && x.IsMyBook).ToList());
+			    Basket = new XCollection<Book>(BooksByTime.Where(x => string.Equals(x.Basket, "1")).ToList());
+                BooksByTime = new XCollection<Book>(BooksByTime.Where(x => x.IsMyBook).ToList());
+                BooksByAuthors = new XCollection<Book>(BooksByAuthors.Where(x => x.IsMyBook).ToList());
                 //BooksByTime.Add( new Book { IsEmptyElement = true } );			
             }
 		}

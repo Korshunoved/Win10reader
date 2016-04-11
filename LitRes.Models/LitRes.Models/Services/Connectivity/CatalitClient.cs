@@ -49,7 +49,12 @@ namespace LitRes.Services.Connectivity
 			return _connection.ProcessRequest<CatalogSearchResponse>("catalit_browser", false, true, cancellationToken, parameters);
 		}
 
-		public Task<RecensesResponse> GetRecenses(IDictionary<string, object> parameters, CancellationToken cancellationToken)
+        public Task<CatalogSearchResponse> GetBooksInBasket(IDictionary<string, object> parameters, CancellationToken cancellationToken)
+        {
+            return _connection.ProcessRequest<CatalogSearchResponse>("catalit_browser", false, true, cancellationToken, parameters);
+        }
+
+        public Task<RecensesResponse> GetRecenses(IDictionary<string, object> parameters, CancellationToken cancellationToken)
 		{
 			return _connection.ProcessRequest<RecensesResponse>("catalit_get_recenses", false, false, cancellationToken, parameters);
 		}

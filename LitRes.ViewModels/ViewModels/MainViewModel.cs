@@ -285,7 +285,7 @@ namespace LitRes.ViewModels
             {
                 await _litresPurchaseService.BuyBookFromLitres(book, session.Token);
             }
-            else if (book.isFreeBook)
+            else if (book.IsFreeBook)
             {
                 await _litresPurchaseService.BuyBookFromLitres(book, session.Token);
             }

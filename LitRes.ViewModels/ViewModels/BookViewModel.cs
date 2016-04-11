@@ -239,7 +239,7 @@ namespace LitRes.ViewModels
         #region UpdateButtons
         public void UpdateButtons()
         {
-            if (Entity!=null && Entity.isFreeBook)
+            if (Entity!=null && Entity.IsFreeBook)
             {
                 if (!Entity.IsMyBook) OnPropertyChanged(new PropertyChangedEventArgs("FreeButton"));
                 else OnPropertyChanged(new PropertyChangedEventArgs("ReadButton"));
@@ -342,7 +342,7 @@ namespace LitRes.ViewModels
 		        }).Start();		        
 		    }
 
-		    if (book.isFreeBook)
+		    if (book.IsFreeBook)
 		    {
                 var propertyChangedEventArgs = "ReadButton";
                 if (!book.IsMyBook) propertyChangedEventArgs = "FreeButton";
@@ -508,7 +508,7 @@ namespace LitRes.ViewModels
 		    try
 		    {                                
                 UserInformation = await _profileProvider.GetUserInfo(token);
-                if (Entity.isFreeBook || UserInformation.AccountType == (int)AccountTypeEnum.AccountTypeLibrary)
+                if (Entity.IsFreeBook || UserInformation.AccountType == (int)AccountTypeEnum.AccountTypeLibrary)
                 {
                     CanBuyBook = false;
                 }

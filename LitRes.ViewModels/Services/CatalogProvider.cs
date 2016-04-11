@@ -200,7 +200,6 @@ namespace LitRes.Services
             return _myBooksByTime;
         }
 
-
         public async Task<XCollection<Book>> GetAndRefreshMyBooks(CancellationToken cancellationToken)
 		{
 			string limit = string.Format("{0},{1}", 0, BooksInPage);
@@ -277,6 +276,40 @@ namespace LitRes.Services
             			
 			return _myBooksByTime;
 		}
+
+	    public async Task<XCollection<Book>> GetBooksInBasket(CancellationToken cancellationToken)
+	    {
+	        if (_myBasket == null)
+	        {
+	            _myBasket = new XCollection<Book>();
+	        }
+
+            string limit = string.Format("{0},{1}", 0, BooksInPage);
+            var parameters = new Dictionary<string, object>
+                    {
+                        {"basket", 1},										
+#if PDF_ENABLED	
+                        {"search_types", "0,4"},	
+#else
+                        {"search_types", "0"},	
+#endif
+						{"limit", limit},
+                    };
+
+            var books = await _client.GetBooksInBasket(parameters, cancellationToken);
+
+	        books?.Books?.ForEach(x => x.IsMyBook = false);
+
+            _myBasket.Clear();
+            _myBasket.Update(books.Books);
+
+            //_dataCacheService.PutItem(_myBooksByTime, ReadingBooksCacheItemName, cancellationToken);
+
+            //AddIdsToMyBooks(_myBooksByTime);
+
+            return _myBasket;
+        }
+
         public async Task<XCollection<Book>> GetMyBooks(CancellationToken cancellationToken)
         {
             if (_myBooksByTime == null)

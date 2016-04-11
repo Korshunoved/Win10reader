@@ -35,7 +35,7 @@ namespace LitResReadW10.Views
                 return;
             }
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
-            ViewModel.LoadMyBooks();
+            ViewModel.LoadMyBasket();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -59,6 +59,12 @@ namespace LitResReadW10.Views
             if (e.PropertyName == "ChoosePaymentMethod")
             {
                 ChoosePaymentMethod();
+            }
+            else if (e.PropertyName.Contains("Basket"))
+            {
+                MyBooksEmptyStackPanel.Visibility = ViewModel.Basket.Count > 0
+                    ? Visibility.Collapsed
+                    : Visibility.Visible;
             }
         }
 
