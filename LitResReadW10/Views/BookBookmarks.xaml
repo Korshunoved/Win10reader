@@ -52,7 +52,7 @@
         <ListView Grid.Row="1" Margin="10,0,10,0"
                   Padding="0,0,0,0"
                   x:Name="BookmarksListView"
-                  ItemsSource="{Binding ViewModel.DisplayBookmarks}"
+                  ItemsSource="{Binding ViewModel.Bookmarks}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
                   Tapped="BookmarksListView_OnTapped"
@@ -96,7 +96,7 @@
                             <StackPanel Orientation="Vertical" Margin="10,10,10,10">
                                 <RelativePanel HorizontalAlignment="Stretch">
                                     <TextBlock Name="TextBlock"
-                                               Text="{Binding Path=Title}"
+                                               Text="{Binding Path=NoteText.Text}"
                                                RelativePanel.AlignLeftWithPanel="True"
                                                RelativePanel.AlignVerticalCenterWithPanel="True"
                                                TextTrimming="WordEllipsis"
@@ -113,7 +113,7 @@
                                         HorizontalAlignment="Right" />
                                 </RelativePanel>
 
-                                <StackPanel Margin="0,-19,0,0" Orientation="Horizontal">
+                                <!--<StackPanel Margin="0,-19,0,0" Orientation="Horizontal">
                                     <TextBlock
                                         TextTrimming="WordEllipsis"
                                         TextWrapping="NoWrap"
@@ -127,7 +127,7 @@
                                         <Run Text="{Binding Path=TotalPages}"></Run>
                                         <Run Text=" страниц"></Run>
                                     </TextBlock>
-                                </StackPanel>
+                                </StackPanel>-->
 
                                 <Border
                                     Background="#E6E6E6"

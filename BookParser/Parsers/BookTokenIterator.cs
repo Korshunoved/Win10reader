@@ -86,6 +86,32 @@ namespace BookParser.Parsers
             }
         }
 
+        public bool MovePrev()
+        {
+            if (_position <= 0)
+            {
+                return false;
+            }
+
+            try
+            {
+                Current = TokenSerializer.Load(_reader, _position--);
+            }
+            //handle exceptions in case FAS
+            catch (ObjectDisposedException dipsposedExp)
+            {
+                //Reset();
+                throw new Exception("Unable move token iterator", dipsposedExp);
+            }
+            catch (NullReferenceException nullRedExp)
+            {
+                //Reset();
+                throw new Exception("Unable move token iterator", nullRedExp);
+            }
+
+            return true;
+        }
+
         public bool MoveNext()
         {
             if (_position >= _refs.Count)

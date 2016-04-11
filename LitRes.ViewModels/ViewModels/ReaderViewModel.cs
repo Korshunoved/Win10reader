@@ -395,8 +395,8 @@ namespace LitRes.ViewModels
                 bookmark.Group = isCurrent ? "0" : "1";
                 bookmark.Title = chapter;
                 bookmark.Id = Guid.NewGuid().ToString();
-                //bookmark.Percent = percent;              
-                bookmark.Percent = null;
+                bookmark.Percent = percent;              
+               
                 //fb2#xpointer(point(/1/2/ - это указатель на /FictionBook/body в целевом fb2-файле. 
                 //Далее следует путь к целевому узлу и после точки - позиция
                 bookmark.Selection = xpointer;
@@ -456,7 +456,7 @@ namespace LitRes.ViewModels
                         {
                            BookSummary = _bookProvider.GetBookFromStorage(book, true);
                            status = LoadingStatus.TrialBookLoaded;
-                            book.IsMyBook = false;
+                           book.IsMyBook = false;
                         }
                         else if (exist)
                         {

@@ -76,17 +76,21 @@ namespace BookRender.Tools
 
             using (var tokenIterator = new BookTokenIterator(book.GetTokensPath(), TokensTool.GetTokens(book.BookID)))
             {
-                int words = 0;
+                var words = 0;
                 tokenIterator.MoveTo(tokenOffset);
+                while (tokenIterator.MovePrev())
+                {
+                    if (!(tokenIterator.Current is TagOpenToken)) continue;
+                    var tagToken = tokenIterator.Current as TagOpenToken;
+                    if (tagToken.Name.Contains("p"))
+                        break;
+                }
                 while (tokenIterator.MoveNext() && words < wordsCount)
                 {
                     if (tokenIterator.Current is NewPageToken && result.Count > 0)
                         break;
 
                     var textToken = tokenIterator.Current as TextToken;
-                    var tagToken = tokenIterator.Current as TagOpenToken;
-                    if (tagToken != null && tagToken.Name.Contains("p"))
-                       result.Clear();
                     if (textToken == null)
                         continue;
                     lastTokenId = textToken.ID;

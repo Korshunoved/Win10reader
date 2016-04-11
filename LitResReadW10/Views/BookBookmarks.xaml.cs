@@ -44,13 +44,13 @@ namespace LitRes.Views
 	    {
 	        var list = sender as ListView;
 	        var item = list.SelectedItem;
-            var bookmark = item as DisplayBookmark;
+            var bookmark = item as Bookmark;
 	        if (bookmark != null)
 	        {                
 	            var myBookmark = new BookmarkModel
 	            {
 	                BookID = bookmark.Id,
-	                Text = bookmark.Text
+	                Text = bookmark.NoteText.Text
 	            };
 	            AppSettings.Default.Bookmark = myBookmark;
 	        }
@@ -65,17 +65,17 @@ namespace LitRes.Views
 
         private void BookmarksListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            var bookmark = ((FrameworkElement)e.OriginalSource).DataContext as DisplayBookmark;
+            var bookmark = ((FrameworkElement)e.OriginalSource).DataContext as Bookmark;
             DeleteBookmark(bookmark);
         }
 
         private void BookmarksListView_Holding(object sender, HoldingRoutedEventArgs e)
         {
-            var bookmark = ((FrameworkElement)e.OriginalSource).DataContext as DisplayBookmark;
+            var bookmark = ((FrameworkElement)e.OriginalSource).DataContext as Bookmark;
             DeleteBookmark(bookmark);
         }
 
-	    private void DeleteBookmark(DisplayBookmark bookmark)
+	    private void DeleteBookmark(Bookmark bookmark)
 	    {            
             if (bookmark == null) return;
             XCollection<Bookmark> bookmarks = new XCollection<Bookmark>();

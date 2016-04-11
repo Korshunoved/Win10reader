@@ -397,8 +397,10 @@ namespace LitRes.Views
             var book = AppSettings.Default.CurrentBook;
             _bookSearch = new BookSearch(book);
             var query = new List<string>(AppSettings.Default.Bookmark.Text.Split(' ').ToList());
+            query.RemoveAt(query.Count - 1);
+            string text = query.Aggregate("", (current, word) => current + (word + " "));
             _bookSearch.Init();
-            var result = await _bookSearch.Search(book, AppSettings.Default.Bookmark.Text, query.Count);
+            var result = await _bookSearch.Search(book, text, query.Count);
             if (result.Count > 0)
             {
                 AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
@@ -721,8 +723,7 @@ namespace LitRes.Views
         {
             var book = AppSettings.Default.CurrentBook;
             int lastTokenId;
-            var offset = 50;
-            var tokenId = _tokenOffset - offset;
+            var tokenId = _tokenOffset;
             var text = _bookTool.GetLastParagraphByToken(book, tokenId, 40, out lastTokenId);
             var chapter = _bookTool.GetChapterByToken(tokenId);
             var xpointer = ViewModel.GetXPointer(text);
@@ -736,18 +737,18 @@ namespace LitRes.Views
             }
             var percent = Convert.ToString((int)Math.Ceiling(CurrentPageSlider.Value / (CurrentPageSlider.Maximum / 100)));
             await ViewModel.AddBookmark(text, xpointer, chapter, false, percent);
-            var bookmark = new BookmarkModel
-            {
-                BookID = book.BookID,
-                BookmarkID = ViewModel.CurrentBookmark.Id,
-                TokenID = _tokenOffset,
-                Chapter = chapter,
-                Percent = percent,
-                Text = text,
-                CurrentPage = (int)CurrentPageSlider.Value,
-                Pages = (int)CurrentPageSlider.Maximum
-            };
-            book.SaveBookmark(book.GetBookmarksPath(), bookmark);
+            //var bookmark = new BookmarkModel
+            //{
+            //    BookID = book.BookID,
+            //    BookmarkID = ViewModel.CurrentBookmark.Id,
+            //    TokenID = _tokenOffset,
+            //    Chapter = chapter,
+            //    Percent = percent,
+            //    Text = text,
+            //    CurrentPage = (int)CurrentPageSlider.Value,
+            //    Pages = (int)CurrentPageSlider.Maximum
+            //};
+            //book.SaveBookmark(book.GetBookmarksPath(), bookmark);
             BookmarkGrid.Visibility = Visibility.Visible;
             BookmarkStoryboard.Begin();
             BookmarkStoryboard.Completed += BookmarkStoryboardOnCompleted;
