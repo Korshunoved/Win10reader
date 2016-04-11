@@ -45,18 +45,24 @@ namespace LitRes.Services
                     {
                         var path = Path.Combine("CachedFiles", file);
                         if (isf.FileExists(path)) isf.DeleteFile(path);
-                        //isf.DeleteFile(Path.Combine("CachedFiles", file));
                     }
                 }
 
                 if (isf.DirectoryExists("MyBooks"))
                 {
-                    var files = isf.GetFileNames("MyBooks\\*.trial");
+                    var bookfolders = isf.GetDirectoryNames("MyBooks\\*");
 
-                    foreach (var file in files)
+                    foreach (var folder in bookfolders)
                     {
-                        var path = Path.Combine("MyBooks", file);
-                        if (isf.FileExists(path)) isf.DeleteFile(path);
+                        var pattern = "MyBooks\\" + folder + "\\*";
+                        var bookFiles = isf.GetFileNames(pattern);
+                        foreach (var bookFile in bookFiles)
+                        {
+                            var bookPath = Path.Combine("MyBooks\\" + folder + "\\" + bookFile);
+                            if (isf.FileExists(bookPath)) isf.DeleteFile(bookPath);
+                        }
+                        var path = Path.Combine("MyBooks", folder);
+                        if (isf.DirectoryExists(path)) isf.DeleteDirectory(path);
                     }
                 }
             }

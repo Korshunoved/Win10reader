@@ -299,6 +299,7 @@ namespace LitRes.ViewModels
                 {
                     try
                     {
+                       // myBooks.Clear();
                         myBooks = await _catalogProvider.GetAllMyBooks(session.Token);
                     }
                     catch (CatalitNoCredentialException)

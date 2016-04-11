@@ -31,7 +31,9 @@ namespace LitRes.ViewModels
 		private readonly IBookmarksProvider _bookmarksProvider;
 		private readonly ICatalogProvider _catalogProvider;
 
-		private UserInformation _userInformation;
+	    private readonly ISessionEstablisherService _sessionEstablisherService;
+
+        private UserInformation _userInformation;
 		private string _login;
 
 		#region Public Properties
@@ -53,7 +55,7 @@ namespace LitRes.ViewModels
 
 		#region Constructors/Disposer
 		public ChangeUserInfoViewModel(IProfileProvider profileProvider, ICredentialsProvider credentialsProvider, IDataCacheService dataCacheService, IFileCacheService fileCacheService, INavigationService navigationService,
-            INotificationsProvider notificationsProvider, IBookmarksProvider bookmarksProvider, ICatalogProvider catalogProvider, IBookProvider bookProvider)
+            INotificationsProvider notificationsProvider, IBookmarksProvider bookmarksProvider, ICatalogProvider catalogProvider, IBookProvider bookProvider, ISessionEstablisherService sessionEstablisherService)
 		{
 			_navigationService = navigationService;
 			_profileProvider = profileProvider;
@@ -66,6 +68,8 @@ namespace LitRes.ViewModels
 			_catalogProvider = catalogProvider;
 
             _bookProvider = bookProvider;
+
+		    _sessionEstablisherService = sessionEstablisherService;
 
             RegisterAction(ChangeUserInfoPart).AddPart(session => ChangeUserInfoProceed(session), session => session.Parameters.GetValue<UserInformation>(ChangeUserInfoParameter, null) != null);
             RegisterAction(LoadUserInfoPart).AddPart(session => LoadUserInfoProceed(session), (session) =>
@@ -107,6 +111,7 @@ namespace LitRes.ViewModels
 			_catalogProvider.Clear();
             await _bookProvider.ClearLibrariesBooks(session.Token);
 		    _catalogProvider.ClearBooksCollections();
+            _sessionEstablisherService.ClearSid();
             OnPropertyChanged(new PropertyChangedEventArgs("GetOutOfHere"));
         }
 		#endregion
