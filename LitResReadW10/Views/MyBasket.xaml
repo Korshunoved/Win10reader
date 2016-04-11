@@ -164,7 +164,8 @@
                                 Width="100"
                                 Height="36"
                                 Padding="5,0,5,0"
-                                Visibility="{Binding Path=IsFreeBook, Converter={StaticResource VisibilityConverter}}">
+                                Visibility="{Binding Path=IsFreeBook, Converter={StaticResource VisibilityConverter}}"
+                                Tapped="BuyButton_OnTapped">
                             <!--Visibility="Collapsed">-->
                             <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО"
                                            MaxLines="2"
@@ -341,7 +342,8 @@
                                 Width="100"
                                 Height="36"
                                 Padding="5,0,5,0"
-                                Visibility="{Binding Path=IsFreeBook, Converter={StaticResource VisibilityConverter}}">
+                                Visibility="{Binding Path=IsFreeBook, Converter={StaticResource VisibilityConverter}}"
+                                Tapped="BuyButton_OnTapped">
                             <!--Visibility="Collapsed">-->
                             <TextBlock TextWrapping="Wrap"
                                            Text="БЕСПЛАТНО"

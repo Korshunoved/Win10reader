@@ -104,7 +104,7 @@ namespace LitRes.Services
                         {"umd5", umd5}
                     };
                 }
-                if (book.isFreeBook) Analytics.Instance.sendMessage(Analytics.ActionGetFree);
+                if (book.IsFreeBook) Analytics.Instance.sendMessage(Analytics.ActionGetFree);
                 return await _awareConnection.ProcessRequest<RawFile>("catalit_download_book", true, true, token, parameters);
             },
                 token,
@@ -276,7 +276,7 @@ namespace LitRes.Services
 
         private static BookModel CreateBook(Book item, BookSummary bookSummary)
         {
-            var trial = !(item.isFreeBook || item.IsMyBook);
+            var trial = !(item.IsFreeBook || item.IsMyBook);
             var book = new BookModel
             {
                 BookID = item.Id.ToString(),

@@ -463,7 +463,7 @@ namespace LitRes.ViewModels
                             BookSummary = _bookProvider.GetBookFromStorage(book, false);
                             status = LoadingStatus.FullBookLoaded;
                         }
-                        else if (book.IsMyBook || book.isFreeBook)
+                        else if (book.IsMyBook || book.IsFreeBook)
                         {
                             await _bookProvider.GetFullBook(book, session.Token);
                             BookSummary = _bookProvider.GetSummaryParser(book, false);

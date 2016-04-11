@@ -18,7 +18,8 @@ namespace LitRes.Services.Connectivity
         Task<Rootobject> SearchAll(IDictionary<string, object> parameters, CancellationToken cancellationToken, string url = "win10-ebook.litres.ru", bool sid = true);
 	    Task<CatalogSearchResponse> SearchAudioCatalog(IDictionary<string, object> parameters,CancellationToken cancellationToken, string url = "win10-ebook.litres.ru", bool sid = true);
 		Task<CatalogSearchResponse> GetMyBooks( IDictionary<string, object> parameters, CancellationToken cancellationToken );
-		Task<AddRecenseResponse> AddRecense( IDictionary<string, object> parameters, CancellationToken cancellationToken );
+        Task<CatalogSearchResponse> GetBooksInBasket(IDictionary<string, object> parameters, CancellationToken cancellationToken);
+        Task<AddRecenseResponse> AddRecense( IDictionary<string, object> parameters, CancellationToken cancellationToken );
 		Task<RecensesResponse> GetRecenses( IDictionary<string, object> parameters, CancellationToken cancellationToken );
 		Task<PersonsResponse> GetPerson( IDictionary<string, object> parameters, CancellationToken cancellationToken );
 		Task<UserInformation> Authorize( IDictionary<string, object> parameters, CancellationToken cancellationToken );

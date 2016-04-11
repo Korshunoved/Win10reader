@@ -21,6 +21,7 @@ namespace LitRes.Services
 		Task<Book> GetMyBook( int bookId, CancellationToken cancellationToken, bool ignorCache = false );
 		Task<XCollection<Book>> GetAllMyBooks( CancellationToken cancellationToken );
 		Task<XCollection<Book>> GetMyBooksFromCache( CancellationToken cancellationToken );
+	    Task<XCollection<Book>> GetBooksInBasket(CancellationToken cancellationToken);
         Task<XCollection<Book>> GetAndSyncAllMyBooksFromCache(CancellationToken cancellationToken);
         void SaveMyBooksToCache(XCollection<Book> books, CancellationToken cancellationToken);
 		Task<XCollection<Book>> GetAllMyBooksFromCache( CancellationToken cancellationToken );        

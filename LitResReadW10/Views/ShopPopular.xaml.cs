@@ -141,10 +141,19 @@ namespace LitResReadW10.Views
             if (button != null)
             {
                 var book = button.DataContext as Book;
-                if (book != null && book.IsFreeBook && (book.InGifts != null && !book.InGifts.Contains("1")))
-                    ViewModel.Read.Execute(book);
+                if (book == null)
+                    return;
+                if (book.IsFreeBook)
+                {
+                    if (book.InGifts != null && !book.InGifts.Contains("1"))
+                        ViewModel.BuyBook.Execute(book);
+                    else
+                        ViewModel.Read.Execute(book);
+                }
                 else
+                {
                     ViewModel.BuyBook.Execute(book);
+                }
             }
         }
     }
