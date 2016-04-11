@@ -53,7 +53,15 @@ namespace LitRes.Views
                 NoConnection.Visibility = Visibility.Visible;
                 return;
             }
-            if (e.NavigationMode == NavigationMode.New) SearchBooks();
+            switch (e.NavigationMode)
+            {
+                case NavigationMode.New:
+                    SearchBooks();
+                    break;
+                case NavigationMode.Back:
+                    ViewModel.SearchQuery = LastSearch;
+                    break;
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -81,6 +89,7 @@ namespace LitRes.Views
         private void PhoneSearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
         {
             Debug.WriteLine($"PhoneSearchBox_QuerySubmitted: {args.QueryText}");
+            SearchText = args.QueryText;
             Search(args.QueryText);
         }
 
@@ -98,8 +107,8 @@ namespace LitRes.Views
 	        {
                 if (LastSearch != SearchText)
 	                ViewModel.SearchQuery = SearchText;
-	            await ViewModel.SearchBooks();
-	            LastSearch = SearchText;
+                LastSearch = ViewModel.SearchQuery;
+                await ViewModel.SearchBooks();
 	        }
 	        catch (Exception ex)
 	        {
