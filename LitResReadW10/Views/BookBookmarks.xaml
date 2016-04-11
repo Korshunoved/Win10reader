@@ -61,12 +61,12 @@
                   RightTapped="BookmarksListView_RightTapped" Holding="BookmarksListView_Holding">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid MinHeight="100">
+                    <Grid MinHeight="50">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="4" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Grid x:Name="DeleteGrid"
+                        <!--<Grid x:Name="DeleteGrid"
                               Canvas.ZIndex="2"
                               Visibility="Collapsed"
                               Background="{StaticResource LitresWhiteBrush}"
@@ -81,7 +81,7 @@
                             <TextBlock Grid.Row="1" Style="{StaticResource SmallNormalLightGrayTextStyle}"
                                        TextAlignment="Center"
                                        Text="Снять закладку" Margin="10,0,10,10" />
-                        </Grid>
+                        </Grid>-->
                         <Border
                             Grid.Column="0"
                             BorderThickness="0"
@@ -98,7 +98,7 @@
                                     <TextBlock Name="TextBlock"
                                                Text="{Binding Path=NoteText.Text}"
                                                RelativePanel.AlignLeftWithPanel="True"
-                                               RelativePanel.AlignVerticalCenterWithPanel="True"
+                                               RelativePanel.AlignVerticalCenterWithPanel="False"
                                                TextTrimming="WordEllipsis"
                                                TextWrapping="NoWrap"
                                                Style="{StaticResource SmallSemiBoldBlackTextStyle}" />
@@ -106,7 +106,7 @@
                                         Text="{Binding LastUpdate, Converter={StaticResource DateTimeStringFormatter}, ConverterParameter=\{0:d MMMM yyyy\, HH:mm \}}"
                                         TextTrimming="WordEllipsis"
                                         TextWrapping="NoWrap"
-                                        RelativePanel.AlignRightWithPanel="True"
+                                        RelativePanel.AlignLeftWithPanel="True"
                                         RelativePanel.AlignVerticalCenterWithPanel="True"
                                         RelativePanel.Below="TextBlock"
                                         Style="{StaticResource SmallNormalLightGrayTextStyle}"
@@ -129,7 +129,7 @@
                                     </TextBlock>
                                 </StackPanel>-->
 
-                                <Border
+                                <!--<Border
                                     Background="#E6E6E6"
                                     Margin="0,8,0,5"
                                     Height="20">
@@ -139,7 +139,7 @@
                                         Value="{Binding Path=Percent, Converter={StaticResource StringToDoubleConverter}}"
                                         Maximum="100"
                                         Minimum="0" />
-                                </Border>
+                                </Border>-->
                             </StackPanel>
                         </Grid>
                     </Grid>
