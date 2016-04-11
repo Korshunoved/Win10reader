@@ -65,6 +65,7 @@ namespace LitResReadW10.Views
                 MyBooksEmptyStackPanel.Visibility = ViewModel.Basket.Count > 0
                     ? Visibility.Collapsed
                     : Visibility.Visible;
+                MyBasketListView.ItemsSource = ViewModel.Basket;
             }
         }
 

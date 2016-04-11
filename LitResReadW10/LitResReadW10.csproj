@@ -559,8 +559,6 @@
     <Content Include="Styles\DefaultStyles.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Fonts\common.descriptor" />
-    <None Include="Fonts\common.spritefont" />
     <None Include="packages.config" />
     <None Include="project.json" />
     <PRIResource Include="Strings\ru-ru\Resources.resw" />
