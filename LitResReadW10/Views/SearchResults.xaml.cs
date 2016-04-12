@@ -151,6 +151,7 @@ namespace LitRes.Views
                 NotFoundStackPanel.Visibility = Visibility.Collapsed;
                 QueryResultTextBox.Visibility = Visibility.Visible;
                 MainScrollViewer.Visibility = Visibility.Visible;
+                NoConnection.Visibility = !SystemInfoHelper.HasInternet() ? Visibility.Visible : Visibility.Collapsed;
             }
             else if (e.PropertyName == "NotFound")
             {

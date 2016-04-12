@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.ComponentModel;
 using System.Linq;
 using Windows.UI.Xaml;
@@ -32,10 +33,31 @@ namespace LitRes.Views
 		    if (reader != null)
 		        ViewModel.LocalBookmarks = reader.Bookmarks;
             Analytics.Instance.sendMessage(Analytics.ViewBookmarks);
+            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
 			ViewModel.LoadBookmarks();
 		}
 
-		private void Edit_Click( object sender, System.EventArgs e )
+	    private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+	    {
+	        switch (propertyChangedEventArgs.PropertyName)
+	        {
+	            case "BookmarksLoaded":
+	                if (ViewModel.Bookmarks.Count > 0)
+	                {
+	                    NoBookmarksGrid.Visibility = Visibility.Collapsed;
+	                }
+	                break;
+	            case "BookmarkDeleted":
+	                BookmarksListView.ItemsSource = ViewModel.Bookmarks;
+                    if (ViewModel.Bookmarks.Count == 0)
+                    {
+                        NoBookmarksGrid.Visibility = Visibility.Visible;
+                    }
+                    break;
+	        }
+	    }
+
+	    private void Edit_Click( object sender, System.EventArgs e )
 		{
 			ViewModel.BookBookmarksEdit.Execute( null );
 		}

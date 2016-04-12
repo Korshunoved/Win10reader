@@ -398,7 +398,8 @@ namespace LitRes.Views
             _bookSearch = new BookSearch(book);
             var query = new List<string>(AppSettings.Default.Bookmark.Text.Split(' ').ToList());
             query.RemoveAt(query.Count - 1);
-            string text = query.Aggregate("", (current, word) => current + (word + " "));
+            string text = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
+            text = text.Replace(Convert.ToChar(160).ToString(), " ");
             _bookSearch.Init();
             var result = await _bookSearch.Search(book, text, query.Count);
             if (result.Count > 0)
@@ -737,18 +738,6 @@ namespace LitRes.Views
             }
             var percent = Convert.ToString((int)Math.Ceiling(CurrentPageSlider.Value / (CurrentPageSlider.Maximum / 100)));
             await ViewModel.AddBookmark(text, xpointer, chapter, false, percent);
-            //var bookmark = new BookmarkModel
-            //{
-            //    BookID = book.BookID,
-            //    BookmarkID = ViewModel.CurrentBookmark.Id,
-            //    TokenID = _tokenOffset,
-            //    Chapter = chapter,
-            //    Percent = percent,
-            //    Text = text,
-            //    CurrentPage = (int)CurrentPageSlider.Value,
-            //    Pages = (int)CurrentPageSlider.Maximum
-            //};
-            //book.SaveBookmark(book.GetBookmarksPath(), bookmark);
             BookmarkGrid.Visibility = Visibility.Visible;
             BookmarkStoryboard.Begin();
             BookmarkStoryboard.Completed += BookmarkStoryboardOnCompleted;

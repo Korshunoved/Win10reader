@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using BookParser.Models;
@@ -78,21 +79,21 @@ namespace LitRes.ViewModels
 
         private async Task DeleteBookmarks( Session session )
 		{
-			var bookmarks = session.Parameters.GetValue<XCollection<Bookmark>>( "delete", null );
+            var bookmarks = session.Parameters.GetValue<XCollection<Bookmark>>( "delete", null );
 
-			if( bookmarks != null )
+            if ( bookmarks != null )
 			{
-				await _bookmarksProvider.RemoveBookmarks( bookmarks, session.Token );
-				
-				await LoadBookmarks( session );
+				Bookmarks = await _bookmarksProvider.RemoveBookmarks( bookmarks, session.Token );				
 			}
 
 			PreserveSessions( false );
-		}
-		#endregion
-		
-		#region LoadBookmarks
-		private async Task LoadBookmarks( Session session )
+
+            OnPropertyChanged(new PropertyChangedEventArgs("BookmarkDeleted"));
+        }
+        #endregion
+
+        #region LoadBookmarks
+        private async Task LoadBookmarks( Session session )
 		{
 			XCollection<Bookmark> bookmarks = null;
 
@@ -122,30 +123,10 @@ namespace LitRes.ViewModels
                 bookmarksSorted.Sort(CompareXPointer);
 
                 Bookmarks.Update(bookmarksSorted);
-
-			    //foreach (var bookmark in LocalBookmarks.Select(localBookmark => new DisplayBookmark
-			    //{
-			    //    Id = localBookmark.BookmarkID,
-			    //    CurrentPage = localBookmark.CurrentPage.ToString(),
-			    //    TotalPages = localBookmark.Pages.ToString(),
-			    //    Percent = localBookmark.Percent,
-			    //}))
-			    //{
-			    //    DisplayBookmarks.Add(bookmark);
-			    //}
-
-
-			    //foreach (var bookmark in Bookmarks)
-			    //{
-			    //    foreach (var displayBookmark in DisplayBookmarks.Where(displayBookmark => bookmark.Id == displayBookmark.Id))
-			    //    {
-			    //        displayBookmark.Title = bookmark.Title;
-			    //        displayBookmark.LastUpdate = bookmark.LastUpdate;
-			    //        displayBookmark.Text = bookmark.NoteText.Text;
-			    //    }
-			    //}
             }
-		}
+
+            OnPropertyChanged(new PropertyChangedEventArgs("BookmarksLoaded"));
+        }
 
 	    private int CompareXPointer(Bookmark bookmark1, Bookmark bookmark2)
 	    {

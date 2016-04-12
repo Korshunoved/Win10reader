@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Digillect.Collections;
 using LitRes.Models;
@@ -13,7 +14,7 @@ namespace LitRes.Services
 		Task<Bookmark> GetCurrentBookmarkByDocumentId(string bookId, bool local, CancellationToken cancellationToken);
 		void SetCurrentBookmarkByDocumentId( string bookId, Bookmark bookmark, CancellationToken cancellationToken );
 		Task AddBookmark( Bookmark bookmark, CancellationToken cancellationToken );
-		Task RemoveBookmarks( XCollection<Bookmark> bookmarks, CancellationToken cancellationToken );
+        Task<XCollection<Bookmark>> RemoveBookmarks( XCollection<Bookmark> bookmarks, CancellationToken cancellationToken );
 		void Clear();
 	}
 }

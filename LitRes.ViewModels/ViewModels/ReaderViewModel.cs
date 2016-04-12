@@ -393,7 +393,7 @@ namespace LitRes.ViewModels
                 //0 - текущая позиция в тексте
                 //1 - закладка
                 bookmark.Group = isCurrent ? "0" : "1";
-                bookmark.Title = chapter;
+                bookmark.Title = chapter != string.Empty ? chapter : null;
                 bookmark.Id = Guid.NewGuid().ToString();
                 bookmark.Percent = percent;              
                

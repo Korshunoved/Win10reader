@@ -101,7 +101,7 @@ namespace LitRes.Services.Connectivity
 
 		public Task AddBookmark(IDictionary<string, object> parameters, CancellationToken cancellationToken)
 		{
-            return _connection.ProcessRequest<AddBookmarkResponse>("catalit_store_bookmarks", false, true, cancellationToken, parameters, url: "www.litres.ru");
+            return _connection.ProcessRequest<AddBookmarkResponse>("catalit_store_bookmarks", false, true, cancellationToken, parameters);
 		}
 
 		public Task<UniteInformation> MergeAccounts(IDictionary<string, object> parameters, CancellationToken cancellationToken)

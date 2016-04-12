@@ -194,7 +194,7 @@ namespace LitRes.Services
 			return bookmarks;
 		}
 
-		public async Task RemoveBookmarks( XCollection<Bookmark> bookmarks, CancellationToken cancellationToken )
+		public async Task<XCollection<Bookmark>>  RemoveBookmarks( XCollection<Bookmark> bookmarks, CancellationToken cancellationToken )
 		{
 			if( bookmarks != null && bookmarks.Count > 0 )
 			{
@@ -217,7 +217,10 @@ namespace LitRes.Services
 				request.Bookmarks = existbookmarks;
 
 				await SaveBookmarks( id, request, cancellationToken );
+
+			    return request.Bookmarks;
 			}
+		    return null;
 		}
 
 		public async Task AddBookmark( Bookmark bookmark, CancellationToken cancellationToken )

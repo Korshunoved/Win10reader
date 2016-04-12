@@ -33,7 +33,7 @@
 
             <TextBlock Margin="10,15,10,15" Text="Закладки" Style="{StaticResource BigNormalBlackTextStyle}" />
         </StackPanel>
-        <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+        <Grid x:Name="NoBookmarksGrid" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Visibility="{Binding Path=ViewModel.Bookmarks, Converter={StaticResource VisibilityConverter}, ConverterParameter=inverse, FallbackValue=Collapsed}">
             <StackPanel
                 x:Name="MyBookmarksStackPanel"
