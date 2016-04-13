@@ -128,7 +128,7 @@ namespace LitRes.Services
 
 		public async Task<CatalitCredentials> RegisterDefault( CancellationToken cancellationToken )
 		{
-			string login = "wp8_879879789" + _deviceInfoService.DeviceId.Substring( 0, 16 );
+		    string login = "wp10_879879789" + _deviceInfoService.DeviceId;//.Substring( 0, 16 );
 
 			var creds = new CatalitCredentials {
 				IsRealAccount = false,
