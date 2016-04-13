@@ -59,6 +59,11 @@ namespace BookParser.Models
             return Path.Combine(CatalogPath + (model.Hidden ? model.BookID + ".trial" : model.BookID) + ModelConstants.BookChaptersFileName);
         }
 
+        public static string GetAnchorsPath(this BookModel model)
+        {
+            return Path.Combine(CatalogPath + (model.Hidden ? model.BookID + ".trial" : model.BookID) + ModelConstants.BookAnchorsFileName);
+        }
+
         public static string GetBookFullCoverPath(string bookId)
         {
             return GetBookCover(bookId, true);

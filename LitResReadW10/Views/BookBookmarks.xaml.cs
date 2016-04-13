@@ -67,16 +67,15 @@ namespace LitRes.Views
 	        var list = sender as ListView;
 	        var item = list.SelectedItem;
             var bookmark = item as Bookmark;
-	        if (bookmark != null)
-	        {                
-	            var myBookmark = new BookmarkModel
-	            {
-	                BookID = bookmark.Id,
-	                Text = bookmark.NoteText.Text
-	            };
-	            AppSettings.Default.Bookmark = myBookmark;
-	        }
-            LocalBroadcastReciver.Instance.OnPropertyChanging(BookmarksListView.SelectedItem, new PropertyChangingEventArgs("BookmarkTapped"));
+	        if (bookmark == null)
+	            return;
+	        var myBookmark = new BookmarkModel
+	        {
+	            BookID = bookmark.Id,
+	            Text = bookmark.NoteText.Text
+	        };
+	        AppSettings.Default.Bookmark = myBookmark;
+	        LocalBroadcastReciver.Instance.OnPropertyChanging(BookmarksListView.SelectedItem, new PropertyChangingEventArgs("BookmarkTapped"));
             if (!SystemInfoHelper.IsDesktop() && Frame.CanGoBack) Frame.GoBack();
             else
             {

@@ -50,7 +50,7 @@ namespace LitResReadW10.Helpers
                 stringBuilder.AppendLine(string.Format("Всего книг на устройстве: {0}\r\n", exists.Count));
             }
 
-            emailMessage.To.Add(new EmailRecipient("windows@litres.ru"));
+            emailMessage.To.Add(new EmailRecipient("win10@litres.ru"));
 
             emailMessage.Body = stringBuilder.ToString();
             try
@@ -80,7 +80,7 @@ namespace LitResReadW10.Helpers
 
             var stringBuilder = new StringBuilder();
 
-            emailMessage.To.Add(new EmailRecipient("windows@litres.ru"));
+            emailMessage.To.Add(new EmailRecipient("win10@litres.ru"));
             emailMessage.Body = stringBuilder.ToString();
             try
             {

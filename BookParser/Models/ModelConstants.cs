@@ -27,6 +27,7 @@ namespace BookParser.Models
         public const string BookmarksFilePath = "/bookmarks.xml";
         public const string BookImagesFileName = "/images.xml";
         public const string BookChaptersFileName = "/chapters.xml";
+        public const string BookAnchorsFileName = "/anchors.xml";
         public const string BooksFolder = "MyBooks/";
     }
 }

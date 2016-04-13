@@ -69,7 +69,7 @@
                         <LineBreak />
                         <Run>Если у вас возникли вопросы, пожелания или технические проблемы, напишите нам на</Run>
                         <LineBreak />
-                        <Hyperlink Click="SendEmail_Click" Foreground="{StaticResource LitResAccentBrush}">windows@litres.ru</Hyperlink>
+                        <Hyperlink Click="SendEmail_Click" Foreground="{StaticResource LitResAccentBrush}">win10@litres.ru</Hyperlink>
                     </TextBlock>
                     <TextBlock
                         TextWrapping="Wrap"

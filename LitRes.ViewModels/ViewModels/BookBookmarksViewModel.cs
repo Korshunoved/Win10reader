@@ -83,8 +83,9 @@ namespace LitRes.ViewModels
 
             if ( bookmarks != null )
 			{
-				Bookmarks = await _bookmarksProvider.RemoveBookmarks( bookmarks, session.Token );				
-			}
+				Bookmarks = await _bookmarksProvider.RemoveBookmarks( bookmarks, session.Token );
+                Bookmarks.RemoveAll(x => x.Group == "0" || x.NoteText == null);
+            }
 
 			PreserveSessions( false );
 
@@ -117,7 +118,7 @@ namespace LitRes.ViewModels
 
 			if( bookmarks != null )
 			{
-				bookmarks.RemoveAll( x => x.Group == "0" );
+				bookmarks.RemoveAll( x => x.Group == "0" || x.NoteText == null );
 
                 var bookmarksSorted = bookmarks.ToList();
                 bookmarksSorted.Sort(CompareXPointer);

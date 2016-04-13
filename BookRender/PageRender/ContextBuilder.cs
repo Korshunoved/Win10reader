@@ -178,7 +178,7 @@ namespace BookRender.PageRender
                 linkID = linkID.Remove(0, 1);
 
             var rect = new Rect(tempLeftMargin, topMargin, inlineItem.Width + 24.0, height + 24.0);
-
+           // var rect = new Rect(tempLeftMargin, topMargin, inlineItem.Width , height );
             return new LinkRenderData
                        {
                            LinkID = linkID,

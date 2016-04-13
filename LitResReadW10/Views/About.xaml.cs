@@ -85,7 +85,7 @@ namespace LitRes.Views
             	message += string.Format( "Всего книг на устройстве: {0}\r\n", exists.Count );
             }
           
-            emailMessage.To.Add(new EmailRecipient("windows@litres.ru"));
+            emailMessage.To.Add(new EmailRecipient("win10@litres.ru"));
 		    emailMessage.Body = message;
             await EmailManager.ShowComposeNewEmailAsync(emailMessage);
         }

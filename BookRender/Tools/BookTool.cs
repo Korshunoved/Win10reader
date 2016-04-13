@@ -100,5 +100,28 @@ namespace BookRender.Tools
             }
             return string.Join(" ", result);
         }
+
+        public string GetAnchorTextByToken(BookModel book, int tokenOffset)
+        {
+            var result = new List<string>();
+
+            using (var tokenIterator = new BookTokenIterator(book.GetTokensPath(), TokensTool.GetTokens(book.BookID)))
+            {
+                var words = 0;
+                tokenIterator.MoveTo(tokenOffset);
+                while (tokenIterator.MoveNext())
+                {
+                    if (tokenIterator.Current is NewPageToken && result.Count > 0)
+                        break;
+
+                    var textToken = tokenIterator.Current as TextToken;
+                    if (textToken == null)
+                        continue;
+                    result.Add(textToken.Text);
+                    words++;
+                }
+            }
+            return string.Join(" ", result);
+        }
     }
 }

@@ -610,6 +610,7 @@
     <Compile Include="Helpers\SystemInfoHelper.cs" />
     <Compile Include="Helpers\TileImageHelper.cs" />
     <Compile Include="Interaction\ManipulationListener.cs" />
+    <Compile Include="Interaction\ManipulationService.cs" />
     <Compile Include="Interaction\PointManipulationEventArgs.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

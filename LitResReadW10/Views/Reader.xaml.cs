@@ -34,6 +34,7 @@ using BookParser;
 using BookParser.Fonts;
 using BookParser.Models;
 using BookParser.Parsers;
+using BookRender.RenderData;
 using BookRender.Tools;
 using Digillect;
 using Digillect.Mvvm.Services;
@@ -42,6 +43,7 @@ using LitResReadW10.Controllers;
 using LitResReadW10.Controls;
 using LitResReadW10.Controls.Manipulators;
 using LitResReadW10.Helpers;
+using LitResReadW10.Interaction;
 
 namespace LitRes.Views
 {
@@ -70,7 +72,7 @@ namespace LitRes.Views
         public bool FromSettings;
         private readonly INavigationService _navigationService = ((App)Application.Current).Scope.Resolve<INavigationService>();
         private double _pageSliderValue;
-
+        private LinkRenderData _link;
         public bool IsHardwareBack => ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons");
 
         public static Reader Instance;
@@ -569,8 +571,7 @@ namespace LitRes.Views
             
             
             BusyGrid.Visibility = Visibility.Visible;
-            BusyProgress.IsIndeterminate = true;
-
+            BusyProgress.IsIndeterminate = true;          
             _readController = new ReadController(PageCanvas, _book, _book.BookID, _tokenOffset);
            
             await _readController.ShowNextPage();
@@ -618,8 +619,55 @@ namespace LitRes.Views
             _event.Release();
         }
 
+        private bool _isAnchor;
+        private bool FindLink(Thickness margin)
+        {
+            _link = PageCanvas.CurrentLinks.FirstOrDefault(l => Math.Abs(l.Rect.Y - margin.Top) < 1);
+            if (_link != null)
+            {
+                int anchorsTokenID = AppSettings.Default.Anchors.FirstOrDefault(l => l.Name == _link.LinkID).TokenID;
+                var text = _bookTool.GetAnchorTextByToken(_book, anchorsTokenID);
+                AnchorTextBlock.FontSize = 14;
+                AnchorTextBlock.Text = text;
+                AnchorTextBlock.LineStackingStrategy = LineStackingStrategy.BaselineToBaseline;
+                AnchorTextBlock.TextWrapping = TextWrapping.Wrap;
+                AnchorTextBlock.Margin = new Thickness(24,20,24,20);
+                AnchorStackPanel.Tapped -= AnchorStackPanelOnTapped;
+                AnchorStackPanel.Tapped += AnchorStackPanelOnTapped;
+                AnchorStackPanel.Margin = new Thickness(12,0,12,0);
+                AnchorStackPanel.Background = AppSettings.Default.ColorScheme.LinkPanelBackgroundBrush;
+                AnchorStackPanel.MinWidth = 350;
+                AnchorStackPanel.MinHeight = 250;
+                AnchorStackPanel.MaxHeight = AnchorTextBlock.DesiredSize.Height + AnchorTextBlock.Margin.Top;
+                AnchorStackPanel.MaxWidth = 600;                
+                AnchorStackPanel.Visibility = Visibility.Collapsed;
+                AnchorStackPanel.Visibility = Visibility.Visible;
+                _isAnchor = true;
+                return _isAnchor;
+            }
+            return false;
+        }
+
+        private void AnchorStackPanelOnTapped(object sender, TappedRoutedEventArgs tappedRoutedEventArgs)
+        {
+            AnchorStackPanel.Visibility = Visibility.Collapsed;
+            _isAnchor = false;           
+        }
+
         private async void PageCanvas_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            if (_isAnchor)
+            {
+                AnchorStackPanel.Visibility = Visibility.Collapsed;
+                _isAnchor = false;
+                return;
+            }
+            var textblock = ((FrameworkElement)e.OriginalSource) as TextBlock;
+            if (textblock != null)
+            {
+                if (FindLink(textblock.Margin)) return;
+            }
+
             Point pt = e.GetPosition(sender as Canvas);
             var clickOffset = 100;
             var width = ActualWidth;

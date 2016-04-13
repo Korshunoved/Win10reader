@@ -71,6 +71,8 @@ namespace BookParser
 
         public IEnumerable<ChapterModel> Chapters { get; set; } 
 
+        public IEnumerable<AnchorModel> Anchors { get; set; } 
+
         public int CurrentTokenOffset
         {
             get { return _settingsStorage.GetValueWithDefault("CurrentTokenOffset", 0); }
@@ -283,6 +285,7 @@ namespace BookParser
         public Scheme(
             ColorSchemes colorScheme,
             Color backgroundBrush,
+            Color linkPanelBackgroundBrush,
             Color titleForegroundBrush,
             Color textForegroundBrush,
             Color linkForegroundBrush,
@@ -293,6 +296,7 @@ namespace BookParser
         {
             ColorScheme = colorScheme;
             BackgroundBrush = new SolidColorBrush(backgroundBrush);
+            LinkPanelBackgroundBrush = new SolidColorBrush(linkPanelBackgroundBrush);
             TitleForegroundBrush = new SolidColorBrush(titleForegroundBrush);
             TextForegroundBrush = new SolidColorBrush(textForegroundBrush);
             LinkForegroundBrush = new SolidColorBrush(linkForegroundBrush);
@@ -305,6 +309,8 @@ namespace BookParser
         public ColorSchemes ColorScheme { get; set; }
 
         public SolidColorBrush BackgroundBrush { get; set; }
+
+        public SolidColorBrush LinkPanelBackgroundBrush { get; set; }
 
         public SolidColorBrush TitleForegroundBrush { get; set; }
 
@@ -370,6 +376,7 @@ namespace BookParser
                     (
                     colorScheme: ColorSchemes.Light,
                     backgroundBrush: Colors.White,
+                    linkPanelBackgroundBrush: Color.FromArgb(0xFF, 0x3B, 0x39, 0x3F), //    #3b393f
                     titleForegroundBrush: Color.FromArgb(0xFF, 0x7D, 0x7D, 0x7D),
                     textForegroundBrush: Colors.Black,
                     linkForegroundBrush: Color.FromArgb(0xFF, 0x2D, 0x8E, 0xCC),
@@ -385,6 +392,7 @@ namespace BookParser
                     (
                     colorScheme: ColorSchemes.Dark,
                     backgroundBrush: Color.FromArgb(0xFF, 0x3b, 0x39, 0x3f), //background-color: #3b393f;
+                    linkPanelBackgroundBrush: Colors.Black,
                     titleForegroundBrush: Color.FromArgb(0xFF, 0xA8, 0xA8, 0xA8),
                     textForegroundBrush: Colors.White,
                     linkForegroundBrush: Color.FromArgb(0xFF, 0xF0, 0x96, 0x09),
@@ -399,7 +407,8 @@ namespace BookParser
                 new Scheme
                     (
                     colorScheme: ColorSchemes.Sepia,
-                    backgroundBrush: Color.FromArgb(0xFF, 0xe5, 0xde, 0xbf), 
+                    backgroundBrush: Color.FromArgb(0xFF, 0xe5, 0xde, 0xbf),
+                    linkPanelBackgroundBrush: Color.FromArgb(0xFF, 0x3B, 0x39, 0x3F), //    #3b393f
                     titleForegroundBrush: Color.FromArgb(0xFF, 0x77, 0x70, 0x52),
                     textForegroundBrush: Color.FromArgb(0xFF, 0x28, 0x18, 0x08), 
                     linkForegroundBrush: Color.FromArgb(0xFF, 0xD7, 0x83, 0x00),

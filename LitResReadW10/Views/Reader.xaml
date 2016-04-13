@@ -266,10 +266,16 @@
                    HorizontalAlignment="Center" MaxWidth="200">
             </Image>
         </Grid>
-       
+
 
         <Grid x:Name="ReaderGrid" Margin="0,0,0,10" Grid.Row="1" Opacity="0">
-            <controls1:ThreePagePanel Grid.Row="0" 
+            <Border x:Name="AnchorStackPanel"
+                        Visibility="Collapsed"
+                        Canvas.ZIndex="3">
+                <TextBlock x:Name="AnchorTextBlock" />
+            </Border>
+
+            <controls1:ThreePagePanel Grid.Row="0"
                                       x:Name="PageCanvas" 
                                       Tapped="PageCanvas_Tapped"
                                       PointerPressed="PageCanvas_OnPointerPressed"

@@ -156,9 +156,10 @@ namespace LitRes.Services
             var bookSummary = previewGenerator.GetBookPreview();
             var book = CreateBook(item, bookSummary);
             book.LoadInfo(book.GetFolderPath() + "/bookinfo");
-            var chapters = ToolsRepository.GetChapters(book.BookID, book.GetChaptersPath());
-            var chapterModels = chapters as ChapterModel[] ?? chapters.ToArray();
-            AppSettings.Default.Chapters = chapterModels;
+            var chapters = ToolsRepository.GetChapters(book.BookID, book.GetChaptersPath());     
+            AppSettings.Default.Chapters = chapters;
+            var anchors = ToolsRepository.GetAnchors(book.BookID, book.GetAnchorsPath());
+            AppSettings.Default.Anchors = anchors;
             ReplaceBookInSettings(book);
             return previewGenerator;
         }

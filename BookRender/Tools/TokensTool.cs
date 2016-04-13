@@ -68,7 +68,7 @@ namespace BookRender.Tools
 
             parser.BuildChapters();
 
-            SaveAnchors(book.BookID, parser.Anchors, tokens);
+            SaveAnchors(book.BookID, book.GetAnchorsPath(), parser.Anchors, tokens);
 
             SaveChapters(book.BookID, book.GetChaptersPath(), parser.Chapters, tokens);
            
@@ -92,10 +92,10 @@ namespace BookRender.Tools
             }
         }
 
-        private static void SaveAnchors(string bookId, Dictionary<string, int> anchors, IList<TokenBase> tokens)
+        private static void SaveAnchors(string bookId, string path, Dictionary<string, int> anchors, IList<TokenBase> tokens)
         {
             var anchModels = anchors.Select(anchor => CreateAnchor(bookId, anchor, tokens));
-            ToolsRepository.SaveAnchors(anchModels);
+            ToolsRepository.SaveAnchors(anchModels, path);
         }
 
         private static void SaveChapters(string bookId, string path, IEnumerable<BookChapter> chapters, IList<TokenBase> tokens)
