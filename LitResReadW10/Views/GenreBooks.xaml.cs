@@ -140,7 +140,7 @@ namespace LitRes.Views
                     return;
                 if (book.IsFreeBook)
                 {
-                    if (book.InGifts != null && !book.InGifts.Contains("1"))
+                    if (book.InGifts != null && book.InGifts.Contains("1"))
                         ViewModel.BuyBook.Execute(book);
                     else
                         ViewModel.Read.Execute(book);

@@ -166,7 +166,7 @@ namespace LitRes.Services
 
         public IBookSummaryParser GetSummaryParser(Book item, bool isTrial)
         {
-            var bookFolder = item.IsMyBook ? item.Id.ToString() : item.Id + ".trial";
+            var bookFolder = item.IsMyBook || item.IsFreeBook ? item.Id.ToString() : item.Id + ".trial";
             var bookStorageFileStream =
                 new IsolatedStorageFileStream(isTrial ? CreateTrialBookPath(item) : CreateBookPath(bookFolder), FileMode.Open,
                     IsolatedStorageFile.GetUserStoreForApplication());
@@ -176,7 +176,7 @@ namespace LitRes.Services
 
         private void ParseBook(Book item)
         {
-            var bookFolder = item.IsMyBook ? item.Id.ToString() : item.Id + ".trial";
+            var bookFolder = item.IsMyBook || item.IsFreeBook ? item.Id.ToString() : item.Id + ".trial";
             try
             {
                 using (var storeForApplication = IsolatedStorageFile.GetUserStoreForApplication())

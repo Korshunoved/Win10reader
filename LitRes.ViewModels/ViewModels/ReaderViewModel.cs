@@ -18,6 +18,7 @@ using System.Xml.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using BookParser;
+using BookParser.Models;
 using BookParser.Parsers;
 using BookParser.Parsers.Fb2;
 using Digillect;
@@ -293,6 +294,17 @@ namespace LitRes.ViewModels
             try
             {
                 await LoadBook(Id, session);
+                var bookmark = await GetCurrentBookmark(false, CancellationToken.None) ??
+                               await GetCurrentBookmark(true, CancellationToken.None);
+                if (bookmark?.NoteText.Text != null)
+                {
+                    var myBookmark = new BookmarkModel
+                    {
+                        BookID = bookmark.Id,
+                        Text = bookmark.NoteText.Text
+                    };
+                    AppSettings.Default.Bookmark = myBookmark;
+                }
                 _loaded = true;
             }
             catch (Exception ex)
@@ -411,6 +423,7 @@ namespace LitRes.ViewModels
                 }
                 else
                 {
+                    bookmark.NoteText = new Note { Text = text };
                     bookmark.Percent = percent;                
                 }
 

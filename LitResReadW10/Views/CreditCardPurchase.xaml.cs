@@ -150,7 +150,7 @@ namespace LitRes.Views
             }
 
             var parameters = new Dictionary<string, object>{
-                                                            {"isSave", (bool)saveCheckBox.IsChecked},
+                                                            {"isSave", saveCheckBox.IsChecked != null && (bool)saveCheckBox.IsChecked},
                                                             {"isAuth", true},                                                            
                                                             {"mail",ViewModel.UserInformation.Email},
                                                             {"name",cardHolder.Text},

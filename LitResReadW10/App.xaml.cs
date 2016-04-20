@@ -1,6 +1,7 @@
 ﻿using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Autofac;
+using Cimbalino.Toolkit.Services;
 using Digillect;
 using Digillect.Mvvm.Services;
 using Digillect.Mvvm.UI;
@@ -180,6 +181,7 @@ namespace LitResReadW10
             builder.RegisterType<IsolatedStorageFileCacheService>().As<IFileCacheService>();
             builder.RegisterType<InAppPurchaseService>().As<IInAppPurchaseService>().SingleInstance();
             builder.RegisterType<DeviceInfoService>().As<IDeviceInfoService>().SingleInstance();
+            //builder.RegisterType<ApplicationSettingsService>().As<IApplicationSettingsService>().SingleInstance();
 
             builder.RegisterModule<ModelsModule>();
             builder.RegisterModule<ViewModelsModule>();

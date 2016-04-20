@@ -236,6 +236,16 @@ namespace LitRes.Views
             //_moveCount = 0;
 
             base.OnNavigatedFrom(e);
+            var book = AppSettings.Default.CurrentBook;
+            int lastTokenId;
+            var tokenId = _tokenOffset;
+            var text = _bookTool.GetText(book, tokenId, 40, out lastTokenId);
+            var chapter = _bookTool.GetChapterByToken(tokenId);
+            var xpointer = ViewModel.GetXPointer(text);
+            var percent = Convert.ToString((int)Math.Ceiling(CurrentPageSlider.Value / (CurrentPageSlider.Maximum / 100)));
+
+            ViewModel.SetCurrentBookmark(text, xpointer, chapter, percent);
+
             if (e.NavigationMode == NavigationMode.Back || (e.Uri != null && string.Equals(e.Uri.OriginalString, "/Views/Main.xaml")) )
             {
                 ControlPanel.Instance.NormalMode();
