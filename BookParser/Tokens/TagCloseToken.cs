@@ -21,6 +21,6 @@ namespace BookParser.Tokens
         {
             int parentID = reader.ReadInt32();
             return new TagCloseToken(id, parentID);
-        }
+        }      
     }
 }

@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Windows.Storage;
-using Cimbalino.Toolkit.Services;
 using LitRes.Models;
 using LitRes.Services.Connectivity;
 

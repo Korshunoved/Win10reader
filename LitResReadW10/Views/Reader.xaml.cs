@@ -239,7 +239,7 @@ namespace LitRes.Views
             var book = AppSettings.Default.CurrentBook;
             int lastTokenId;
             var tokenId = _tokenOffset;
-            var text = _bookTool.GetText(book, tokenId, 40, out lastTokenId);
+            var text = _bookTool.GetLastParagraphByToken(book, tokenId, out lastTokenId);
             var chapter = _bookTool.GetChapterByToken(tokenId);
             var xpointer = ViewModel.GetXPointer(text);
             var percent = Convert.ToString((int)Math.Ceiling(CurrentPageSlider.Value / (CurrentPageSlider.Maximum / 100)));
@@ -298,10 +298,13 @@ namespace LitRes.Views
                 if (AppSettings.Default.Bookmark != null)
                 {
                     var book = AppSettings.Default.CurrentBook;
-                    _bookSearch = new BookSearch(book);
-                    var query = new List<string>(AppSettings.Default.Bookmark.Text.Split(' ').ToList());
+                    _bookSearch = new BookSearch(book);                   
                     _bookSearch.Init();
-                    var result = await _bookSearch.Search(book, AppSettings.Default.Bookmark.Text, query.Count);
+                    var query = new List<string>(AppSettings.Default.Bookmark.Text.Split(' ').ToList());
+                    query.RemoveAt(query.Count - 1);
+                    string text = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
+                    text = text.Replace(Convert.ToChar(160).ToString(), " ");
+                    var result = await _bookSearch.Search(book, text, query.Count);
                     if (result.Count > 0)
                     {
                         AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
@@ -783,7 +786,7 @@ namespace LitRes.Views
             var book = AppSettings.Default.CurrentBook;
             int lastTokenId;
             var tokenId = _tokenOffset;
-            var text = _bookTool.GetLastParagraphByToken(book, tokenId, 40, out lastTokenId);
+            var text = _bookTool.GetLastParagraphByToken(book, tokenId, out lastTokenId);
             var chapter = _bookTool.GetChapterByToken(tokenId);
             var xpointer = ViewModel.GetXPointer(text);
             if (xpointer == null)

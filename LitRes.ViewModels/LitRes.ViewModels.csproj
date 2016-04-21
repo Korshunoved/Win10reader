@@ -208,9 +208,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Cimbalino.Toolkit.Core">
-      <HintPath>C:\Users\himselfego\.nuget\packages\Cimbalino.Toolkit.Core\2.2.1\lib\uap10.0\Cimbalino.Toolkit.Core.dll</HintPath>
-    </Reference>
     <Reference Include="QueryString.NETCore">
       <HintPath>C:\Users\himselfego\.nuget\packages\QueryString.NET\1.0.0\lib\dotnet\QueryString.NETCore.dll</HintPath>
     </Reference>

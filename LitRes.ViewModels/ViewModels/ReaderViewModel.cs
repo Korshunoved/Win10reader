@@ -296,12 +296,22 @@ namespace LitRes.ViewModels
                 await LoadBook(Id, session);
                 var bookmark = await GetCurrentBookmark(false, CancellationToken.None) ??
                                await GetCurrentBookmark(true, CancellationToken.None);
-                if (bookmark?.NoteText.Text != null)
+                if (bookmark?.NoteText?.Text != null)
                 {
                     var myBookmark = new BookmarkModel
                     {
                         BookID = bookmark.Id,
                         Text = bookmark.NoteText.Text
+                    };
+                    AppSettings.Default.Bookmark = myBookmark;
+                }
+                else if (bookmark?.Selection != null)
+                {
+                    var text = GetParagraphByXPointer(bookmark?.Selection);
+                    var myBookmark = new BookmarkModel
+                    {
+                        BookID = bookmark.Id,
+                        Text = text
                     };
                     AppSettings.Default.Bookmark = myBookmark;
                 }
@@ -914,11 +924,11 @@ namespace LitRes.ViewModels
                 {
                     if (!element.HasElements)
                     {
-                        if (element.Value.Contains("Бонифаций"))
+                        if (element.Value.Contains("горести"))
                             Debug.WriteLine("asdasd");
                         var tmp = pattern.Replace(" ", string.Empty).Replace(Convert.ToChar(160).ToString(), "");
                         var elemText = element.Value.Replace(" ", "").Replace(Convert.ToChar(160).ToString(), "");
-                        if (elemText != string.Empty && (elemText.Contains(tmp) || tmp.Contains(elemText)))
+                        if (elemText != string.Empty && elemText.Contains(tmp))
                             return element;
                     }
                     else
@@ -933,6 +943,45 @@ namespace LitRes.ViewModels
             {
                 return null;
             }
+        }
+
+        public string GetParagraphByXPointer(string pointer)
+        {
+            pointer = pointer.Replace(XpointerStartMagicWord, string.Empty).Replace(XpointerEndMagicWord,string.Empty).Remove(0,4);
+            var index = pointer.IndexOf('.');
+            pointer = pointer.Remove(index);
+            var root = BookSummary.Root;
+            XAttribute attribute = root.Attribute("xmlns");
+            XNamespace ns = attribute.Value;
+            var body = root.Element(ns + "body");
+            var block = FindBlock(pointer, body);
+            return block?.Value;
+        }
+
+        private XElement FindBlock(string pointer, XElement parent)
+        {
+            var index = pointer.IndexOf('/');
+            pointer = pointer.Remove(0, index + 1);            
+            var array = pointer.Split('/');
+            string level = array[0];
+      //      level = level.Replace("/", string.Empty);
+            var intLevel = int.Parse(level);
+            intLevel--;
+            var idx = 0;
+            XElement block = null;
+            foreach (var child in parent.Elements())
+            {
+               // if ()
+                if (idx == intLevel)
+                {
+                    if (!pointer.Contains("/"))
+                        return child;
+                    if (child.HasElements) block = FindBlock(pointer, child);
+                    else return child;
+                }
+                idx++;
+            }
+            return block;
         }
     }
 }

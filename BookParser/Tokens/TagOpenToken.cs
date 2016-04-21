@@ -41,6 +41,6 @@ namespace BookParser.Tokens
             TextVisualProperties properties = TextVisualProperties.Load(reader);
 
             return new TagOpenToken(id, name, properties, parentID);
-        }
+        }        
     }
 }
