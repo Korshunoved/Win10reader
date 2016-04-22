@@ -64,5 +64,6 @@ namespace LitRes.Services
         Task UpdateExistBook(Book book);
         bool IsAllMyBooksFromCacheLoaded();
 	    Task ExpireBooks(IEnumerable<Book> books);
+	    Task AddFragmentToMyBasket(Book book, CancellationToken token);
 	}
 }

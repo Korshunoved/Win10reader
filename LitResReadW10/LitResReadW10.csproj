@@ -1077,6 +1077,9 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="AppsFlyerLib">
+      <HintPath>..\3rdParty\AppsFlyerLib.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp.Portable, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\3rdParty\RestSharp.Portable.dll</HintPath>

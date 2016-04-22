@@ -2290,6 +2290,25 @@ namespace LitRes.Services
             if (_myBooks != null && _myBooks.Count > 0) _dataCacheService.PutItem(_myBooks, AllMyBooksCacheItemName, CancellationToken.None);
 	    }
 
+	    public async Task AddFragmentToMyBasket(Book book, CancellationToken token)
+	    {
+	        if (book != null)
+	        {
+	            book.IsMyBook = false;
+	            book.isFragment = true;
+                var parameters = new Dictionary<string, object>
+                    {
+                        {"hub_id", book.Id},										
+#if PDF_ENABLED	
+                        {"search_types", "0,4"},	
+#else
+                        {"type", "2"},	
+#endif
+                    };
+                await _client.AddBookToBasket(parameters, token);
+            }
+	    }
+
 	    public void UpdateBook(Book book)
 	    {
             try

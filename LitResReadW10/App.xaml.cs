@@ -45,6 +45,11 @@ namespace LitResReadW10
         {
             base.OnLaunched(e);
             IsLaunched = true;
+            AppsFlyerLib.AppsFlyerTracker tracker = AppsFlyerLib.AppsFlyerTracker.GetAppsFlyerTracker();
+            tracker.appId = "LitResLTD.LitResLTD.6856F1C0F55";
+            tracker.devKey = "8iAKRJCBJWsHtjSJiNZ6KQ";
+            tracker.TrackAppLaunch();
+
             if (e.Arguments.Length > 0 && e.Arguments.Contains("secondary_tile_id"))
             {
               //  new MessageDialog(e.Kind.ToString()).ShowAsync();

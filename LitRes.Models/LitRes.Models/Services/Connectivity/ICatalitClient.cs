@@ -45,5 +45,7 @@ namespace LitRes.Services.Connectivity
         Task<RawFile> SelfServiceRequest(IDictionary<string, object> parameters, bool isCancel, CancellationToken cancellationToken);
 	    Task<ServerTimeResponse> ServerTime(CancellationToken cancellationToken);
         Task<PurgeRebillsResponse> PurgeRebils(CancellationToken cancellationToken);
+	    Task AddBookToBasket(IDictionary<string, object> parameters, CancellationToken cancellationToken);
+
 	}
 }

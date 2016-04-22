@@ -104,7 +104,12 @@ namespace LitRes.Services.Connectivity
             return _connection.ProcessRequest<AddBookmarkResponse>("catalit_store_bookmarks", false, true, cancellationToken, parameters);
 		}
 
-		public Task<UniteInformation> MergeAccounts(IDictionary<string, object> parameters, CancellationToken cancellationToken)
+	    public Task AddBookToBasket(IDictionary<string, object> parameters, CancellationToken cancellationToken)
+	    {
+            return _connection.ProcessRequest<object>("catalit_manage_basket", false, true, cancellationToken, parameters);
+        }
+        
+        public Task<UniteInformation> MergeAccounts(IDictionary<string, object> parameters, CancellationToken cancellationToken)
 		{
 			return _connection.ProcessRequest<UniteInformation>("catalit_unite_user", false, false, cancellationToken, parameters);
 		}
