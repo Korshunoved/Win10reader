@@ -43,13 +43,14 @@ namespace LitRes.Services
             storageFile.DeleteDirectory(directoryName);
         }
 
-        public async Task MigrateFromWp8ToWp10()
+        public async Task<CatalitCredentials> MigrateFromWp8ToWp10()
 	    {
             var storage = IsolatedStorageFile.GetUserStoreForApplication();
 	        if (storage.FileExists("__ApplicationSettings"))
 	        {
 	            try
 	            {
+                    CatalitCredentials returnCred = new CatalitCredentials();
 	                using (var fileStream = await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("__ApplicationSettings"))
 	                {
 	                    using (var streamReader = new StreamReader(fileStream))
@@ -65,22 +66,26 @@ namespace LitRes.Services
 	                                                    select (CatalitCredentials)xmlSerializer.Deserialize(new MemoryStream(Encoding.UTF8.GetBytes((string) xml.Value))))
 	                        {
 	                            RegisterCredentials(credentials, CancellationToken.None);
+	                            returnCred = credentials;
 	                        }
 	                    }
 	                }
 	                storage = IsolatedStorageFile.GetUserStoreForApplication();
 	                storage.DeleteFile("__ApplicationSettings");
                     DeleteDirectoryRecursively(storage, "MyBooks");
+	                return returnCred;
 	            }
 	            catch
 	            {
 	                // ignored
 	            }
 	        }
+            return null;
 	    }
 
 	    public CatalitCredentials ProvideCredentials(CancellationToken cancellationToken)
 	    {
+	        var creds = MigrateFromWp8ToWp10().Result;
             return  _dataCacheService.GetItem<CatalitCredentials>(CacheItemName);
 	    }
 

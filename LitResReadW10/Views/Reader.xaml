@@ -56,7 +56,7 @@
                     Height="40"
                     Width="40" Background="Transparent" 
                     Style="{StaticResource LitresReaderButtonStyle}">
-                    <Image Name="SettingsImage" Stretch="UniformToFill" Source="../Assets/W10Icons/Settings/setting_black.png" Width="14" Height="14"/>
+                    <Image Name="SettingsImage" Stretch="UniformToFill" Source="../Assets/W10Icons/Settings/setting_grey.png" Width="14" Height="14"/>
 
                     <FlyoutBase.AttachedFlyout >
                         <Flyout Placement="Bottom">

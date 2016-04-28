@@ -751,8 +751,8 @@ namespace LitRes.Views
         private void SettingsFrame_Unloaded(object sender, RoutedEventArgs e)
         {
             SettingsButton.Background = new SolidColorBrush(Colors.Transparent);
-            SettingsImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Settings/setting_black.png", UriKind.Absolute));
-            SettingsImage.Opacity = 0.6;
+            SettingsImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Settings/setting_grey.scale-100.png", UriKind.Absolute));
+            //SettingsImage.Opacity = 0.6;
         }
 
         private Point _initialPoint;

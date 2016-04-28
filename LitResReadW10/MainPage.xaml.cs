@@ -35,7 +35,7 @@ namespace LitResReadW10
 
         public MainPage()
         {
-            _credentialsProvider.MigrateFromWp8ToWp10();
+            //_credentialsProvider.MigrateFromWp8ToWp10();
             //migration.RunSynchronously();
 
             if (MainControlPanel == null)

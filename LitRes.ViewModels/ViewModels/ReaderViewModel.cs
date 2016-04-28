@@ -476,13 +476,7 @@ namespace LitRes.ViewModels
                 {
                     try
                     {
-                        if (existTrial)
-                        {
-                           BookSummary = _bookProvider.GetBookFromStorage(book, true);
-                           status = LoadingStatus.TrialBookLoaded;
-                           book.IsMyBook = false;
-                        }
-                        else if (exist)
+                        if (exist)
                         {
                             BookSummary = _bookProvider.GetBookFromStorage(book, false);
                             status = LoadingStatus.FullBookLoaded;
@@ -492,6 +486,12 @@ namespace LitRes.ViewModels
                             await _bookProvider.GetFullBook(book, session.Token);
                             BookSummary = _bookProvider.GetSummaryParser(book, false);
                             status = LoadingStatus.FullBookLoaded;
+                        }
+                        else if (existTrial)
+                        {
+                            BookSummary = _bookProvider.GetBookFromStorage(book, true);
+                            status = LoadingStatus.TrialBookLoaded;
+                            book.IsMyBook = false;
                         }
                         else
                         {

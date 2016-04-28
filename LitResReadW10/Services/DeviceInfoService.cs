@@ -91,7 +91,8 @@ namespace LitRes.Services
             {
                 if (IsNokiaDevice)
                 {
-                    return 43438891;
+                    //return 43438891;
+                    return 217176046;
                 }
                 else if (IsFlyDevice)
                 {
@@ -110,7 +111,8 @@ namespace LitRes.Services
             {
                 if (IsNokiaDevice)
                 {
-                    return 43438887;
+                    return 217176042;
+                    //return 43438887;
                 }
                 else if (IsFlyDevice)
                 {
