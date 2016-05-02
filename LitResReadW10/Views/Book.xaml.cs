@@ -58,7 +58,6 @@ namespace LitRes.Views
 
             _timer.Tick += RefreshTimer;
             _timer.Start();
-            ReadButton.Visibility = ViewModel.CanGetBook ? Visibility.Collapsed : Visibility.Visible;
             if (!NavigationReason.Contains("buy")) return;
             ViewModel.BuyBook.Execute(null);
             NavigationReason = string.Empty;
@@ -207,6 +206,7 @@ namespace LitRes.Views
                     CleanPivotItemByTag("1990566");
                     CleanPivotItemByTag("1990567");
                 }
+                ReadButton.Visibility = ViewModel.CanGetBook ? Visibility.Collapsed : Visibility.Visible;
             }
             else if (e.PropertyName == "GenresLoaded")
             {

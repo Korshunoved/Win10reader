@@ -55,6 +55,7 @@ namespace LitRes.Views
             var chapter = list.SelectedItem as Chapters;
             if (chapter == null) return;
             AppSettings.Default.CurrentTokenOffset = chapter.TokenId;
+            AppSettings.Default.ToChapter = true;
             if (SystemInfoHelper.IsDesktop())
                 readerPage.GoToChapter();
         }
@@ -62,7 +63,17 @@ namespace LitRes.Views
         private void TockListView_OnTapped(object sender, TappedRoutedEventArgs e)
 	    {
             LocalBroadcastReciver.Instance.OnPropertyChanging(TockListView.SelectedItem, new PropertyChangingEventArgs("TocTapped"));
-            if(!SystemInfoHelper.IsDesktop() && Frame.CanGoBack) Frame.GoBack();
+            if (readerPage == null) return;
+            var list = (ListView)sender;
+            var index = list.SelectedIndex;
+            if (index <= 0) return;
+            var chapter = list.SelectedItem as Chapters;
+            if (chapter == null) return;
+            AppSettings.Default.CurrentTokenOffset = chapter.TokenId;
+            AppSettings.Default.ToChapter = true;
+            if (SystemInfoHelper.IsDesktop())
+                readerPage.GoToChapter();
+            if (!SystemInfoHelper.IsDesktop() && Frame.CanGoBack) Frame.GoBack();
         }
     }
 

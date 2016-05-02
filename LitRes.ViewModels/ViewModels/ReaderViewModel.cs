@@ -293,7 +293,11 @@ namespace LitRes.ViewModels
 
             try
             {
-                await LoadBook(Id, session);
+                await LoadSettings(session);
+                OnPropertyChanged(new PropertyChangedEventArgs("IncProgress"));
+                var book = await _catalogProvider.GetBook(Id, session.Token);
+                OnPropertyChanged(new PropertyChangedEventArgs("IncProgress"));
+                Entity = book;
                 var bookmark = await GetCurrentBookmark(false, CancellationToken.None) ??
                                await GetCurrentBookmark(true, CancellationToken.None);
                 if (bookmark?.NoteText?.Text != null)
@@ -315,6 +319,7 @@ namespace LitRes.ViewModels
                     };
                     AppSettings.Default.Bookmark = myBookmark;
                 }
+                await LoadBook(book, session);
                 _loaded = true;
             }
             catch (Exception ex)
@@ -323,12 +328,8 @@ namespace LitRes.ViewModels
             }
         }
 
-        private async Task LoadBook(int id, Session session)
+        private async Task LoadBook(Book book, Session session)
         {
-            await LoadSettings(session);
-            OnPropertyChanged(new PropertyChangedEventArgs("IncProgress"));
-            var book = await _catalogProvider.GetBook(id, session.Token);
-            OnPropertyChanged(new PropertyChangedEventArgs("IncProgress"));
             Entity = book;
 
             _dataCacheService.PutItem(Entity,"lastreadedbook",session.Token);
@@ -646,7 +647,7 @@ namespace LitRes.ViewModels
 
         private async Task Reload(Session session)
         {
-            await LoadBook(Entity.Id, session);
+            await LoadBook(Entity, session);
         }
         #endregion
 

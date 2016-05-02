@@ -180,7 +180,7 @@ namespace LitRes.Views
         {
             Debug.WriteLine("OnDataLoadComplete Enter");
             
-            if (_readerGridLoaded)
+            if (_readerGridLoaded && !ViewModel.ReaderLoaded)
                 await HandleLoadedBook();
           //  if (ViewModel.Entity == null) return;
 
@@ -236,15 +236,7 @@ namespace LitRes.Views
             //_moveCount = 0;
 
             base.OnNavigatedFrom(e);
-            var book = AppSettings.Default.CurrentBook;
-            int lastTokenId;
-            var tokenId = _tokenOffset;
-            var text = _bookTool.GetLastParagraphByToken(book, tokenId, out lastTokenId);
-            var chapter = _bookTool.GetChapterByToken(tokenId);
-            var xpointer = ViewModel.GetXPointer(text);
-            var percent = Convert.ToString((int)Math.Ceiling(CurrentPageSlider.Value / (CurrentPageSlider.Maximum / 100)));
-
-            ViewModel.SetCurrentBookmark(text, xpointer, chapter, percent);
+            SaveCurrentBookmark();
 
             if (e.NavigationMode == NavigationMode.Back || (e.Uri != null && string.Equals(e.Uri.OriginalString, "/Views/Main.xaml")) )
             {
@@ -265,6 +257,19 @@ namespace LitRes.Views
             }
 
             ViewModel.SaveSettings();
+        }
+
+        private void SaveCurrentBookmark()
+        {
+            var book = AppSettings.Default.CurrentBook;
+            int lastTokenId;
+            var tokenId = _tokenOffset;
+            var text = _bookTool.GetLastParagraphByToken(book, tokenId, out lastTokenId);
+            var chapter = _bookTool.GetChapterByToken(tokenId);
+            var xpointer = ViewModel.GetXPointer(text);
+            var percent = Convert.ToString((int) Math.Ceiling(CurrentPageSlider.Value/(CurrentPageSlider.Maximum/100)));
+            if (xpointer != null)
+                ViewModel.SetCurrentBookmark(text, xpointer, chapter, percent);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -295,13 +300,13 @@ namespace LitRes.Views
                 LayoutRoot.SizeChanged -= LayoutRoot_SizeChanged;
                 LayoutRoot.SizeChanged += LayoutRoot_SizeChanged;
 
-                if (AppSettings.Default.Bookmark != null)
+                if (AppSettings.Default.Bookmark != null && !AppSettings.Default.ToChapter)
                 {
                     var book = AppSettings.Default.CurrentBook;
                     _bookSearch = new BookSearch(book);                   
                     _bookSearch.Init();
                     var query = new List<string>(AppSettings.Default.Bookmark.Text.Split(' ').ToList());
-                    query.RemoveAt(query.Count - 1);
+                    //query.RemoveAt(query.Count - 1);
                     string text = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
                     text = text.Replace(Convert.ToChar(160).ToString(), " ");
                     var result = await _bookSearch.Search(book, text, query.Count);
@@ -311,14 +316,16 @@ namespace LitRes.Views
                     }
                 }
 
-                if (CurrentPage > 0 || AppSettings.Default.Bookmark != null)
+                if (CurrentPage > 0 || AppSettings.Default.Bookmark != null || AppSettings.Default.ToChapter)
                 {
                     AppSettings.Default.Bookmark = null;
+                    AppSettings.Default.ToChapter = false;
                     GoToChapter();
                 }
                 else
                     Redraw();
                 ViewModel.ReaderLoaded = true;
+                SaveCurrentBookmark();
             }
             else if (ViewModel.LoadingException != null)
             {

@@ -201,7 +201,7 @@ namespace LitRes.Services
 
         private static string PrepareFilePath(Book item, IsolatedStorageFile storage)
         {
-            if (item.IsMyBook)
+            if (item.IsMyBook || item.IsFreeBook)
             {
                 if (!storage.DirectoryExists(item.Id.ToString()))
                 {
@@ -216,7 +216,7 @@ namespace LitRes.Services
                 }
             }
 
-            var bookPath = item.IsMyBook ? CreateBookPath(item.Id.ToString()) : CreateBookPath(item.Id + ".trial");
+            var bookPath = item.IsMyBook || item.IsFreeBook ? CreateBookPath(item.Id.ToString()) : CreateBookPath(item.Id + ".trial");
             if (storage.FileExists(bookPath))
             {
                 storage.DeleteFile(bookPath);
@@ -242,7 +242,7 @@ namespace LitRes.Services
 
         private void SaveBook(Book item, BookSummary bookSummary, IBookSummaryParser previewGenerator, IsolatedStorageFile storeForApplication)
         {
-            var bookFolder = item.IsMyBook ? item.Id.ToString() : item.Id + ".trial";
+            var bookFolder = item.IsMyBook || item.IsFreeBook ? item.Id.ToString() : item.Id + ".trial";
             using (var imageStorageFileStream = new IsolatedStorageFileStream(CreateImagesPath(bookFolder), FileMode.Create, storeForApplication))
             {
                 previewGenerator.SaveImages(imageStorageFileStream);

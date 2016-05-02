@@ -217,6 +217,8 @@ namespace BookParser
         }
 
         public BookmarkModel Bookmark { get; set; }
+
+        public bool ToChapter { get; set; }
     }
 
     public enum ColorSchemes
