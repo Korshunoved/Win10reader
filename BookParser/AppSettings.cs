@@ -218,6 +218,8 @@ namespace BookParser
 
         public BookmarkModel Bookmark { get; set; }
 
+        public BookmarkModel LastPositionBookmark { get; set; }
+
         public bool ToChapter { get; set; }
     }
 

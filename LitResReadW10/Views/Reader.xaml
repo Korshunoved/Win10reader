@@ -171,39 +171,18 @@
             </RelativePanel>
         </Grid>
 
-        <!--<Grid x:Name="Center"
-              Grid.Row="1"
-              Grid.RowSpan="2"
-              Visibility="Collapsed">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Border Grid.Row="0" Background="Black" Opacity ="0.8" />
-            <StackPanel Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="Применение настроек" 
-                           HorizontalAlignment="Center" 
-                           Margin="0,0,0,0" 
-                           Padding="0" 
-                           Foreground="{StaticResource LitResAccentBrush}" 
-                           FontSize="{StaticResource PhoneFontSizeSmall}" 
-                           FontFamily="{StaticResource PhoneFontFamilyNormal}" />
-                <controls:ReaderPageHeader Opacity="0" HorizontalAlignment="Center" Margin="0,15,0,0" Padding="0" Width="310"/>
-            </StackPanel>
-        </Grid>-->
-
         <Grid x:Name="Bottom" 
               Grid.Row="2"
               Visibility="Visible"
               Canvas.ZIndex="10000"
               Background="Transparent"
               Margin="0,10,0,0" Padding="0" >
-          
-            <!--<Grid x:Name="BuyBookMenu" Grid.Row="0" Height="0" Visibility="Visible">
-                <StackPanel Orientation="Horizontal">
-                    <Button Style="{StaticResource WhiteButton}" Tapped="BuyBookMenuTap" Margin="18,12,12,12" Content="Купить"/>
-                    <TextBlock x:Name="BuyBookText" TextWrapping="Wrap" Width="342" FontSize="19.5" Margin="0,12,12,12" />
-                </StackPanel>
-            </Grid>-->
+
+            <TextBlock Name="PagesTextBlock" 
+                           Visibility="Collapsed"
+                           HorizontalAlignment="Center"
+                           TextAlignment="Center"
+                           />
 
             <Slider x:Name="CurrentPageSlider"      
                     Opacity="0"
@@ -238,7 +217,7 @@
                        RelativePanel.AlignVerticalCenterWithPanel="True"/>
                 <ProgressBar x:Name="pageProgress" Minimum="0" Maximum="8" Value="0" 
                      RelativePanel.AlignHorizontalCenterWithPanel="True"
-                     RelativePanel.Below="BookCoverBack"
+                     RelativePanel.Below="BookCover"
                      Background="Transparent" 
                      Visibility="Visible"
                      Foreground="{StaticResource LitResAccentBrush}" 
