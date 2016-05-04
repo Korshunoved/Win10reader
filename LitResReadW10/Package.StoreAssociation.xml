@@ -358,10 +358,9 @@
     <Language Code="zu-za" InMinimumRequirementSet="true" />
   </SupportedLocales>
   <ProductReservedInfo>
-    <MainPackageIdentityName>LitResLTD.LitResLTD.6856F1C0F55</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.litreswin10test</MainPackageIdentityName>
     <ReservedNames>
-      <ReservedName>ЛитРес: Читай!</ReservedName>
-      <ReservedName>LitResLTD.6856F1C0F55С</ReservedName>
+      <ReservedName>litres_win10test</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
   <AccountPackageIdentityNames>
@@ -371,7 +370,6 @@
     <MainPackageIdentityName>LitResLTD.2594FDA4B408</MainPackageIdentityName>
     <MainPackageIdentityName>LitResLTD.Bookmate</MainPackageIdentityName>
     <MainPackageIdentityName>LitResLTD.iMobilco</MainPackageIdentityName>
-    <MainPackageIdentityName>LitResLTD.litreswin10test</MainPackageIdentityName>
     <MainPackageIdentityName>LitResLTD.-</MainPackageIdentityName>
     <MainPackageIdentityName>LitResLTD.2093618AD36DD</MainPackageIdentityName>
     <MainPackageIdentityName>LitResLTD.290518E76D131</MainPackageIdentityName>
@@ -381,6 +379,7 @@
     <MainPackageIdentityName>LitResLTD.127263F52A0B6</MainPackageIdentityName>
     <MainPackageIdentityName>LitResLTD.5763667C26E18</MainPackageIdentityName>
     <MainPackageIdentityName>LitResLTD.6856F1C0F45D</MainPackageIdentityName>
+    <MainPackageIdentityName>LitResLTD.LitResLTD.6856F1C0F55</MainPackageIdentityName>
     <MainPackageIdentityName>LitResLTD.Samsung</MainPackageIdentityName>
     <MainPackageIdentityName>LitResLTD.7767556AF537</MainPackageIdentityName>
     <MainPackageIdentityName>LitResLTD.VAIO</MainPackageIdentityName>
@@ -397,5 +396,5 @@
     <MainPackageIdentityName>LitResLTD.370747EDD2BE0</MainPackageIdentityName>
     <MainPackageIdentityName>LitResLTD.56593569C23B3</MainPackageIdentityName>
   </AccountPackageIdentityNames>
-  <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9WZDNCRFHVZW" />
+  <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9NBLGGH4RG5P" />
 </StoreAssociation>

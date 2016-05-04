@@ -384,6 +384,13 @@ namespace LitRes.ViewModels
 		}
 		#endregion
 
+	    private async Task LoadBooksFromCache(Session session)
+	    {
+	        await Task.WhenAll(LoadPopularBooksFromCache(session),
+	            LoadInterestingBooksFromCache(session),
+	            LoadNoveltyBooksFromCache(session));
+	    }
+
 		#region LoadNewBooks
 		private async Task LoadNewBooks(Session session)
 		{
@@ -608,6 +615,17 @@ namespace LitRes.ViewModels
                     Debug.WriteLine(ex.Message);
                 }
             }
+            else
+            {
+                try
+                {
+                    await LoadBooksFromCache(session);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
              _expirationGuardian.AddBook(null);
 		    _isLoaded = true;
         }
@@ -685,9 +703,21 @@ namespace LitRes.ViewModels
 		        _noveltyBooks.EndUpdate();
 		    }
 		}
-		#endregion
-		#region LoadPopularBooks
-		private async Task LoadPopularBooks(Session session)
+
+        private async Task LoadNoveltyBooksFromCache(Session session)
+        {
+            var books = await _catalogProvider.GetNoveltyBooksFromCache(session.Token);
+
+            if (!_noveltyBooks.Equals(books))
+            {
+                _noveltyBooks.BeginUpdate();
+                _noveltyBooks.Update(books);
+                _noveltyBooks.EndUpdate();
+            }
+        }
+        #endregion
+        #region LoadPopularBooks
+        private async Task LoadPopularBooks(Session session)
 		{
 			var books = await _catalogProvider.GetPopularBooks( 0, session.Token, _booksPerPage);
 
@@ -698,6 +728,17 @@ namespace LitRes.ViewModels
 		        _popularBooks.EndUpdate();
 		    }
 		}
+
+	    private async Task LoadPopularBooksFromCache(Session session)
+	    {
+	        var books = await _catalogProvider.GetPopularBooksFromCache(session.Token);
+            if (!_popularBooks.Equals(books))
+            {
+                _popularBooks.BeginUpdate();
+                _popularBooks.Update(books);
+                _popularBooks.EndUpdate();
+            }
+        }
 		#endregion
 		#region LoadInterestingBooks
 		private async Task LoadInterestingBooks( Session session )
@@ -711,10 +752,22 @@ namespace LitRes.ViewModels
 		        _interestingBooks.EndUpdate();
 		    }
 		}
-		#endregion
-		
-		#region ChooseGenre
-		private void ChooseGenre(int index)
+
+        private async Task LoadInterestingBooksFromCache(Session session)
+        {
+            var books = await _catalogProvider.GetInterestigBooksFromCache(session.Token);
+
+            if (!_interestingBooks.Equals(books))
+            {
+                _interestingBooks.BeginUpdate();
+                _interestingBooks.Update(books);
+                _interestingBooks.EndUpdate();
+            }
+        }
+        #endregion
+
+        #region ChooseGenre
+        private void ChooseGenre(int index)
 		{
 		    if (index < 0) return;
 		    if (Genres[index].Id >= 0)
