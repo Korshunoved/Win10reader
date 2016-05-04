@@ -5,8 +5,6 @@ using System.Globalization;
 using System.Threading.Tasks;
 using Digillect.Mvvm;
 using Digillect.Mvvm.UI;
-
-using LitRes.Helpers;
 using LitRes.LibraryTools;
 using LitRes.Models;
 using LitRes.ValueConverters;
@@ -43,7 +41,6 @@ using LitResReadW10.Controllers;
 using LitResReadW10.Controls;
 using LitResReadW10.Controls.Manipulators;
 using LitResReadW10.Helpers;
-using LitResReadW10.Interaction;
 
 namespace LitRes.Views
 {
@@ -55,13 +52,7 @@ namespace LitRes.Views
 
     public partial class Reader : IExpiredCallBack
     {
-        //private bool _menuVisible;
-        //private bool _fullVisible;
         private bool _readerGridLoaded;
-        //private int _moveCount;
-        //private double _fractionRead;
-        //private bool _syncInProgress;        
-        //private bool _isBuyShowed;
         private bool _isLoaded;
         private IFontHelper _activeFontHelper;
         private BookModel _book;
@@ -77,9 +68,6 @@ namespace LitRes.Views
 
         public static Reader Instance;
 
-        //private ManipulationListener _pageManipulationListener;
-        //private ManipulationListener _textManipulationListener;
-
         private readonly BookTool _bookTool;
 
         private readonly SemaphoreSlim _event = new SemaphoreSlim(1, 1);
@@ -90,6 +78,7 @@ namespace LitRes.Views
             Debug.WriteLine("Reader()");    
 
             InitializeComponent();
+          //  NavigationCacheMode = NavigationCacheMode.Enabled;
          
             Loaded += ReaderLoaded;
             Unloaded += (sender, args) =>
@@ -111,20 +100,9 @@ namespace LitRes.Views
         }
         #endregion
 
-        #region ReaderSettingsUpdated
-        void ReaderSettingsUpdated(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("OnUpdated"))
-            {
-               // Center.Visibility = Visibility.Visible;
-            }
-        }
-        #endregion
-
         #region ReaderLoaded
         async void ReaderLoaded(object sender, RoutedEventArgs e)
         {
-            //_moveCount = 0;
             await ViewModel.LoadSettings();
             if (AppSettings.Default.CurrentTokenOffset > 0 || (Instance != null && Instance.FromSettings))
             {
@@ -151,6 +129,7 @@ namespace LitRes.Views
 
         private async void ReaderGridOnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
+            if (_readerGridLoaded) return;
             _readerGridLoaded = true;
             if (AppSettings.Default.CurrentBook != null)
                 await HandleLoadedBook();
@@ -164,12 +143,8 @@ namespace LitRes.Views
             ViewModel.Id = ViewParameters.GetValue<int>("id");
             ViewModel.FileToken = ViewParameters.GetValue<string>("filetoken");
 
-            ViewModel.ReaderSettings.PropertyChanged -= ReaderSettingsUpdated;
-            ViewModel.ReaderSettings.PropertyChanged += ReaderSettingsUpdated;
-
             ViewModel.PropertyChanged -= ViewModel_PropertyChanged;
-            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
-            ViewModel.DeffaultSettings = (ResolutionHelper.isFullHD) ? ReaderSettingsViewModel.DeffaultSettingsType.DeffaultSettingsTypeHd : ReaderSettingsViewModel.DeffaultSettingsType.DeffaultSettingsTypeNormal;
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;           
             Debug.WriteLine("Reader CreateDataSession");
 
             return base.CreateDataSession(reason);
@@ -179,12 +154,8 @@ namespace LitRes.Views
         protected override async void OnDataLoadComplete(Session session)
         {
             Debug.WriteLine("OnDataLoadComplete Enter");
-            
-            if (_readerGridLoaded && !ViewModel.ReaderLoaded)
+            if (_readerGridLoaded)
                 await HandleLoadedBook();
-          //  if (ViewModel.Entity == null) return;
-
-          //  AddBuySection(ViewModel.Entity.Price);
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -202,7 +173,6 @@ namespace LitRes.Views
                 case "HideSwitchPopup":
                     break;
                 case "UpdatePrice":
-                    //LitresStore.Content = string.Format("пополнить счёт на {0} руб.", ViewModel.AccoundDifferencePrice);
                     break;
                 case "LoadBookProcessCompleted":
                     if (ViewModel.Status == ReaderViewModel.LoadingStatus.FullBookLoaded) Analytics.Instance.sendMessage(Analytics.ActionReadFull);
@@ -214,7 +184,7 @@ namespace LitRes.Views
                     AppSettings.Default.FontSettings.FontHelper = _activeFontHelper;                  
                     break;
                 case "EntityLoaded":
-                    BookCover.Source = (BitmapImage)(new UrlToImageConverter().Convert(ViewModel.Entity.Cover, null, null));// new BitmapImage(new Uri(ViewModel.Entity.Cover, UriKind.RelativeOrAbsolute));
+                    BookCover.Source = (BitmapImage)(new UrlToImageConverter().Convert(ViewModel.Entity.Cover, null, null));
                     break;
                 case "IncProgress":
                     pageProgress.Value += 1;
@@ -231,10 +201,8 @@ namespace LitRes.Views
             await HandleLoadedBook();
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        protected override async void OnNavigatedFrom(NavigationEventArgs e)
         {
-            //_moveCount = 0;
-
             base.OnNavigatedFrom(e);
             SaveCurrentBookmark();
 
@@ -253,7 +221,7 @@ namespace LitRes.Views
             if (!SystemInfoHelper.IsDesktop())
             {
                 StatusBar statusBar = StatusBar.GetForCurrentView();
-                statusBar.ShowAsync();
+                await statusBar.ShowAsync();
             }
 
             ViewModel.SaveSettings();
@@ -262,6 +230,7 @@ namespace LitRes.Views
         private void SaveCurrentBookmark()
         {
             var book = AppSettings.Default.CurrentBook;
+            if (book == null) return;
             int lastTokenId;
             var tokenId = _tokenOffset;
             var text = _bookTool.GetLastParagraphByToken(book, tokenId, out lastTokenId);
@@ -295,25 +264,17 @@ namespace LitRes.Views
                 CurrentPageSlider.Tapped -= CurrentPageSliderOnTapped;
                 CurrentPageSlider.Tapped += CurrentPageSliderOnTapped;
 
-                PageCanvas.SetSize(ReaderGrid.ActualWidth, ReaderGrid.ActualHeight, ReaderGrid.ActualWidth, ReaderGrid.ActualHeight);
-                PageCanvas.Clear();
                 LayoutRoot.SizeChanged -= LayoutRoot_SizeChanged;
                 LayoutRoot.SizeChanged += LayoutRoot_SizeChanged;
 
                 if (AppSettings.Default.Bookmark != null && !AppSettings.Default.ToChapter)
                 {
-                    var book = AppSettings.Default.CurrentBook;
-                    _bookSearch = new BookSearch(book);                   
-                    _bookSearch.Init();
-                    var query = new List<string>(AppSettings.Default.Bookmark.Text.Split(' ').ToList());
-                    //query.RemoveAt(query.Count - 1);
-                    string text = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
-                    text = text.Replace(Convert.ToChar(160).ToString(), " ");
-                    var result = await _bookSearch.Search(book, text, query.Count);
-                    if (result.Count > 0)
-                    {
-                        AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
-                    }
+                    await SearchBookmarkText(AppSettings.Default.Bookmark);
+                }
+
+                if (AppSettings.Default.LastPositionBookmark != null && !AppSettings.Default.ToChapter)
+                {
+                    await SearchBookmarkText(AppSettings.Default.LastPositionBookmark);
                 }
 
                 if (CurrentPage > 0 || AppSettings.Default.Bookmark != null || AppSettings.Default.ToChapter)
@@ -324,7 +285,6 @@ namespace LitRes.Views
                 }
                 else
                     Redraw();
-                ViewModel.ReaderLoaded = true;
                 SaveCurrentBookmark();
             }
             else if (ViewModel.LoadingException != null)
@@ -337,9 +297,33 @@ namespace LitRes.Views
             }            
         }
 
+        private async Task SearchBookmarkText(BookmarkModel bookmark)
+        {
+            var book = AppSettings.Default.CurrentBook;
+            _bookSearch = new BookSearch(book);
+            _bookSearch.Init();
+            var query = new List<string>(bookmark.Text.Split(' ').ToList());
+            string text1 = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
+            query.RemoveAt(query.Count - 1);
+            string text2 = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
+            text1 = text1.Replace(Convert.ToChar(160).ToString(), " ");
+            text2 = text2.Replace(Convert.ToChar(160).ToString(), " ");
+            _bookSearch.Init();
+            var result = await _bookSearch.Search(book, text1, query.Count);
+            if (result.Count > 0)
+            {
+                AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
+            }
+            else
+            {
+                result = await _bookSearch.Search(book, text2, query.Count);
+                if (result.Count > 0) AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
+            }
+        }
+
         private void CurrentPageSliderOnTapped(object sender, TappedRoutedEventArgs tappedRoutedEventArgs)
         {
-            if (_pageSliderValue != CurrentPageSlider.Value)
+            if (Math.Abs(_pageSliderValue - CurrentPageSlider.Value) > 0.001)
                 OnSliderClickOrMoved();
         }
 
@@ -365,68 +349,29 @@ namespace LitRes.Views
                 BookCover.Height = BookCoverBack.Height = 474;
                 PageHeader.Margin = new Thickness(0, 0, 0, 75);
             }
-        }
-        
-     /*   private void AddBuySection(double price)
-        {
-            BuyBookText.Text = "Конец ознакомительного фрагмента. Для продолжения чтения купите книгу за " +
-                        price.ToString(CultureInfo.InvariantCulture) + " рублей.";
-        }
-    
-        private void CheckBuyMenuVisible(int currentPage, int totalPages)
-        {
-            if (ViewModel != null)
-            {
-                if (ViewModel.Entity != null && !ViewModel.Entity.IsMyBook &&
-                    totalPages == currentPage && (int)BuyBookMenu.Height == 0)
-                {
-                    if (ViewModel.UserInformation != null && ViewModel.UserInformation.AccountType != (int)AccountTypeEnum.AccountTypeLibrary)
-
-                    _isBuyShowed = true;
-                }
-                else if (ViewModel.Entity != null && !ViewModel.Entity.IsMyBook &&
-                    totalPages != currentPage && (int)BuyBookMenu.Height > 0)
-                {
-       
-                    _isBuyShowed = false;
-                }
-            }
-        }*/
-                
-        //private async void BuyBookMenuTap(object sender, TappedRoutedEventArgs e)
-        //{
-        //    Analytics.Instance.sendMessage(Analytics.ActionBuyFromFragment);
-        //    try
-        //    {
-
-        //        ViewModel.BuyBook.Execute(null);
-
-        //        await ViewModel.BuyBookAsync();
-
-        //        if( ViewModel.Entity.IsMyBook )
-        //        {
-
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Debug.WriteLine(ex.StackTrace);
-        //    }
-        //}
+        }       
 
         public async void GoToBookmark()
         {
             var book = AppSettings.Default.CurrentBook;
             _bookSearch = new BookSearch(book);
             var query = new List<string>(AppSettings.Default.Bookmark.Text.Split(' ').ToList());
+            string text1 = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
+            text1=text1.Remove(text1.Length - 1);
             query.RemoveAt(query.Count - 1);
-            string text = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
-            text = text.Replace(Convert.ToChar(160).ToString(), " ");
+            string text2 = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
+            text1 = text1.Replace(Convert.ToChar(160).ToString(), " ");
+            text2 = text2.Replace(Convert.ToChar(160).ToString(), " ");
             _bookSearch.Init();
-            var result = await _bookSearch.Search(book, text, query.Count);
+            var result = await _bookSearch.Search(book, text1, query.Count);
             if (result.Count > 0)
             {
                 AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
+            }
+            else
+            {
+                result = await _bookSearch.Search(book, text2, query.Count);
+                if (result.Count > 0) AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
             }
             AppSettings.Default.Bookmark = null;
             GoToChapter();
@@ -436,12 +381,14 @@ namespace LitRes.Views
         {
             CurrentPageSlider.Opacity = 0;
             TopRelativePanel.Visibility = Visibility.Collapsed;
+            PagesTextBlock.Visibility=Visibility.Visible;
         }
 
         private void ShowMenu()
         {
             CurrentPageSlider.Opacity = 1;           
             TopRelativePanel.Visibility = Visibility.Visible;
+            PagesTextBlock.Visibility = Visibility.Collapsed;
         }
 
         public void ExpiredCallBack(Models.Book book)
@@ -543,12 +490,8 @@ namespace LitRes.Views
             PageHeader.ProgressIndicatorVisible = false;
         }
 
-        private int? _preSelectionOffset;
-
         private async void OnSliderClickOrMoved()
         {
-            if (_preSelectionOffset == null)
-                _preSelectionOffset = _tokenOffset;
             int page = (int)CurrentPageSlider.Value;
             CurrentPage = page;            
             int tokenOffset = (page - 1) * AppSettings.WORDS_PER_PAGE;
@@ -558,9 +501,7 @@ namespace LitRes.Views
         }
 
         public async void GoToChapter()
-        {
-            if (_preSelectionOffset == null)
-                _preSelectionOffset = _tokenOffset;        
+        {         
             int tokenOffset = AppSettings.Default.CurrentTokenOffset;
             _tokenOffset = tokenOffset;
 
@@ -579,7 +520,7 @@ namespace LitRes.Views
 
             BusyGrid.Visibility = Visibility.Collapsed;
             BusyProgress.IsIndeterminate = false;
-            PageHeader.ProgressIndicatorVisible = false;
+            PageHeader.ProgressIndicatorVisible = false;            
         }
 
         private async Task CreateController()
@@ -609,7 +550,9 @@ namespace LitRes.Views
             PageCanvas.Manipulator.IsFirstPage = _readController.IsFirst;
             PageCanvas.Manipulator.IsLastPage = _readController.IsLast;
             CurrentPageSlider.Maximum = _readController.TotalPages;
-
+            PagesTextBlock.Foreground = AppSettings.Default.ColorScheme.TextForegroundBrush;
+            PagesTextBlock.FontFamily = AppSettings.Default.FontSettings.FontFamily;
+            PagesTextBlock.Text = _readController.CurrentPage + "/" + _readController.TotalPages;
             BusyGrid.Visibility = Visibility.Collapsed;
             BusyProgress.IsIndeterminate = false;
             PageHeader.ProgressIndicatorVisible = false;
@@ -630,6 +573,7 @@ namespace LitRes.Views
             _isSliderMoving = true;
             CurrentPageSlider.Value = _readController.CurrentPage;
             CurrentPage = (int) CurrentPageSlider.Value;
+            PagesTextBlock.Text = _readController.CurrentPage + "/" + _readController.TotalPages;
             AppSettings.Default.CurrentTokenOffset = _tokenOffset;            
             _isSliderMoving = false;
             PageCanvas.Manipulator.IsFirstPage = _readController.IsFirst;
@@ -645,8 +589,8 @@ namespace LitRes.Views
             _link = PageCanvas.CurrentLinks.FirstOrDefault(l => Math.Abs(l.Rect.Y - margin.Top) < 1);
             if (_link != null)
             {
-                int anchorsTokenID = AppSettings.Default.Anchors.FirstOrDefault(l => l.Name == _link.LinkID).TokenID;
-                var text = _bookTool.GetAnchorTextByToken(_book, anchorsTokenID);
+                int anchorsTokenId = AppSettings.Default.Anchors.FirstOrDefault(l => l.Name == _link.LinkID).TokenID;
+                var text = _bookTool.GetAnchorTextByToken(_book, anchorsTokenId);
                 AnchorTextBlock.FontSize = 14;
                 AnchorTextBlock.Text = text;
                 AnchorTextBlock.LineStackingStrategy = LineStackingStrategy.BaselineToBaseline;
@@ -777,13 +721,11 @@ namespace LitRes.Views
             var abs = Math.Abs(currentpoint.X - _initialPoint.X);
             if (abs < 5) return;
             if (currentpoint.X - _initialPoint.X <= 50)
-            {
-               // Debug.WriteLine("Swipe Right");
+            {               
                 await TurnPage(true);
             }
             else if (currentpoint.X - _initialPoint.X >= 50)
             {
-               // Debug.WriteLine("Swipe Left");
                 await TurnPage(false);
             }
         }        

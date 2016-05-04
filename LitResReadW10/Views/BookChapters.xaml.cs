@@ -48,16 +48,16 @@ namespace LitRes.Views
 
         private void TockListViewOnSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
-            if (readerPage == null) return;
-            var list = (ListView)sender;
-            var index = list.SelectedIndex;
-            if (index <= 0) return;
-            var chapter = list.SelectedItem as Chapters;
-            if (chapter == null) return;
-            AppSettings.Default.CurrentTokenOffset = chapter.TokenId;
-            AppSettings.Default.ToChapter = true;
-            if (SystemInfoHelper.IsDesktop())
-                readerPage.GoToChapter();
+            //if (readerPage == null) return;
+            //var list = (ListView)sender;
+            //var index = list.SelectedIndex;
+            //if (index <= 0) return;
+            //var chapter = list.SelectedItem as Chapters;
+            //if (chapter == null) return;
+            //AppSettings.Default.CurrentTokenOffset = chapter.TokenId;
+            //AppSettings.Default.ToChapter = true;            
+            //if (SystemInfoHelper.IsDesktop())
+            //    readerPage.GoToChapter();
         }
 
         private void TockListView_OnTapped(object sender, TappedRoutedEventArgs e)

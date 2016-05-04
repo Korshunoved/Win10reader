@@ -20,7 +20,6 @@ using Windows.UI.Xaml.Controls;
 using BookParser;
 using BookParser.Models;
 using BookParser.Parsers;
-using BookParser.Parsers.Fb2;
 using Digillect;
 
 namespace LitRes.ViewModels
@@ -80,9 +79,9 @@ namespace LitRes.ViewModels
         public RelayCommand Recharge { get; private set; }
         public RelayCommand RunCreditCardPaymentProcess { get; private set; }
         public RelayCommand ProcessMobilePayment { get; private set; }
-        public RelayCommand<Book> ShowMobilePayment { get; private set; }
+        public RelayCommand<Book> ShowMobilePayment { get; }
         public RelayCommand<Book> SmsMobilePayment { get; private set; }
-        public RelayCommand<Book> ShowCreditCardView { get; private set; }
+        public RelayCommand<Book> ShowCreditCardView { get; }
 
         public string BookTitle
         {
@@ -130,14 +129,14 @@ namespace LitRes.ViewModels
 
             Id = -1;
 
-            RegisterAction(LoadBookPart).AddPart(session => LoadBook(session), session => !_loaded);
-            RegisterAction(SettingsPart).AddPart(session => LoadSettings(session), session => true);
-            RegisterAction(AddBookmarkPart).AddPart(session => AddBookmark(session), session => true);
-            RegisterAction(ReloadBookPart).AddPart(session => Reload(session), session => true);
+            RegisterAction(LoadBookPart).AddPart(LoadBook, session => !_loaded);
+            RegisterAction(SettingsPart).AddPart(LoadSettings, session => true);
+            RegisterAction(AddBookmarkPart).AddPart(AddBookmark, session => true);
+            RegisterAction(ReloadBookPart).AddPart(Reload, session => true);
 
             RegisterAction(BuyBookPart).AddPart(session => BuyBookAsync(session, Entity), session => true);
             RegisterAction(BuyBookLitresPart).AddPart(session => BuyBookFromLitres(session, Entity), session => true);
-            RegisterAction(CreditCardInfoPart).AddPart(session => CreditCardInfoAsync(session), session => true);
+            RegisterAction(CreditCardInfoPart).AddPart(CreditCardInfoAsync, session => true);
            
             ShowMyBooks = new RelayCommand(() => _navigationService.Navigate("MyBooks"));
             ShowSettings = new RelayCommand(() => { SaveSettings(); _navigationService.Navigate("Settings", XParameters.Create("PDFBook", Entity.TypeBook == Book.BookType.Pdf)); });
@@ -298,27 +297,7 @@ namespace LitRes.ViewModels
                 var book = await _catalogProvider.GetBook(Id, session.Token);
                 OnPropertyChanged(new PropertyChangedEventArgs("IncProgress"));
                 Entity = book;
-                var bookmark = await GetCurrentBookmark(false, CancellationToken.None) ??
-                               await GetCurrentBookmark(true, CancellationToken.None);
-                if (bookmark?.NoteText?.Text != null)
-                {
-                    var myBookmark = new BookmarkModel
-                    {
-                        BookID = bookmark.Id,
-                        Text = bookmark.NoteText.Text
-                    };
-                    AppSettings.Default.Bookmark = myBookmark;
-                }
-                else if (bookmark?.Selection != null)
-                {
-                    var text = GetParagraphByXPointer(bookmark?.Selection);
-                    var myBookmark = new BookmarkModel
-                    {
-                        BookID = bookmark.Id,
-                        Text = text
-                    };
-                    AppSettings.Default.Bookmark = myBookmark;
-                }
+
                 await LoadBook(book, session);
                 _loaded = true;
             }
@@ -330,8 +309,7 @@ namespace LitRes.ViewModels
 
         private async Task LoadBook(Book book, Session session)
         {
-            Entity = book;
-
+            Entity = book;            
             _dataCacheService.PutItem(Entity,"lastreadedbook",session.Token);
 
             OnPropertyChanged(new PropertyChangedEventArgs("EntityLoaded"));
@@ -462,79 +440,94 @@ namespace LitRes.ViewModels
             string bookFolderName = null;
 
             Exception exception = null;
-            LoadingStatus status = LoadingStatus.BeforeLoaded;       
-            
-            if (ReaderLoaded)
-                status = LoadingStatus.FullBookLoaded;
-            else
+            LoadingStatus status = LoadingStatus.BeforeLoaded;
+            var credentials = _credentialsProvider.ProvideCredentials(session.Token);
+            var exist = _bookProvider.FullBookExistsInLocalStorage(book.Id);
+            var existTrial = _bookProvider.TrialBookExistsInLocalStorage(book.Id);
+            if (AppSettings.Default.CurrentBook != null && book.Id.ToString() != AppSettings.Default.CurrentBook.BookID)
+                AppSettings.Default.CurrentTokenOffset = 0;
+            if (credentials != null || exist)
             {
-                var credentials = _credentialsProvider.ProvideCredentials(session.Token);
-                var exist = _bookProvider.FullBookExistsInLocalStorage(book.Id);
-                var existTrial = _bookProvider.TrialBookExistsInLocalStorage(book.Id);
-                if (AppSettings.Default.CurrentBook != null && book.Id.ToString() != AppSettings.Default.CurrentBook.BookID)
-                    AppSettings.Default.CurrentTokenOffset = 0;
-                if (credentials != null || exist)
+                try
                 {
-                    try
+                    if (exist)
                     {
-                        if (exist)
-                        {
-                            BookSummary = _bookProvider.GetBookFromStorage(book, false);
-                            status = LoadingStatus.FullBookLoaded;
-                        }
-                        else if (book.IsMyBook || book.IsFreeBook)
-                        {
-                            await _bookProvider.GetFullBook(book, session.Token);
-                            BookSummary = _bookProvider.GetSummaryParser(book, false);
-                            status = LoadingStatus.FullBookLoaded;
-                        }
-                        else if (existTrial)
-                        {
-                            BookSummary = _bookProvider.GetBookFromStorage(book, true);
-                            status = LoadingStatus.TrialBookLoaded;
-                            book.IsMyBook = false;
-                        }
-                        else
-                        {
-                            await _bookProvider.GetTrialBook(book, session.Token);
-                            BookSummary = _bookProvider.GetSummaryParser(book, true);
-                            status = LoadingStatus.TrialBookLoaded;
-                        }
-
+                        BookSummary = _bookProvider.GetBookFromStorage(book, false);
                     }
-                    catch (Exception e)
+                    else if (book.IsMyBook || book.IsFreeBook)
                     {
-                        exception = e;
-                        status = LoadingStatus.NoBookLoaded;
+                        await _bookProvider.GetFullBook(book, session.Token);
+                        BookSummary = _bookProvider.GetSummaryParser(book, false);
                     }
+                    else if (existTrial)
+                    {
+                        BookSummary = _bookProvider.GetBookFromStorage(book, true);
+                        book.IsMyBook = false;
+                    }
+                    else
+                    {
+                        await _bookProvider.GetTrialBook(book, session.Token);
+                        BookSummary = _bookProvider.GetSummaryParser(book, true);
+                    }
+                    status = await LoadLastPosition(book);
                 }
-
-                if (status == LoadingStatus.NoBookLoaded)
+                catch (Exception e)
                 {
-                    try
+                    exception = e;
+                    status = LoadingStatus.NoBookLoaded;
+                }
+            }
+
+            if (status == LoadingStatus.NoBookLoaded)
+            {
+                try
+                {
+                    if (exist)
                     {
-                        if (exist)
-                        {
-                            _bookProvider.GetBookFromStorage(book, true);
-                        }
-                        else
-                        {
-                            await _bookProvider.GetTrialBook(book, session.Token);
-                        }
-                        status = LoadingStatus.TrialBookLoaded;
+                        _bookProvider.GetBookFromStorage(book, true);
                     }
-                    catch (Exception e)
+                    else
                     {
-                        exception = e;
-                        status = LoadingStatus.NoBookLoaded;
+                        await _bookProvider.GetTrialBook(book, session.Token);
                     }
+                    status = LoadingStatus.TrialBookLoaded;
+                }
+                catch (Exception e)
+                {
+                    exception = e;
+                    status = LoadingStatus.NoBookLoaded;
                 }
             }
 
             LoadingException = exception;
-            BookFolderName = bookFolderName;
             Status = status;
             OnPropertyChanged(new PropertyChangedEventArgs("LoadBookProcessCompleted"));
+        }
+
+        private async Task<LoadingStatus> LoadLastPosition(Book book)
+        {
+            var bookmark = await GetCurrentBookmark(false, CancellationToken.None) ??
+               await GetCurrentBookmark(true, CancellationToken.None);
+            if (bookmark?.NoteText?.Text != null)
+            {
+                var myBookmark = new BookmarkModel
+                {
+                    BookID = bookmark.Id,
+                    Text = bookmark.NoteText.Text
+                };
+                AppSettings.Default.LastPositionBookmark = myBookmark;
+            }
+            else if (bookmark?.Selection != null)
+            {
+                var text = GetParagraphByXPointer(bookmark?.Selection);
+                var myBookmark = new BookmarkModel
+                {
+                    BookID = bookmark.Id,
+                    Text = text
+                };
+                AppSettings.Default.LastPositionBookmark = myBookmark;
+            }
+            return book.IsMyBook || book.IsFreeBook ? LoadingStatus.FullBookLoaded : LoadingStatus.TrialBookLoaded;
         }
 
         #endregion
@@ -744,7 +737,10 @@ namespace LitRes.ViewModels
             {
                 await Load(new Session(BuyBookPart));
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
 
         private async void CreditCardInfo()
@@ -761,7 +757,7 @@ namespace LitRes.ViewModels
             if (_userInformation == null) _userInformation = userInfo;
             var cred =  _credentialsProvider.ProvideCredentials(session.Token);
 
-            if (!userInfo.CanRebill.Equals("0") && cred != null && !String.IsNullOrEmpty(cred.UserId) && userInfo.UserId == cred.UserId && !String.IsNullOrEmpty(cred.CanRebill) && !cred.CanRebill.Equals("0"))
+            if (!userInfo.CanRebill.Equals("0") && !string.IsNullOrEmpty(cred?.UserId) && userInfo.UserId == cred.UserId && !String.IsNullOrEmpty(cred.CanRebill) && !cred.CanRebill.Equals("0"))
             {
                 var box = new Dictionary<string, object> { { "isSave", true }, { "isAuth", false } };
                 var param = XParameters.Empty.ToBuilder()
