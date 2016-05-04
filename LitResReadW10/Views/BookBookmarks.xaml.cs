@@ -75,7 +75,8 @@ namespace LitRes.Views
 	            Text = bookmark.NoteText.Text
 	        };
 	        AppSettings.Default.Bookmark = myBookmark;
-	        LocalBroadcastReciver.Instance.OnPropertyChanging(BookmarksListView.SelectedItem, new PropertyChangingEventArgs("BookmarkTapped"));            
+            AppSettings.Default.ToBookmark = true;
+            LocalBroadcastReciver.Instance.OnPropertyChanging(BookmarksListView.SelectedItem, new PropertyChangingEventArgs("BookmarkTapped"));            
             if (!SystemInfoHelper.IsDesktop() && Frame.CanGoBack) Frame.GoBack();
             else
             {

@@ -40,7 +40,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" HorizontalAlignment="Left" Orientation="Vertical">
-            <StackPanel x:Name="TitlePanel" Orientation="Horizontal" Margin="10,10,0,10">
+            <!--<StackPanel x:Name="TitlePanel" Orientation="Horizontal" Margin="10,10,0,10">
                 <Image Stretch="None" Source="../Assets/W10Icons/Toc/toc.png"/>
                 <TextBlock 
                     Margin="10,0,0,0"
@@ -49,7 +49,7 @@
                     FontFamily="Segoe UI"
                     FontWeight="Medium"
                     Text="Оглавление"/>
-            </StackPanel>
+            </StackPanel>-->
 
             <TextBlock Margin="10,15,10,15" Text="Оглавление" Style="{StaticResource BigNormalBlackTextStyle}"/>
         </StackPanel>
@@ -67,7 +67,7 @@
         
         <controls:PageHeader x:Name="pageHeader"/>
         
-        <VisualStateManager.VisualStateGroups>
+        <!--<VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="PhoneState">
                     <VisualState.StateTriggers>
@@ -78,7 +78,7 @@
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+        </VisualStateManager.VisualStateGroups>-->
     </Grid>
 
 </views:BookChaptersFitting>

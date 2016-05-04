@@ -41,6 +41,7 @@ using LitResReadW10.Controllers;
 using LitResReadW10.Controls;
 using LitResReadW10.Controls.Manipulators;
 using LitResReadW10.Helpers;
+using LitResReadW10.Views;
 
 namespace LitRes.Views
 {
@@ -267,20 +268,21 @@ namespace LitRes.Views
                 LayoutRoot.SizeChanged -= LayoutRoot_SizeChanged;
                 LayoutRoot.SizeChanged += LayoutRoot_SizeChanged;
 
-                if (AppSettings.Default.Bookmark != null && !AppSettings.Default.ToChapter)
+                if (AppSettings.Default.Bookmark != null && !AppSettings.Default.ToChapter && AppSettings.Default.ToBookmark)
                 {
-                    await SearchBookmarkText(AppSettings.Default.Bookmark);
+                    await GetTokenPosition(AppSettings.Default.Bookmark);
                 }
 
-                if (AppSettings.Default.LastPositionBookmark != null && !AppSettings.Default.ToChapter)
+                if (AppSettings.Default.LastPositionBookmark != null && !AppSettings.Default.ToChapter && !AppSettings.Default.ToBookmark)
                 {
-                    await SearchBookmarkText(AppSettings.Default.LastPositionBookmark);
+                    await GetTokenPosition(AppSettings.Default.LastPositionBookmark);
                 }
 
-                if (CurrentPage > 0 || AppSettings.Default.Bookmark != null || AppSettings.Default.ToChapter)
+                if (AppSettings.Default.CurrentTokenOffset > 0)
                 {
                     AppSettings.Default.Bookmark = null;
                     AppSettings.Default.ToChapter = false;
+                    AppSettings.Default.ToBookmark = false;
                     GoToChapter();
                 }
                 else
@@ -297,18 +299,18 @@ namespace LitRes.Views
             }            
         }
 
-        private async Task SearchBookmarkText(BookmarkModel bookmark)
+        private async Task GetTokenPosition(BookmarkModel bookmark)
         {
             var book = AppSettings.Default.CurrentBook;
             _bookSearch = new BookSearch(book);
             _bookSearch.Init();
             var query = new List<string>(bookmark.Text.Split(' ').ToList());
             string text1 = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
+            text1 = text1.Remove(text1.Length - 1);
             query.RemoveAt(query.Count - 1);
             string text2 = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
             text1 = text1.Replace(Convert.ToChar(160).ToString(), " ");
-            text2 = text2.Replace(Convert.ToChar(160).ToString(), " ");
-            _bookSearch.Init();
+            text2 = text2.Replace(Convert.ToChar(160).ToString(), " ");            
             var result = await _bookSearch.Search(book, text1, query.Count);
             if (result.Count > 0)
             {
@@ -681,16 +683,16 @@ namespace LitRes.Views
 
         private void ContentsButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            var brush = ColorToBrush("#3b393f");
-            ContentsButton.Background = brush;
-            ContentsImage.Source =
-                new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Toc/toc.white.png", UriKind.Absolute));
             if (SystemInfoHelper.IsDesktop())
             {
+                var brush = ColorToBrush("#3b393f");
+                ContentsButton.Background = brush;
+                ContentsImage.Source =
+                    new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Toc/toc.white.png", UriKind.Absolute));
                 FlyoutBase.ShowAttachedFlyout((Button) sender);
                 TocFrame.Navigate(typeof (BookChapters));
             }
-            else _navigationService.Navigate("BookChapters");
+            else Frame.Navigate(typeof (BookContent));
         }
 
         private void TocFrame_Unloaded(object sender, RoutedEventArgs e)
