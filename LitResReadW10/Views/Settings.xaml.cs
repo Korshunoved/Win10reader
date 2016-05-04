@@ -69,15 +69,15 @@ namespace LitRes.Views
 
 		    StatusBarSwitcher.IsOn = AppSettings.Default.HideStatusBar;
 
-		    TwoColumnsSwitcher.IsOn = AppSettings.Default.TwoColumns;
+		    //TwoColumnsSwitcher.IsOn = AppSettings.Default.TwoColumns;
 
 		    AutorotateSwitch.IsOn = AppSettings.Default.Autorotate;
 
             StatusBarSwitcher.Toggled -= StatusBarSwitcherOnToggled;
             StatusBarSwitcher.Toggled += StatusBarSwitcherOnToggled;
 
-            AnimationSwither.Toggled -= AnimationSwither_Toggled;
-            AnimationSwither.Toggled += AnimationSwither_Toggled;
+          //  AnimationSwither.Toggled -= AnimationSwither_Toggled;
+          //  AnimationSwither.Toggled += AnimationSwither_Toggled;
 
             HyphenationSwither.Toggled -= HyphenationSwitherOnToggled;
             HyphenationSwither.Toggled += HyphenationSwitherOnToggled;
@@ -100,8 +100,8 @@ namespace LitRes.Views
 		    FontSizeSlider.Maximum = SystemInfoHelper.IsDesktop() ? 24 : 22;
 		    FontSizeSlider.StepFrequency = 2;
 
-            JustificationSwither.Toggled -= JustificationSwither_Toggled;
-            JustificationSwither.Toggled += JustificationSwither_Toggled;
+          //  JustificationSwither.Toggled -= JustificationSwither_Toggled;
+          //  JustificationSwither.Toggled += JustificationSwither_Toggled;
 
             _marginSliderValueChanging = false;
             _marginSliderValue = MarginsSlider.Value;

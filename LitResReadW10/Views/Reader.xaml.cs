@@ -79,7 +79,7 @@ namespace LitRes.Views
             Debug.WriteLine("Reader()");    
 
             InitializeComponent();
-          //  NavigationCacheMode = NavigationCacheMode.Enabled;
+            NavigationCacheMode = NavigationCacheMode.Enabled;
          
             Loaded += ReaderLoaded;
             Unloaded += (sender, args) =>
@@ -115,6 +115,7 @@ namespace LitRes.Views
             LayoutRoot.Background = AppSettings.Default.ColorScheme.BackgroundBrush;
             BusyGrid.Visibility = Visibility.Visible;
             BusyProgress.IsIndeterminate = true;
+            PagesTextBlock.Visibility = Visibility.Collapsed;
             ReaderGrid.Loaded -= ReaderGridOnLoaded;
             ReaderGrid.Loaded += ReaderGridOnLoaded; 
             var currentOrientation = DisplayInformation.GetForCurrentView().CurrentOrientation;
@@ -276,6 +277,7 @@ namespace LitRes.Views
                 if (AppSettings.Default.LastPositionBookmark != null && !AppSettings.Default.ToChapter && !AppSettings.Default.ToBookmark)
                 {
                     await GetTokenPosition(AppSettings.Default.LastPositionBookmark);
+                    AppSettings.Default.LastPositionBookmark = null;
                 }
 
                 if (AppSettings.Default.CurrentTokenOffset > 0)
@@ -437,11 +439,11 @@ namespace LitRes.Views
         public List<BookmarkModel> Bookmarks { get; set; } 
         private void BookmarsButton_OnTapped(object sender, TappedRoutedEventArgs e)
         {
-            var brush = ColorToBrush("#3b393f");
-            BookmarksButton.Background = brush;           
-            Bookmarks = AppSettings.Default.CurrentBook.LoadBookmarks(AppSettings.Default.CurrentBook.GetBookmarksPath());
             if (SystemInfoHelper.IsDesktop())
             {
+                var brush = ColorToBrush("#3b393f");
+                BookmarksButton.Background = brush;
+                Bookmarks = AppSettings.Default.CurrentBook.LoadBookmarks(AppSettings.Default.CurrentBook.GetBookmarksPath());
                 FlyoutBase.ShowAttachedFlyout((Button) sender);
                 BookmarksFrame.Navigate(typeof (BookBookmarks), XParameters.Create("BookEntity", ViewModel.Entity));
             }
@@ -555,6 +557,7 @@ namespace LitRes.Views
             PagesTextBlock.Foreground = AppSettings.Default.ColorScheme.TextForegroundBrush;
             PagesTextBlock.FontFamily = AppSettings.Default.FontSettings.FontFamily;
             PagesTextBlock.Text = _readController.CurrentPage + "/" + _readController.TotalPages;
+            if (PagesTextBlock.Visibility == Visibility.Collapsed) PagesTextBlock.Visibility = Visibility.Visible;
             BusyGrid.Visibility = Visibility.Collapsed;
             BusyProgress.IsIndeterminate = false;
             PageHeader.ProgressIndicatorVisible = false;
@@ -690,7 +693,7 @@ namespace LitRes.Views
                 ContentsImage.Source =
                     new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Toc/toc.white.png", UriKind.Absolute));
                 FlyoutBase.ShowAttachedFlyout((Button) sender);
-                TocFrame.Navigate(typeof (BookChapters));
+                TocFrame.Navigate(typeof (BookContent));
             }
             else Frame.Navigate(typeof (BookContent));
         }
