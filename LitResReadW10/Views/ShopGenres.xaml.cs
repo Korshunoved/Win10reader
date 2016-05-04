@@ -29,12 +29,11 @@ namespace LitResReadW10.Views
         {
             CheckWellcomeScreen();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+            ViewModel.LoadMyBooks();
             if (!SystemInfoHelper.HasInternet())
             {
                 NoConnection.Visibility = Visibility.Visible;
-                return;
             }
-            ViewModel.LoadMyBooks();
         }
 
         private void CheckWellcomeScreen()

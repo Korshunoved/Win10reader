@@ -20,7 +20,10 @@ namespace LitRes.Services
 		const string AllMyBooksCacheItemName = "mybookscache";
 		const string AllMyBooksTileCacheItemName = "mybooktilescache";
 		const string AllMyBooksIdCacheItemName = "mybooksidcache";
-		const string ReadHistoryBooksIdCacheItemName = "readhistorybooksidcache";
+	    const string PopularBooksCacheItemName = "popularbooks";
+        const string InterestingBooksCacheItemName = "interestingbooks";
+        const string NoveltyBooksCacheItemName = "noveltybooks";
+        const string ReadHistoryBooksIdCacheItemName = "readhistorybooksidcache";
 
         const string LastReadedBook = "lastreadedbook";
 
@@ -490,67 +493,80 @@ namespace LitRes.Services
 
 			return _myBooks;
 		}
+
+	    public async Task<XCollection<Book>> GetPopularBooksFromCache(CancellationToken cancellationToken)
+	    {
+            return _dataCacheService.GetItem<XCollection<Book>>(PopularBooksCacheItemName);
+        }
+
+	    public async Task<XCollection<Book>> GetInterestigBooksFromCache(CancellationToken cancellationToken)
+	    {
+	        return _dataCacheService.GetItem<XCollection<Book>>(InterestingBooksCacheItemName);
+	    }
+
         public async Task<XCollection<Book>> GetPopularBooks(int fromPosition, CancellationToken cancellationToken, int customBooksOnPage = 0)
         {
             int booksOnPage = customBooksOnPage > 0 ? customBooksOnPage : BooksInPage;
-			if (_popularBooks == null)
-			{
+            if (_popularBooks == null)
+            {
                 string limit = string.Format("{0},{1}", fromPosition, booksOnPage);
 
-				var parameters = new Dictionary<string, object>
-						{								
-							{"sort", "pop_desc"},																
-							{"limit", limit},
-						};
+                var parameters = new Dictionary<string, object>
+                {
+                    {"sort", "pop_desc"},
+                    {"limit", limit},
+                };
 
-				var books = await _client.SearchCatalog(parameters, cancellationToken);
+                var books = await _client.SearchCatalog(parameters, cancellationToken);
 
-				CheckMyBooks( books.Books );
+                CheckMyBooks(books.Books);
 
-				_popularBooks = books.Books;
-			}
-			else
-			{
+                _popularBooks = books.Books;
+            }
+            else
+            {
                 int lastIndex = fromPosition + booksOnPage;
 
-				var collection = new XCollection<Book>( _popularBooks.Take( lastIndex ) );
+                var collection = new XCollection<Book>(_popularBooks.Take(lastIndex));
 
-				if (collection.Count() + BooksInPageShift < lastIndex)
-				{
-					lastIndex = collection.Count();
+                if (collection.Count() + BooksInPageShift < lastIndex)
+                {
+                    lastIndex = collection.Count();
 
                     string limit = string.Format("{0},{1}", lastIndex, booksOnPage);
 
-					var parameters = new Dictionary<string, object>
-						{								
-							{"sort", "pop_desc"},										
-							{"limit", limit},	
-						};
+                    var parameters = new Dictionary<string, object>
+                    {
+                        {"sort", "pop_desc"},
+                        {"limit", limit},
+                    };
 
-					var books = await _client.SearchCatalog(parameters, cancellationToken);
+                    var books = await _client.SearchCatalog(parameters, cancellationToken);
 
-					if (books != null && books.Books != null && books.Books.Any())
-					{
-						CheckMyBooks( books.Books );
+                    if (books != null && books.Books != null && books.Books.Any())
+                    {
+                        CheckMyBooks(books.Books);
 
-						foreach (var book in books.Books)
-						{
-							if (!collection.ContainsKey( book.GetKey() ))
-							{
-								collection.Add( book );
-							}
-						}
-					}
+                        foreach (var book in books.Books)
+                        {
+                            if (!collection.ContainsKey(book.GetKey()))
+                            {
+                                collection.Add(book);
+                            }
+                        }
+                    }
 
-					_popularBooks = collection;
-				}
+                    _popularBooks = collection;
+                }
+                _dataCacheService.PutItem(_popularBooks, PopularBooksCacheItemName, cancellationToken);
+                return collection;
+            }
+            _dataCacheService.PutItem(_popularBooks, PopularBooksCacheItemName, cancellationToken);
+            return _popularBooks;
+        }
 
-				return collection;
-			}
-
-			return _popularBooks;
-		}
-        public async Task<XCollection<Book>> GetInterestingBooks(int fromPosition, CancellationToken cancellationToken, int customBooksOnPage = 0)
+        
+	    public async Task<XCollection<Book>> GetInterestingBooks(int fromPosition, CancellationToken cancellationToken, int customBooksOnPage = 0)
 		{
             int booksOnPage = customBooksOnPage > 0 ? customBooksOnPage : BooksInPage;
 			if (_noveltyBooks == null)
@@ -601,14 +617,20 @@ namespace LitRes.Services
 							}
 						}
 					}
-
-					_noveltyBooks = collection;
-				}
-
-				return collection;
+                    _noveltyBooks = collection;    
+                }
+                _dataCacheService.PutItem(_noveltyBooks, NoveltyBooksCacheItemName, cancellationToken);
+                return collection;
 			}
-			return _noveltyBooks;
+            _dataCacheService.PutItem(_noveltyBooks, NoveltyBooksCacheItemName, cancellationToken);
+            return _noveltyBooks;
 		}
+
+        public async Task<XCollection<Book>> GetNoveltyBooksFromCache(CancellationToken cancellationToken)
+        {
+            return _dataCacheService.GetItem<XCollection<Book>>(NoveltyBooksCacheItemName);
+        }
+
         public async Task<XCollection<Book>> GetNoveltyBooks(int fromPosition, CancellationToken cancellationToken, int customBooksOnPage = 0)
 		{
             int booksOnPage = customBooksOnPage > 0 ? customBooksOnPage : BooksInPage;
@@ -669,10 +691,11 @@ namespace LitRes.Services
 
 					_interestingBooks = collection;
 				}
-
-				return collection;
+                _dataCacheService.PutItem(_interestingBooks, InterestingBooksCacheItemName, cancellationToken);
+                return collection;
 			}
-			return _interestingBooks;
+            _dataCacheService.PutItem(_interestingBooks, InterestingBooksCacheItemName, cancellationToken);
+            return _interestingBooks;
 		}
 		public async Task<XCollection<Book>> GetNoveltyBooksByGenre(int fromPosition, int genreId, CancellationToken cancellationToken)
 		{

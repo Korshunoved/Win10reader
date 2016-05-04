@@ -33,7 +33,7 @@ namespace LitResReadW10.Views
             CheckWellcomeScreen();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
             ViewModel.LoadMyBooks();
-            if (!SystemInfoHelper.HasInternet())
+            if (!SystemInfoHelper.HasInternet() && ViewModel?.NoveltyBooks?.Count == 0)
             {
                 NoConnection.Visibility = Visibility.Visible;
             }

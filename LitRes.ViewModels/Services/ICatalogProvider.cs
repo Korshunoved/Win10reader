@@ -26,8 +26,11 @@ namespace LitRes.Services
         void SaveMyBooksToCache(XCollection<Book> books, CancellationToken cancellationToken);
 		Task<XCollection<Book>> GetAllMyBooksFromCache( CancellationToken cancellationToken );        
 		Task<XCollection<Book>> GetPopularBooks( int fromPosition, CancellationToken cancellationToken, int customBooksOnPage = 0 );
+	    Task<XCollection<Book>> GetPopularBooksFromCache(CancellationToken cancellationToken);
         Task<XCollection<Book>> GetInterestingBooks(int fromPosition, CancellationToken cancellationToken, int customBooksOnPage = 0);
+	    Task<XCollection<Book>> GetInterestigBooksFromCache(CancellationToken cancellationToken);
         Task<XCollection<Book>> GetNoveltyBooks(int fromPosition, CancellationToken cancellationToken, int customBooksOnPage = 0);
+	    Task<XCollection<Book>> GetNoveltyBooksFromCache(CancellationToken cancellationToken);
         Task<XCollection<Book>> GetBooksByTag(int fromPosition, int tagId, CancellationToken cancellationToken);
         Task<XCollection<Book>> GetPopularBooksByGenre( int fromPosition, int genreId, CancellationToken cancellationToken );
 		Task<XCollection<Book>> GetPopularBooksByGenres( int fromPosition, List<int> genreId, CancellationToken cancellationToken );
