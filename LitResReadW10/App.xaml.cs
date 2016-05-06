@@ -47,7 +47,7 @@ namespace LitResReadW10
             base.OnLaunched(e);
             IsLaunched = true;
             AppsFlyerLib.AppsFlyerTracker tracker = AppsFlyerLib.AppsFlyerTracker.GetAppsFlyerTracker();
-            tracker.appId = "LitResLTD.LitResLTD.6856F1C0F55";
+            tracker.appId = "9wzdncrfhvzw";
             tracker.devKey = "8iAKRJCBJWsHtjSJiNZ6KQ";
             tracker.TrackAppLaunch();
 

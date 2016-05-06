@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Email;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Autofac;
 using LitRes.Services;
@@ -51,15 +52,16 @@ namespace LitResReadW10.Helpers
             }
 
             emailMessage.To.Add(new EmailRecipient("win10@litres.ru"));
-
             emailMessage.Body = stringBuilder.ToString();
+            emailMessage.Subject = "ЛитРес: Читай! Windows 10";
+
             try
             {
                 await EmailManager.ShowComposeNewEmailAsync(emailMessage);
             }
             catch (Exception e)
             {
-                return;
+                await new MessageDialog("Напишите письмо в поддержку на ящик win10@litres.ru или настройте почтовый клиент для автоматического формирования письма").ShowAsync();
             }
         }
 

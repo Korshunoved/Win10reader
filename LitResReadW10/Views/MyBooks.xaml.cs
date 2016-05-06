@@ -102,7 +102,11 @@ namespace LitRes.Views
 
 	    private void ReadButton_OnTapped(object sender, TappedRoutedEventArgs e)
 	    {
-	        throw new System.NotImplementedException();
+	        var button = sender as Button;
+	        var book = button?.DataContext as Models.Book;
+	        if (book == null)
+	            return;
+	        ViewModel.Read.Execute(book);
 	    }
 
 	    private void FreeButton_OnTapped(object sender, TappedRoutedEventArgs e)
