@@ -52,7 +52,7 @@ namespace BookParser.Parsers.Fb2
             var item = new TextVisualProperties();
             propertiesStack.Push(item);
             var top = new TokenIndex();
-            return _root.Elements(_ns + "body").SelectMany(b => ParseNodes(b, propertiesStack, top, 0));
+            return _root.Elements(_ns + "body").SelectMany(b => ParseNodes(b, propertiesStack, top, 0, "2"));
         }
 
         private string GetText(XElement xelement)
@@ -81,12 +81,14 @@ namespace BookParser.Parsers.Fb2
             return str;
         }
 
-        private IEnumerable<TokenBase> ParseNodes(XContainer container, Stack<TextVisualProperties> propertiesStack, TokenIndex top, int bookLevel, int parentID = -1)
+        private IEnumerable<TokenBase> ParseNodes(XContainer container, Stack<TextVisualProperties> propertiesStack, TokenIndex top, int bookLevel, string pointer, int parentID = -1)
         {
+            var pointerIndex = 0;
             foreach (XNode node in container.Nodes())
             {
+                pointerIndex++;
                 var text = node as XText;
-                if ((text != null) && !string.IsNullOrEmpty(text.Value))
+                if (!string.IsNullOrEmpty(text?.Value))
                 {
                     foreach (TokenBase token in ParseText(text.Value, top))
                     {
@@ -128,11 +130,11 @@ namespace BookParser.Parsers.Fb2
                 }
                 else
                 {
-                    var tagOpen = new TagOpenToken(top.Index++, element, properties, parentID);
+                    var tagOpen = new TagOpenToken(top.Index++, element, properties, parentID, pointer + @"/" + pointerIndex);
                     yield return tagOpen;
 
                     propertiesStack.Push(properties);
-                    foreach (TokenBase token in ParseNodes(element, propertiesStack, top, level, tagOpen.ID))
+                    foreach (TokenBase token in ParseNodes(element, propertiesStack, top, level, pointer+@"/"+pointerIndex, tagOpen.ID))
                     {
                         yield return token;
                     }

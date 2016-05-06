@@ -34,18 +34,18 @@ namespace BookParser
 {
     public class AppSettings
     {
-        public const int WORDS_PER_PAGE = 200;
-        private int DEFAULT_MARGIN_VALUE;
-        private const bool DEFAULT_LOCK_SCREEN = false;
-        private const Orientation DEFAULT_ORIENTATION = Orientation.Vertical;
-        private const bool DEFAULT_HIDE_MENU = false;
-        private const int DEFAULT_COLOR_SCHEME = 1;
-        private const string DEFAULT_TRANSLATE_LANGUAGE = "en";
-        private const bool DEFAULT_USE_CSS_FONTSIZE = false;
-        private const bool DEFAULT_HYPHENATION = true;
-        private const FlippingMode DEFAULT_FLIPPING_MODE = FlippingMode.TouchOrSlide;
-        private const FlippingStyle DEFAULT_FLIPPING_STYLE = FlippingStyle.Overlap;
-        private readonly string DEFAULT_LANGUAGE;        
+        public const int WordsPerPage = 200;
+        private readonly int _defaultMarginValue;
+        private const bool DefaultLockScreen = false;
+        private const Orientation DefaultOrientation = Orientation.Vertical;
+        private const bool DefaultHideMenu = false;
+        private const int DefaultColorScheme = 1;
+        private const string DefaultTranslateLanguage = "en";
+        private const bool DefaultUseCssFontsize = false;
+        private const bool DefaultHyphenation = true;
+        private const FlippingMode DefaultFlippingMode = FlippingMode.TouchOrSlide;
+        private const FlippingStyle DefaultFlippingStyle = FlippingStyle.Overlap;
+        private readonly string _defaultLanguage;        
 
         private readonly SettingsStorage _settingsStorage = new SettingsStorage();
 
@@ -63,8 +63,8 @@ namespace BookParser
                 UiLanguages.SingleOrDefault(
                     l => l.TwoLetterISOLanguageName == CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
 
-            DEFAULT_LANGUAGE = defaultLang == null ? "en" : defaultLang.TwoLetterISOLanguageName;
-            DEFAULT_MARGIN_VALUE = (int)(Window.Current.CoreWindow.Bounds.Width * 0.06f);
+            _defaultLanguage = defaultLang == null ? "en" : defaultLang.TwoLetterISOLanguageName;
+            _defaultMarginValue = (int)(Window.Current.CoreWindow.Bounds.Width * 0.06f);
         }
 
         public BookModel CurrentBook { get; set; }
@@ -81,13 +81,13 @@ namespace BookParser
 
         public bool LockScreen
         {
-            get { return _settingsStorage.GetValueWithDefault("LockScreen", DEFAULT_LOCK_SCREEN); }
+            get { return _settingsStorage.GetValueWithDefault("LockScreen", DefaultLockScreen); }
             set { _settingsStorage.SetValue("LockScreen", value); }
         }
 
         public Orientation Orientation
         {
-            get { return _settingsStorage.GetValueWithDefault("Orientation", DEFAULT_ORIENTATION); }
+            get { return _settingsStorage.GetValueWithDefault("Orientation", DefaultOrientation); }
             set { _settingsStorage.SetValue("Orientation", value); }
         }
 
@@ -103,7 +103,7 @@ namespace BookParser
 
         public bool HideMenu
         {
-            get { return _settingsStorage.GetValueWithDefault("HideMenu", DEFAULT_HIDE_MENU); }
+            get { return _settingsStorage.GetValueWithDefault("HideMenu", DefaultHideMenu); }
             set { _settingsStorage.SetValue("HideMenu", value); }
         }
 
@@ -111,20 +111,17 @@ namespace BookParser
 
         public int MarginValue
         {
-            get { return _settingsStorage.GetValueWithDefault("MarginValue", DEFAULT_MARGIN_VALUE); }
+            get { return _settingsStorage.GetValueWithDefault("MarginValue", _defaultMarginValue); }
             set { _settingsStorage.SetValue("MarginValue", value); }
         }
 
         public int ColorSchemeKey
         {
-            get { return _settingsStorage.GetValueWithDefault("ColorSchemeKey", DEFAULT_COLOR_SCHEME); }
+            get { return _settingsStorage.GetValueWithDefault("ColorSchemeKey", DefaultColorScheme); }
             set { _settingsStorage.SetValue("ColorSchemeKey", value); }
         }
 
-        public Scheme ColorScheme
-        {
-            get { return BookThemes.Default[ColorSchemeKey]; }
-        }
+        public Scheme ColorScheme => BookThemes.Default[ColorSchemeKey];
 
         public List<Scheme> Schemes => BookThemes.Default.ToList();
 
@@ -133,7 +130,7 @@ namespace BookParser
 
         public CultureInfo CurrentUiLanguage
         {
-            get { return new CultureInfo(_settingsStorage.GetValueWithDefault("CurrentUILanguage", DEFAULT_LANGUAGE)); }
+            get { return new CultureInfo(_settingsStorage.GetValueWithDefault("CurrentUILanguage", _defaultLanguage)); }
             set { _settingsStorage.SetValue("CurrentUILanguage", value.TwoLetterISOLanguageName); }
         }
 
@@ -169,20 +166,20 @@ namespace BookParser
             {
                 return
                     new CultureInfo(_settingsStorage.GetValueWithDefault("CurrentTranslateLanguage",
-                        DEFAULT_TRANSLATE_LANGUAGE));
+                        DefaultTranslateLanguage));
             }
             set { _settingsStorage.SetValue("CurrentTranslateLanguage", value.TwoLetterISOLanguageName); }
         }
 
         public bool UseCssFontSize
         {
-            get { return _settingsStorage.GetValueWithDefault("UseCSSFontSize", DEFAULT_USE_CSS_FONTSIZE); }
+            get { return _settingsStorage.GetValueWithDefault("UseCSSFontSize", DefaultUseCssFontsize); }
             set { _settingsStorage.SetValue("UseCSSFontSize", value); }
         }
 
         public bool Hyphenation
         {
-            get { return _settingsStorage.GetValueWithDefault("Hyphenation", DEFAULT_HYPHENATION); }
+            get { return _settingsStorage.GetValueWithDefault("Hyphenation", DefaultHyphenation); }
             set { _settingsStorage.SetValue("Hyphenation", value); }
         }
 
@@ -200,13 +197,13 @@ namespace BookParser
 
         public FlippingMode FlippingMode
         {
-            get { return _settingsStorage.GetValueWithDefault("FlippingMode", DEFAULT_FLIPPING_MODE); }
+            get { return _settingsStorage.GetValueWithDefault("FlippingMode", DefaultFlippingMode); }
             set { _settingsStorage.SetValue("FlippingMode", value); }
         }
 
         public FlippingStyle FlippingStyle
         {
-            get { return _settingsStorage.GetValueWithDefault("FlippingStyle", DEFAULT_FLIPPING_STYLE); }
+            get { return _settingsStorage.GetValueWithDefault("FlippingStyle", DefaultFlippingStyle); }
             set { _settingsStorage.SetValue("FlippingStyle", value); }
         }
 
@@ -223,6 +220,18 @@ namespace BookParser
         public bool ToChapter { get; set; }
 
         public bool ToBookmark { get; set; }
+
+        public bool ReaderOpen
+        {
+            get { return _settingsStorage.GetValueWithDefault("ReaderOpen", false); }
+            set { _settingsStorage.SetValue("ReaderOpen", value); }
+        }
+
+        public int LastBookId
+        {
+            get { return _settingsStorage.GetValueWithDefault("LastBookId", 0); }
+            set { _settingsStorage.SetValue("LastBookId", value); }
+        }
     }
 
     public enum ColorSchemes
@@ -443,20 +452,14 @@ namespace BookParser
         public T GetValueWithDefault<T>(string key, T defaultValue)
         {
             object value;
-            bool exists = _settings.Values.TryGetValue(key, out value);
+            var exists = _settings.Values.TryGetValue(key, out value);
 
-            if (exists)
-            {
-                try
-                {                   
-                    return (T)value;
-                }
-                catch
-                {
-                    return defaultValue;
-                }
+            if (!exists) return defaultValue;
+            try
+            {                   
+                return (T)value;
             }
-            else
+            catch
             {
                 return defaultValue;
             }

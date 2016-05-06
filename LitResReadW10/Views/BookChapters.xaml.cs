@@ -40,7 +40,7 @@ namespace LitRes.Views
                         new Chapters
                         {
                             Title = chapterModel.Title,
-                            Page = (int) Math.Ceiling((double) (chapterModel.TokenID + 1)/AppSettings.WORDS_PER_PAGE),
+                            Page = (int) Math.Ceiling((double) (chapterModel.TokenID + 1)/AppSettings.WordsPerPage),
                             Level = chapterModel.Level,
                             TokenId = chapterModel.TokenID
                         }).ToList();

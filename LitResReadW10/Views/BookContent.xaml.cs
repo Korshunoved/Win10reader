@@ -32,7 +32,7 @@ namespace LitResReadW10.Views
             foreach (var item in AppSettings.Default.Chapters.Select(chapter => new Chapters
             {
                 Title = chapter.Title,
-                Page = (int) Math.Ceiling((double) (chapter.TokenID + 1)/AppSettings.WORDS_PER_PAGE),
+                Page = (int) Math.Ceiling((double) (chapter.TokenID + 1)/AppSettings.WordsPerPage),
                 Level = chapter.Level,
                 TokenId = chapter.TokenID
             }))

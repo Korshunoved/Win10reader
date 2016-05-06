@@ -69,15 +69,16 @@ namespace BookRender.Tools
             return chapter;
         }
 
-        public string GetLastParagraphByToken(BookModel book, int tokenOffset, out int lastTokenId)
+        public string GetLastParagraphByToken(BookModel book, int tokenOffset, out string pointer)
         {
-            lastTokenId = -1;
             var result = new List<string>();
 
             using (var tokenIterator = new BookTokenIterator(book.GetTokensPath(), TokensTool.GetTokens(book.BookID)))
             {                
-                var newToken = FindNewToken(tokenOffset, tokenIterator);
-                tokenIterator.MoveTo(newToken);
+                var token = FindNewToken(tokenOffset, tokenIterator);
+                pointer = token.Pointer;
+                var tokenId = token.ID;
+                tokenIterator.MoveTo(tokenId);
                 while (tokenIterator.MoveNext())
                 {
                     if (tokenIterator.Current is TagOpenToken && result.Count > 0)
@@ -85,15 +86,14 @@ namespace BookRender.Tools
 
                     var textToken = tokenIterator.Current as TextToken;
                     if (textToken == null)
-                        continue;
-                    lastTokenId = textToken.ID;
+                        continue;                    
                     result.Add(textToken.Text);                    
                 }
             }
             return string.Join(" ", result);
         }
 
-        private static int FindNewToken(int tokenOffset, BookTokenIterator tokenIterator)
+        private static TagOpenToken FindNewToken(int tokenOffset, BookTokenIterator tokenIterator)
         {
             List<TagOpenToken> tokens = new List<TagOpenToken>();
             var offset = 40;
@@ -111,9 +111,8 @@ namespace BookRender.Tools
                 }
                 idx++;
             }
-            var newToken = 0;
-            newToken = tokens.Count > 0 ? tokens.Last().ID : FindNewToken(searchToken, tokenIterator);
-            return newToken;
+            var result = tokens.Count > 0 ? tokens.Last() : FindNewToken(searchToken, tokenIterator);
+            return result;
         }
 
         public string GetAnchorTextByToken(BookModel book, int tokenOffset)

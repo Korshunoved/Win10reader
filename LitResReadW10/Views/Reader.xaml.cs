@@ -227,20 +227,24 @@ namespace LitRes.Views
             }
 
             ViewModel.SaveSettings();
+            AppSettings.Default.ReaderOpen = false;
         }
 
         private void SaveCurrentBookmark()
         {
             var book = AppSettings.Default.CurrentBook;
             if (book == null) return;
-            int lastTokenId;
+            string pointer;
             var tokenId = _tokenOffset;
-            var text = _bookTool.GetLastParagraphByToken(book, tokenId, out lastTokenId);
+            var text = _bookTool.GetLastParagraphByToken(book, tokenId, out pointer);
             var chapter = _bookTool.GetChapterByToken(tokenId);
             var xpointer = ViewModel.GetXPointer(text);
+            var newXpointer = ViewModel.GetNewXPointer(pointer);
             var percent = Convert.ToString((int) Math.Ceiling(CurrentPageSlider.Value/(CurrentPageSlider.Maximum/100)));
             if (xpointer != null)
                 ViewModel.SetCurrentBookmark(text, xpointer, chapter, percent);
+            else if (newXpointer != null)
+                ViewModel.SetCurrentBookmark(text, newXpointer, chapter, percent);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -290,6 +294,8 @@ namespace LitRes.Views
                 else
                     Redraw();
                 SaveCurrentBookmark();
+                AppSettings.Default.ReaderOpen = true;
+                AppSettings.Default.LastBookId = ViewModel.Entity.Id;
             }
             else if (ViewModel.LoadingException != null)
             {
@@ -498,7 +504,7 @@ namespace LitRes.Views
         {
             int page = (int)CurrentPageSlider.Value;
             CurrentPage = page;            
-            int tokenOffset = (page - 1) * AppSettings.WORDS_PER_PAGE;
+            int tokenOffset = (page - 1) * AppSettings.WordsPerPage;
             _tokenOffset = tokenOffset;
             AppSettings.Default.CurrentTokenOffset = _tokenOffset;
             await CreateController();
@@ -557,7 +563,7 @@ namespace LitRes.Views
             PagesTextBlock.Foreground = AppSettings.Default.ColorScheme.TextForegroundBrush;
             PagesTextBlock.FontFamily = AppSettings.Default.FontSettings.FontFamily;
             PagesTextBlock.Text = _readController.CurrentPage + "/" + _readController.TotalPages;
-            if (PagesTextBlock.Visibility == Visibility.Collapsed) PagesTextBlock.Visibility = Visibility.Visible;
+            if (PagesTextBlock.Visibility == Visibility.Collapsed && CurrentPageSlider.Visibility == Visibility.Collapsed) PagesTextBlock.Visibility = Visibility.Visible;
             BusyGrid.Visibility = Visibility.Collapsed;
             BusyProgress.IsIndeterminate = false;
             PageHeader.ProgressIndicatorVisible = false;
@@ -738,12 +744,13 @@ namespace LitRes.Views
         private async void AddBookmarkButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             var book = AppSettings.Default.CurrentBook;
-            int lastTokenId;
+            string pointer;
             var tokenId = _tokenOffset;
-            var text = _bookTool.GetLastParagraphByToken(book, tokenId, out lastTokenId);
+            var text = _bookTool.GetLastParagraphByToken(book, tokenId, out pointer);
             var chapter = _bookTool.GetChapterByToken(tokenId);
-            var xpointer = ViewModel.GetXPointer(text);
-            if (xpointer == null)
+            var xpointer = ViewModel.GetNewXPointer(pointer);
+            var oldpointer = ViewModel.GetXPointer(text);
+            if (xpointer == null && oldpointer == null)
             {
                 await
                     new MessageDialog(
@@ -752,7 +759,8 @@ namespace LitRes.Views
                 return;
             }
             var percent = Convert.ToString((int)Math.Ceiling(CurrentPageSlider.Value / (CurrentPageSlider.Maximum / 100)));
-            await ViewModel.AddBookmark(text, xpointer, chapter, false, percent);
+            if (oldpointer == null) await ViewModel.AddBookmark(text, xpointer, chapter, false, percent);
+            else await ViewModel.AddBookmark(text, oldpointer, chapter, false, percent);
             BookmarkGrid.Visibility = Visibility.Visible;
             BookmarkStoryboard.Begin();
             BookmarkStoryboard.Completed += BookmarkStoryboardOnCompleted;

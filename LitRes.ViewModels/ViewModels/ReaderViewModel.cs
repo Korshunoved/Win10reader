@@ -869,6 +869,13 @@ namespace LitRes.ViewModels
         const string XpointerEndMagicWord = "))";
         public static string XpointerFormatString { get; } = XpointerStartMagicWord + "{0}" + XpointerEndMagicWord;
 
+        public string GetNewXPointer(string pointer)
+        {
+            string NewXpointerStartMagicWord = "fb2#xpointer(point(/1/";
+            string NewXpointerEndMagicWord = ".1))";
+            return string.Format(NewXpointerStartMagicWord + "{0}" + NewXpointerEndMagicWord, pointer);
+        }
+
         public string GetXPointer(string pattern)
         {
             var root = BookSummary.Root;

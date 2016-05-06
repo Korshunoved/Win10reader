@@ -161,7 +161,7 @@ namespace BookParser.Parsers
             }
 
             var stack = new Stack<TagOpenToken>();
-            stack.Push(new TagOpenToken(-1, new XElement("root"), new TextVisualProperties(), -1));
+            stack.Push(new TagOpenToken(-1, new XElement("root"), new TextVisualProperties(), -1, ""));
             
             foreach (TagOpenToken openTagToken in list)
             {

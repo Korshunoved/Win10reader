@@ -1,6 +1,7 @@
 ﻿using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Autofac;
+using BookParser;
 using Cimbalino.Toolkit.Services;
 using Digillect;
 using Digillect.Mvvm.Services;
@@ -55,6 +56,12 @@ namespace LitResReadW10
               //  new MessageDialog(e.Kind.ToString()).ShowAsync();
                 TileBookId = e.Arguments.Split('=')[1];
                 var book = new LitRes.Models.Book {Id = int.Parse(TileBookId)};
+                RootFrame.Navigate(typeof(Reader), XParameters.Create("BookEntity", book));
+            }
+
+            if (AppSettings.Default.ReaderOpen)
+            {
+                var book = new LitRes.Models.Book { Id = AppSettings.Default.LastBookId };
                 RootFrame.Navigate(typeof(Reader), XParameters.Create("BookEntity", book));
             }
 #if DEBUG
