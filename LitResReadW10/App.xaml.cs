@@ -6,7 +6,6 @@ using Autofac;
 using BookParser;
 using Digillect;
 using Digillect.Mvvm.Services;
-using Digillect.Mvvm.UI;
 using LitRes;
 using LitRes.Services;
 using LitRes.Views;
@@ -18,7 +17,7 @@ namespace LitResReadW10
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    sealed partial class App : WindowsRTApplication
+    sealed partial class App
     {
         internal const string EmailRegexPattern = @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$";
         internal const string PhoneRegexPattern = @"^\+7[0-9]{10,10}$";
@@ -49,7 +48,7 @@ namespace LitResReadW10
         {
             base.OnLaunched(e);
             IsLaunched = true;
-            AppsFlyerLib.AppsFlyerTracker tracker = AppsFlyerLib.AppsFlyerTracker.GetAppsFlyerTracker();
+            AppsFlyerTracker tracker = AppsFlyerTracker.GetAppsFlyerTracker();
             tracker.appId = "9wzdncrfhvzw";
             tracker.devKey = "8iAKRJCBJWsHtjSJiNZ6KQ";
             tracker.TrackAppLaunch();
