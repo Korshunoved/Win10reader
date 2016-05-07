@@ -357,7 +357,7 @@
                         Padding="5,0,5,0"
                         Name="ReadButton"
                         Tapped="ReadButton_OnTapped"
-                         Visibility="Collapsed">
+                        Visibility="Visible">
                         <TextBlock TextWrapping="Wrap"
                                    Text="ЧИТАТЬ"
                                    MaxLines="2"
