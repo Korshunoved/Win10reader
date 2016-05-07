@@ -16,6 +16,7 @@ using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Graphics.Display;
 using Windows.System;
+using Windows.System.Display;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
@@ -65,6 +66,8 @@ namespace LitRes.Views
         private readonly INavigationService _navigationService = ((App)Application.Current).Scope.Resolve<INavigationService>();
         private double _pageSliderValue;
         private LinkRenderData _link;
+        private ChapterModel _currentChapter;
+        private DisplayRequest _displayRequest;
         public bool IsHardwareBack => ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons");
 
         public static Reader Instance;
@@ -89,15 +92,12 @@ namespace LitRes.Views
                 _isLoaded = false;
             };
             LocalBroadcastReciver.Instance.PropertyChanging += Instance_PropertyChanging;
-            DisplayInformation.GetForCurrentView().OrientationChanged += OnOrientationChanged;
-            Window.Current.SizeChanged += Current_SizeChanged;
-           
+            DisplayInformation.GetForCurrentView().OrientationChanged += OnOrientationChanged;         
             if (ExpirationGuardian.Instance != null) ExpirationGuardian.Instance.AddCallBack(this);
             _bookTool = new BookTool();
-        }
-
-        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
-        {
+            ReaderGrid.Opacity = 0;
+            BookCoverBack.Visibility = Visibility.Visible;
+            BookTitleTextBlock.Text = "";
         }
         #endregion
 
@@ -106,13 +106,13 @@ namespace LitRes.Views
         {
             await ViewModel.LoadSettings();
             if (AppSettings.Default.CurrentTokenOffset > 0 || (Instance != null && Instance.FromSettings))
-            {
-                TopGrid.Visibility=Visibility.Collapsed;
+            {               
                 FromSettings = false;
             }            
             Instance = this;
-            _tokenOffset = AppSettings.Default.CurrentTokenOffset;
-            LayoutRoot.Background = AppSettings.Default.ColorScheme.BackgroundBrush;
+            _tokenOffset = AppSettings.Default.CurrentTokenOffset;            
+            SetColorScheme();
+
             BusyGrid.Visibility = Visibility.Visible;
             BusyProgress.IsIndeterminate = true;
             PagesTextBlock.Visibility = Visibility.Collapsed;
@@ -123,10 +123,26 @@ namespace LitRes.Views
             if (SystemInfoHelper.IsDesktop()) return;
             var hideBar = AppSettings.Default.HideStatusBar;
             var statusBar = StatusBar.GetForCurrentView();
-            statusBar.BackgroundColor = AppSettings.Default.ColorScheme.BackgroundBrush.Color;
+            statusBar.BackgroundColor = AppSettings.Default.ColorScheme.PanelBackgroundBrush.Color;
             statusBar.ForegroundColor = AppSettings.Default.ColorScheme.TextForegroundBrush.Color;
             if (!hideBar) return;
-            await statusBar.HideAsync();
+            await statusBar.HideAsync();            
+        }
+
+        private void SetColorScheme()
+        {
+            LayoutRoot.Background = AppSettings.Default.ColorScheme.BackgroundBrush;
+            MobileTop.Background = AppSettings.Default.ColorScheme.PanelBackgroundBrush;
+            Bottom.Background = AppSettings.Default.ColorScheme.PanelBackgroundBrush;
+            BookTitleStackPanel.Background = AppSettings.Default.ColorScheme.PanelBackgroundBrush;
+            BookTitleTextBlock.Margin = AppSettings.Default.Margin;
+            BookTitleTextBlock.Foreground = AppSettings.Default.ColorScheme.BookTitleBrush;
+            BookTitleTextBlock.FontFamily = AppSettings.Default.FontSettings.FontFamily;
+            PagesTextBlock.Foreground = AppSettings.Default.ColorScheme.TextForegroundBrush;
+            PagesTextBlock.FontFamily = AppSettings.Default.FontSettings.FontFamily;
+            ChapterTextBlock.Foreground = AppSettings.Default.ColorScheme.ChapterTextBrush;
+            SecondCurrentPageRun.Foreground = AppSettings.Default.ColorScheme.CurrentPageColorBrush;
+            SecondTotalPagesRun.Foreground = AppSettings.Default.ColorScheme.ChapterTextBrush;
         }
 
         private async void ReaderGridOnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -228,6 +244,7 @@ namespace LitRes.Views
 
             ViewModel.SaveSettings();
             AppSettings.Default.ReaderOpen = false;
+            _displayRequest.RequestRelease();
         }
 
         private void SaveCurrentBookmark()
@@ -252,12 +269,15 @@ namespace LitRes.Views
             ControlPanel.Instance.ReaderMode();
             base.OnNavigatedTo(e);
             Analytics.Instance.sendMessage(Analytics.ViewReader);
+            _displayRequest = new DisplayRequest();
+            _displayRequest.RequestActive(); //to request keep display on
         }
         
         private async Task HandleLoadedBook()
         {
             if (ViewModel.Status == ReaderViewModel.LoadingStatus.FullBookLoaded || ViewModel.Status == ReaderViewModel.LoadingStatus.TrialBookLoaded)
             {
+                CoverGrid.Visibility = Visibility.Collapsed;
                 HideMenu();
                 _isSliderMoving = false;
 
@@ -272,6 +292,10 @@ namespace LitRes.Views
 
                 LayoutRoot.SizeChanged -= LayoutRoot_SizeChanged;
                 LayoutRoot.SizeChanged += LayoutRoot_SizeChanged;
+
+                BookTitleTextBlock.Text = ViewModel.Entity.BookTitle;
+
+                _currentChapter = AppSettings.Default.Chapters.First();
 
                 if (AppSettings.Default.Bookmark != null && !AppSettings.Default.ToChapter && AppSettings.Default.ToBookmark)
                 {
@@ -329,6 +353,7 @@ namespace LitRes.Views
                 result = await _bookSearch.Search(book, text2, query.Count);
                 if (result.Count > 0) AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
             }
+            _bookSearch.Dispose();
         }
 
         private void CurrentPageSliderOnTapped(object sender, TappedRoutedEventArgs tappedRoutedEventArgs)
@@ -359,7 +384,22 @@ namespace LitRes.Views
                 BookCover.Height = BookCoverBack.Height = 474;
                 PageHeader.Margin = new Thickness(0, 0, 0, 75);
             }
-        }       
+        }
+
+        private void GetCurrentChapter()
+        {
+            var chaptertext = "";
+            foreach (var chapter in AppSettings.Default.Chapters.SkipWhile(ch => ch.TokenID < _currentChapter.TokenID))
+            {
+                if (chapter.TokenID < _tokenOffset)
+                {
+                    chaptertext = chapter.Title;
+                    _currentChapter = chapter;
+                }
+                else break;
+            }
+            ChapterTextBlock.Text = chaptertext.Trim();
+        }
 
         public async void GoToBookmark()
         {
@@ -383,22 +423,22 @@ namespace LitRes.Views
                 result = await _bookSearch.Search(book, text2, query.Count);
                 if (result.Count > 0) AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
             }
+            _bookSearch.Dispose();
             AppSettings.Default.Bookmark = null;
             GoToChapter();
         }
 
         private void HideMenu()
-        {
-            CurrentPageSlider.Opacity = 0;
-            TopRelativePanel.Visibility = Visibility.Collapsed;
+        {           
+            MobileTop.Visibility = Visibility.Collapsed;
+            Bottom.Visibility = Visibility.Collapsed;
             PagesTextBlock.Visibility=Visibility.Visible;
         }
 
         private void ShowMenu()
         {
-            CurrentPageSlider.Opacity = 1;           
-            TopRelativePanel.Visibility = Visibility.Visible;
-            PagesTextBlock.Visibility = Visibility.Collapsed;
+            MobileTop.Visibility = Visibility.Visible;
+            Bottom.Visibility = Visibility.Visible;
         }
 
         public void ExpiredCallBack(Models.Book book)
@@ -459,7 +499,7 @@ namespace LitRes.Views
 
         public async void UpdateSettings()
         {
-            LayoutRoot.Background = AppSettings.Default.ColorScheme.BackgroundBrush;
+            SetColorScheme();
             await CreateController();
         }
 
@@ -480,8 +520,8 @@ namespace LitRes.Views
             Background = AppSettings.Default.ColorScheme.BackgroundBrush;
 
             PageCanvas.Clear();
-            PageCanvas.SetSize(ReaderGrid.ActualWidth, ReaderGrid.ActualHeight, ReaderGrid.ActualWidth,
-                ReaderGrid.ActualHeight);
+            PageCanvas.SetSize(PageCanvas.ActualWidth, PageCanvas.ActualHeight, PageCanvas.ActualWidth,
+                PageCanvas.ActualHeight);
             PageCanvas.Manipulator =
                 new ManipulatorFactory(PageCanvas).CreateManipulator(AppSettings.Default.FlippingStyle,
                     AppSettings.Default.FlippingMode);
@@ -518,15 +558,13 @@ namespace LitRes.Views
             Background = AppSettings.Default.ColorScheme.BackgroundBrush;
 
             PageCanvas.Clear();
-            PageCanvas.SetSize(ReaderGrid.ActualWidth, ReaderGrid.ActualHeight, ReaderGrid.ActualWidth, ReaderGrid.ActualHeight);
+            PageCanvas.SetSize(PageCanvas.ActualWidth, PageCanvas.ActualHeight, PageCanvas.ActualWidth, PageCanvas.ActualHeight);
             PageCanvas.Manipulator = new ManipulatorFactory(PageCanvas).CreateManipulator(AppSettings.Default.FlippingStyle, AppSettings.Default.FlippingMode);
 
             await CreateController();
 
             if (BookCoverBack.Visibility == Visibility.Visible)
-                BookCoverBack.Visibility = Visibility.Collapsed;
-
-            Bottom.Visibility = Visibility.Visible;
+                BookCoverBack.Visibility = Visibility.Collapsed;          
 
             BusyGrid.Visibility = Visibility.Collapsed;
             BusyProgress.IsIndeterminate = false;
@@ -554,16 +592,16 @@ namespace LitRes.Views
             {
                 CurrentPageSlider.Value = _readController.TotalPages;                
             }
-
-            _pageSliderValue = CurrentPageSlider.Value;
+            GetCurrentChapter();
+            _pageSliderValue = CurrentPageSlider.Value;            
             PageCanvas.Manipulator.UpdatePanelsVisibility();
             PageCanvas.Manipulator.IsFirstPage = _readController.IsFirst;
             PageCanvas.Manipulator.IsLastPage = _readController.IsLast;
             CurrentPageSlider.Maximum = _readController.TotalPages;
-            PagesTextBlock.Foreground = AppSettings.Default.ColorScheme.TextForegroundBrush;
-            PagesTextBlock.FontFamily = AppSettings.Default.FontSettings.FontFamily;
-            PagesTextBlock.Text = _readController.CurrentPage + "/" + _readController.TotalPages;
-            if (PagesTextBlock.Visibility == Visibility.Collapsed && CurrentPageSlider.Visibility == Visibility.Collapsed) PagesTextBlock.Visibility = Visibility.Visible;
+            SecondCurrentPageRun.Text = _readController.CurrentPage.ToString();
+            SecondTotalPagesRun.Text = "/ " + _readController.TotalPages;
+            CurrentPageRun.Text = _readController.CurrentPage.ToString();
+            TotalPagesRun.Text = "/ " + _readController.TotalPages;
             BusyGrid.Visibility = Visibility.Collapsed;
             BusyProgress.IsIndeterminate = false;
             PageHeader.ProgressIndicatorVisible = false;
@@ -580,11 +618,14 @@ namespace LitRes.Views
                 await _readController.ShowPrevPage();
 
            _tokenOffset = _readController.Offset;
-
+            GetCurrentChapter();
             _isSliderMoving = true;
             CurrentPageSlider.Value = _readController.CurrentPage;
             CurrentPage = (int) CurrentPageSlider.Value;
-            PagesTextBlock.Text = _readController.CurrentPage + "/" + _readController.TotalPages;
+            SecondCurrentPageRun.Text = _readController.CurrentPage.ToString();
+            SecondTotalPagesRun.Text = "/ " + _readController.TotalPages;
+            CurrentPageRun.Text = _readController.CurrentPage.ToString();
+            TotalPagesRun.Text = "/ "+_readController.TotalPages;
             AppSettings.Default.CurrentTokenOffset = _tokenOffset;            
             _isSliderMoving = false;
             PageCanvas.Manipulator.IsFirstPage = _readController.IsFirst;
@@ -654,7 +695,7 @@ namespace LitRes.Views
             else if (pt.X <= (width/2 + clickOffset) ||
                      pt.X >= (width/2 - clickOffset) &&
                      (pt.Y <= (height/2 + clickOffset) || (pt.Y >= (height/2 - clickOffset))))
-                if (TopRelativePanel.Visibility == Visibility.Collapsed)
+                if (MobileTop.Visibility == Visibility.Collapsed)
                     ShowMenu();
                 else
                     HideMenu();
@@ -663,8 +704,8 @@ namespace LitRes.Views
         private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftButton) == CoreVirtualKeyStates.Down) return;
-            
-            PageCanvas.SetSize(ReaderGrid.ActualWidth, ReaderGrid.ActualHeight, ReaderGrid.ActualWidth, ReaderGrid.ActualHeight);
+
+            PageCanvas.SetSize(PageCanvas.ActualWidth, PageCanvas.ActualHeight, PageCanvas.ActualWidth, PageCanvas.ActualHeight);
             PageCanvas.Clear();
             Redraw();
         }

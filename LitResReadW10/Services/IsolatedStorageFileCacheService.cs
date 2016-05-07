@@ -59,7 +59,17 @@ namespace LitRes.Services
                         foreach (var bookFile in bookFiles)
                         {
                             var bookPath = Path.Combine("MyBooks\\" + folder + "\\" + bookFile);
-                            if (isf.FileExists(bookPath)) isf.DeleteFile(bookPath);
+                            if (isf.FileExists(bookPath))
+                            {
+                                try
+                                {
+                                    isf.DeleteFile(bookPath);
+                                }
+                                catch (Exception e)
+                                {
+                                    Debug.Write(e);
+                                }
+                            }
                         }
                         var path = Path.Combine("MyBooks", folder);
                         if (isf.DirectoryExists(path)) isf.DeleteDirectory(path);

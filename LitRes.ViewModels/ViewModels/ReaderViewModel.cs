@@ -445,7 +445,9 @@ namespace LitRes.ViewModels
             var exist = _bookProvider.FullBookExistsInLocalStorage(book.Id);
             var existTrial = _bookProvider.TrialBookExistsInLocalStorage(book.Id);
             if (AppSettings.Default.CurrentBook != null && book.Id.ToString() != AppSettings.Default.CurrentBook.BookID)
-                AppSettings.Default.CurrentTokenOffset = 0;
+            {
+                AppSettings.Default.CurrentTokenOffset = 0;                
+            }
             if (credentials != null || exist)
             {
                 try

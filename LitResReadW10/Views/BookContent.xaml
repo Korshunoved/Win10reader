@@ -43,6 +43,7 @@
                        HorizontalAlignment="Stretch" 
                        x:Name="TockListView"
                        ItemTemplate="{StaticResource ContentTemplate}"
+                       ItemContainerStyle="{StaticResource ListViewStretchStyle}"
                        />
         </ScrollViewer>
     </Grid>

@@ -24,15 +24,13 @@ using BookParser.Data;
 using BookParser.Models;
 using BookParser.Parsers;
 using BookParser.TextStructure;
-using BookParser.Tokens;
 using BookRender.Tools;
 
 namespace BookRender.PageRender
 {
     public class PageCompositor
     {
-        private readonly BookModel _book;
-        private readonly List<TokenBase> _tokens;
+        private readonly BookModel _book;        
         private readonly int _fontSize;
         private readonly IList<BookImage> _images;
         private readonly Size _pageSize;

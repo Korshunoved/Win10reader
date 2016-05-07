@@ -5,7 +5,7 @@
 	xmlns:views="using:LitRes.Views"
 	xmlns:controls="using:LitRes.Controls"
 	xmlns:controls1="using:LitResReadW10.Controls"
-	Foreground="{StaticResource LitResReaderBarForegroundBrush}"
+	Foreground="{StaticResource LitResReaderBarForegroundBrush}"    
 >
 
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -16,59 +16,62 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid x:Name="Top"              
+        <controls:ReaderPageHeader Grid.Row="0" x:Name="PageHeader" Canvas.ZIndex="10000" Opacity="0" />
+        <Grid x:Name="MobileTop"
               Grid.Row="0"
               VerticalAlignment="Top"
-             
-              Margin="0,5,0,0"
+              Visibility="Collapsed"
+              Background="#efeee9"
+              Canvas.ZIndex="10000"
+              Margin="0,0,0,0"
               Height="40">
 
-            <RelativePanel 
+            <RelativePanel
                 x:Name="TopRelativePanel"
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Visibility="Collapsed">
+                VerticalAlignment="Stretch">
                 <StackPanel
                     x:Name="TopLeftReaderPanel"
                     Margin="0"
                     Orientation="Horizontal"
-                    RelativePanel.AlignLeftWithPanel="True" 
+                    RelativePanel.AlignLeftWithPanel="True"
                     RelativePanel.AlignHorizontalCenterWithPanel="True">
-                    <Button 
-                    x:Name="AddBookmarkButton"
-                    Visibility="Visible"
-                    Margin="0"
-                    Height="40"
-                    Width="40"
-                    IsEnabled="True"
-                    Opacity="1"
-                    Style="{StaticResource ReaderButtonStyle}" Tapped="AddBookmarkButton_Tapped">
-                        <Image Stretch="None" Source="../Assets/W10Icons/Bookmark/bookmark_gray.png"/>
+                    <Button
+                        x:Name="AddBookmarkButton"
+                        Visibility="Visible"
+                        Margin="0"
+                        Height="40"
+                        Width="40"
+                        IsEnabled="True"
+                        Opacity="1"
+                        Style="{StaticResource ReaderButtonStyle}" Tapped="AddBookmarkButton_Tapped">
+                        <Image Stretch="None" Source="../Assets/W10Icons/Bookmark/bookmark_gray.png" />
                     </Button>
                 </StackPanel>
 
-                <Button 
+                <Button
                     x:Name="SettingsButton"
-                    RelativePanel.AlignRightWithPanel="True" 
+                    RelativePanel.AlignRightWithPanel="True"
                     RelativePanel.AlignHorizontalCenterWithPanel="True"
                     Tapped="SettingsButton_OnTapped"
                     Margin="0"
                     Height="40"
-                    Width="40" Background="Transparent" 
+                    Width="40" Background="Transparent"
                     Style="{StaticResource LitresReaderButtonStyle}">
-                    <Image Name="SettingsImage" Stretch="UniformToFill" Source="../Assets/W10Icons/Settings/setting_grey.png" Width="14" Height="14"/>
+                    <Image Name="SettingsImage" Stretch="UniformToFill"
+                           Source="../Assets/W10Icons/Settings/setting_grey.png" Width="14" Height="14" />
 
-                    <FlyoutBase.AttachedFlyout >
+                    <FlyoutBase.AttachedFlyout>
                         <Flyout Placement="Bottom">
                             <Flyout.FlyoutPresenterStyle>
                                 <Style TargetType="FlyoutPresenter">
-                                    <Setter Property="Padding" Value="0,0,10,0"/>
-                                    <Setter Property="Margin" Value="0,0,10,0"/>
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="BorderThickness" Value="0,0,0,0"/>
-                                    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
-                                    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
-                                    <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled"/>
+                                    <Setter Property="Padding" Value="0,0,10,0" />
+                                    <Setter Property="Margin" Value="0,0,10,0" />
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderThickness" Value="0,0,0,0" />
+                                    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+                                    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+                                    <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled" />
                                 </Style>
                             </Flyout.FlyoutPresenterStyle>
                             <Frame
@@ -80,15 +83,14 @@
                                 HorizontalAlignment="Stretch"
                                 BorderThickness="1"
                                 BorderBrush="Black"
-                                x:Name="SettingsFrame" Unloaded="SettingsFrame_Unloaded"
-                                />
+                                x:Name="SettingsFrame" Unloaded="SettingsFrame_Unloaded" />
                         </Flyout>
                     </FlyoutBase.AttachedFlyout>
                 </Button>
                 <Button
                     x:Name="BookmarksButton"
-                     Visibility="Visible"
-                    RelativePanel.LeftOf="SettingsButton" 
+                    Visibility="Visible"
+                    RelativePanel.LeftOf="SettingsButton"
                     RelativePanel.AlignHorizontalCenterWithPanel="True"
                     Background="Transparent"
                     Tapped="BookmarsButton_OnTapped"
@@ -97,15 +99,15 @@
                     IsEnabled="True"
                     Opacity="1"
                     Style="{StaticResource LitresReaderButtonStyle}">
-                    <Image Stretch="None"  Opacity="1" Source="../Assets/W10Icons/Bookmarks/bookmarks_icon.png"/>
-                    <FlyoutBase.AttachedFlyout >
+                    <Image Stretch="None" Opacity="1" Source="../Assets/W10Icons/Bookmarks/bookmarks_icon.png" />
+                    <FlyoutBase.AttachedFlyout>
                         <Flyout Placement="Bottom">
                             <Flyout.FlyoutPresenterStyle>
                                 <Style TargetType="FlyoutPresenter">
-                                    <Setter Property="Padding" Value="0,0,50,0"/>
-                                    <Setter Property="Margin" Value="0,0,0,0"/>
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="BorderThickness" Value="0,0,0,0"/>
+                                    <Setter Property="Padding" Value="0,0,50,0" />
+                                    <Setter Property="Margin" Value="0,0,0,0" />
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderThickness" Value="0,0,0,0" />
                                 </Style>
                             </Flyout.FlyoutPresenterStyle>
                             <Frame
@@ -118,31 +120,31 @@
                                 Margin="0,0,10,0"
                                 BorderThickness="1"
                                 BorderBrush="Black"
-                                x:Name="BookmarksFrame" Unloaded="BookmarksFrame_Unloaded"/>
+                                x:Name="BookmarksFrame" Unloaded="BookmarksFrame_Unloaded" />
                         </Flyout>
                     </FlyoutBase.AttachedFlyout>
                 </Button>
-                <Button 
+                <Button
                     x:Name="ContentsButton"
-                    RelativePanel.LeftOf="BookmarksButton" 
+                    RelativePanel.LeftOf="BookmarksButton"
                     RelativePanel.AlignHorizontalCenterWithPanel="True"
                     Height="40"
                     Width="40"
                     Background="Transparent"
-                    Style="{StaticResource LitresReaderButtonStyle}" 
+                    Style="{StaticResource LitresReaderButtonStyle}"
                     Tapped="ContentsButton_Tapped">
-                    <Image Name="ContentsImage" Stretch="None" Source="../Assets/W10Icons/Toc/toc.png"/>
-                    <FlyoutBase.AttachedFlyout >
+                    <Image Name="ContentsImage" Stretch="None" Source="../Assets/W10Icons/Toc/toc.png" />
+                    <FlyoutBase.AttachedFlyout>
                         <Flyout Placement="Bottom">
                             <Flyout.FlyoutPresenterStyle>
                                 <Style TargetType="FlyoutPresenter">
-                                    <Setter Property="Padding" Value="0,0,100,0"/>
-                                    <Setter Property="Margin" Value="0,0,0,0"/>
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="BorderThickness" Value="0,0,0,0"/>
+                                    <Setter Property="Padding" Value="0,0,100,0" />
+                                    <Setter Property="Margin" Value="0,0,0,0" />
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderThickness" Value="0,0,0,0" />
                                 </Style>
                             </Flyout.FlyoutPresenterStyle>
-                            <Frame 
+                            <Frame
                                 Width="330"
                                 MinHeight="200"
                                 MaxHeight="700"
@@ -151,51 +153,71 @@
                                 HorizontalAlignment="Stretch"
                                 BorderThickness="1"
                                 BorderBrush="Black"
-                                x:Name="TocFrame" 
-                                Unloaded="TocFrame_Unloaded"/>
+                                x:Name="TocFrame"
+                                Unloaded="TocFrame_Unloaded" />
                         </Flyout>
                     </FlyoutBase.AttachedFlyout>
                 </Button>
-                <Button 
+                <Button
                     x:Name="SearchButton"
-                     Visibility="Collapsed"
+                    Visibility="Collapsed"
                     IsEnabled="False"
                     Opacity="0.3"
-                    RelativePanel.LeftOf="ContentsButton" 
+                    RelativePanel.LeftOf="ContentsButton"
                     RelativePanel.AlignHorizontalCenterWithPanel="True"
                     Height="40"
                     Width="40"
                     Style="{StaticResource ReaderButtonStyle}">
-                    <Image Stretch="None" Opacity="0.6" Source="../Assets/W10Icons/Search/search_black.png"/>
+                    <Image Stretch="None" Opacity="0.6" Source="../Assets/W10Icons/Search/search_black.png" />
                 </Button>
             </RelativePanel>
         </Grid>
 
-        <Grid x:Name="Bottom" 
+        <Grid x:Name="Bottom"
               Grid.Row="2"
-              Visibility="Visible"
+              MinHeight="90"
+              Visibility="Collapsed"
               Canvas.ZIndex="10000"
-              Background="Transparent"
-              Margin="0,10,0,0" Padding="0" >
+              Margin="0,10,0,0" Padding="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="250" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock Name="ChapterTextBlock"
+                       Grid.Column="0"
+                       Visibility="Visible"
+                       HorizontalAlignment="Left"
+                       TextAlignment="Left"
+                       Margin="15,0,0,0"
+                       FontSize="14"
+                       Text="Глава 23 События начинают набирать оборот..."
+                       TextWrapping="WrapWholeWords" VerticalAlignment="Center" />
+            <TextBlock Name="PagesTextBlock"
+                       Grid.Row="0" Grid.Column="1"
+                       Visibility="Visible"
+                       FontSize="14"
+                       TextAlignment="Center"
+                       VerticalAlignment="Center" Margin="-15,14,15,14">
+                <Run x:Name="SecondCurrentPageRun" Text="1992"/>
+                <Run x:Name="SecondTotalPagesRun"  Text="4000"/>
+            </TextBlock>
 
-            <TextBlock Name="PagesTextBlock" 
-                           Visibility="Collapsed"
-                           HorizontalAlignment="Center"
-                           TextAlignment="Center"
-                           />
-
-            <Slider x:Name="CurrentPageSlider"      
-                    Opacity="0"
-					Minimum="1" SmallChange="1" LargeChange="10"
+            <Slider x:Name="CurrentPageSlider"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2" Grid.Column="0"
+                    Opacity="1"
+                    Minimum="1" SmallChange="1" LargeChange="10"
                     ManipulationMode="All"
-                    Margin="15,0,15,0" 
+                    Margin="15,1,15,0"
                     VerticalAlignment="Stretch"
                     Template="{StaticResource LitresSlider}" />
         </Grid>
 
-        <controls:ReaderPageHeader Grid.Row="0" x:Name="PageHeader" Opacity="0" />
-        <Grid 
-            x:Name="TopGrid"
+        <Grid x:Name="CoverGrid"
             Grid.Row="1" Grid.RowSpan="2" Visibility="Visible" >
             <RelativePanel>
                 <Image x:Name="BookCoverBack" 
@@ -247,18 +269,32 @@
         </Grid>
 
 
-        <Grid x:Name="ReaderGrid" Margin="0,0,0,10" Grid.Row="1" Opacity="0">
-            <Border x:Name="AnchorStackPanel"
-                        Visibility="Collapsed"
-                        Canvas.ZIndex="3">
-                <TextBlock x:Name="AnchorTextBlock" />
-            </Border>
-
-            <controls1:ThreePagePanel Grid.Row="0"
-                                      x:Name="PageCanvas" 
+        <Grid x:Name="ReaderGrid" Grid.Row="0" Opacity="1" Grid.RowSpan="3">
+            <Grid.RowDefinitions>
+                <RowDefinition MaxHeight="20" />
+                <RowDefinition />
+                <RowDefinition MaxHeight="20" />
+            </Grid.RowDefinitions>
+            <StackPanel x:Name="BookTitleStackPanel" Grid.Row="0">
+                <TextBlock x:Name="BookTitleTextBlock" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0.4"/>
+            </StackPanel>
+            <controls1:ThreePagePanel Grid.Row="1"
+                                      x:Name="PageCanvas"
                                       Tapped="PageCanvas_Tapped"
                                       PointerPressed="PageCanvas_OnPointerPressed"
-                                      PointerReleased="PageCanvas_OnPointerReleased"/>
+                                      PointerReleased="PageCanvas_OnPointerReleased" />
+            <Border x:Name="AnchorStackPanel"
+                    Grid.Row="1"
+                    Visibility="Collapsed"
+                    Canvas.ZIndex="3">
+                <TextBlock x:Name="AnchorTextBlock" />
+            </Border>
+            <StackPanel Grid.Row="2" VerticalAlignment="Center" Height="20">
+                <TextBlock Foreground="Black" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.4">
+                    <Run x:Name="CurrentPageRun" FontWeight="Bold" Text="" />
+                    <Run x:Name="TotalPagesRun" Text="" />
+                </TextBlock>
+            </StackPanel>
         </Grid>
 
         <VisualStateManager.VisualStateGroups>
@@ -287,7 +323,7 @@
                         <Setter Target="BookmarksButton.Style" Value="{StaticResource LitresReaderButtonStyleMobile}"/>
                     </VisualState.Setters>
                 </VisualState>
-                
+
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
     </Grid>
