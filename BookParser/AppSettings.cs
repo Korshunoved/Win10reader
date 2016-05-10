@@ -432,7 +432,7 @@ namespace BookParser
                     bookTitleColor: Color.FromArgb(0xFF, 0xff, 0xff, 0xff),
                     panelBackgroundColor: Colors.Black,
                     chapterTextColor: Color.FromArgb(0xFF, 0x8a, 0x89, 0x8c),
-                    currentpageColor: Color.FromArgb(0xFF, 0xff, 0x4c, 0x00)
+                    currentpageColor: Colors.White
                     ));
 
             _schemes.Add(
@@ -451,7 +451,7 @@ namespace BookParser
                     bookTitleColor: Color.FromArgb(0xFF, 0x00, 0x00, 0x00),
                     panelBackgroundColor: Color.FromArgb(0xFF, 0xef, 0xee, 0xe9),
                     chapterTextColor: Color.FromArgb(0xFF, 0x8a, 0x89, 0x8c),
-                    currentpageColor: Colors.White
+                    currentpageColor: Color.FromArgb(0xFF, 0xff, 0x4c, 0x00)
                     ));
         }
     }

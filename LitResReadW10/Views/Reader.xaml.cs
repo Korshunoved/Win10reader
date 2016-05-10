@@ -115,7 +115,7 @@ namespace LitRes.Views
 
             BusyGrid.Visibility = Visibility.Visible;
             BusyProgress.IsIndeterminate = true;
-            PagesTextBlock.Visibility = Visibility.Collapsed;
+            //PagesTextBlock.Visibility = Visibility.Collapsed;
             ReaderGrid.Loaded -= ReaderGridOnLoaded;
             ReaderGrid.Loaded += ReaderGridOnLoaded; 
             var currentOrientation = DisplayInformation.GetForCurrentView().CurrentOrientation;
@@ -227,7 +227,7 @@ namespace LitRes.Views
             if (e.NavigationMode == NavigationMode.Back || (e.Uri != null && string.Equals(e.Uri.OriginalString, "/Views/Main.xaml")) )
             {
                 ControlPanel.Instance.NormalMode();
-
+                NavigationCacheMode = NavigationCacheMode.Disabled;
                 new Task(async () =>
                 {
                     await ViewModel.UpdateEntity();
@@ -304,7 +304,9 @@ namespace LitRes.Views
 
                 if (AppSettings.Default.LastPositionBookmark != null && !AppSettings.Default.ToChapter && !AppSettings.Default.ToBookmark)
                 {
-                    await GetTokenPosition(AppSettings.Default.LastPositionBookmark);
+                    if (!App.IsRestored)
+                        await GetTokenPosition(AppSettings.Default.LastPositionBookmark);
+                    App.IsRestored = false;
                     AppSettings.Default.LastPositionBookmark = null;
                 }
 
@@ -389,9 +391,9 @@ namespace LitRes.Views
         private void GetCurrentChapter()
         {
             var chaptertext = "";
-            foreach (var chapter in AppSettings.Default.Chapters.SkipWhile(ch => ch.TokenID < _currentChapter.TokenID))
+            foreach (var chapter in AppSettings.Default.Chapters.SkipWhile(ch => ch.TokenID > _currentChapter.TokenID))
             {
-                if (chapter.TokenID < _tokenOffset)
+                if (chapter.MinTokenID <= _tokenOffset)
                 {
                     chaptertext = chapter.Title;
                     _currentChapter = chapter;
@@ -641,27 +643,52 @@ namespace LitRes.Views
             _link = PageCanvas.CurrentLinks.FirstOrDefault(l => Math.Abs(l.Rect.Y - margin.Top) < 1);
             if (_link != null)
             {
-                int anchorsTokenId = AppSettings.Default.Anchors.FirstOrDefault(l => l.Name == _link.LinkID).TokenID;
-                var text = _bookTool.GetAnchorTextByToken(_book, anchorsTokenId);
-                AnchorTextBlock.FontSize = 14;
-                AnchorTextBlock.Text = text;
-                AnchorTextBlock.LineStackingStrategy = LineStackingStrategy.BaselineToBaseline;
-                AnchorTextBlock.TextWrapping = TextWrapping.Wrap;
-                AnchorTextBlock.Margin = new Thickness(24,20,24,20);
-                AnchorStackPanel.Tapped -= AnchorStackPanelOnTapped;
-                AnchorStackPanel.Tapped += AnchorStackPanelOnTapped;
-                AnchorStackPanel.Margin = new Thickness(12,0,12,0);
-                AnchorStackPanel.Background = AppSettings.Default.ColorScheme.LinkPanelBackgroundBrush;
-                AnchorStackPanel.MinWidth = 350;
-                AnchorStackPanel.MinHeight = 250;
-                AnchorStackPanel.MaxHeight = AnchorTextBlock.DesiredSize.Height + AnchorTextBlock.Margin.Top;
-                AnchorStackPanel.MaxWidth = 600;                
-                AnchorStackPanel.Visibility = Visibility.Collapsed;
-                AnchorStackPanel.Visibility = Visibility.Visible;
-                _isAnchor = true;
-                return _isAnchor;
+                try
+                {
+                    int anchorsTokenId = AppSettings.Default.Anchors.FirstOrDefault(l => l.Name == _link.LinkID).TokenID;
+                    var text = _bookTool.GetAnchorTextByToken(_book, anchorsTokenId);
+                    AnchorTextBlock.FontSize = 14;
+                    AnchorTextBlock.Text = text;
+                    AnchorTextBlock.LineStackingStrategy = LineStackingStrategy.BaselineToBaseline;
+                    AnchorTextBlock.TextWrapping = TextWrapping.Wrap;
+                    AnchorTextBlock.Margin = new Thickness(24, 20, 24, 20);
+                    AnchorStackPanel.Tapped -= AnchorStackPanelOnTapped;
+                    AnchorStackPanel.Tapped += AnchorStackPanelOnTapped;
+                    AnchorStackPanel.Margin = new Thickness(12, 0, 12, 0);
+                    AnchorStackPanel.Background = AppSettings.Default.ColorScheme.LinkPanelBackgroundBrush;
+                    AnchorStackPanel.MinWidth = 350;
+                    AnchorStackPanel.MinHeight = 250;
+                    AnchorStackPanel.MaxHeight = AnchorTextBlock.DesiredSize.Height + AnchorTextBlock.Margin.Top;
+                    AnchorStackPanel.MaxWidth = 600;
+                    AnchorStackPanel.Visibility = Visibility.Collapsed;
+                    AnchorStackPanel.Visibility = Visibility.Visible;
+                    _isAnchor = true;
+                    return _isAnchor;
+                }
+                catch (Exception)
+                {
+                    var url = _link.LinkID;
+                    Launch(url);                    
+                }
+                
             }
             return false;
+        }
+
+        async void Launch(string url)
+        {           
+            var uri = new Uri(url);
+
+            var success = await Launcher.LaunchUriAsync(uri);
+
+            if (success)
+            {
+                // URI launched
+            }
+            else
+            {
+                // URI launch failed
+            }
         }
 
         private void AnchorStackPanelOnTapped(object sender, TappedRoutedEventArgs tappedRoutedEventArgs)
