@@ -22,6 +22,7 @@ namespace LitResReadW10.Views
             InitializeComponent();
             SizeChanged += ShopNovelty_SizeChanged;
             Loaded += ShopNovelty_Loaded;
+            NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         private void ShopNovelty_SizeChanged(object sender, SizeChangedEventArgs e)

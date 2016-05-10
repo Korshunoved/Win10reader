@@ -23,6 +23,7 @@ namespace LitResReadW10.Views
             InitializeComponent();
             SizeChanged += ShopPopular_SizeChanged;
             Loaded += ShopNovelty_Loaded;
+            NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         private void ShopPopular_SizeChanged(object sender, SizeChangedEventArgs e)
