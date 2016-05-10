@@ -24,6 +24,7 @@ namespace LitResReadW10.Views
             InitializeComponent();
             SizeChanged += ShopEditorsChoice_SizeChanged;
             Loaded += ShopEditorsChoice_Loaded;
+            NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         private void ShopEditorsChoice_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -112,7 +113,6 @@ namespace LitResReadW10.Views
         {
             ControlPanel.Instance.TopBarTitle = "Выбор редакции";
             base.OnNavigatedTo(e);
-
         }
 
         private void Body_Tap(object sender, TappedRoutedEventArgs e)

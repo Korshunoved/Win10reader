@@ -59,7 +59,7 @@ namespace LitResReadW10.Helpers
             {
                 await EmailManager.ShowComposeNewEmailAsync(emailMessage);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 await new MessageDialog("Напишите письмо в поддержку на ящик win10@litres.ru или настройте почтовый клиент для автоматического формирования письма").ShowAsync();
             }
