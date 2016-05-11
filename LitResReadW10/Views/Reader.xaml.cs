@@ -98,7 +98,14 @@ namespace LitRes.Views
             ReaderGrid.Opacity = 0;
             BookCoverBack.Visibility = Visibility.Visible;
             BookTitleTextBlock.Text = "";
+            Window.Current.VisibilityChanged += CurrentOnVisibilityChanged; 
         }
+
+        private void CurrentOnVisibilityChanged(object sender, VisibilityChangedEventArgs visibilityChangedEventArgs)
+        {
+            SaveCurrentBookmark();
+        }
+
         #endregion
 
         #region ReaderLoaded
@@ -304,9 +311,7 @@ namespace LitRes.Views
 
                 if (AppSettings.Default.LastPositionBookmark != null && !AppSettings.Default.ToChapter && !AppSettings.Default.ToBookmark)
                 {
-                    if (!App.IsRestored)
-                        await GetTokenPosition(AppSettings.Default.LastPositionBookmark);
-                    App.IsRestored = false;
+                    await GetTokenPosition(AppSettings.Default.LastPositionBookmark);
                     AppSettings.Default.LastPositionBookmark = null;
                 }
 

@@ -582,27 +582,33 @@ namespace LitRes.ViewModels
         {
             if (Entity?.Description.Hidden?.DocumentInfo != null && AccountExist)
             {
-                var bookmark = await _bookmarksProvider.GetCurrentBookmarkByDocumentId(Entity.Description.Hidden.DocumentInfo.Id, local, token);
-
-                if (bookmark != null)
+                try
                 {
-                    var indexes =  _dataCacheService.GetItem<XCollection<BookIndex>>("booksindexes") ?? new XCollection<BookIndex>();
-
-                    var bookIndex = indexes.FirstOrDefault(x => x.BookId == Entity.Id);
-
-                    if (bookIndex != null)
+                    var bookmark = await _bookmarksProvider.GetCurrentBookmarkByDocumentId(Entity.Description.Hidden.DocumentInfo.Id, local, token);
+                    if (bookmark != null)
                     {
-                        DateTime lastupdate = Convert.ToDateTime(bookmark.LastUpdate);
+                        var indexes = _dataCacheService.GetItem<XCollection<BookIndex>>("booksindexes") ?? new XCollection<BookIndex>();
 
-                        if (bookIndex.SaveDateTime < lastupdate)
+                        var bookIndex = indexes.FirstOrDefault(x => x.BookId == Entity.Id);
+
+                        if (bookIndex != null)
+                        {
+                            DateTime lastupdate = Convert.ToDateTime(bookmark.LastUpdate);
+
+                            if (bookIndex.SaveDateTime < lastupdate)
+                            {
+                                return bookmark;
+                            }
+                        }
+                        else
                         {
                             return bookmark;
                         }
                     }
-                    else
-                    {
-                        return bookmark;
-                    }
+                }
+                catch (Exception)
+                {
+                    return null;
                 }
             }
 
