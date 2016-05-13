@@ -484,15 +484,17 @@ namespace LitRes.ViewModels
             {
                 try
                 {
-                    if (exist)
+                    if (book.IsMyBook || book.IsFreeBook)
                     {
-                        _bookProvider.GetBookFromStorage(book, true);
+                        await _bookProvider.GetFullBook(book, session.Token);
+                        BookSummary = _bookProvider.GetSummaryParser(book, false);
                     }
                     else
                     {
                         await _bookProvider.GetTrialBook(book, session.Token);
+                        BookSummary = _bookProvider.GetSummaryParser(book, true);                        
                     }
-                    status = LoadingStatus.TrialBookLoaded;
+                    status = await LoadLastPosition(book);
                 }
                 catch (Exception e)
                 {

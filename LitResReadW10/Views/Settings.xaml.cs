@@ -57,8 +57,6 @@ namespace LitRes.Views
             if (_readerPage == null)
                 _readerPage = Reader.Instance;
 
-		    _readerPage.FromSettings = true;
-
 		    SecondaryTileButton.Visibility = _readerPage.ViewModel.Entity.IsMyBook ? Visibility.Visible : Visibility.Collapsed;
 
 		    GetLineSpacingValue();
@@ -86,6 +84,8 @@ namespace LitRes.Views
             AutorotateSwitch.Toggled += AutorotateSwitchOnToggled;
 
 		    _fontSliderValueChanging = false;
+            FontSizeSlider.ValueChanged -= FontSizeSliderOnValueChanged;
+           
             FontSizeSlider.Value = AppSettings.Default.FontSettings.FontSize;
             _fontSliderValue = FontSizeSlider.Value;
             FontSizeSlider.Tapped -= FontSizeSliderOnTapped;
@@ -94,14 +94,12 @@ namespace LitRes.Views
             FontSizeSlider.ManipulationDelta += FontSizeSliderOnManipulationDelta;
             FontSizeSlider.ManipulationCompleted -= FontSizeSliderOnManipulationCompleted;
             FontSizeSlider.ManipulationCompleted += FontSizeSliderOnManipulationCompleted;
-            FontSizeSlider.ValueChanged -= FontSizeSliderOnValueChanged;
-            FontSizeSlider.ValueChanged += FontSizeSliderOnValueChanged;
             FontSizeSlider.Minimum = SystemInfoHelper.IsDesktop() ? 16 : 14;
 		    FontSizeSlider.Maximum = SystemInfoHelper.IsDesktop() ? 24 : 22;
 		    FontSizeSlider.StepFrequency = 2;
-
-          //  JustificationSwither.Toggled -= JustificationSwither_Toggled;
-          //  JustificationSwither.Toggled += JustificationSwither_Toggled;
+            FontSizeSlider.ValueChanged += FontSizeSliderOnValueChanged;
+            //  JustificationSwither.Toggled -= JustificationSwither_Toggled;
+            //  JustificationSwither.Toggled += JustificationSwither_Toggled;
 
             _marginSliderValueChanging = false;
             _marginSliderValue = MarginsSlider.Value;
@@ -158,7 +156,8 @@ namespace LitRes.Views
             var value = (int)slider.Value;
             var margin = CalculateMargin(value);
             AppSettings.Default.MarginValue = margin;
-        }
+	        AppSettings.Default.SettingsChanged = true;
+	    }
 
 	    private void FontSizeSliderOnValueChanged(object sender, RangeBaseValueChangedEventArgs rangeBaseValueChangedEventArgs)
 	    {
@@ -167,6 +166,7 @@ namespace LitRes.Views
             if (slider == null) return;
             var value = (int)slider.Value;
             AppSettings.Default.FontSettings.FontSize = value;
+            AppSettings.Default.SettingsChanged = true;
         }
 
 	    private void GetMarginValue()
@@ -231,6 +231,7 @@ namespace LitRes.Views
             var toggle = sender as ToggleSwitch;
             if (toggle == null) return;
             AppSettings.Default.HideStatusBar = toggle.IsOn;
+            AppSettings.Default.SettingsChanged = true;
         }
 
 	    private void AutorotateSwitchOnToggled(object sender, RoutedEventArgs routedEventArgs)
@@ -238,7 +239,8 @@ namespace LitRes.Views
             var toggle = sender as ToggleSwitch;
             if (toggle == null) return;
 	        AppSettings.Default.Autorotate = toggle.IsOn;
-	    }
+            AppSettings.Default.SettingsChanged = true;
+        }
 
 	    private void GetTheme()
 	    {
@@ -290,6 +292,7 @@ namespace LitRes.Views
                     break;
             }
 	        AppSettings.Default.ColorSchemeKey = themeIndex;
+            AppSettings.Default.SettingsChanged = true;
             if (SystemInfoHelper.IsDesktop())
             {
                 _readerPage?.UpdateSettings();
@@ -323,6 +326,7 @@ namespace LitRes.Views
 	        var margin = CalculateMargin(value);
             AppSettings.Default.MarginValue = margin;
 	        _marginSliderValue = margin;
+            AppSettings.Default.SettingsChanged = true;
             if (SystemInfoHelper.IsDesktop() && !_marginSliderValueChanging)
                 _readerPage.UpdateSettings();
         }
@@ -342,6 +346,7 @@ namespace LitRes.Views
             var value = (int)slider.Value;
             AppSettings.Default.FontSettings.FontSize = value;
             _fontSliderValue = value;
+            AppSettings.Default.SettingsChanged = true;
             if (SystemInfoHelper.IsDesktop())
                 _readerPage.UpdateSettings();
         }
@@ -353,6 +358,7 @@ namespace LitRes.Views
 	        AppSettings.Default.Hyphenation = toggle.IsOn;
             if (_readerPage == null)
                 _readerPage = Reader.Instance;
+            AppSettings.Default.SettingsChanged = true;
             if (SystemInfoHelper.IsDesktop())
                 _readerPage.GoToChapter();
         }
@@ -446,6 +452,7 @@ namespace LitRes.Views
                             _readerPage.ChangeFont();
                         break;
                 }
+                AppSettings.Default.SettingsChanged = true;
             }
         }
 
@@ -474,6 +481,7 @@ namespace LitRes.Views
                     AppSettings.Default.FontSettings.FontInterval = 1.5f;
                     break;
             }
+            AppSettings.Default.SettingsChanged = true;
             if (SystemInfoHelper.IsDesktop())
                 _readerPage.UpdateSettings();
         }

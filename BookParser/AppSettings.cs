@@ -221,6 +221,8 @@ namespace BookParser
 
         public bool ToBookmark { get; set; }
 
+        public bool SettingsChanged { get; set; }
+
         public bool ReaderOpen
         {
             get { return _settingsStorage.GetValueWithDefault("ReaderOpen", false); }

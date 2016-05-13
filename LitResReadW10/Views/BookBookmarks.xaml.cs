@@ -46,7 +46,9 @@ namespace LitRes.Views
 	                {
 	                    NoBookmarksGrid.Visibility = Visibility.Collapsed;
 	                }
-	                break;
+	               // BookmarksScrollViewer.Height = Frame.ActualHeight - 100;
+
+                    break;
 	            case "BookmarkDeleted":
 	                BookmarksListView.ItemsSource = ViewModel.Bookmarks;
                     if (ViewModel.Bookmarks.Count == 0)

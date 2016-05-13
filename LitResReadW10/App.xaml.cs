@@ -55,7 +55,7 @@ namespace LitResReadW10
             tracker.appId = "9wzdncrfhvzw";
             tracker.devKey = "8iAKRJCBJWsHtjSJiNZ6KQ";
             tracker.TrackAppLaunch();
-
+            AppSettings.Default.SettingsChanged = true;
             if (e.Arguments.Length > 0 && e.Arguments.Contains("secondary_tile_id"))
             {
               //  new MessageDialog(e.Kind.ToString()).ShowAsync();
