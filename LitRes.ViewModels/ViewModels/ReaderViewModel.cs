@@ -331,7 +331,15 @@ namespace LitRes.ViewModels
             if (Status == LoadingStatus.TrialBookLoaded)
             {
                 await _catalogProvider.AddFragmentToMyBooks(book, session.Token);
-                await _catalogProvider.AddFragmentToMyBasket(book, session.Token);
+                //Такой-то костыль
+                try
+                {
+                    await _catalogProvider.AddFragmentToMyBasket(book, session.Token);
+                }
+                catch (Exception)
+                {
+                    //Игнор
+                }
                 OnPropertyChanged(new PropertyChangedEventArgs("IncProgress"));
             }
 
