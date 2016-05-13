@@ -237,12 +237,12 @@
                                                    FontWeight="SemiLight" />
                                     </Button>
                                     <Button
-                                        Style="{StaticResource OrangeButtonStyle}"
+                                        Style="{StaticResource BlackButtonStyle}"
                                         Width="72"
                                         Height="36"
                                         Padding="5,0,5,0"
-                                         Visibility="Collapsed">
-                                        <!--Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|visibility, FallbackValue=Collapsed}">-->
+                                        Tapped="ReadButton_OnTapped"
+                                        Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|visibility, FallbackValue=Collapsed}">
                                         <TextBlock TextWrapping="Wrap"
                                                    Text="ЧИТАТЬ"
                                                    FontSize="14"
@@ -452,12 +452,12 @@
                                                    FontWeight="SemiLight" />
                                     </Button>
                                     <Button
-                                        Style="{StaticResource OrangeButtonStyle}"
+                                        Style="{StaticResource BlackButtonStyle}"
                                         Width="72"
                                         Height="36"
                                         Padding="5,0,5,0"
-                                         Visibility="Collapsed">
-                                        <!--Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|visibility, FallbackValue=Collapsed}">-->
+                                        Tapped="ReadButton_OnTapped"
+                                        Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|visibility, FallbackValue=Collapsed}">
                                         <TextBlock TextWrapping="Wrap"
                                                    Text="ЧИТАТЬ"
                                                    MaxLines="2"

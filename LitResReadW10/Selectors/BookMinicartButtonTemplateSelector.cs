@@ -45,9 +45,10 @@ namespace LitRes.Selectors
                // var isTrialBookExists = _bookProvider.TrialBookExistsInLocalStorage(book.Id);
                 
                 if (bookProvider.FullBookExistsInLocalStorage(book.Id)) return Read;
-                if (!book.isFragment && book.IsMyBook && !isFullBookExists) return Read;
-                if (!book.IsMyBook && book.isFreeBook) return Read;
-                if (book.isFragment) return Read;
+                if (book.IsMyBook) return Read;
+                //if (!book.isFragment && book.IsMyBook && !isFullBookExists) return Read;
+                //if (!book.IsMyBook && book.isFreeBook) return Read;
+                //if (book.isFragment) return Read;
             }
 
             return Buy;
