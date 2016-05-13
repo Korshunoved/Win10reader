@@ -35,7 +35,8 @@ namespace LitRes.ValueConverters
                     }
                     else if (parameters != null && parameters.Contains("full"))
                     {
-                        if (book != null && bookProvider.FullBookExistsInLocalStorage(book.Id)) isExists = true;
+                        //if (book != null && bookProvider.FullBookExistsInLocalStorage(book.Id)) isExists = true;
+                        if (book != null && book.IsMyBook && !book.IsFreeBook) isExists = true;
                     }
                     else
                     {

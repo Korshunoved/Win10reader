@@ -151,7 +151,16 @@ namespace LitRes.Views
                 }
             }
         }
-	}
+
+        private void ReadButton_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var book = button?.DataContext as Book;
+            if (book == null)
+                return;
+            ViewModel.Read.Execute(book);
+        }
+    }
 
 	public class GenreBooksFitting : EntityPage<Genre, GenreBooksViewModel>
 	{

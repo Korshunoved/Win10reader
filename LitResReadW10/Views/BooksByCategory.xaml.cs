@@ -131,7 +131,16 @@ namespace LitRes.Views
             }
         }
 
-        private async void ChoosePaymentMethod()
+	    private void ReadButton_OnTapped(object sender, TappedRoutedEventArgs e)
+	    {
+	        var button = sender as Button;
+	        var book = button?.DataContext as Models.Book;
+	        if (book == null)
+	            return;
+	        ViewModel.Read.Execute(book);
+	    }
+
+	    private async void ChoosePaymentMethod()
         {
             await ViewModel.UpdatePrice();
             var price = ViewModel.AccoundDifferencePrice;
