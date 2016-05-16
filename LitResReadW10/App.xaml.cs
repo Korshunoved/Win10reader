@@ -25,7 +25,7 @@ namespace LitResReadW10
         internal const int PasswordLength = 3;
         public static string TileBookId;
         public static bool IsLaunched { get; set; }
-        public static bool IsRestored { get; set; }
+        public static bool OpenFromTile;        
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -48,8 +48,6 @@ namespace LitResReadW10
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             base.OnLaunched(e);
-            if (IsLaunched)
-                IsRestored = true;
             IsLaunched = true;
             AppsFlyerTracker tracker = AppsFlyerTracker.GetAppsFlyerTracker();
             tracker.appId = "9wzdncrfhvzw";
@@ -61,9 +59,10 @@ namespace LitResReadW10
               //  new MessageDialog(e.Kind.ToString()).ShowAsync();
                 TileBookId = e.Arguments.Split('=')[1];
                 var book = new Book {Id = int.Parse(TileBookId)};
+                OpenFromTile = true;
                 RootFrame.Navigate(typeof(Reader), XParameters.Create("BookEntity", book));
             }
-
+            else
             if (AppSettings.Default.ReaderOpen)
             {
                 var book = new Book { Id = AppSettings.Default.LastBookId };
@@ -81,8 +80,6 @@ namespace LitResReadW10
         {
             base.OnActivated(args);
             if (args.Kind != ActivationKind.ToastNotification) return;
-            if (IsLaunched)
-                IsRestored = true;
             if (!IsLaunched)
             {
                 IsLaunched = true;

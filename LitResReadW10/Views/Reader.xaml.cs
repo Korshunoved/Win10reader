@@ -129,9 +129,12 @@ namespace LitRes.Views
             MobileTop.Background = AppSettings.Default.ColorScheme.PanelBackgroundBrush;
             Bottom.Background = AppSettings.Default.ColorScheme.PanelBackgroundBrush;
             BookTitleStackPanel.Background = AppSettings.Default.ColorScheme.PanelBackgroundBrush;
-            BookTitleTextBlock.Margin = new Thickness(AppSettings.Default.Margin.Left, 0, 0, 0);
-            BookTitleTextBlock.Foreground = AppSettings.Default.ColorScheme.BookTitleBrush;
-            //BookTitleTextBlock.FontFamily = AppSettings.Default.FontSettings.FontFamily;
+            var deviceWidth = Window.Current.CoreWindow.Bounds.Width;
+            var margin = (int) (deviceWidth*0.03f);
+            BookTitleTextBlock.Width = deviceWidth - margin*2;
+            BookTitleTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+            BookTitleTextBlock.Margin = new Thickness(margin, 0, margin, 0);
+            BookTitleTextBlock.Foreground = AppSettings.Default.ColorScheme.BookTitleBrush;            
             PagesTextBlock.Foreground = AppSettings.Default.ColorScheme.TextForegroundBrush;
             PagesTextBlock.FontFamily = AppSettings.Default.FontSettings.FontFamily;
             ChapterTextBlock.Foreground = AppSettings.Default.ColorScheme.ChapterTextBrush;
@@ -274,11 +277,12 @@ namespace LitRes.Views
         
         private async Task HandleLoadedBook()
         {
+            if (App.OpenFromTile)
+                await Task.Delay(2000);
             if (ViewModel.Status == ReaderViewModel.LoadingStatus.FullBookLoaded || ViewModel.Status == ReaderViewModel.LoadingStatus.TrialBookLoaded)
             {
                 CoverGrid.Visibility = Visibility.Collapsed;
                 HideMenu();
-                _isSliderMoving = false;
 
                 CurrentPageSlider.ManipulationStarted -= CurrentPageSliderOnManipulationStarted;
                 CurrentPageSlider.ManipulationCompleted -= CurrentPageSliderOnManipulationCompleted;
@@ -330,27 +334,35 @@ namespace LitRes.Views
 
         private async Task GetTokenPosition(BookmarkModel bookmark)
         {
-            var book = AppSettings.Default.CurrentBook;
-            _bookSearch = new BookSearch(book);
-            _bookSearch.Init();
-            var query = new List<string>(bookmark.Text.Split(' ').ToList());
-            string text1 = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
-            text1 = text1.Remove(text1.Length - 1);
-            query.RemoveAt(query.Count - 1);
-            string text2 = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
-            text1 = text1.Replace(Convert.ToChar(160).ToString(), " ");
-            text2 = text2.Replace(Convert.ToChar(160).ToString(), " ");            
-            var result = await _bookSearch.Search(book, text1, query.Count);
-            if (result.Count > 0)
+            try
             {
-                AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
+                var book = AppSettings.Default.CurrentBook;
+                _bookSearch = new BookSearch(book);
+                _bookSearch.Init();
+                var query = new List<string>(bookmark.Text.Split(' ').ToList());
+                string text1 = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
+                text1 = text1.Remove(text1.Length - 1);
+                query.RemoveAt(query.Count - 1);
+                string text2 = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
+                text1 = text1.Replace(Convert.ToChar(160).ToString(), " ");
+                text2 = text2.Replace(Convert.ToChar(160).ToString(), " ");
+                var result = await _bookSearch.Search(book, text1, query.Count);
+                if (result.Count > 0)
+                {
+                    AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
+                }
+                else
+                {
+                    result = await _bookSearch.Search(book, text2, query.Count);
+                    if (result.Count > 0) AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
+                }
+                _bookSearch.Dispose();
             }
-            else
-            {
-                result = await _bookSearch.Search(book, text2, query.Count);
-                if (result.Count > 0) AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
+            catch (Exception e)
+            {                
+                Debug.Write(e.Message);
             }
-            _bookSearch.Dispose();
+
         }
 
         private void CurrentPageSliderOnTapped(object sender, TappedRoutedEventArgs tappedRoutedEventArgs)
@@ -361,7 +373,6 @@ namespace LitRes.Views
 
         private void CurrentPageSliderOnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs manipulationCompletedRoutedEventArgs)
         {
-            _isSliderMoving = false;
             OnSliderClickOrMoved();
         }
 
@@ -523,7 +534,7 @@ namespace LitRes.Views
             if (BookCoverBack.Visibility == Visibility.Visible)
                 BookCoverBack.Visibility = Visibility.Collapsed;
 
-            Bottom.Visibility = Visibility.Visible;
+            //Bottom.Visibility = Visibility.Visible;
 
             BusyGrid.Visibility = Visibility.Collapsed;
             BusyProgress.IsIndeterminate = false;
@@ -623,15 +634,13 @@ namespace LitRes.Views
 
            _tokenOffset = _readController.Offset;
             GetCurrentChapter();
-            _isSliderMoving = true;
             CurrentPageSlider.Value = _readController.CurrentPage;
             CurrentPage = (int) CurrentPageSlider.Value;
             SecondCurrentPageRun.Text = _readController.CurrentPage.ToString();
             SecondTotalPagesRun.Text = "/ " + _readController.TotalPages;
             CurrentPageRun.Text = _readController.CurrentPage.ToString();
             TotalPagesRun.Text = "/ "+_readController.TotalPages;
-            AppSettings.Default.CurrentTokenOffset = _tokenOffset;            
-            _isSliderMoving = false;
+            AppSettings.Default.CurrentTokenOffset = _tokenOffset;
             PageCanvas.Manipulator.IsFirstPage = _readController.IsFirst;
             PageCanvas.Manipulator.IsLastPage = _readController.IsLast;
             PageCanvas.Manipulator.UpdatePanelsVisibility();
@@ -643,7 +652,7 @@ namespace LitRes.Views
         private bool _isAnchor;
         private bool FindLink(Thickness margin)
         {
-            var offset = SystemInfoHelper.IsDesktop() ? 71 : 19;
+            var offset = AppSettings.Default.Margin.Left;
             _link = PageCanvas.CurrentLinks.FirstOrDefault(l => Math.Abs(l.Rect.Y - margin.Top) < 1 && Math.Abs(margin.Left - l.Rect.X - offset) < 1);
             if (_link != null)
             {
@@ -651,9 +660,10 @@ namespace LitRes.Views
                 {
                     int anchorsTokenId = AppSettings.Default.Anchors.FirstOrDefault(l => l.Name == _link.LinkID).TokenID;
                     var text = _bookTool.GetAnchorTextByToken(_book, anchorsTokenId);
-                    AnchorTextBlock.Text = text;
+                    AnchorTextBlock.Text = text;                    
                     AnchorStackPanel.Tapped -= AnchorStackPanelOnTapped;
-                    AnchorStackPanel.Tapped += AnchorStackPanelOnTapped;
+                    AnchorStackPanel.Tapped += AnchorStackPanelOnTapped;                                          
+                    AnchorStackPanel.Height = AnchorTextBlock.DesiredSize.Height;                                                           
                     AnchorStackPanel.Background = AppSettings.Default.ColorScheme.LinkPanelBackgroundBrush;
                     AnchorStackPanel.Visibility = Visibility.Visible;
                     _isAnchor = true;
@@ -724,15 +734,13 @@ namespace LitRes.Views
 
         private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftButton) == CoreVirtualKeyStates.Down) return;
+            if (!SystemInfoHelper.IsDesktop() &&
+                Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftButton) == CoreVirtualKeyStates.Down) return;
             Redraw();
         }
 
-        private bool _isSliderMoving;
-
         private void CurrentPageSliderOnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs manipulationStartedRoutedEventArgs)
         {
-            _isSliderMoving = true;
         }
 
         private void SettingsButton_OnTapped(object sender, TappedRoutedEventArgs e)

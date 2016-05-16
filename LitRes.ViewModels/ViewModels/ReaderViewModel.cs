@@ -16,6 +16,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Xml.Linq;
 using Windows.UI.Popups;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using BookParser;
 using BookParser.Models;
@@ -444,9 +445,7 @@ namespace LitRes.ViewModels
         }
 
         private async Task LoadFb2BookFile(Session session, Book book)
-        {
-            string bookFolderName = null;
-
+        {                        
             Exception exception = null;
             LoadingStatus status = LoadingStatus.BeforeLoaded;
             var credentials = _credentialsProvider.ProvideCredentials(session.Token);
@@ -896,6 +895,7 @@ namespace LitRes.ViewModels
 
         public string GetXPointer(string pattern)
         {
+            if (BookSummary?.Root == null) return null;
             var root = BookSummary.Root;
             XAttribute attribute = root.Attribute("xmlns");
             XNamespace ns = attribute.Value;

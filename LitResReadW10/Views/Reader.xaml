@@ -276,22 +276,43 @@
                 <RowDefinition MaxHeight="20" />
             </Grid.RowDefinitions>
             <StackPanel x:Name="BookTitleStackPanel" Background="LightCyan"  Grid.Row="0" Orientation="Horizontal">
-                <TextBlock x:Name="BookTitleTextBlock" Text="Светлая и Темная" TextTrimming="CharacterEllipsis" FontSize="12" HorizontalAlignment="Left"  Opacity="0.4" Margin="20,0,0,0" VerticalAlignment="Center" Padding="0,0,0,2" FontFamily="Segoe UI"/>
+                <TextBlock x:Name="BookTitleTextBlock" Text="" 
+                           TextTrimming="CharacterEllipsis" 
+                           MaxLines="1" 
+                           FontSize="12" 
+                           TextAlignment="Center"
+                           Width="{Binding ActualWidth, ElementName=BookTitleStackPanel}"
+                           HorizontalAlignment="Stretch"  
+                           Opacity="0.4" VerticalAlignment="Center" Padding="0,0,0,2" FontFamily="Segoe UI"/>
             </StackPanel>
             <controls1:ThreePagePanel Grid.Row="1"
                                       x:Name="PageCanvas"
                                       Tapped="PageCanvas_Tapped"
                                       PointerPressed="PageCanvas_OnPointerPressed"
                                       PointerReleased="PageCanvas_OnPointerReleased" />
-            <Border x:Name="AnchorStackPanel"
+            <Grid x:Name="AnchorStackPanel"
                     Grid.Row="1"
                     Visibility="Collapsed"
-                    Canvas.ZIndex="3" Margin="12,0" >
-                <ScrollViewer HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalScrollBarVisibility="Visible">
-                    <TextBlock x:Name="AnchorTextBlock" Text="" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="14" FontFamily="Segoe UI" Margin="24,10" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontStretch="Normal" CharacterSpacing="-5"/>
+                    Canvas.ZIndex="3" Margin="12,0"
+                    MinHeight="100"
+                    MaxHeight="500">
+                <ScrollViewer HorizontalContentAlignment="Stretch" 
+                              VerticalContentAlignment="Stretch" 
+                              VerticalScrollBarVisibility="Hidden">
+                    <TextBlock x:Name="AnchorTextBlock" Text="" VerticalAlignment="Stretch" 
+                               HorizontalAlignment="Stretch" 
+                               FontSize="14" 
+                               FontFamily="Segoe UI" 
+                               Margin="24,10" 
+                               MinHeight="100"
+                               MaxHeight="500"
+                               TextWrapping="Wrap" 
+                               TextTrimming="CharacterEllipsis" 
+                               FontStretch="Normal" 
+                               CharacterSpacing="-5"/>
                 </ScrollViewer>
 
-            </Border>
+            </Grid>
             <StackPanel Grid.Row="2" VerticalAlignment="Center" Height="20">
                 <TextBlock Foreground="Black" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.4">
                     <Run x:Name="CurrentPageRun" FontWeight="Bold" Text="" />
