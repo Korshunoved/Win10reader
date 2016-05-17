@@ -1,21 +1,23 @@
-﻿using Windows.ApplicationModel;
+﻿using System.Diagnostics;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using AppsFlyerLib;
 using Autofac;
 using BookParser;
-using Cimbalino.Toolkit.Services;
 using Digillect;
 using Digillect.Mvvm.Services;
-using Digillect.Mvvm.UI;
 using LitRes;
 using LitRes.Services;
 using LitRes.Views;
+using Microsoft.ApplicationInsights;
+using Book = LitRes.Models.Book;
 
 namespace LitResReadW10
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    sealed partial class App : WindowsRTApplication
+    sealed partial class App
     {
         internal const string EmailRegexPattern = @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$";
         internal const string PhoneRegexPattern = @"^\+7[0-9]{10,10}$";
@@ -23,6 +25,7 @@ namespace LitResReadW10
         internal const int PasswordLength = 3;
         public static string TileBookId;
         public static bool IsLaunched { get; set; }
+        public static bool OpenFromTile;        
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -30,11 +33,11 @@ namespace LitResReadW10
         /// </summary>
         public App()
         {
-            Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
-                Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
-                Microsoft.ApplicationInsights.WindowsCollectors.Session);
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            WindowsAppInitializer.InitializeAsync(
+                WindowsCollectors.Metadata |
+                WindowsCollectors.Session);
+            InitializeComponent();
+            Suspending += OnSuspending;
         }
 
         /// <summary>
@@ -46,26 +49,27 @@ namespace LitResReadW10
         {
             base.OnLaunched(e);
             IsLaunched = true;
-            AppsFlyerLib.AppsFlyerTracker tracker = AppsFlyerLib.AppsFlyerTracker.GetAppsFlyerTracker();
+            AppsFlyerTracker tracker = AppsFlyerTracker.GetAppsFlyerTracker();
             tracker.appId = "9wzdncrfhvzw";
             tracker.devKey = "8iAKRJCBJWsHtjSJiNZ6KQ";
             tracker.TrackAppLaunch();
-
+            AppSettings.Default.SettingsChanged = true;
             if (e.Arguments.Length > 0 && e.Arguments.Contains("secondary_tile_id"))
             {
               //  new MessageDialog(e.Kind.ToString()).ShowAsync();
                 TileBookId = e.Arguments.Split('=')[1];
-                var book = new LitRes.Models.Book {Id = int.Parse(TileBookId)};
+                var book = new Book {Id = int.Parse(TileBookId)};
+                OpenFromTile = true;
                 RootFrame.Navigate(typeof(Reader), XParameters.Create("BookEntity", book));
             }
-
+            else
             if (AppSettings.Default.ReaderOpen)
             {
-                var book = new LitRes.Models.Book { Id = AppSettings.Default.LastBookId };
+                var book = new Book { Id = AppSettings.Default.LastBookId };
                 RootFrame.Navigate(typeof(Reader), XParameters.Create("BookEntity", book));
             }
 #if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
+            if (Debugger.IsAttached)
             {
                 //this.DebugSettings.EnableFrameRateCounter = true;
             }
@@ -83,79 +87,85 @@ namespace LitResReadW10
             }
             //NavigateRootFrame(e);
             var toastArgs = args as ToastNotificationActivatedEventArgs;
-            if (toastArgs == null) return;
-            var argument = toastArgs.Argument;
-            var arguments = argument.Split('&');
-            var type = "";
-            var action = "";
-            var internalId = "";
-            foreach (var s in arguments)
+            if (toastArgs != null)
             {
-                if (s.Contains("type="))
+                var argument = toastArgs.Argument;
+                var arguments = argument.Split('&');
+                var type = "";
+                var action = "";
+                var internalId = "";
+                foreach (var s in arguments)
                 {
-                    type = s.Split('=')[1];
-                }
-                else if (s.Contains("action"))
-                {
-                    action = s.Split('=')[1];
-                }
-                else if (s.Contains("internal_id="))
-                {
-                    internalId = s.Split('=')[1];
-                }
-            }
-            if (internalId == "") return;
-            switch (type)
-            {
-                case "b":
-                {
-                    switch (action)
+                    if (s.Contains("type="))
                     {
-                        case "read":
-                        {
-                            var book = new LitRes.Models.Book {Id = int.Parse(internalId)};
-                            RootFrame.Navigate(typeof(Reader), XParameters.Create("BookEntity", book));
-                            break;
-                        }
-                        case "about":
-                        {
-                            var book = new LitRes.Models.Book { Id = int.Parse(internalId) };
-                            RootFrame.Navigate(typeof(LitRes.Views.Book), XParameters.Create("BookEntity", book));
-                            break;
-                        }
-                        case "cart":
-                        {
-                            var book = new LitRes.Models.Book { Id = int.Parse(internalId) };
-                            RootFrame.Navigate(typeof(LitRes.Views.Book), XParameters.Create("BookEntity", book));
-                            break;
-                        }
-                        case "buy":
-                        {
-                            var book = new LitRes.Models.Book { Id = int.Parse(internalId) };
-                            LitRes.Views.Book.NavigationReason = "buy";
-                            RootFrame.Navigate(typeof(LitRes.Views.Book), XParameters.Create("BookEntity", book));
-                            break;
-                        }
-                        default:
-                        {
-                            var book = new LitRes.Models.Book { Id = int.Parse(internalId) };        
-                            RootFrame.Navigate(typeof(LitRes.Views.Book), XParameters.Create("BookEntity", book));
-                            break;
-                        }
+                        type = s.Split('=')[1];
                     }
-                    break;
+                    else if (s.Contains("action"))
+                    {
+                        action = s.Split('=')[1];
+                    }
+                    else if (s.Contains("internal_id="))
+                    {
+                        internalId = s.Split('=')[1];
+                    }
                 }
-                case "a":
+                if (internalId == "") return;
+                switch (type)
                 {
-                    RootFrame.Navigate(typeof(LitRes.Views.Person), XParameters.Create("Id", internalId));
-                    break;
-                }
-                default:
-                {
-                    return;
+                    case "b":
+                    {
+                        switch (action)
+                        {
+                            case "read":
+                            {
+                                var book = new Book {Id = int.Parse(internalId)};
+                                RootFrame.Navigate(typeof (Reader), XParameters.Create("BookEntity", book));
+                                break;
+                            }
+                            case "about":
+                            {
+                                var book = new Book {Id = int.Parse(internalId)};
+                                RootFrame.Navigate(typeof (LitRes.Views.Book), XParameters.Create("BookEntity", book));
+                                break;
+                            }
+                            case "cart":
+                            {
+                                var book = new Book {Id = int.Parse(internalId)};
+                                RootFrame.Navigate(typeof (LitRes.Views.Book), XParameters.Create("BookEntity", book));
+                                break;
+                            }
+                            case "buy":
+                            {
+                                var book = new Book {Id = int.Parse(internalId)};
+                                LitRes.Views.Book.NavigationReason = "buy";
+                                RootFrame.Navigate(typeof (LitRes.Views.Book), XParameters.Create("BookEntity", book));
+                                break;
+                            }
+                            default:
+                            {
+                                var book = new Book {Id = int.Parse(internalId)};
+                                RootFrame.Navigate(typeof (LitRes.Views.Book), XParameters.Create("BookEntity", book));
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    case "a":
+                    {
+                        RootFrame.Navigate(typeof (Person), XParameters.Create("Id", internalId));
+                        break;
+                    }
+                    default:
+                    {
+                        return;
+                    }
                 }
             }
-
+            else if (AppSettings.Default.ReaderOpen)
+            {
+                var book = new Book { Id = AppSettings.Default.LastBookId };
+                RootFrame.Navigate(typeof(Reader), XParameters.Create("BookEntity", book));
+            }
         }
 
         protected override void NavigateRootFrame(LaunchActivatedEventArgs e)

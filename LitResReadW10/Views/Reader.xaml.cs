@@ -16,6 +16,7 @@ using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Graphics.Display;
 using Windows.System;
+using Windows.System.Display;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
@@ -61,10 +62,11 @@ namespace LitRes.Views
         private BookSearch _bookSearch;
         private int _tokenOffset;
         public int CurrentPage;
-        public bool FromSettings;
         private readonly INavigationService _navigationService = ((App)Application.Current).Scope.Resolve<INavigationService>();
         private double _pageSliderValue;
         private LinkRenderData _link;
+        private ChapterModel _currentChapter;
+        private DisplayRequest _displayRequest;
         public bool IsHardwareBack => ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons");
 
         public static Reader Instance;
@@ -89,44 +91,55 @@ namespace LitRes.Views
                 _isLoaded = false;
             };
             LocalBroadcastReciver.Instance.PropertyChanging += Instance_PropertyChanging;
-            DisplayInformation.GetForCurrentView().OrientationChanged += OnOrientationChanged;
-            Window.Current.SizeChanged += Current_SizeChanged;
-           
+            DisplayInformation.GetForCurrentView().OrientationChanged += OnOrientationChanged;         
             if (ExpirationGuardian.Instance != null) ExpirationGuardian.Instance.AddCallBack(this);
             _bookTool = new BookTool();
+            ReaderGrid.Opacity = 0;
+            BookCoverBack.Visibility = Visibility.Visible;
+            BookTitleTextBlock.Text = "";
         }
 
-        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
-        {
-        }
         #endregion
 
         #region ReaderLoaded
         async void ReaderLoaded(object sender, RoutedEventArgs e)
         {
-            await ViewModel.LoadSettings();
-            if (AppSettings.Default.CurrentTokenOffset > 0 || (Instance != null && Instance.FromSettings))
-            {
-                TopGrid.Visibility=Visibility.Collapsed;
-                FromSettings = false;
-            }            
+            await ViewModel.LoadSettings();            
             Instance = this;
-            _tokenOffset = AppSettings.Default.CurrentTokenOffset;
-            LayoutRoot.Background = AppSettings.Default.ColorScheme.BackgroundBrush;
-            BusyGrid.Visibility = Visibility.Visible;
-            BusyProgress.IsIndeterminate = true;
-            PagesTextBlock.Visibility = Visibility.Collapsed;
+            _tokenOffset = AppSettings.Default.CurrentTokenOffset;            
+            SetColorScheme();
+            //PagesTextBlock.Visibility = Visibility.Collapsed;
             ReaderGrid.Loaded -= ReaderGridOnLoaded;
-            ReaderGrid.Loaded += ReaderGridOnLoaded; 
+            ReaderGrid.Loaded += ReaderGridOnLoaded;
+            AnchorStackPanel.MaxHeight = 350;
             var currentOrientation = DisplayInformation.GetForCurrentView().CurrentOrientation;
             DisplayInformation.AutoRotationPreferences = AppSettings.Default.Autorotate ? DisplayOrientations.None : currentOrientation;
             if (SystemInfoHelper.IsDesktop()) return;
             var hideBar = AppSettings.Default.HideStatusBar;
             var statusBar = StatusBar.GetForCurrentView();
-            statusBar.BackgroundColor = AppSettings.Default.ColorScheme.BackgroundBrush.Color;
+            statusBar.BackgroundColor = AppSettings.Default.ColorScheme.PanelBackgroundBrush.Color;
             statusBar.ForegroundColor = AppSettings.Default.ColorScheme.TextForegroundBrush.Color;
             if (!hideBar) return;
-            await statusBar.HideAsync();
+            await statusBar.HideAsync();            
+        }
+
+        private void SetColorScheme()
+        {
+            LayoutRoot.Background = AppSettings.Default.ColorScheme.BackgroundBrush;
+            MobileTop.Background = AppSettings.Default.ColorScheme.PanelBackgroundBrush;
+            Bottom.Background = AppSettings.Default.ColorScheme.PanelBackgroundBrush;
+            BookTitleStackPanel.Background = AppSettings.Default.ColorScheme.PanelBackgroundBrush;
+            var deviceWidth = Window.Current.CoreWindow.Bounds.Width;
+            var margin = (int) (deviceWidth*0.03f);
+            BookTitleTextBlock.Width = deviceWidth - margin*2;
+            BookTitleTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+            BookTitleTextBlock.Margin = new Thickness(margin, 0, margin, 0);
+            BookTitleTextBlock.Foreground = AppSettings.Default.ColorScheme.BookTitleBrush;            
+            PagesTextBlock.Foreground = AppSettings.Default.ColorScheme.TextForegroundBrush;
+            PagesTextBlock.FontFamily = AppSettings.Default.FontSettings.FontFamily;
+            ChapterTextBlock.Foreground = AppSettings.Default.ColorScheme.ChapterTextBrush;
+            SecondCurrentPageRun.Foreground = AppSettings.Default.ColorScheme.CurrentPageColorBrush;
+            SecondTotalPagesRun.Foreground = AppSettings.Default.ColorScheme.ChapterTextBrush;
         }
 
         private async void ReaderGridOnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -180,13 +193,17 @@ namespace LitRes.Views
                     if (ViewModel.Status == ReaderViewModel.LoadingStatus.FullBookLoaded) Analytics.Instance.sendMessage(Analytics.ActionReadFull);
                     else if (ViewModel.Status == ReaderViewModel.LoadingStatus.TrialBookLoaded) Analytics.Instance.sendMessage(Analytics.ActionReadFragment);
                     _isLoaded = true;
-                    _book = AppSettings.Default.CurrentBook;                    
+                    _book = AppSettings.Default.CurrentBook;
+                    BusyGrid.Visibility = Visibility.Collapsed;
                     if (_book == null) return;
                     _activeFontHelper = BookFactory.GetActiveFontMetrics(AppSettings.Default.FontSettings.FontFamily.Source);
                     AppSettings.Default.FontSettings.FontHelper = _activeFontHelper;                  
                     break;
                 case "EntityLoaded":
+                    BusyGrid.Visibility = Visibility.Visible;
+                    BusyProgress.IsIndeterminate = true;
                     BookCover.Source = (BitmapImage)(new UrlToImageConverter().Convert(ViewModel.Entity.Cover, null, null));
+
                     break;
                 case "IncProgress":
                     pageProgress.Value += 1;
@@ -211,7 +228,8 @@ namespace LitRes.Views
             if (e.NavigationMode == NavigationMode.Back || (e.Uri != null && string.Equals(e.Uri.OriginalString, "/Views/Main.xaml")) )
             {
                 ControlPanel.Instance.NormalMode();
-
+                NavigationCacheMode = NavigationCacheMode.Disabled;
+                AppSettings.Default.SettingsChanged = true;
                 new Task(async () =>
                 {
                     await ViewModel.UpdateEntity();
@@ -228,6 +246,7 @@ namespace LitRes.Views
 
             ViewModel.SaveSettings();
             AppSettings.Default.ReaderOpen = false;
+            _displayRequest.RequestRelease();
         }
 
         private void SaveCurrentBookmark()
@@ -252,14 +271,18 @@ namespace LitRes.Views
             ControlPanel.Instance.ReaderMode();
             base.OnNavigatedTo(e);
             Analytics.Instance.sendMessage(Analytics.ViewReader);
+            _displayRequest = new DisplayRequest();
+            _displayRequest.RequestActive(); //to request keep display on
         }
         
         private async Task HandleLoadedBook()
         {
+            if (App.OpenFromTile)
+                await Task.Delay(2000);
             if (ViewModel.Status == ReaderViewModel.LoadingStatus.FullBookLoaded || ViewModel.Status == ReaderViewModel.LoadingStatus.TrialBookLoaded)
             {
+                CoverGrid.Visibility = Visibility.Collapsed;
                 HideMenu();
-                _isSliderMoving = false;
 
                 CurrentPageSlider.ManipulationStarted -= CurrentPageSliderOnManipulationStarted;
                 CurrentPageSlider.ManipulationCompleted -= CurrentPageSliderOnManipulationCompleted;
@@ -272,6 +295,10 @@ namespace LitRes.Views
 
                 LayoutRoot.SizeChanged -= LayoutRoot_SizeChanged;
                 LayoutRoot.SizeChanged += LayoutRoot_SizeChanged;
+
+                BookTitleTextBlock.Text = ViewModel.Entity.BookTitle;
+
+                _currentChapter = AppSettings.Default.Chapters.First();
 
                 if (AppSettings.Default.Bookmark != null && !AppSettings.Default.ToChapter && AppSettings.Default.ToBookmark)
                 {
@@ -286,9 +313,7 @@ namespace LitRes.Views
 
                 if (AppSettings.Default.CurrentTokenOffset > 0)
                 {
-                    AppSettings.Default.Bookmark = null;
-                    AppSettings.Default.ToChapter = false;
-                    AppSettings.Default.ToBookmark = false;
+                    AppSettings.Default.Bookmark = null;                    
                     GoToChapter();
                 }
                 else
@@ -309,26 +334,35 @@ namespace LitRes.Views
 
         private async Task GetTokenPosition(BookmarkModel bookmark)
         {
-            var book = AppSettings.Default.CurrentBook;
-            _bookSearch = new BookSearch(book);
-            _bookSearch.Init();
-            var query = new List<string>(bookmark.Text.Split(' ').ToList());
-            string text1 = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
-            text1 = text1.Remove(text1.Length - 1);
-            query.RemoveAt(query.Count - 1);
-            string text2 = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
-            text1 = text1.Replace(Convert.ToChar(160).ToString(), " ");
-            text2 = text2.Replace(Convert.ToChar(160).ToString(), " ");            
-            var result = await _bookSearch.Search(book, text1, query.Count);
-            if (result.Count > 0)
+            try
             {
-                AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
+                var book = AppSettings.Default.CurrentBook;
+                _bookSearch = new BookSearch(book);
+                _bookSearch.Init();
+                var query = new List<string>(bookmark.Text.Split(' ').ToList());
+                string text1 = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
+                text1 = text1.Remove(text1.Length - 1);
+                query.RemoveAt(query.Count - 1);
+                string text2 = query.Aggregate("", (current, word) => current + (word + " ")).TrimEnd();
+                text1 = text1.Replace(Convert.ToChar(160).ToString(), " ");
+                text2 = text2.Replace(Convert.ToChar(160).ToString(), " ");
+                var result = await _bookSearch.Search(book, text1, query.Count);
+                if (result.Count > 0)
+                {
+                    AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
+                }
+                else
+                {
+                    result = await _bookSearch.Search(book, text2, query.Count);
+                    if (result.Count > 0) AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
+                }
+                _bookSearch.Dispose();
             }
-            else
-            {
-                result = await _bookSearch.Search(book, text2, query.Count);
-                if (result.Count > 0) AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
+            catch (Exception e)
+            {                
+                Debug.Write(e.Message);
             }
+
         }
 
         private void CurrentPageSliderOnTapped(object sender, TappedRoutedEventArgs tappedRoutedEventArgs)
@@ -339,7 +373,6 @@ namespace LitRes.Views
 
         private void CurrentPageSliderOnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs manipulationCompletedRoutedEventArgs)
         {
-            _isSliderMoving = false;
             OnSliderClickOrMoved();
         }
 
@@ -359,7 +392,22 @@ namespace LitRes.Views
                 BookCover.Height = BookCoverBack.Height = 474;
                 PageHeader.Margin = new Thickness(0, 0, 0, 75);
             }
-        }       
+        }
+
+        private void GetCurrentChapter()
+        {
+            var chaptertext = "";
+            foreach (var chapter in AppSettings.Default.Chapters.SkipWhile(ch => ch.TokenID > _currentChapter.TokenID))
+            {
+                if (chapter.MinTokenID <= _tokenOffset)
+                {
+                    chaptertext = chapter.Title;
+                    _currentChapter = chapter;
+                }
+                else break;
+            }
+            ChapterTextBlock.Text = chaptertext.Trim();
+        }
 
         public async void GoToBookmark()
         {
@@ -383,22 +431,22 @@ namespace LitRes.Views
                 result = await _bookSearch.Search(book, text2, query.Count);
                 if (result.Count > 0) AppSettings.Default.CurrentTokenOffset = result[0].SearchResult[0].ID;
             }
+            _bookSearch.Dispose();
             AppSettings.Default.Bookmark = null;
             GoToChapter();
         }
 
         private void HideMenu()
-        {
-            CurrentPageSlider.Opacity = 0;
-            TopRelativePanel.Visibility = Visibility.Collapsed;
+        {           
+            MobileTop.Visibility = Visibility.Collapsed;
+            Bottom.Visibility = Visibility.Collapsed;
             PagesTextBlock.Visibility=Visibility.Visible;
         }
 
         private void ShowMenu()
         {
-            CurrentPageSlider.Opacity = 1;           
-            TopRelativePanel.Visibility = Visibility.Visible;
-            PagesTextBlock.Visibility = Visibility.Collapsed;
+            MobileTop.Visibility = Visibility.Visible;
+            Bottom.Visibility = Visibility.Visible;
         }
 
         public void ExpiredCallBack(Models.Book book)
@@ -459,7 +507,7 @@ namespace LitRes.Views
 
         public async void UpdateSettings()
         {
-            LayoutRoot.Background = AppSettings.Default.ColorScheme.BackgroundBrush;
+            SetColorScheme();
             await CreateController();
         }
 
@@ -479,13 +527,6 @@ namespace LitRes.Views
 
             Background = AppSettings.Default.ColorScheme.BackgroundBrush;
 
-            PageCanvas.Clear();
-            PageCanvas.SetSize(ReaderGrid.ActualWidth, ReaderGrid.ActualHeight, ReaderGrid.ActualWidth,
-                ReaderGrid.ActualHeight);
-            PageCanvas.Manipulator =
-                new ManipulatorFactory(PageCanvas).CreateManipulator(AppSettings.Default.FlippingStyle,
-                    AppSettings.Default.FlippingMode);
-
             await CreateController();
 
             _event.Release();
@@ -493,7 +534,7 @@ namespace LitRes.Views
             if (BookCoverBack.Visibility == Visibility.Visible)
                 BookCoverBack.Visibility = Visibility.Collapsed;
 
-            Bottom.Visibility = Visibility.Visible;
+            //Bottom.Visibility = Visibility.Visible;
 
             BusyGrid.Visibility = Visibility.Collapsed;
             BusyProgress.IsIndeterminate = false;
@@ -507,7 +548,9 @@ namespace LitRes.Views
             int tokenOffset = (page - 1) * AppSettings.WordsPerPage;
             _tokenOffset = tokenOffset;
             AppSettings.Default.CurrentTokenOffset = _tokenOffset;
+            AppSettings.Default.ToBookmark = true;
             await CreateController();
+            SaveCurrentBookmark();
         }
 
         public async void GoToChapter()
@@ -517,30 +560,37 @@ namespace LitRes.Views
 
             Background = AppSettings.Default.ColorScheme.BackgroundBrush;
 
-            PageCanvas.Clear();
-            PageCanvas.SetSize(ReaderGrid.ActualWidth, ReaderGrid.ActualHeight, ReaderGrid.ActualWidth, ReaderGrid.ActualHeight);
-            PageCanvas.Manipulator = new ManipulatorFactory(PageCanvas).CreateManipulator(AppSettings.Default.FlippingStyle, AppSettings.Default.FlippingMode);
-
             await CreateController();
 
             if (BookCoverBack.Visibility == Visibility.Visible)
-                BookCoverBack.Visibility = Visibility.Collapsed;
-
-            Bottom.Visibility = Visibility.Visible;
+                BookCoverBack.Visibility = Visibility.Collapsed;          
 
             BusyGrid.Visibility = Visibility.Collapsed;
             BusyProgress.IsIndeterminate = false;
             PageHeader.ProgressIndicatorVisible = false;            
         }
 
+        private bool NeedUpdate()
+        {
+            return AppSettings.Default.SettingsChanged || AppSettings.Default.ToChapter ||
+                   AppSettings.Default.ToBookmark;
+        }
+
         private async Task CreateController()
         {
-            if (_book == null)
+            if (_book == null || !NeedUpdate())
             {
+                BusyGrid.Visibility = Visibility.Collapsed;
+                BusyProgress.IsIndeterminate = false;
+                PageHeader.ProgressIndicatorVisible = false;
+                if (ReaderGrid.Opacity < 1) ReaderGrid.Opacity = 1;
                 return;
-            }
-            
-            
+            }                        
+
+            PageCanvas.Clear();
+            PageCanvas.SetSize(PageCanvas.ActualWidth, PageCanvas.ActualHeight, PageCanvas.ActualWidth, PageCanvas.ActualHeight);
+            PageCanvas.Manipulator = new ManipulatorFactory(PageCanvas).CreateManipulator(AppSettings.Default.FlippingStyle, AppSettings.Default.FlippingMode);
+
             BusyGrid.Visibility = Visibility.Visible;
             BusyProgress.IsIndeterminate = true;          
             _readController = new ReadController(PageCanvas, _book, _book.BookID, _tokenOffset);
@@ -554,20 +604,23 @@ namespace LitRes.Views
             {
                 CurrentPageSlider.Value = _readController.TotalPages;                
             }
-
-            _pageSliderValue = CurrentPageSlider.Value;
+            GetCurrentChapter();
+            _pageSliderValue = CurrentPageSlider.Value;            
             PageCanvas.Manipulator.UpdatePanelsVisibility();
             PageCanvas.Manipulator.IsFirstPage = _readController.IsFirst;
             PageCanvas.Manipulator.IsLastPage = _readController.IsLast;
             CurrentPageSlider.Maximum = _readController.TotalPages;
-            PagesTextBlock.Foreground = AppSettings.Default.ColorScheme.TextForegroundBrush;
-            PagesTextBlock.FontFamily = AppSettings.Default.FontSettings.FontFamily;
-            PagesTextBlock.Text = _readController.CurrentPage + "/" + _readController.TotalPages;
-            if (PagesTextBlock.Visibility == Visibility.Collapsed && CurrentPageSlider.Visibility == Visibility.Collapsed) PagesTextBlock.Visibility = Visibility.Visible;
+            SecondCurrentPageRun.Text = _readController.CurrentPage.ToString();
+            SecondTotalPagesRun.Text = "/ " + _readController.TotalPages;
+            CurrentPageRun.Text = _readController.CurrentPage.ToString();
+            TotalPagesRun.Text = "/ " + _readController.TotalPages;
             BusyGrid.Visibility = Visibility.Collapsed;
             BusyProgress.IsIndeterminate = false;
             PageHeader.ProgressIndicatorVisible = false;
             if (ReaderGrid.Opacity < 1) ReaderGrid.Opacity = 1;
+            AppSettings.Default.SettingsChanged = false;
+            AppSettings.Default.ToChapter = false;
+            AppSettings.Default.ToBookmark = false;
         }        
 
         private async Task TurnPage(bool isRight)
@@ -580,47 +633,66 @@ namespace LitRes.Views
                 await _readController.ShowPrevPage();
 
            _tokenOffset = _readController.Offset;
-
-            _isSliderMoving = true;
+            GetCurrentChapter();
             CurrentPageSlider.Value = _readController.CurrentPage;
             CurrentPage = (int) CurrentPageSlider.Value;
-            PagesTextBlock.Text = _readController.CurrentPage + "/" + _readController.TotalPages;
-            AppSettings.Default.CurrentTokenOffset = _tokenOffset;            
-            _isSliderMoving = false;
+            SecondCurrentPageRun.Text = _readController.CurrentPage.ToString();
+            SecondTotalPagesRun.Text = "/ " + _readController.TotalPages;
+            CurrentPageRun.Text = _readController.CurrentPage.ToString();
+            TotalPagesRun.Text = "/ "+_readController.TotalPages;
+            AppSettings.Default.CurrentTokenOffset = _tokenOffset;
             PageCanvas.Manipulator.IsFirstPage = _readController.IsFirst;
             PageCanvas.Manipulator.IsLastPage = _readController.IsLast;
             PageCanvas.Manipulator.UpdatePanelsVisibility();
 
             _event.Release();
+            SaveCurrentBookmark();
         }
 
         private bool _isAnchor;
         private bool FindLink(Thickness margin)
         {
-            _link = PageCanvas.CurrentLinks.FirstOrDefault(l => Math.Abs(l.Rect.Y - margin.Top) < 1);
+            var offset = AppSettings.Default.Margin.Left;
+            _link = PageCanvas.CurrentLinks.FirstOrDefault(l => Math.Abs(l.Rect.Y - margin.Top) < 1 && Math.Abs(margin.Left - l.Rect.X - offset) < 1);
             if (_link != null)
             {
-                int anchorsTokenId = AppSettings.Default.Anchors.FirstOrDefault(l => l.Name == _link.LinkID).TokenID;
-                var text = _bookTool.GetAnchorTextByToken(_book, anchorsTokenId);
-                AnchorTextBlock.FontSize = 14;
-                AnchorTextBlock.Text = text;
-                AnchorTextBlock.LineStackingStrategy = LineStackingStrategy.BaselineToBaseline;
-                AnchorTextBlock.TextWrapping = TextWrapping.Wrap;
-                AnchorTextBlock.Margin = new Thickness(24,20,24,20);
-                AnchorStackPanel.Tapped -= AnchorStackPanelOnTapped;
-                AnchorStackPanel.Tapped += AnchorStackPanelOnTapped;
-                AnchorStackPanel.Margin = new Thickness(12,0,12,0);
-                AnchorStackPanel.Background = AppSettings.Default.ColorScheme.LinkPanelBackgroundBrush;
-                AnchorStackPanel.MinWidth = 350;
-                AnchorStackPanel.MinHeight = 250;
-                AnchorStackPanel.MaxHeight = AnchorTextBlock.DesiredSize.Height + AnchorTextBlock.Margin.Top;
-                AnchorStackPanel.MaxWidth = 600;                
-                AnchorStackPanel.Visibility = Visibility.Collapsed;
-                AnchorStackPanel.Visibility = Visibility.Visible;
-                _isAnchor = true;
-                return _isAnchor;
+                try
+                {
+                    int anchorsTokenId = AppSettings.Default.Anchors.FirstOrDefault(l => l.Name == _link.LinkID).TokenID;
+                    var text = _bookTool.GetAnchorTextByToken(_book, anchorsTokenId);
+                    AnchorTextBlock.Text = text;                    
+                    AnchorStackPanel.Tapped -= AnchorStackPanelOnTapped;
+                    AnchorStackPanel.Tapped += AnchorStackPanelOnTapped;                                          
+                    AnchorStackPanel.Height = AnchorTextBlock.DesiredSize.Height;                                                           
+                    AnchorStackPanel.Background = AppSettings.Default.ColorScheme.LinkPanelBackgroundBrush;
+                    AnchorStackPanel.Visibility = Visibility.Visible;
+                    _isAnchor = true;
+                    return _isAnchor;
+                }
+                catch (Exception)
+                {
+                    var url = _link.LinkID;
+                    Launch(url);                    
+                }
+                
             }
             return false;
+        }
+
+        async void Launch(string url)
+        {           
+            var uri = new Uri(url);
+
+            var success = await Launcher.LaunchUriAsync(uri);
+
+            if (success)
+            {
+                // URI launched
+            }
+            else
+            {
+                // URI launch failed
+            }
         }
 
         private void AnchorStackPanelOnTapped(object sender, TappedRoutedEventArgs tappedRoutedEventArgs)
@@ -654,7 +726,7 @@ namespace LitRes.Views
             else if (pt.X <= (width/2 + clickOffset) ||
                      pt.X >= (width/2 - clickOffset) &&
                      (pt.Y <= (height/2 + clickOffset) || (pt.Y >= (height/2 - clickOffset))))
-                if (TopRelativePanel.Visibility == Visibility.Collapsed)
+                if (MobileTop.Visibility == Visibility.Collapsed)
                     ShowMenu();
                 else
                     HideMenu();
@@ -662,18 +734,13 @@ namespace LitRes.Views
 
         private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftButton) == CoreVirtualKeyStates.Down) return;
-            
-            PageCanvas.SetSize(ReaderGrid.ActualWidth, ReaderGrid.ActualHeight, ReaderGrid.ActualWidth, ReaderGrid.ActualHeight);
-            PageCanvas.Clear();
+            if (!SystemInfoHelper.IsDesktop() &&
+                Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftButton) == CoreVirtualKeyStates.Down) return;
             Redraw();
         }
 
-        private bool _isSliderMoving;
-
         private void CurrentPageSliderOnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs manipulationStartedRoutedEventArgs)
         {
-            _isSliderMoving = true;
         }
 
         private void SettingsButton_OnTapped(object sender, TappedRoutedEventArgs e)
@@ -682,8 +749,8 @@ namespace LitRes.Views
             {
                 var brush = ColorToBrush("#3b393f");
                 SettingsButton.Background = brush;
-                SettingsImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Settings/setting_white.scale-100.png", UriKind.Absolute));
-                SettingsImage.Opacity = 1;
+               // SettingsImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Settings/setting_white.scale-100.png", UriKind.Absolute));
+                //SettingsImage.Opacity = 1;
                 FlyoutBase.ShowAttachedFlyout((Button)sender);
                 SettingsFrame.Navigate(typeof(Settings));
             }
@@ -713,7 +780,7 @@ namespace LitRes.Views
         private void SettingsFrame_Unloaded(object sender, RoutedEventArgs e)
         {
             SettingsButton.Background = new SolidColorBrush(Colors.Transparent);
-            SettingsImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Settings/setting_grey.scale-100.png", UriKind.Absolute));
+           // SettingsImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/W10Icons/Settings/setting_grey.scale-100.png", UriKind.Absolute));
             //SettingsImage.Opacity = 0.6;
         }
 

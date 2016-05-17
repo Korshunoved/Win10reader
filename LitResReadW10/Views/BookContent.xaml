@@ -10,11 +10,11 @@
     <Page.Resources>
         <DataTemplate x:Key="ContentTemplate">
             <RelativePanel HorizontalAlignment="Stretch" Padding="0,0,0,0" Margin="0,0,0,0">
-                <TextBlock Margin="0,0,0,0" Padding="0,0,0,0"
+                <TextBlock Margin="0,0,25,0" Padding="0,0,0,0"
                        RelativePanel.AlignLeftWithPanel="True"
                        RelativePanel.AlignVerticalCenterWithPanel="True"
                        MaxWidth="400"
-                       TextWrapping="Wrap"
+                       TextWrapping="WrapWholeWords"
                        TextTrimming="WordEllipsis"
                        Text="{Binding Title}"
                        Style="{StaticResource SmallSemiBoldBlackTextStyle}" />
@@ -24,6 +24,9 @@
                        Text="{Binding Page}"
                        Style="{StaticResource SmallBlackTextStyle}" />
             </RelativePanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ContentFooter">
+            <StackPanel Background="Transparent" MinHeight="100"></StackPanel>
         </DataTemplate>
     </Page.Resources>
 
@@ -42,7 +45,9 @@
                        Background="Transparent"
                        HorizontalAlignment="Stretch" 
                        x:Name="TockListView"
+                       FooterTemplate="{StaticResource ContentFooter}"
                        ItemTemplate="{StaticResource ContentTemplate}"
+                       ItemContainerStyle="{StaticResource ListViewStretchStyle}"
                        />
         </ScrollViewer>
     </Grid>

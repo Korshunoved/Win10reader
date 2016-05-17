@@ -221,6 +221,8 @@ namespace BookParser
 
         public bool ToBookmark { get; set; }
 
+        public bool SettingsChanged { get; set; }
+
         public bool ReaderOpen
         {
             get { return _settingsStorage.GetValueWithDefault("ReaderOpen", false); }
@@ -307,7 +309,10 @@ namespace BookParser
             Color selectionBrush,
             Color applicationBarBackgroundBrush,
             Color progressBarBrush,
-            Color systemTrayForegroundColor)
+            Color bookTitleColor,
+            Color panelBackgroundColor,
+            Color chapterTextColor,
+            Color currentpageColor)
         {
             ColorScheme = colorScheme;
             BackgroundBrush = new SolidColorBrush(backgroundBrush);
@@ -318,7 +323,10 @@ namespace BookParser
             SelectionBrush = new SolidColorBrush(selectionBrush);
             ApplicationBarBackgroundBrush = new SolidColorBrush(applicationBarBackgroundBrush);
             ProgressBarBrush = new SolidColorBrush(progressBarBrush);
-            SystemTrayForegroundColor = systemTrayForegroundColor;
+            BookTitleBrush = new SolidColorBrush(bookTitleColor);
+            PanelBackgroundBrush = new SolidColorBrush(panelBackgroundColor);
+            ChapterTextBrush = new SolidColorBrush(chapterTextColor);
+            CurrentPageColorBrush = new SolidColorBrush(currentpageColor);
         }
 
         public ColorSchemes ColorScheme { get; set; }
@@ -339,7 +347,13 @@ namespace BookParser
 
         public SolidColorBrush SelectionBrush { get; set; }
 
-        public Color SystemTrayForegroundColor { get; set; }
+        public SolidColorBrush BookTitleBrush { get; set; }
+
+        public SolidColorBrush PanelBackgroundBrush { get; set; }
+
+        public SolidColorBrush ChapterTextBrush { get; set; }
+
+        public SolidColorBrush CurrentPageColorBrush { get; set; }
     }
 
     public class BookThemes : IEnumerable<Scheme>
@@ -398,7 +412,10 @@ namespace BookParser
                     selectionBrush: Color.FromArgb(0x26, 0x00, 0x00, 0x00),
                     applicationBarBackgroundBrush: Color.FromArgb(0xF2, 0x34, 0x2E, 0x2B),
                     progressBarBrush: Color.FromArgb(0xFF, 0xF0, 0x96, 0x09),
-                    systemTrayForegroundColor: Colors.Black
+                    bookTitleColor: Color.FromArgb(0xFF, 0x00, 0x00, 0x00),
+                    panelBackgroundColor: Color.FromArgb(0xFF, 0xef, 0xee, 0xe9), //efeee9,
+                    chapterTextColor: Color.FromArgb(0xFF, 0x8a, 0x89, 0x8c),
+                    currentpageColor: Color.FromArgb(0xFF, 0xff, 0x4c, 0x00)
                     ));
 
             _schemes.Add(
@@ -414,7 +431,10 @@ namespace BookParser
                     selectionBrush: Color.FromArgb(0x26, 0x00, 0x00, 0x00),
                     applicationBarBackgroundBrush: Color.FromArgb(0xF2, 0x2C, 0x2C, 0x2C),
                     progressBarBrush: Color.FromArgb(0xFF, 0x71, 0x71, 0x71),
-                    systemTrayForegroundColor: Colors.Black
+                    bookTitleColor: Color.FromArgb(0xFF, 0xff, 0xff, 0xff),
+                    panelBackgroundColor: Colors.Black,
+                    chapterTextColor: Color.FromArgb(0xFF, 0x8a, 0x89, 0x8c),
+                    currentpageColor: Colors.White
                     ));
 
             _schemes.Add(
@@ -430,7 +450,10 @@ namespace BookParser
                     selectionBrush: Color.FromArgb(0x26, 0x00, 0x00, 0x00),
                     applicationBarBackgroundBrush: Color.FromArgb(0xF2, 0x34, 0x2E, 0x2B),
                     progressBarBrush: Color.FromArgb(0xFF, 0xF0, 0x96, 0x09),
-                    systemTrayForegroundColor: Colors.Black
+                    bookTitleColor: Color.FromArgb(0xFF, 0x00, 0x00, 0x00),
+                    panelBackgroundColor: Color.FromArgb(0xFF, 0xef, 0xee, 0xe9),
+                    chapterTextColor: Color.FromArgb(0xFF, 0x8a, 0x89, 0x8c),
+                    currentpageColor: Color.FromArgb(0xFF, 0xff, 0x4c, 0x00)
                     ));
         }
     }
