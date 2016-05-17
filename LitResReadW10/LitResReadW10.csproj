@@ -104,6 +104,10 @@
     <Content Include="Assets\AboutRating.scale-150.png" />
     <Content Include="Assets\AboutRating.scale-200.png" />
     <Content Include="Assets\AboutRating.scale-400.png" />
+    <Content Include="Assets\EmptyStar.scale-100.png" />
+    <Content Include="Assets\EmptyStar.scale-125.png" />
+    <Content Include="Assets\EmptyStar.scale-150.png" />
+    <Content Include="Assets\EmptyStar.scale-200.png" />
     <Content Include="Assets\FacebookLogo.scale-100.png" />
     <Content Include="Assets\FacebookLogo.scale-125.png" />
     <Content Include="Assets\FacebookLogo.scale-150.png" />
@@ -180,6 +184,10 @@
     <Content Include="Assets\Square44x44Logo.targetsize-16.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\Star.scale-100.png" />
+    <Content Include="Assets\Star.scale-125.png" />
+    <Content Include="Assets\Star.scale-150.png" />
+    <Content Include="Assets\Star.scale-200.png" />
     <Content Include="Assets\StoreImages\24\read.scale-100.png" />
     <Content Include="Assets\StoreImages\24\read.scale-125.png" />
     <Content Include="Assets\StoreImages\24\read.scale-150.png" />
@@ -685,6 +693,9 @@
     <Compile Include="Views\AddRecense.xaml.cs">
       <DependentUpon>AddRecense.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AskReview.xaml.cs">
+      <DependentUpon>AskReview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Authorization.xaml.cs">
       <DependentUpon>Authorization.xaml</DependentUpon>
     </Compile>
@@ -935,6 +946,10 @@
     <Page Include="Views\AddRecense.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AskReview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Authorization.xaml">
       <Generator>MSBuild:Compile</Generator>

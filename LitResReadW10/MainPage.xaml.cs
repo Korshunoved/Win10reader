@@ -29,6 +29,8 @@ namespace LitResReadW10
 
         public ControlPanel MainControlPanel { get; set; }
 
+        public bool IsNeedToShowReviewDialog { get; set; }
+
         private readonly INavigationService _navigationService = ((App) App.Current).Scope.Resolve<INavigationService>();
         private readonly IDataCacheService _dataCacheService = ((App) App.Current).Scope.Resolve<IDataCacheService>();
         private readonly ICredentialsProvider _credentialsProvider = ((App) App.Current).Scope.Resolve<ICredentialsProvider>();
@@ -50,6 +52,63 @@ namespace LitResReadW10
             SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_BackRequested;
             
             CheckNavButton(SystemInfoHelper.HasInternet() ? EditorsChoiceButton : MyBooksButton, false);
+
+            CheckIfNeedToOpenReviewDialog();
+        }
+
+        private void CheckIfNeedToOpenReviewDialog()
+        {
+            var dontAskMoreButtonPressed = _dataCacheService.GetItem<bool>("DontAskMoreButtonPressed");
+            var askLaterButtonPressed = _dataCacheService.GetItem<bool>("AskLaterButtonPressed");
+            var fiveStarRatingPressed = _dataCacheService.GetItem<bool>("FiveStarRatingPressed");
+            var anyStarRatingPressed = _dataCacheService.GetItem<bool>("AnyStarRatingPressed");
+            var firstLaunchDateTime = _dataCacheService.GetItem<DateTime>("FirstLaunchDateTime");
+            var lastDateRattingPressed = _dataCacheService.GetItem<DateTime>("LastDateRattingPressed");
+            var launchCount = _dataCacheService.GetItem<int>("LaunchCount");
+            launchCount++;
+            _dataCacheService.PutItem(launchCount, "LaunchCount", CancellationToken.None);
+            if (firstLaunchDateTime == default(DateTime))
+            {
+                firstLaunchDateTime = DateTime.Now;
+                _dataCacheService.PutItem(firstLaunchDateTime, "FirstLaunchDateTime", CancellationToken.None);
+            }
+            firstLaunchDateTime = firstLaunchDateTime.AddHours(24);
+
+            if (fiveStarRatingPressed)
+                return;
+            if (dontAskMoreButtonPressed)
+            {
+                var dontAskMoreDate = _dataCacheService.GetItem<DateTime>("DontAskMoreDate");
+                if (dontAskMoreDate.AddMonths(3) < DateTime.Now)
+                {
+                    IsNeedToShowReviewDialog = true;
+                }
+            }
+            else if (askLaterButtonPressed)
+            {
+                var askLaterDate = _dataCacheService.GetItem<DateTime>("AskLaterDate");
+                if (askLaterDate.AddDays(7) < DateTime.Now)
+                {
+                    IsNeedToShowReviewDialog = true;
+                }
+            }
+            else if (!anyStarRatingPressed && launchCount >= 5)
+            {
+                IsNeedToShowReviewDialog = true;
+            }
+            else if (!anyStarRatingPressed && firstLaunchDateTime < DateTime.Now)
+            {
+                IsNeedToShowReviewDialog = true;
+            }
+            else if (lastDateRattingPressed < DateTime.Now &&
+                     lastDateRattingPressed.AddMonths(1) != default(DateTime).AddMonths(1))
+            {
+                IsNeedToShowReviewDialog = true;
+            }
+            else
+            {
+                IsNeedToShowReviewDialog = false;
+            }
         }
 
         private void OnNavigatingToPage(object sender, NavigatingCancelEventArgs e)
@@ -76,6 +135,9 @@ namespace LitResReadW10
             ((Page)sender).Focus(FocusState.Programmatic);
             ((Page)sender).Loaded -= Page_Loaded;
             UpdateRadioButtons(sender);
+            if (!IsNeedToShowReviewDialog) return;
+            CurrentOpenedFrame = _navigationService.NavigateToFrame("AskReview");
+            CurrentOpenedFrame.Width = 300;
         }
 
         private void UpdateRadioButtons(object page)
@@ -113,6 +175,29 @@ namespace LitResReadW10
         {
             bool ignored = false;
             this.BackRequested(ref ignored);
+        }
+
+        public void CloseSubFrame()
+        {
+            SubFrameDialog.Children.Remove(ContentDialogFrame);
+            ContentDialogFrame = null;
+            ((WindowsRTApplication) Application.Current).RootSubFrame = null;
+            ContentDialogFrame = new Frame()
+            {
+                Width = 500,
+                MinHeight = 200,
+                MaxHeight = 700,
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Padding = new Thickness(0, 0, 0, 0),
+                Margin = new Thickness(0, 0, 0, 0),
+                BorderThickness = new Thickness(1, 1, 1, 1),
+                BorderBrush = new SolidColorBrush(Colors.Black)
+            };
+            SubFrameDialog.Children.Add(ContentDialogFrame);
+            ((WindowsRTApplication) Application.Current).RootSubFrame = ContentDialogFrame;
+            SubFrameDialog.Visibility = Visibility.Collapsed;
+
         }
 
         private void BackRequested(ref bool handled)
