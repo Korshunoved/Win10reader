@@ -566,20 +566,20 @@ namespace LitRes.ViewModels
             }
 
             //Load banners
-            //if (Banners.Count == 0 && _networkAvailability.NetworkAvailable)
-            //{
-            //    try
-            //    {
-            //        var bannersResponse = await _catalogProvider.GetBanners(session.Token);
+            if (Banners.Count == 0 && _networkAvailability.NetworkAvailable)
+            {
+                try
+                {
+                    var bannersResponse = await _catalogProvider.GetBanners(session.Token);
 
-            //        if (bannersResponse != null)
-            //        {
-            //            Banners.Update(bannersResponse.Banners);
-            //            OnPropertyChanged(new PropertyChangedEventArgs("Banners"));
-            //        }
-            //    }
-            //    catch (Exception) { }
-            //}
+                    if (bannersResponse != null)
+                    {
+                        Banners.Update(bannersResponse.Banners);
+                        OnPropertyChanged(new PropertyChangedEventArgs("Banners"));
+                    }
+                }
+                catch (Exception) { }
+            }
 
             //if (myBooks == null || myBooks.Count == 0)
             //{

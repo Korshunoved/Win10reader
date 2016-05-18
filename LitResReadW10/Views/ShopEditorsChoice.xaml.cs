@@ -28,7 +28,7 @@ namespace LitResReadW10.Views
         }
 
         private void ShopEditorsChoice_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
+        {            
         }
 
         void ShopEditorsChoice_Loaded(object sender, RoutedEventArgs e)
@@ -109,7 +109,7 @@ namespace LitResReadW10.Views
             }
             else if (e.PropertyName == "Banners")
             {
-               // var banners = new BannerControl(Banners, ViewModel.Banners);
+                var banners = new BannerControl(Banners, ViewModel.Banners, Frame);
             }
         }
 

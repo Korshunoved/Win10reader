@@ -499,10 +499,20 @@
                       HorizontalScrollBarVisibility="Disabled"
                       VerticalScrollBarVisibility="Hidden">
             <StackPanel Margin="0" Padding="0">
-                
-                <!--<FlipView x:Name="Banners" MaxHeight="200" TabNavigation="Cycle" >
-                    
-                </FlipView>-->
+
+                <GridView x:Name="Banners" Visibility="Collapsed"                          
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          IsItemClickEnabled="True"
+                          IsSwipeEnabled="True"
+                          ScrollViewer.HorizontalScrollMode="Enabled"
+                          ScrollViewer.VerticalScrollMode="Disabled"
+                          >
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                </GridView>
                 <StackPanel x:Name="PhoneShopStackPanelWithListViews" Margin="0" Padding="0">
                     <ListView x:Name="InterestingBooks"
                               Margin="10,10,10,10"
@@ -596,6 +606,7 @@
                     <VisualState.Setters>
                         <Setter Target="PhoneShopStackPanelWithListViews.Visibility" Value="Collapsed" />
                         <Setter Target="WideShopStackPanelWithListViews.Visibility" Value="Visible" />
+                        <Setter Target="Banners.MaxHeight" Value="250" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -605,6 +616,7 @@
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
+                        <Setter Target="Banners.MaxHeight" Value="250" />
                         <Setter Target="PhoneShopStackPanelWithListViews.Visibility" Value="Collapsed" />
                         <Setter Target="WideShopStackPanelWithListViews.Visibility" Value="Visible" />
                     </VisualState.Setters>
@@ -615,7 +627,11 @@
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Banners.MaxHeight" Value="150" />
+                    </VisualState.Setters>
                 </VisualState>
+
 
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
