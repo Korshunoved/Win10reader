@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -59,10 +60,28 @@ namespace LitResReadW10.Controls
                         XParameters.Create("category", (int) BooksByCategoryViewModel.BooksViewModelTypeEnum.FreeBooks));
                     break;
                 case "application":
+                    var url = banner.ContentId;
+                    Launch(url);
                     break;
             }
 
             Analytics.Instance.sendMessage(Analytics.ActionGotoBaner);
+        }
+
+        async void Launch(string url)
+        {
+            var uri = new Uri(url);
+
+            var success = await Launcher.LaunchUriAsync(uri);
+
+            if (success)
+            {
+                // URI launched
+            }
+            else
+            {
+                // URI launch failed
+            }
         }
     }
 }
