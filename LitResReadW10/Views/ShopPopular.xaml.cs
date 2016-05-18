@@ -99,12 +99,16 @@ namespace LitResReadW10.Views
             dialog.Content = panel;
             await dialog.ShowAsync();
         }
-
+        
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "ChoosePaymentMethod")
             {
                 ChoosePaymentMethod();
+            }
+            else if (e.PropertyName == "Banners")
+            { 
+
             }
         }
 

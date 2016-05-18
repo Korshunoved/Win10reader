@@ -9,6 +9,7 @@
     xmlns:controls="using:LitRes.Controls"
     xmlns:ui="using:Digillect.Mvvm.UI"
     xmlns:views="using:LitResReadW10.Views"
+    xmlns:controls1="using:LitResReadW10.Controls"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"

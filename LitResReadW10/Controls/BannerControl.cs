@@ -1,25 +1,22 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Digillect.Collections;
-using Digillect.Mvvm.UI;
+using LitRes;
 using LitRes.Models;
 using LitRes.ValueConverters;
 
-namespace LitRes.Controls
+namespace LitResReadW10.Controls
 {
-    class BannerControl:    Object
+    public class BannerControl : Object
     {
         private double posX;
         private int loadedImagesCounter;
         private int iteration;
-        private Image BannerImage;
-        private Image BannerImage2;
+        private FlipView BannerCanv;
         private XCollection<Banner> Banners;
         private DispatcherTimer timer;
         private BitmapImage temp;
@@ -27,61 +24,53 @@ namespace LitRes.Controls
 
         public bool Enabled
         {
-            get
-            {
-                return isEnabled;
-            }
+            get { return isEnabled; }
             set
             {
                 isEnabled = value;
-                BannerImage.Visibility = (Visibility)new ObjectToVisibilityConverter().Convert(isEnabled, null, null, string.Empty);
-                BannerImage2.Visibility = BannerImage.Visibility;
+                BannerCanv.Visibility =
+                    (Visibility) new ObjectToVisibilityConverter().Convert(isEnabled, null, null, string.Empty);
+                //    BannerImage2.Visibility = BannerImage.Visibility;
 
                 if (Enabled) Continue();
                 else Pause();
             }
         }
 
-        public BannerControl(Image bannerImage, Image bannerImage2, XCollection<Banner> Banners)
+        public BannerControl(FlipView BannerCanv, XCollection<Banner> Banners)
         {
             posX = 0.0;
             loadedImagesCounter = 0;
             iteration = 0;
-            this.BannerImage = bannerImage;
-            this.BannerImage2 = bannerImage2;
+            this.BannerCanv = BannerCanv;
             this.Banners = Banners;
-            
-            //  BannerImage.Children.Clear();
 
-            bannerImage.Tapped += onBannerTap;
-            bannerImage.ImageOpened += Banner_Image_Opened;
-            bannerImage.Tag = Banners[iteration];
-            var img = new BitmapImage(new Uri(Banners[iteration].Image, UriKind.RelativeOrAbsolute));
-            bannerImage.CacheMode = new BitmapCache();
-            bannerImage.Source = img;
-            ++iteration;
-            //foreach (Banner banner in Banners)
-            //{
-            //    var BannerBitmap = new BitmapImage();
-            //    BannerBitmap.UriSource = new Uri(banner.Image, UriKind.RelativeOrAbsolute);
+            BannerCanv.Items?.Clear();
 
-            //    var BannerImage = new Image();
-            //    BannerImage.Source = BannerBitmap;       
-            //    BannerImage.Stretch = Stretch.Fill;
-            //    //TiltEffect.SetIsTiltEnabled(BannerImage, true);                
-            //    BannerImage.Tapped += onBannerTap;
-            //    BannerImage.ImageOpened += Banner_Image_Opened;
-            //    BannerImage.Tag = banner;
+            foreach (Banner banner in Banners)
+            {
+                var bannerBitmap = new BitmapImage {UriSource = new Uri(banner.Image, UriKind.RelativeOrAbsolute)};
 
-            //    BannerImage.Visibility = Visibility.Visible;
-            //    BannerImage.Visibility = Visibility.Collapsed;
-            //    BannerImage.Children.Add(BannerImage);
-            //}
+                var bannerImage = new Image
+                {
+                    Source = bannerBitmap,
+                    Stretch = Stretch.UniformToFill
+                };  
+                bannerImage.Tapped += onBannerTap;
+                bannerImage.ImageOpened += Banner_Image_Opened;
+                bannerImage.Tag = banner;
+
+                BannerCanv.Visibility = Visibility.Visible;
+                bannerImage.Visibility = Visibility.Visible;
+                BannerCanv.Items?.Add(bannerImage);
+            }
         }
+
         public void Pause()
         {
             if (timer != null && timer.IsEnabled) timer.Stop();
         }
+
         public void Continue()
         {
             if (timer != null && !timer.IsEnabled) timer.Start();
@@ -89,16 +78,13 @@ namespace LitRes.Controls
             {
                 timer = new DispatcherTimer();
                 timer.Interval = TimeSpan.FromMilliseconds(10000);
-                timer.Tick += (s, e) =>
-                {
-                    StartAnimation();
-                };
+                timer.Tick += (s, e) => { StartAnimation(); };
                 timer.Start();
-              }
+            }
         }
+
         private void StartAnimation()
         {
-
             //if (loadedImagesCounter > 1 && iteration == loadedImagesCounter - 1)
             //{
             //    iteration = 0;
@@ -136,30 +122,34 @@ namespace LitRes.Controls
             //storyboard.Completed += Story_Completed;
             //storyboard.Begin();
             //++iteration;
-  
+
             //if (iteration > 0)
             {
                 //Canvas.SetLeft(BannerImage.Children[iteration],Canvas.GetLeft(BannerImage.Children[(iteration+1)%loadedImagesCounter]));
                 //Canvas.SetLeft(BannerImage.Children[(iteration + 1) % loadedImagesCounter], 0);
-                iteration = (iteration) % Banners.Count;
-                
-                BannerImage.Tag = Banners[iteration];
-                BannerImage2.Source = BannerImage.Source;
-                BannerImage.Source = new BitmapImage(new Uri(Banners[iteration].Image, UriKind.RelativeOrAbsolute));
-                
-                ++iteration;
+                //if (loadedImagesCounter > 1)
+                //{
+                //    Canvas.SetLeft(BannerCanv.Children[iteration],
+                //        Canvas.GetLeft(BannerCanv.Children[(iteration + 1)%loadedImagesCounter]));
+                //    Canvas.SetLeft(BannerCanv.Children[(iteration + 1)%loadedImagesCounter], 0);
+                //    iteration = (iteration + 1)%loadedImagesCounter;
+                //}
             }
         }
 
 #warning BANNER_CONTROL_onBanerTap_NOT_IMPLEMENTED
         private void onBannerTap(object sender, TappedRoutedEventArgs e)
         {
-            var banner = (Banner)((Image)sender).Tag;
+            var banner = (Banner) ((Image) sender).Tag;
 
             string pathForView = string.Concat("/Views/Book.xaml?NavigatedFrom=toast&id=", banner.ContentId);
-            if (banner.Type == "author") pathForView = string.Concat("/Views/Person.xaml?NavigatedFrom=toast&id=", banner.ContentId);
-            else if (banner.Type == "collection") pathForView = string.Concat("/Views/BooksByCategory.xaml?NavigatedFrom=toast&category=", banner.ContentId);//string.Concat("/Views/BooksByCategory.xaml?category=", banner.ContentId);
-            else if (banner.Type == "application")  pathForView = string.Concat("/Views/Web.xaml?NavigatedFrom=toast&id=", banner.ContentId);
+            if (banner.Type == "author")
+                pathForView = string.Concat("/Views/Person.xaml?NavigatedFrom=toast&id=", banner.ContentId);
+            else if (banner.Type == "collection")
+                pathForView = string.Concat("/Views/BooksByCategory.xaml?NavigatedFrom=toast&category=",
+                    banner.ContentId); //string.Concat("/Views/BooksByCategory.xaml?category=", banner.ContentId);
+            else if (banner.Type == "application")
+                pathForView = string.Concat("/Views/Web.xaml?NavigatedFrom=toast&id=", banner.ContentId);
 
             Analytics.Instance.sendMessage(Analytics.ActionGotoBaner);
 
@@ -169,12 +159,12 @@ namespace LitRes.Controls
 
         private void Banner_Image_Opened(object sender, RoutedEventArgs ee)
         {
-            if (!Enabled) return;
+            //if (!Enabled) return;
 
-            BannerImage.Visibility = Visibility.Visible;
-            var snd = (Image)sender;
-            BannerImage.Source = snd.Source;
-            BannerImage2.Source = null;
+            //BannerImage.Visibility = Visibility.Visible;
+            //var snd = (Image)sender;
+            //BannerImage.Source = snd.Source;
+            //BannerImage2.Source = null;
 
             //double pw = (double)((BitmapImage)snd.Source).PixelWidth;
             //double ph = (double)((BitmapImage)snd.Source).PixelHeight;
@@ -191,10 +181,13 @@ namespace LitRes.Controls
 
             //++iteration;
 
-           // if (loadedImagesCounter == Banners.Count)
-            
+            // if (loadedImagesCounter == Banners.Count)
+
             Continue();
         }
-        private void Story_Completed(object sender, EventArgs e){}
+
+        private void Story_Completed(object sender, EventArgs e)
+        {
+        }
     }
 }

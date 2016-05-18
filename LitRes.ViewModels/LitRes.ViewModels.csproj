@@ -115,7 +115,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analytics\Analytics.cs" />
-    <Compile Include="Builders\BookBuilder.cs" />
     <Compile Include="LibraryTools\ExpirationGuardian.cs" />
     <Compile Include="LibraryTools\IExpirationGuardian.cs" />
     <Compile Include="LibraryTools\IExpiredCallBack.cs" />

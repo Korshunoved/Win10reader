@@ -51,7 +51,7 @@ namespace LitRes.Views
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            
+
         }
         
         private void Body_Tap(object sender, TappedRoutedEventArgs e)

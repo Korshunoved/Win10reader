@@ -41,8 +41,9 @@ namespace LitRes.Services
 		private readonly IBookProvider _bookProvider;
         private readonly INetworkAvailabilityService _networkAvailabilityService;
         private readonly IProfileProvider _profileProvider;
+        private readonly IDeviceInfoService _deviceInfoService;
 
-		private List<int> _myBooksIds; 
+        private List<int> _myBooksIds; 
 		private List<int> _myHistoryBooksIds; 
 
 		/// <summary>
@@ -94,7 +95,7 @@ namespace LitRes.Services
 		private XCollection<Book> _singleBooks;  
 
 		#region Constructors/Disposer
-        public CatalogProvider(ICatalitClient client, IFileDownloadService fileDownloadService, IProfileProvider profileProvider, IBookProvider bookProvider, IDataCacheService dataCacheService, INetworkAvailabilityService networkAvailabilityService)
+        public CatalogProvider(ICatalitClient client, IFileDownloadService fileDownloadService, IProfileProvider profileProvider, IBookProvider bookProvider, IDataCacheService dataCacheService, INetworkAvailabilityService networkAvailabilityService, IDeviceInfoService deviceInfoService)
 		{
 			_client = client;
 			_dataCacheService = dataCacheService;
@@ -104,6 +105,7 @@ namespace LitRes.Services
 			_myBooksIds = new List<int>();
 			_myHistoryBooksIds = new List<int>();
             _profileProvider = profileProvider;
+            _deviceInfoService = deviceInfoService;
             //_expirationGuardian = expirationGuardian;
 		}
 		#endregion
@@ -1076,14 +1078,22 @@ namespace LitRes.Services
 			return _myHistoryBooksIds;
 		}
 
+        public bool IsDesktop()
+        {
+            var deviceFamily = _deviceInfoService.DeviceFamily;
+            return !string.IsNullOrEmpty(deviceFamily) && deviceFamily.Equals("Windows.Desktop");
+        }
+
         public async Task<BannersResponse> GetBanners(CancellationToken cancellationToken)
 		{
             if (!_networkAvailabilityService.NetworkAvailable) return null;
-
+            object size = IsDesktop() ? "tblt" : "phn";
             var parameters = new Dictionary<string, object>
 			{								
-				{"size", "phn"},																
-			};
+				{"size", size},
+                {"platform", "3"},
+                {"app", "1"},
+            };
             return await _client.GetBanners(parameters, cancellationToken);
 		}
 
