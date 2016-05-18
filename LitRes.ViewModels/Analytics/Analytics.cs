@@ -47,8 +47,9 @@ namespace LitRes
         public const string ActionWriteReviewOk = "Action_WriteReview_OK";      //Успех написания отзыва
         public const string ActionGotoBaner = "Action_GotoBanner";          //Переход по баннеру
         public const string ActionGotoLitres = "Action_GotoLitres";          //Переход на пополнение счета по карте
-        public const string ActionSubscribe = "Action_Subscribe";           //Подписка на новинки автора 
-
+        public const string ActionSubscribe = "Action_Subscribe";           //Подписка на новинки автора
+        public const string ActionRating13Star = "Action_1-3_Star";
+        
         private static readonly Analytics instance = new Analytics();
 
         #region Properties

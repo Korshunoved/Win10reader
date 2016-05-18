@@ -159,6 +159,7 @@
     <Compile Include="ViewModels\AccountDepositViewModel.cs" />
     <Compile Include="ViewModels\AccountInfoViewModel.cs" />
     <Compile Include="ViewModels\AddRecenseViewModel.cs" />
+    <Compile Include="ViewModels\AskReviewViewModel.cs" />
     <Compile Include="ViewModels\AuthorizationViewModel.cs" />
     <Compile Include="ViewModels\BookBookmarksViewModel.cs" />
     <Compile Include="ViewModels\BookChaptersViewModel.cs" />

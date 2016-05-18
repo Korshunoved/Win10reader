@@ -99,7 +99,7 @@ namespace LitRes.Views
 
         private async void Star45_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            var uriBing = new Uri(@"ms-windows-store://review/?ProductId=9nblggh4p89b");
+            var uriBing = new Uri(@"ms-windows-store://review/?ProductId=9wzdncrfhvzw");
             await Windows.System.Launcher.LaunchUriAsync(uriBing);
         }
 
