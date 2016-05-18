@@ -15,7 +15,6 @@
     <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}"
           Background="White"
           MaxHeight="450">
-        <controls:PageHeader x:Name="pageHeader" />
         <ScrollViewer
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"

@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Autofac;
+using BookParser;
 using Digillect;
 using Digillect.Mvvm.Services;
 using Digillect.Mvvm.UI;
@@ -23,6 +24,8 @@ namespace LitResReadW10
 {
     public sealed partial class MainPage : WindowsRTPage
     {
+        public static MainPage Instance;
+
         public Frame AppFrame => this.frame;
 
         public Frame CurrentOpenedFrame;
@@ -53,6 +56,7 @@ namespace LitResReadW10
             CheckNavButton(SystemInfoHelper.HasInternet() ? EditorsChoiceButton : MyBooksButton, false);
 
             CheckIfNeedToOpenReviewDialog();
+            Instance = this;
         }
 
         private void CheckIfNeedToOpenReviewDialog()
@@ -71,14 +75,14 @@ namespace LitResReadW10
                 firstLaunchDateTime = DateTime.Now;
                 _dataCacheService.PutItem(firstLaunchDateTime, "FirstLaunchDateTime", CancellationToken.None);
             }
-            firstLaunchDateTime = firstLaunchDateTime.AddHours(24);
-
+            
             if (fiveStarRatingPressed)
                 return;
             if (dontAskMoreButtonPressed)
             {
                 var dontAskMoreDate = _dataCacheService.GetItem<DateTime>("DontAskMoreDate");
-                if (dontAskMoreDate.AddMonths(3) < DateTime.Now)
+                if (dontAskMoreDate.AddMinutes(10) < DateTime.Now)
+                //if (dontAskMoreDate.AddMonths(3) < DateTime.Now)
                 {
                     IsNeedToShowReviewDialog = true;
                 }
@@ -86,7 +90,8 @@ namespace LitResReadW10
             else if (askLaterButtonPressed)
             {
                 var askLaterDate = _dataCacheService.GetItem<DateTime>("AskLaterDate");
-                if (askLaterDate.AddDays(7) < DateTime.Now)
+                if (askLaterDate.AddMinutes(5) < DateTime.Now)
+                //if (askLaterDate.AddDays(7) < DateTime.Now)
                 {
                     IsNeedToShowReviewDialog = true;
                 }
@@ -95,16 +100,20 @@ namespace LitResReadW10
             {
                 IsNeedToShowReviewDialog = true;
             }
-            else if (!anyStarRatingPressed && firstLaunchDateTime < DateTime.Now)
+            else if (!anyStarRatingPressed && firstLaunchDateTime.AddHours(24) < DateTime.Now)
             {
                 IsNeedToShowReviewDialog = true;
             }
-            else if (lastDateRattingPressed < DateTime.Now &&
+            else if (lastDateRattingPressed.AddMonths(1) < DateTime.Now &&
                      lastDateRattingPressed.AddMonths(1) != default(DateTime).AddMonths(1))
             {
                 IsNeedToShowReviewDialog = true;
             }
             else
+            {
+                IsNeedToShowReviewDialog = false;
+            }
+            if (AppSettings.Default.ReaderOpen)
             {
                 IsNeedToShowReviewDialog = false;
             }
@@ -138,6 +147,7 @@ namespace LitResReadW10
             CurrentOpenedFrame = _navigationService.NavigateToFrame("AskReview");
             CurrentOpenedFrame.BorderThickness = new Thickness(0);
             CurrentOpenedFrame.Width = 300;
+            IsNeedToShowReviewDialog = false;
         }
 
         private void UpdateRadioButtons(object page)
