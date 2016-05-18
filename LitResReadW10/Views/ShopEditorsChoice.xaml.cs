@@ -109,7 +109,7 @@ namespace LitResReadW10.Views
             }
             else if (e.PropertyName == "Banners")
             {
-                var banners = new BannerControl(Banners, ViewModel.Banners);
+               // var banners = new BannerControl(Banners, ViewModel.Banners);
             }
         }
 

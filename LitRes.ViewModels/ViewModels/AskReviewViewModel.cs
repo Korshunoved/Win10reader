@@ -25,7 +25,7 @@ namespace LitRes.ViewModels
 
         public void DontAskMore()
         {
-            _dataCacheService.PutItem(DateTime.Now, "DontAskMoreButtonPressed", CancellationToken.None);
+            _dataCacheService.PutItem(true, "DontAskMoreButtonPressed", CancellationToken.None);
             _dataCacheService.PutItem(DateTime.Now, "DontAskMoreDate", CancellationToken.None);
         }
 

@@ -27,11 +27,13 @@ namespace LitRes.Views
         private void AskLatterButtonPressed(object sender, TappedRoutedEventArgs e)
         {
             ViewModel.AskLatter();
+            Visibility = Visibility.Collapsed;
         }
 
         private void DontAskMoreButtonPressed(object sender, TappedRoutedEventArgs e)
         {
             ViewModel.DontAskMore();
+            Visibility = Visibility.Collapsed;
         }
 
         private void RatingPressed(object sender, TappedRoutedEventArgs e)
@@ -106,6 +108,12 @@ namespace LitRes.Views
         private void WriteToSupport(object sender, TappedRoutedEventArgs e)
         {
             EmailHelper.OpenEmailClientWithLitresInfo();
+            Visibility = Visibility.Collapsed;
+        }
+
+        private void CloseDialogButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Visibility = Visibility.Collapsed;
         }
     }
     public class AskReviewFitting : ViewModelPage<AskReviewViewModel>

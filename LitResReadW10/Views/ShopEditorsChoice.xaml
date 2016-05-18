@@ -500,9 +500,9 @@
                       VerticalScrollBarVisibility="Hidden">
             <StackPanel Margin="0" Padding="0">
                 
-                <FlipView x:Name="Banners" MaxHeight="200" TabNavigation="Cycle" >
+                <!--<FlipView x:Name="Banners" MaxHeight="200" TabNavigation="Cycle" >
                     
-                </FlipView>
+                </FlipView>-->
                 <StackPanel x:Name="PhoneShopStackPanelWithListViews" Margin="0" Padding="0">
                     <ListView x:Name="InterestingBooks"
                               Margin="10,10,10,10"

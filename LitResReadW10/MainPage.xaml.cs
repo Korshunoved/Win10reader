@@ -41,8 +41,7 @@ namespace LitResReadW10
             //migration.RunSynchronously();
 
             if (MainControlPanel == null)
-                MainControlPanel = ControlPanel.Instance;
-           
+                MainControlPanel = ControlPanel.Instance;            
             this.InitializeComponent();         
             ControlPanel.Instance.PhoneSearchBox = PhoneSearchBox;            
             ((WindowsRTApplication)Application.Current).RootFrame = AppFrame;
@@ -134,9 +133,10 @@ namespace LitResReadW10
         {
             ((Page)sender).Focus(FocusState.Programmatic);
             ((Page)sender).Loaded -= Page_Loaded;
-            UpdateRadioButtons(sender);
+            UpdateRadioButtons(sender);            
             if (!IsNeedToShowReviewDialog) return;
             CurrentOpenedFrame = _navigationService.NavigateToFrame("AskReview");
+            CurrentOpenedFrame.BorderThickness = new Thickness(0);
             CurrentOpenedFrame.Width = 300;
         }
 

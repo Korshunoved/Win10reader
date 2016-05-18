@@ -51,7 +51,7 @@
                         <Button Name="AskLaterButton" Style="{StaticResource GreyButtonStyle}" Margin="0,0,0,12" Content="НАПОМНИТЬ ПОЗЖЕ" HorizontalAlignment="Stretch" Tapped="AskLatterButtonPressed"/>
                         <Button Name="DontAskMoreButton" Style="{StaticResource GreyButtonStyle}" Content="НЕ СПРАШИВАТЬ БОЛЬШЕ" HorizontalAlignment="Stretch" Tapped="DontAskMoreButtonPressed"/>
                         <Button Name="WriteToSupportButton" Style="{StaticResource OrangeButtonStyle}" Margin="0,0,0,12" Content="НАПИСАТЬ В ПОДДЕРЖКУ" HorizontalAlignment="Stretch" Tapped="WriteToSupport" Visibility="Collapsed"/>
-                        <Button Name="CloseDialogButton" Style="{StaticResource GreyButtonStyle}" Content="НЕТ, СПАСИБО" HorizontalAlignment="Stretch" Visibility="Collapsed"/>
+                        <Button Name="CloseDialogButton" Style="{StaticResource GreyButtonStyle}" Content="НЕТ, СПАСИБО" HorizontalAlignment="Stretch" Visibility="Collapsed" Tapped="CloseDialogButton_Tapped"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>
