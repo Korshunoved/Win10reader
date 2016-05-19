@@ -42,13 +42,20 @@ namespace LitRes.Views
             var name = sender?.GetPropertyValue("Name") as string;
             if (name == null) return;
             var count = int.Parse(name.Substring(name.Length - 1));
-            RateUsTextBlock.Visibility = Visibility.Collapsed;
-            ThankYouTextBlock.Visibility = Visibility.Visible;
-            ThankYouInfoTextBlock.Visibility = Visibility.Visible;
-            AskLaterButton.Visibility = Visibility.Collapsed;
-            DontAskMoreButton.Visibility = Visibility.Collapsed;
-            WriteToSupportButton.Visibility = Visibility.Visible;
-            CloseDialogButton.Visibility = Visibility.Visible;
+            if (count <= 3)
+            {
+                RateUsTextBlock.Visibility = Visibility.Collapsed;
+                ThankYouTextBlock.Visibility = Visibility.Visible;
+                ThankYouInfoTextBlock.Visibility = Visibility.Visible;
+                AskLaterButton.Visibility = Visibility.Collapsed;
+                DontAskMoreButton.Visibility = Visibility.Collapsed;
+                WriteToSupportButton.Visibility = Visibility.Visible;
+                CloseDialogButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                MainPage.Instance.CloseSubFrame();
+            }
             switch (count)
             {
                 case 1:
@@ -73,32 +80,6 @@ namespace LitRes.Views
                     NotEmptyStar2.Visibility = Visibility.Visible;
                     Star3.Visibility = Visibility.Collapsed;
                     NotEmptyStar3.Visibility = Visibility.Visible;
-                    break;
-                }
-                case 4:
-                {
-                    Star1.Visibility = Visibility.Collapsed;
-                    NotEmptyStar1.Visibility = Visibility.Visible;
-                    Star2.Visibility = Visibility.Collapsed;
-                    NotEmptyStar2.Visibility = Visibility.Visible;
-                    Star3.Visibility = Visibility.Collapsed;
-                    NotEmptyStar3.Visibility = Visibility.Visible;
-                    Star4.Visibility = Visibility.Collapsed;
-                    NotEmptyStar4.Visibility = Visibility.Visible;
-                    break;
-                }
-                case 5:
-                {
-                    Star1.Visibility = Visibility.Collapsed;
-                    NotEmptyStar1.Visibility = Visibility.Visible;
-                    Star2.Visibility = Visibility.Collapsed;
-                    NotEmptyStar2.Visibility = Visibility.Visible;
-                    Star3.Visibility = Visibility.Collapsed;
-                    NotEmptyStar3.Visibility = Visibility.Visible;
-                    Star4.Visibility = Visibility.Collapsed;
-                    NotEmptyStar4.Visibility = Visibility.Visible;
-                    Star5.Visibility = Visibility.Collapsed;
-                    NotEmptyStar5.Visibility = Visibility.Visible;
                     break;
                 }
             }

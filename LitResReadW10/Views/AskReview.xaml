@@ -29,8 +29,8 @@
                 </Grid.RowDefinitions>
                 <StackPanel
                     VerticalAlignment="Center">
-                    <TextBlock Name="RateUsTextBlock" Text="Оцените нас" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Foreground="{StaticResource LitResOrangeBrush}"/>
-                    <TextBlock Name="ThankYouTextBlock" Text="Спасибо за оценку!" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Foreground="{StaticResource LitResOrangeBrush}" Visibility="Collapsed"/>
+                    <TextBlock Name="RateUsTextBlock" Text="Оцените нас" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Foreground="Black" FontWeight="SemiBold"/>
+                    <TextBlock Name="ThankYouTextBlock" Text="Спасибо за оценку!" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Foreground="Black" FontWeight="SemiBold" Visibility="Collapsed"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,12,0,0">
                         <Image Name="Star1" Source="/Assets/EmptyStar.scale-200.png" Width="32" Margin="0,0,4,0" Tapped="RatingPressed"/>
                         <Image Name="NotEmptyStar1" Source="/Assets/Star.scale-200.png" Width="32" Margin="0,0,4,0" Visibility="Collapsed"/>
