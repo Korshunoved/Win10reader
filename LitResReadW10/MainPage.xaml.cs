@@ -81,8 +81,8 @@ namespace LitResReadW10
             if (dontAskMoreButtonPressed)
             {
                 var dontAskMoreDate = _dataCacheService.GetItem<DateTime>("DontAskMoreDate");
-                if (dontAskMoreDate.AddMinutes(10) < DateTime.Now)
-                //if (dontAskMoreDate.AddMonths(3) < DateTime.Now)
+                //if (dontAskMoreDate.AddMinutes(10) < DateTime.Now)
+                if (dontAskMoreDate.AddMonths(3) < DateTime.Now)
                 {
                     IsNeedToShowReviewDialog = true;
                 }
@@ -90,8 +90,8 @@ namespace LitResReadW10
             else if (askLaterButtonPressed)
             {
                 var askLaterDate = _dataCacheService.GetItem<DateTime>("AskLaterDate");
-                if (askLaterDate.AddMinutes(5) < DateTime.Now)
-                //if (askLaterDate.AddDays(7) < DateTime.Now)
+                //if (askLaterDate.AddMinutes(5) < DateTime.Now)
+                if (askLaterDate.AddDays(7) < DateTime.Now)
                 {
                     IsNeedToShowReviewDialog = true;
                 }
@@ -145,7 +145,7 @@ namespace LitResReadW10
             UpdateRadioButtons(sender);            
             if (!IsNeedToShowReviewDialog) return;
             CurrentOpenedFrame = _navigationService.NavigateToFrame("AskReview");
-            CurrentOpenedFrame.BorderThickness = new Thickness(0);
+            CurrentOpenedFrame.BorderThickness = new Thickness(1);
             CurrentOpenedFrame.Width = 300;
             IsNeedToShowReviewDialog = false;
         }

@@ -194,7 +194,7 @@ namespace LitRes.Services
             {
                 //SetItemStatus(item, DownloadStatus.Error);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                // SetItemStatus(item, DownloadStatus.Error);
             }
