@@ -164,13 +164,14 @@ namespace LitRes.Services
             return previewGenerator;
         }
 
+        public IBookSummaryParser PreviewGenerator { get; set; }
         public IBookSummaryParser GetSummaryParser(Book item, bool isTrial)
         {
             var bookFolder = item.IsMyBook || item.IsFreeBook ? item.Id.ToString() : item.Id + ".trial";
             var bookStorageFileStream =
                 new IsolatedStorageFileStream(isTrial ? CreateTrialBookPath(item) : CreateBookPath(bookFolder), FileMode.Open,
                     IsolatedStorageFile.GetUserStoreForApplication());
-            var previewGenerator = BookFactory.GetPreviewGenerator(item.TypeBook.ToString(), item.BookTitle, bookStorageFileStream);
+            var previewGenerator = PreviewGenerator ?? BookFactory.GetPreviewGenerator(item.TypeBook.ToString(), item.BookTitle, bookStorageFileStream);
             return previewGenerator;
         }
 
@@ -183,7 +184,7 @@ namespace LitRes.Services
                 {
                     using (var bookStorageFileStream = new IsolatedStorageFileStream(CreateBookPath(bookFolder), FileMode.Open, storeForApplication))
                     {
-                        var previewGenerator = BookFactory.GetPreviewGenerator(item.TypeBook.ToString(), item.BookTitle, bookStorageFileStream);
+                        var previewGenerator = PreviewGenerator ?? BookFactory.GetPreviewGenerator(item.TypeBook.ToString(), item.BookTitle, bookStorageFileStream);
                         var bookSummary = previewGenerator.GetBookPreview();
                         SaveBook(item, bookSummary, previewGenerator, storeForApplication);
                     }

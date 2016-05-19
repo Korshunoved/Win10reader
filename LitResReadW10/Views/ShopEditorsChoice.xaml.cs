@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
 using Windows.UI;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
@@ -110,8 +112,41 @@ namespace LitResReadW10.Views
             else if (e.PropertyName == "Banners")
             {
                 var banners = new BannerControl(Banners, ViewModel.Banners, Frame);
+                GetRandomBanner();
+                DispatcherTimer timer = new DispatcherTimer();
+                timer.Interval = new TimeSpan(0,0,4);
+                timer.Tick += TimerOnTick;                
+                timer.Start();
             }
         }
+
+        private void GetRandomBanner()
+        {
+            var rnd = new Random();
+            if (Banners.Items == null) return;
+            var idx = rnd.Next(0, Banners.Items.Count - 1);
+            i = idx;
+            _currentItem = Banners.Items[idx];
+            Banners.SelectedItem = _currentItem;
+        }
+
+        private int i;
+        private object _currentItem;
+        private void TimerOnTick(object sender, object o)
+        {
+            var timer = sender as DispatcherTimer;
+            var seconds = timer?.Interval.Seconds;
+            if (seconds >= 4)
+            {
+                i++;
+                Debug.Assert(Banners.Items != null, "Banners.Items != null");
+                if (i >= Banners.Items.Count) i = -1;
+                timer.Stop();
+                timer.Start();
+            }
+
+        }
+
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

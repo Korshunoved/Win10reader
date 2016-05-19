@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace BookParser.Common.ExtensionMethods
@@ -342,6 +343,9 @@ namespace BookParser.Common.ExtensionMethods
 
         public static XDocument GetXmlDocument(this Stream source, bool removeDocType = false)
         {
+            MemoryStream stream = new MemoryStream();
+            source.CopyTo(stream);
+            stream.Position = 0;
             long position = source.Position;
             string input = new StreamReader(source).ReadLine();
             source.Position = position;
@@ -358,12 +362,19 @@ namespace BookParser.Common.ExtensionMethods
                         encoding = Encoding.GetEncoding(name);
                 }
             }
-            string str = new StreamReader(source, encoding).ReadToEnd();
-            if (removeDocType)
-                str = Regex.Replace(str, "<!DOCTYPE[^>]*>", string.Empty);
-            try
+            string str;
+            XDocument xml;
+            using (StreamReader reader = new StreamReader(stream, encoding))
             {
-                return XDocument.Parse(str.Trim());
+              //  str = reader.ReadToEnd();
+                xml = XDocument.Load(reader);
+            }
+                
+            //if (removeDocType)
+            //    str = Regex.Replace(str, "<!DOCTYPE[^>]*>", string.Empty);
+            try
+            {            
+                return xml;
             }
             catch (Exception ex)
             {

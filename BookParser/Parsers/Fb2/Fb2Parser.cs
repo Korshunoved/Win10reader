@@ -5,9 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Xml.Linq;
+using Windows.Foundation;
 using BookParser.Common.ExtensionMethods;
 using BookParser.Data;
+using BookParser.Extensions;
 using BookParser.IO;
 using BookParser.Styling;
 
@@ -22,18 +25,23 @@ namespace BookParser.Parsers.Fb2
         {
             try
             {
+                source.Position = 0;
+                try
+                {
+                    var zip = ZipContainer.Unzip(source);
+                    source = zip.Files.First().Stream;
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+                source.Position = 0;
                 XDocument xmlDocument = source.GetXmlDocument();
                 _root = xmlDocument.Root;
             }
-            catch
+            catch (Exception)
             {
-                source.Position = 0;
-                var zip = ZipContainer.Unzip(source);
-                source = zip.Files.First().Stream;
-
-                source.Position = 0;
-                XDocument xmlDocument = source.GetXmlDocument();
-                _root = xmlDocument.Root;
+                throw new Exception("Can't load book.");
             }
           
             if (_root == null)
@@ -105,33 +113,52 @@ namespace BookParser.Parsers.Fb2
             return SaveCoverImages(bookID, stream);
         }
 
-        public override async void SaveImages(Stream output)
+        public override void SaveImages(Stream output)
         {
             var document = new XDocument();
             var images = new XElement("images");
             document.Add(images);
-            List<BookImage> xmlImages = GetXmlImages().ToList();
-            var @event = new AutoResetEvent(false);
-           // await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-           //  {
-                 foreach (BookImage bookImage in xmlImages)
-                 {
-                     try
-                     {
-                         Stream streamSource = bookImage.CreateStream();
-                        // Size imageSize = streamSource.GetImageSize();
-                         bookImage.Width = 200;//(int)imageSize.Width;
-                         bookImage.Height = 200;//(int)imageSize.Height;
-                         images.Add(bookImage.Save());
-                     }
-                     catch (Exception)
-                     {
-                     }
-                 }
-          //       @event.Set();
-          //   });
-          //  @event.WaitOne();
-
+            List<BookImage> xmlImages;
+            try
+            {
+                xmlImages = GetXmlImages().ToList();
+            }
+            catch (Exception)
+            {
+                return;
+            }            
+            foreach (BookImage bookImage in xmlImages)
+            {
+                try
+                {
+                    Stream streamSource = bookImage.CreateStream();
+                    Task<Size> imageSize = null;
+                    try
+                    {
+                        imageSize = streamSource.GetImageSize();
+                    }
+                    catch (Exception)
+                    {
+                        
+                    }
+                    if (imageSize?.Result.Height > 0)
+                    {
+                        bookImage.Width = (int)imageSize?.Result.Width; 
+                        bookImage.Height = (int)imageSize?.Result.Height;
+                    }
+                    else
+                    {
+                        bookImage.Width = 200; 
+                        bookImage.Height = 200; 
+                    }
+                    
+                    images.Add(bookImage.Save());
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
             document.Save(output);
         }
 
@@ -174,10 +201,8 @@ namespace BookParser.Parsers.Fb2
         private string PrepareLanguage(XElement info)
         {
             XElement element = info.Elements(_ns + "lang").FirstOrDefault();
-            if (element == null)
-                return null;
 
-            return element.Value;
+            return element?.Value;
         }
 
 
@@ -213,10 +238,7 @@ namespace BookParser.Parsers.Fb2
                 .Attributes()
                 .FirstOrDefault(t => t.Name.LocalName == "href");
 
-            if (attribute == null)
-                return null;
-
-            return attribute.Value.TrimStart('#');
+            return attribute?.Value.TrimStart('#');
         }
 
         private IEnumerable<BookImage> GetXmlImages()

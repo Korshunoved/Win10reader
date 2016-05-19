@@ -17,24 +17,50 @@
  * 02110-1301, USA.
  */
 
+using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
+using BookParser.Common.ExtensionMethods;
 using BookParser.Data;
 
 namespace BookParser.Extensions
 {
     public static class BitmapImageExtension
     {
-        public static Size GetImageSize(this Stream imageStream)
+        public async static Task<Size> GetImageSize(this Stream imageStream)
         {
             var image = new BitmapImage();
-            image.SetSourceAsync(imageStream.AsRandomAccessStream());
-            var size = new Size(image.PixelWidth, image.PixelHeight);
-            image.ClearValue(BitmapImage.UriSourceProperty);
-            return size;
+            byte[] imageBytes = Convert.FromBase64String(imageStream.ToBase64String());
+            MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
+            ms.Write(imageBytes, 0, imageBytes.Length);
+            using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
+            {
+                using (DataWriter writer = new DataWriter(stream.GetOutputStreamAt(0)))
+                {
+                    try
+                    {
+                        writer.WriteBytes(imageBytes);
+                        await writer.StoreAsync();
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
+                    }
+                }
+                try
+                {
+                    await image.SetSourceAsync(stream);
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
+            return new Size(image.PixelWidth, image.PixelHeight);
         }
 
         public static void SaveJpeg(this BitmapSource bitmap, Stream output, int width, int height, bool saveRatio)
