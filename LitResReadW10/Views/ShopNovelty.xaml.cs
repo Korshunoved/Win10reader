@@ -105,6 +105,10 @@ namespace LitResReadW10.Views
             {
                 ChoosePaymentMethod();
             }
+            else if (e.PropertyName == "Banners")
+            {
+                var banners = new BannerControl(Banners, ViewModel.Banners, Frame);
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

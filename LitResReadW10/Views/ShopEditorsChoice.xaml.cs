@@ -22,7 +22,7 @@ namespace LitResReadW10.Views
             InitializeComponent();
             SizeChanged += ShopEditorsChoice_SizeChanged;
             Loaded += ShopEditorsChoice_Loaded;
-            NavigationCacheMode = NavigationCacheMode.Disabled;
+            NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         private void ShopEditorsChoice_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -108,43 +108,8 @@ namespace LitResReadW10.Views
             else if (e.PropertyName == "Banners")
             {
                 var banners = new BannerControl(Banners, ViewModel.Banners, Frame);
-                //var loopPanel = GetLoopItemsPanel(Banners);
-                //loopPanel.GetRandomItem();
-                //GetRandomBanner();
-                //DispatcherTimer timer = new DispatcherTimer();
-                //timer.Interval = new TimeSpan(0,0,4);
-                //timer.Tick += TimerOnTick;                
-                //timer.Start();
             }
         }
-
-        //private void GetRandomBanner()
-        //{
-        //    var rnd = new Random();
-        //    if (Banners.Items == null) return;
-        //    var idx = rnd.Next(0, Banners.Items.Count - 1);
-        //    i = idx;
-        //    _currentItem = Banners.Items[idx];
-        //    Banners.SelectedItem = _currentItem;
-        //}
-
-        //private int i;
-        //private object _currentItem;
-        //private void TimerOnTick(object sender, object o)
-        //{
-        //    var timer = sender as DispatcherTimer;
-        //    var seconds = timer?.Interval.Seconds;
-        //    if (seconds >= 4)
-        //    {
-        //        i++;
-        //        Debug.Assert(Banners.Items != null, "Banners.Items != null");
-        //        if (i >= Banners.Items.Count) i = -1;
-        //        timer.Stop();
-        //        timer.Start();
-        //    }
-
-        //}
-
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

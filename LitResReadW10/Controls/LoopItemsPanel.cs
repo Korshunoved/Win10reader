@@ -13,7 +13,7 @@ namespace LitResReadW10.Controls
     {
         // hack to animate a value easy
         private readonly Slider _sliderHorizontal;
-        private readonly TimeSpan _animationDuration = TimeSpan.FromMilliseconds(900);
+        private readonly TimeSpan _animationDuration = TimeSpan.FromMilliseconds(1200);
         // separating offset
         private double _offsetSeparator;
 
@@ -50,12 +50,12 @@ namespace LitResReadW10.Controls
             if (Children.Count <= 0) return;
             var rnd = new Random();
             var index = rnd.Next(0, Children.Count - 1);
-            _currentIndex = index;
+            _currentIndex = 0;
             var item = Children[index];            
             var rect =
                 item.TransformToVisual(this)
                     .TransformBounds(new Rect(0, 0, item.DesiredSize.Width, item.DesiredSize.Height));
-            ScrollToSelectedIndex(item, rect, false);
+           // ScrollToSelectedIndex(item, rect, false);
             var timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 5) };
             timer.Tick += TimerOnTick;
             timer.Start();
