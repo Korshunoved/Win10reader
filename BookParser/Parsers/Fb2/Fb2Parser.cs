@@ -131,20 +131,20 @@ namespace BookParser.Parsers.Fb2
             {
                 try
                 {
-                    Stream streamSource = bookImage.CreateStream();
-                    Task<Size> imageSize = null;
+                    Stream streamSource = bookImage.CreateStream();                    
                     try
                     {
-                        imageSize = streamSource.GetImageSize();
+                        streamSource.GetImageSize();
                     }
                     catch (Exception)
                     {
                         
                     }
-                    if (imageSize?.Result.Height > 0)
+                    var imageSize = BitmapImageExtension.ImageSize;
+                    if (imageSize.Height > 0)
                     {
-                        bookImage.Width = (int)imageSize?.Result.Width; 
-                        bookImage.Height = (int)imageSize?.Result.Height;
+                        bookImage.Width = (int)imageSize.Width; 
+                        bookImage.Height = (int)imageSize.Height;
                     }
                     else
                     {

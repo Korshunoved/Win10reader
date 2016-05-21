@@ -587,6 +587,7 @@
     <Compile Include="Controls\BookmarkProgressBar.cs" />
     <Compile Include="Controls\ImageProgressBar.cs" />
     <Compile Include="Controls\LitresSettingsSlider.cs" />
+    <Compile Include="Controls\LoopItemsPanel.cs" />
     <Compile Include="Controls\Manipulators\ContinuousDragPageManipulation.cs" />
     <Compile Include="Controls\Manipulators\DragManipulationBase.cs" />
     <Compile Include="Controls\Manipulators\FlipDirection.cs" />

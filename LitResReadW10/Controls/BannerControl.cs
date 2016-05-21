@@ -16,13 +16,11 @@ namespace LitResReadW10.Controls
 {
     public class BannerControl : Control
     {    
-        private readonly Frame _frame;
-        private GridView _bannerCanv;
+        private readonly Frame _frame;    
 
         public BannerControl(GridView bannerCanv, XCollection<Banner> banners, Frame frame)
         {
-            _frame = frame;
-            _bannerCanv = bannerCanv;
+            _frame = frame;         
             bannerCanv.Items?.Clear();
             foreach (Banner banner in banners)
             {
@@ -43,11 +41,10 @@ namespace LitResReadW10.Controls
                     bannerCanv.MaxHeight = bannerImage.MaxWidth/2.46;
                 bannerImage.Tapped += OnBannerTap;                
                 bannerImage.Tag = banner;
-
                 bannerCanv.Visibility = Visibility.Visible;
                 bannerImage.Visibility = Visibility.Visible;
                 bannerCanv.Items?.Add(bannerImage);
-            }            
+            }          
         }
 
         private void OnBannerTap(object sender, TappedRoutedEventArgs e)
@@ -57,14 +54,14 @@ namespace LitResReadW10.Controls
             switch (banner.Type)
             {
                 case "author":
-                    _frame.Navigate(typeof(Person), XParameters.Create("Id", banner.ContentId));                    
+                    _frame.Navigate(typeof(Person), XParameters.Create("Id", banner.ContentId));
                     break;
                 case "book":
                     var book = new Book { Id = int.Parse(banner.ContentId) };
                     _frame.Navigate(typeof(LitRes.Views.Book), XParameters.Create("BookEntity", book));
-                    break;                    
+                    break;
                 case "collection":
-                    _frame.Navigate(typeof (LitRes.Views.BooksByCategory),
+                    _frame.Navigate(typeof(LitRes.Views.BooksByCategory),
                         XParameters.Create("category", int.Parse(banner.ContentId)));
                     break;
                 case "application":
@@ -72,8 +69,6 @@ namespace LitResReadW10.Controls
                     Launch(url);
                     break;
             }
-            _bannerCanv.SelectedItem = null;
-            _bannerCanv.SelectedIndex = 0;
             Analytics.Instance.sendMessage(Analytics.ActionGotoBaner);
         }
 

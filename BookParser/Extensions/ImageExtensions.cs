@@ -31,7 +31,8 @@ namespace BookParser.Extensions
 {
     public static class BitmapImageExtension
     {
-        public async static Task<Size> GetImageSize(this Stream imageStream)
+        public static Size ImageSize { get; set; }
+        public async static void GetImageSize(this Stream imageStream)
         {
             var image = new BitmapImage();
             byte[] imageBytes = Convert.FromBase64String(imageStream.ToBase64String());
@@ -60,7 +61,7 @@ namespace BookParser.Extensions
                     // ignored
                 }
             }
-            return new Size(image.PixelWidth, image.PixelHeight);
+            ImageSize = new Size(image.PixelWidth, image.PixelHeight);
         }
 
         public static void SaveJpeg(this BitmapSource bitmap, Stream output, int width, int height, bool saveRatio)

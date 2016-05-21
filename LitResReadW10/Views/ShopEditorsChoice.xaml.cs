@@ -1,9 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
 using Windows.UI;
-using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -15,7 +12,6 @@ using LitRes.ViewModels;
 using LitResReadW10.Controls;
 using LitResReadW10.Helpers;
 
-
 namespace LitResReadW10.Views
 {
     [View("ShopEditorsChoice")]
@@ -26,7 +22,7 @@ namespace LitResReadW10.Views
             InitializeComponent();
             SizeChanged += ShopEditorsChoice_SizeChanged;
             Loaded += ShopEditorsChoice_Loaded;
-            NavigationCacheMode = NavigationCacheMode.Enabled;
+            NavigationCacheMode = NavigationCacheMode.Disabled;
         }
 
         private void ShopEditorsChoice_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -65,7 +61,7 @@ namespace LitResReadW10.Views
             {
                 Margin = new Thickness(0, 10, 0, 5),
                 Text = "К сожалению на Вашем счете ЛитРес недостаточно средств.",
-                TextWrapping = TextWrapping.Wrap,
+                TextWrapping = TextWrapping.Wrap
             });
 
             var creditButton = new Button
@@ -97,7 +93,7 @@ namespace LitResReadW10.Views
                 Margin = new Thickness(0, 0, 0, 10),
                 Text = "Внимание! К цене будет добавлена комисия Windows Store.",
 
-                TextWrapping = TextWrapping.Wrap,
+                TextWrapping = TextWrapping.Wrap
             });
             dialog.Content = panel;
             await dialog.ShowAsync();
@@ -112,40 +108,42 @@ namespace LitResReadW10.Views
             else if (e.PropertyName == "Banners")
             {
                 var banners = new BannerControl(Banners, ViewModel.Banners, Frame);
-                GetRandomBanner();
-                DispatcherTimer timer = new DispatcherTimer();
-                timer.Interval = new TimeSpan(0,0,4);
-                timer.Tick += TimerOnTick;                
-                timer.Start();
+                //var loopPanel = GetLoopItemsPanel(Banners);
+                //loopPanel.GetRandomItem();
+                //GetRandomBanner();
+                //DispatcherTimer timer = new DispatcherTimer();
+                //timer.Interval = new TimeSpan(0,0,4);
+                //timer.Tick += TimerOnTick;                
+                //timer.Start();
             }
         }
 
-        private void GetRandomBanner()
-        {
-            var rnd = new Random();
-            if (Banners.Items == null) return;
-            var idx = rnd.Next(0, Banners.Items.Count - 1);
-            i = idx;
-            _currentItem = Banners.Items[idx];
-            Banners.SelectedItem = _currentItem;
-        }
+        //private void GetRandomBanner()
+        //{
+        //    var rnd = new Random();
+        //    if (Banners.Items == null) return;
+        //    var idx = rnd.Next(0, Banners.Items.Count - 1);
+        //    i = idx;
+        //    _currentItem = Banners.Items[idx];
+        //    Banners.SelectedItem = _currentItem;
+        //}
 
-        private int i;
-        private object _currentItem;
-        private void TimerOnTick(object sender, object o)
-        {
-            var timer = sender as DispatcherTimer;
-            var seconds = timer?.Interval.Seconds;
-            if (seconds >= 4)
-            {
-                i++;
-                Debug.Assert(Banners.Items != null, "Banners.Items != null");
-                if (i >= Banners.Items.Count) i = -1;
-                timer.Stop();
-                timer.Start();
-            }
+        //private int i;
+        //private object _currentItem;
+        //private void TimerOnTick(object sender, object o)
+        //{
+        //    var timer = sender as DispatcherTimer;
+        //    var seconds = timer?.Interval.Seconds;
+        //    if (seconds >= 4)
+        //    {
+        //        i++;
+        //        Debug.Assert(Banners.Items != null, "Banners.Items != null");
+        //        if (i >= Banners.Items.Count) i = -1;
+        //        timer.Stop();
+        //        timer.Start();
+        //    }
 
-        }
+        //}
 
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -159,14 +157,14 @@ namespace LitResReadW10.Views
             var listView = sender as ListView;
             if (listView?.SelectedItem != null)
             {
-                var book = listView.SelectedItem as LitRes.Models.Book;
+                var book = listView.SelectedItem as Book;
                 ViewModel.BookSelected.Execute(book);
             }
         }
 
         private void Body_Click(object sender, ItemClickEventArgs e)
         {
-            var book = e.ClickedItem as LitRes.Models.Book;
+            var book = e.ClickedItem as Book;
             ViewModel.BookSelected.Execute(book);
         }
 

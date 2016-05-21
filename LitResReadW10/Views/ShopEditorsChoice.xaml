@@ -9,6 +9,7 @@
     xmlns:controls="using:LitRes.Controls"
     xmlns:ui="using:Digillect.Mvvm.UI"
     xmlns:views="using:LitResReadW10.Views"
+    xmlns:controls1="using:LitResReadW10.Controls"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -499,16 +500,23 @@
                       HorizontalScrollBarVisibility="Disabled"
                       VerticalScrollBarVisibility="Hidden">
             <StackPanel Margin="0" Padding="0">
-
-                <GridView x:Name="Banners" Visibility="Collapsed"                          
-                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                          IsItemClickEnabled="True"                          
+                <GridView x:Name="Banners" Visibility="Collapsed"
+                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                          IsItemClickEnabled="True"
                           ScrollViewer.HorizontalScrollMode="Enabled"
-                          ScrollViewer.VerticalScrollMode="Disabled" 
-                          IncrementalLoadingTrigger="None" 
-                          IsActiveView="True" 
-                          IsMultiSelectCheckBoxEnabled="False" 
-                          ShowsScrollingPlaceholders="False" Style="{StaticResource BannerGridViewStyle}" />
+                          ScrollViewer.VerticalScrollMode="Disabled"
+                          IncrementalLoadingTrigger="None"
+                          IsActiveView="True"
+                          IsMultiSelectCheckBoxEnabled="False"
+                          ShowsScrollingPlaceholders="False"
+                          Height="400">
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <controls1:LoopItemsPanel x:Name="LoopPanel" />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                </GridView>
                 <StackPanel x:Name="PhoneShopStackPanelWithListViews" Margin="0" Padding="0">
                     <ListView x:Name="InterestingBooks"
                               Margin="10,10,10,10"
@@ -623,6 +631,10 @@
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
+                    
+                     <VisualState.Setters>
+                        <Setter Target="Banners.MaxHeight" Value="178" />
+                    </VisualState.Setters>
                 </VisualState>
 
 
