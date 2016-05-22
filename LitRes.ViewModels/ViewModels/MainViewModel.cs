@@ -43,6 +43,9 @@ namespace LitRes.ViewModels
         private const string BuyBookLitresPart = "BuyBookLitresPart";
         private const string BuyBookPart = "BuyBook";
         private const string CreditCardInfoPart = "CreditCardInfoPart";
+        private const string LoadMoreNoveltyBooksPart = "LoadMoreNoveltyBooks";
+        private const string LoadMorePopularBooksPart = "LoadMorePopularBooks";
+        private const string LoadMoreInterestingBooksPart = "LoadMoreInterestingBooks";
 
         public const string MyBooksPart = "MyBooks";
 		public const string NewBooksPart = "NewBooks";
@@ -71,6 +74,9 @@ namespace LitRes.ViewModels
 
 		//private bool _scrollToFirstPanoramaItemOnLoad;
 	    private bool _isLoaded;
+	    private bool _noveltyLoading;
+	    private bool _popularLoading;
+	    private bool _interestingLoading;
 
 		#region Public Properties
 		//public event EventHandler ScrollToFirstPanoramaItem;
@@ -78,9 +84,9 @@ namespace LitRes.ViewModels
 		public XCollection<Genre> Genres { get; private set; }
 		public XCollection<Banner> Banners { get; private set; }
 		public XSubRangeCollection<Book> MyBooks { get; private set; }
-		public XSubRangeCollection<Book> NoveltyBooks { get; private set; }
-		public XSubRangeCollection<Book> PopularBooks { get; private set; }
-		public XSubRangeCollection<Book> InterestingBooks { get; private set; }
+		public XCollection<Book> NoveltyBooks { get; private set; }
+		public XCollection<Book> PopularBooks { get; private set; }
+		public XCollection<Book> InterestingBooks { get; private set; }
 
 		public MyBooksViewStateEnum MyBooksViewState
 		{
@@ -104,7 +110,10 @@ namespace LitRes.ViewModels
         public RelayCommand ShowInterestingBooks { get; private set; }
 		public RelayCommand ShowPopularBooks { get; private set; }
 		public RelayCommand ShowNewBooks { get; private set; }
-		public RelayCommand<int> GenreSelected { get; private set; }
+        public RelayCommand LoadMorePopularBooks { get; private set; }
+        public RelayCommand LoadMoreNoveltyBooks { get; private set; }
+        public RelayCommand LoadMoreInterestingBooks { get; private set; }
+        public RelayCommand<int> GenreSelected { get; private set; }
 		public RelayCommand ShowSearchHistory { get; private set; }
 		public RelayCommand ShowAuthorization { get; private set; }
         public RelayCommand ShowRegistration { get; private set; }
@@ -157,6 +166,9 @@ namespace LitRes.ViewModels
             RegisterAction(MyBooksPart).AddPart( session =>  LoadMyBooks(session), session => true);
             RegisterAction(BuyBookLitresPart).AddPart((session) => BuyBookFromLitres(session, Book), (session) => true);
             RegisterAction(CreditCardInfoPart).AddPart(session => CreditCardInfoAsync(session), (session) => true);
+            RegisterAction(LoadMoreNoveltyBooksPart).AddPart(session => LoadNoveltyBooks(session), session => true);
+            RegisterAction(LoadMorePopularBooksPart).AddPart(session => LoadPopularBooks(session), session => true);
+            RegisterAction(LoadMoreInterestingBooksPart).AddPart(session => LoadInterestingBooks(session), session => true);
             //RegisterPart(MyBooksPart, (session, part) => LoadMyBooks(session), (session, part) => true, false);
             ////RegisterPart(NewBooksPart, (session, part) => LoadNewBooks(session), (session, part) => true, false);
 
@@ -172,16 +184,19 @@ namespace LitRes.ViewModels
 
 			MyBooks = new XSubRangeCollection<Book>(_myBooks, 0, 10);
             
-            NoveltyBooks = new XSubRangeCollection<Book>(_noveltyBooks, 0, _booksPerPage);
-			PopularBooks = new XSubRangeCollection<Book>(_popularBooks, 0, _booksPerPage);
-			InterestingBooks = new XSubRangeCollection<Book>(_interestingBooks, 0, _booksPerPage);
+            NoveltyBooks = new XCollection<Book>();
+			PopularBooks = new XCollection<Book>();
+			InterestingBooks = new XCollection<Book>();
 			ShowMyBooks = new RelayCommand( ToMyBooks );
             BookSelected = new RelayCommand<Book>(book =>  _navigationService.Navigate("Book", XParameters.Create("BookEntity", book)), book => book != null);
             BuyBook = new RelayCommand<Book>(book => BuyBookFromLitresAsync(book));
             ShowInterestingBooks = new RelayCommand(() => _navigationService.Navigate("BooksByCategory", XParameters.Create("category", (int) BooksByCategoryViewModel.BooksViewModelTypeEnum.Interesting)));
 			ShowPopularBooks = new RelayCommand(() => _navigationService.Navigate("BooksByCategory", XParameters.Create("category", (int) BooksByCategoryViewModel.BooksViewModelTypeEnum.Popular)));
 			ShowNewBooks = new RelayCommand(() => _navigationService.Navigate("BooksByCategory", XParameters.Create("category", (int) BooksByCategoryViewModel.BooksViewModelTypeEnum.Novelty)));
-			GenreSelected = new RelayCommand<int>(ChooseGenre);
+            LoadMoreNoveltyBooks = new RelayCommand(LoadMoreNoveltyBooksProceed, () => true);
+            LoadMorePopularBooks = new RelayCommand(LoadMorePopularBooksProceed, () => true);
+            LoadMoreInterestingBooks = new RelayCommand(LoadMoreInterestingBooksProceed, () => true);
+            GenreSelected = new RelayCommand<int>(ChooseGenre);
 			ShowSearchHistory = new RelayCommand(() => _navigationService.Navigate("Search"));
             BuyBookFromMicrosoft = new RelayCommand(BuyBookFromMicrosoftAsync);
             Read = new RelayCommand<Book>(book =>
@@ -694,13 +709,19 @@ namespace LitRes.ViewModels
 		#region LoadNoveltyBooks
 		private async Task LoadNoveltyBooks( Session session )
 		{
-			var books = await _catalogProvider.GetNoveltyBooks( 0, session.Token, _booksPerPage);
-
-            if (!_noveltyBooks.Equals(books))
+		    if (!_noveltyLoading)
 		    {
-		        _noveltyBooks.BeginUpdate();
-		        _noveltyBooks.Update(books);
-		        _noveltyBooks.EndUpdate();
+		        _noveltyLoading = true;
+		        var books = await _catalogProvider.GetNoveltyBooks(_noveltyBooks?.Count ?? 0, session.Token, _booksPerPage);
+
+		        if (!_noveltyBooks.Equals(books))
+		        {
+		            _noveltyBooks.BeginUpdate();
+		            _noveltyBooks.Update(books);
+		            _noveltyBooks.EndUpdate();
+		        }
+		        NoveltyBooks.Update(_noveltyBooks);
+		        _noveltyLoading = false;
 		    }
 		}
 
@@ -715,18 +736,32 @@ namespace LitRes.ViewModels
                 _noveltyBooks.EndUpdate();
             }
         }
+
+        private async void LoadMoreNoveltyBooksProceed()
+        {
+            Session session = new Session(LoadMoreNoveltyBooksPart);
+            //session.AddParameter("id", Entity.Id);
+            //session.AddParameter("genre", Entity);
+            await Load(session);
+        }
         #endregion
         #region LoadPopularBooks
         private async Task LoadPopularBooks(Session session)
 		{
-			var books = await _catalogProvider.GetPopularBooks( 0, session.Token, _booksPerPage);
+            if (!_popularLoading)
+            {
+                _popularLoading = true;
+                var books = await _catalogProvider.GetPopularBooks(_popularBooks?.Count ?? 0, session.Token, _booksPerPage);
 
-            if (!_popularBooks.Equals(books))
-		    {
-		        _popularBooks.BeginUpdate();
-		        _popularBooks.Update(books);
-		        _popularBooks.EndUpdate();
-		    }
+                if (!_popularBooks.Equals(books))
+                {
+                    _popularBooks.BeginUpdate();
+                    _popularBooks.Update(books);
+                    _popularBooks.EndUpdate();
+                }
+                PopularBooks.Update(_popularBooks);
+                _popularLoading = false;
+            }
 		}
 
 	    private async Task LoadPopularBooksFromCache(Session session)
@@ -739,18 +774,32 @@ namespace LitRes.ViewModels
                 _popularBooks.EndUpdate();
             }
         }
-		#endregion
-		#region LoadInterestingBooks
-		private async Task LoadInterestingBooks( Session session )
-		{
-			var books = await _catalogProvider.GetInterestingBooks( 0, session.Token, _booksPerPage);
 
-		    if (!_interestingBooks.Equals(books))
-		    {
-		        _interestingBooks.BeginUpdate();
-		        _interestingBooks.Update(books);
-		        _interestingBooks.EndUpdate();
-		    }
+        private async void LoadMorePopularBooksProceed()
+        {
+            Session session = new Session(LoadMorePopularBooksPart);
+            //session.AddParameter("id", Entity.Id);
+            //session.AddParameter("genre", Entity);
+            await Load(session);
+        }
+        #endregion
+        #region LoadInterestingBooks
+        private async Task LoadInterestingBooks( Session session )
+		{
+            if (!_interestingLoading)
+            {
+                _interestingLoading = true;
+                var books = await _catalogProvider.GetInterestingBooks(_interestingBooks?.Count ?? 0, session.Token, _booksPerPage);
+
+                if (!_interestingBooks.Equals(books))
+                {
+                    _interestingBooks.BeginUpdate();
+                    _interestingBooks.Update(books);
+                    _interestingBooks.EndUpdate();
+                }
+                InterestingBooks.Update(_interestingBooks);
+                _interestingLoading = false;
+            }
 		}
 
         private async Task LoadInterestingBooksFromCache(Session session)
@@ -763,6 +812,14 @@ namespace LitRes.ViewModels
                 _interestingBooks.Update(books);
                 _interestingBooks.EndUpdate();
             }
+        }
+
+        private async void LoadMoreInterestingBooksProceed()
+        {
+            Session session = new Session(LoadMoreInterestingBooksPart);
+            //session.AddParameter("id", Entity.Id);
+            //session.AddParameter("genre", Entity);
+            await Load(session);
         }
         #endregion
 

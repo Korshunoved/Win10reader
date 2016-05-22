@@ -191,7 +191,7 @@
                                 Width="100"
                                 Height="36"
                                 Padding="5,0,5,0"
-                                Tapped="BuyButton_OnTapped" 
+                                Tapped="BuyButton_OnTapped"
                                 Visibility="{Binding Path=IsFreeBook, Converter={StaticResource VisibilityConverter}}">
                                 <!--Visibility="Collapsed">-->
                                 <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО"
@@ -402,7 +402,7 @@
                                 Width="100"
                                 Height="36"
                                 Padding="5,0,5,0"
-                                Tapped="BuyButton_OnTapped" 
+                                Tapped="BuyButton_OnTapped"
                                 Visibility="{Binding Path=IsFreeBook, Converter={StaticResource VisibilityConverter}}">
                                 <!--Visibility="Collapsed">-->
                                 <TextBlock TextWrapping="Wrap"
@@ -496,15 +496,15 @@
                       HorizontalContentAlignment="Stretch"
                       HorizontalScrollMode="Disabled"
                       HorizontalScrollBarVisibility="Disabled"
-                      VerticalScrollBarVisibility="Hidden">
+                      VerticalScrollBarVisibility="Hidden"
+                      ViewChanged="ScrollViewer_OnViewChanged">
             <StackPanel Margin="0" Padding="0">
-                <GridView x:Name="Banners" Visibility="Collapsed"                          
+                <GridView x:Name="Banners" Visibility="Collapsed"
                           ScrollViewer.HorizontalScrollBarVisibility="Auto"
                           IsItemClickEnabled="True"
                           IsSwipeEnabled="True"
                           ScrollViewer.HorizontalScrollMode="Enabled"
-                          ScrollViewer.VerticalScrollMode="Disabled"
-                          >
+                          ScrollViewer.VerticalScrollMode="Disabled">
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <ItemsWrapGrid Orientation="Vertical" />
@@ -524,23 +524,6 @@
                               Tapped="Body_Tap"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                               ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListView.Footer>
-                            <Button
-                                HorizontalAlignment="Stretch"
-                                Command="{Binding ViewModel.ShowNewBooks}"
-                                Style="{StaticResource PromotedButton}"
-                                Visibility="{Binding ViewModel.NoveltyBooks.Count, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}">
-                                <TextBlock
-                                    Text="ВСЕ НОВИНКИ"
-                                    Margin="10"
-                                    FontSize="16"
-                                    Foreground="{StaticResource LitResOrangeBrush}"
-                                    FontWeight="SemiBold"
-                                    TextAlignment="Center"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center" />
-                            </Button>
-                        </ListView.Footer>
                     </ListView>
                 </StackPanel>
                 <StackPanel x:Name="WideNoveltyStackPanelWithListViews"
@@ -572,23 +555,6 @@
                                 <ItemsWrapGrid Orientation="Horizontal" />
                             </ItemsPanelTemplate>
                         </GridView.ItemsPanel>
-                        <GridView.Footer>
-                            <Button
-                                HorizontalAlignment="Stretch"
-                                Command="{Binding ViewModel.ShowNewBooks}"
-                                Style="{StaticResource PromotedButton}"
-                                Visibility="{Binding ViewModel.NoveltyBooks.Count, Converter={StaticResource VisibilityConverter}, FallbackValue=Collapsed}">
-                                <TextBlock
-                                    Text="ВСЕ НОВИНКИ"
-                                    Margin="10"
-                                    FontSize="16"
-                                    Foreground="{StaticResource LitResOrangeBrush}"
-                                    FontWeight="SemiBold"
-                                    TextAlignment="Center"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center" />
-                            </Button>
-                        </GridView.Footer>
                     </GridView>
 
                 </StackPanel>

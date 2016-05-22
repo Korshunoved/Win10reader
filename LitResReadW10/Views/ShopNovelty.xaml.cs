@@ -169,6 +169,19 @@ namespace LitResReadW10.Views
                 return;
             ViewModel.Read.Execute(book);
         }
+
+        private void ScrollViewer_OnViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            var sv = sender as ScrollViewer;
+
+            if (sv == null) return;
+            var verticalOffsetValue = sv.VerticalOffset;
+            var maxVerticalOffsetValue = sv.ExtentHeight - sv.ViewportHeight;
+            if (maxVerticalOffsetValue < 0 || Math.Abs(verticalOffsetValue - maxVerticalOffsetValue) < 1.0)
+            {
+                ViewModel.LoadMoreNoveltyBooks.Execute(null);
+            }
+        }
     }
 
     public class ShopNoveltyFitting : ViewModelPage<MainViewModel>

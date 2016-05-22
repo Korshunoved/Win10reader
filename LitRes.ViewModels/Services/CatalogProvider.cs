@@ -32,7 +32,7 @@ namespace LitRes.Services
 		public const int CacheAgeInDays = 20;
 		public const int SingleBooksCount = 20;
 
-		public const int BooksInPage = 200;
+		public const int BooksInPage = 50;
 		public const int BooksInPageShift = 10;
 
 		private readonly ICatalitClient _client;

@@ -1,20 +1,20 @@
 ﻿<views1:GenreBooksFitting
-	x:Class="LitRes.Views.GenreBooks"
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:controls="using:LitRes.Controls"
-	xmlns:views1="using:LitRes.Views"
-	xmlns:valueConverters="using:LitRes.ValueConverters"
-	xmlns:selectors="using:LitRes.Selectors"
-	xmlns:ui="using:Digillect.Mvvm.UI"
+    x:Class="LitRes.Views.GenreBooks"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:LitRes.Controls"
+    xmlns:views1="using:LitRes.Views"
+    xmlns:valueConverters="using:LitRes.ValueConverters"
+    xmlns:selectors="using:LitRes.Selectors"
+    xmlns:ui="using:Digillect.Mvvm.UI"
 
-	x:Name="View"
-	mc:Ignorable="d"
-	FontFamily="{StaticResource PhoneFontFamilyNormal}"
-	FontSize="{StaticResource PhoneFontSizeNormal}"
-	Foreground="{StaticResource PhoneForegroundBrush}" >
+    x:Name="View"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}">
 
     <ui:WindowsRTPage.Resources>
         <ResourceDictionary>
@@ -195,8 +195,8 @@
                                 Padding="5,0,5,0"
                                 Visibility="{Binding Path=IsFreeBook, Converter={StaticResource VisibilityConverter}}"
                                 Tapped="BuyButton_OnTapped">
-                                 <!--Visibility="Collapsed"-->
-                                
+                                <!--Visibility="Collapsed"-->
+
                                 <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО"
                                            MaxLines="2"
                                            FontSize="14"
@@ -231,8 +231,8 @@
                                         Width="72"
                                         Height="36"
                                         Padding="5,0,5,0"
-                                         Visibility="Collapsed">
-                                       <!-- Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|inverse|visibility, FallbackValue=Collapsed}">-->
+                                        Visibility="Collapsed">
+                                        <!-- Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|inverse|visibility, FallbackValue=Collapsed}">-->
                                         <TextBlock TextWrapping="Wrap"
                                                    Text="СКАЧАТЬ"
                                                    FontSize="14"
@@ -407,7 +407,7 @@
                                 Padding="5,0,5,0"
                                 Visibility="{Binding Path=IsFreeBook, Converter={StaticResource VisibilityConverter}}"
                                 Tapped="BuyButton_OnTapped">
-                                 <!--Visibility="Collapsed">-->
+                                <!--Visibility="Collapsed">-->
                                 <TextBlock TextWrapping="Wrap"
                                            Text="БЕСПЛАТНО"
                                            MaxLines="2"
@@ -424,7 +424,7 @@
                                         Width="72"
                                         Height="36"
                                         Padding="5,0,5,0"
-                                        
+
                                         Tapped="BuyButton_OnTapped">
                                         <TextBlock TextWrapping="Wrap"
                                                    MaxLines="2"
@@ -445,8 +445,8 @@
                                         Width="72"
                                         Height="36"
                                         Padding="5,0,5,0"
-                                         Visibility="Collapsed">
-                                       <!-- Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|inverse|visibility, FallbackValue=Collapsed}">-->
+                                        Visibility="Collapsed">
+                                        <!-- Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|inverse|visibility, FallbackValue=Collapsed}">-->
                                         <TextBlock TextWrapping="Wrap"
                                                    Text="СКАЧАТЬ"
                                                    MaxLines="2"
@@ -476,136 +476,136 @@
     </ui:WindowsRTPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}" >
+    <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}">
         <StackPanel
-                        x:Name="NoConnection"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Vertical"
-                        Visibility="Collapsed">
+            x:Name="NoConnection"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Vertical"
+            Visibility="Collapsed">
             <Image Source="../Assets/W10Images/NoConnection/error_big.png"
-                               Stretch="None" />
+                   Stretch="None" />
 
             <TextBlock
-                            Margin="0,30,0,0"
-                            TextAlignment="Center"
-                            Foreground="{StaticResource LitresLightGreyBrush}"
-                            FontSize="{StaticResource LitresFontSizeBigMedium}"
-                            Text="Нет доступа к сети" />
+                Margin="0,30,0,0"
+                TextAlignment="Center"
+                Foreground="{StaticResource LitresLightGreyBrush}"
+                FontSize="{StaticResource LitresFontSizeBigMedium}"
+                Text="Нет доступа к сети" />
         </StackPanel>
-        <ScrollViewer 
-        Margin="0,10,0,0"
-        HorizontalScrollMode="Disabled"
-        HorizontalScrollBarVisibility="Disabled"
-        VerticalScrollBarVisibility="Hidden"
-        ViewChanged="ScrollViewer_OnViewChanged">
-        <Grid>
-            <Grid.RowDefinitions>
-              <RowDefinition/>
-              <RowDefinition/>
-            </Grid.RowDefinitions>
+        <ScrollViewer
+            Margin="0,10,0,0"
+            HorizontalScrollMode="Disabled"
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Hidden"
+            ViewChanged="ScrollViewer_OnViewChanged">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Orientation="Vertical">
-                    <TextBlock  Margin="10,0,0,15"
-                                x:Name="MinimizerText"
-                                Text="Поджанры" 
-                                Style="{StaticResource NormalSemiLightOrangeTextStyle}" 
-                                Visibility="{Binding ViewModel.Entity.Children, Converter={StaticResource VisibilityConverter}}" 
-                                Tapped="MinimizeMaximizeSubgenres" />
-                <StackPanel x:Name="GenresListStackPanel" Orientation="Vertical" Visibility="Collapsed">
-                    <ListView Margin="0"
-                       x:Name="GenresListView"
-                       ItemsSource="{Binding ViewModel.Entity.Children}"
-                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                       Background="Transparent"
-                       Tapped="GenresListView_OnTapped"
-                       ItemTemplate="{StaticResource ListBox_Genre_Template}">
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
-                                        <Setter Property="Padding" Value="0"/>
-                                        <Setter Property="Margin" Value="0"/>
-                                    </Style>
-                                </ListView.ItemContainerStyle>
-                            </ListView>
-                    <GridView
-                              x:Name="GenresGridView"
-                              Visibility="Collapsed"
-                              AutomationProperties.AutomationId="GenresItemGridView"
-                              AutomationProperties.Name="Genres Grouped Items"
-                              Margin="0"
-                              Padding="0"
-                              BorderThickness="0"
-                              HorizontalAlignment="Stretch"
-                              HorizontalContentAlignment="Left"
-                              ItemsSource="{Binding ViewModel.Entity.Children}"
-                              ItemTemplate="{StaticResource GridViewGenreTemplate}"
-                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                              ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                              ItemClick="GenresGridView_OnItemClick"                    
-                              SelectionMode="None"
-                              IsSwipeEnabled="false"
-                              IsItemClickEnabled="True" >
-                                <GridView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <ItemsWrapGrid HorizontalAlignment="Left"
-                                MaximumRowsOrColumns="5"
-                                Margin="10,0,10,0"
-                                GroupPadding="10,10,10,10"
-                                ItemWidth="300"
-                                Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </GridView.ItemsPanel>
-                            </GridView>
+                <StackPanel Grid.Row="0" Orientation="Vertical">
+                    <TextBlock Margin="10,0,0,15"
+                               x:Name="MinimizerText"
+                               Text="Поджанры"
+                               Style="{StaticResource NormalSemiLightOrangeTextStyle}"
+                               Visibility="{Binding ViewModel.Entity.Children, Converter={StaticResource VisibilityConverter}}"
+                               Tapped="MinimizeMaximizeSubgenres" />
+                    <StackPanel x:Name="GenresListStackPanel" Orientation="Vertical" Visibility="Collapsed">
+                        <ListView Margin="0"
+                                  x:Name="GenresListView"
+                                  ItemsSource="{Binding ViewModel.Entity.Children}"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                  Background="Transparent"
+                                  Tapped="GenresListView_OnTapped"
+                                  ItemTemplate="{StaticResource ListBox_Genre_Template}">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="Margin" Value="0" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                        <GridView
+                            x:Name="GenresGridView"
+                            Visibility="Collapsed"
+                            AutomationProperties.AutomationId="GenresItemGridView"
+                            AutomationProperties.Name="Genres Grouped Items"
+                            Margin="0"
+                            Padding="0"
+                            BorderThickness="0"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            ItemsSource="{Binding ViewModel.Entity.Children}"
+                            ItemTemplate="{StaticResource GridViewGenreTemplate}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                            ItemClick="GenresGridView_OnItemClick"
+                            SelectionMode="None"
+                            IsSwipeEnabled="false"
+                            IsItemClickEnabled="True">
+                            <GridView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsWrapGrid HorizontalAlignment="Left"
+                                                   MaximumRowsOrColumns="5"
+                                                   Margin="10,0,10,0"
+                                                   GroupPadding="10,10,10,10"
+                                                   ItemWidth="300"
+                                                   Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </GridView.ItemsPanel>
+                        </GridView>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
 
-            <ListView
-              Grid.Row="1"
-              Margin="10,10,10,0" 
-              x:Name="PopularListView" 
-              ItemsSource="{Binding ViewModel.PopularBooks}" 
-              ItemTemplate="{StaticResource BookMinicartTemplate}"
-              ItemContainerStyle="{StaticResource ListViewStretchStyle}"
-              ScrollViewer.HorizontalScrollBarVisibility="Hidden" 
-              ScrollViewer.VerticalScrollBarVisibility="Hidden"
-              Tapped="GenreRecomendedBooks_OnTapped"/>
-            <GridView                
-                  x:Name="PopularGridView"     
-                  Grid.Row="1"
-                  AutomationProperties.AutomationId="ItemGridView"
-                  AutomationProperties.Name="Grouped Items"
-                  Margin="0,10,0,0"
-                  Padding="0,0,0,0"
-                  BorderThickness="0"
-                  HorizontalAlignment="Left"
-                  HorizontalContentAlignment="Stretch"
-                  ItemsSource="{Binding ViewModel.PopularBooks}" 
-                  ItemTemplateSelector="{StaticResource GridViewBookTemplate}"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                  ItemClick="PopularGridView_OnItemClick"
-                  SelectionMode="None"
-                  IsSwipeEnabled="false"
-                  IsItemClickEnabled="True"
-                  Visibility="Collapsed">
+                <ListView
+                    Grid.Row="1"
+                    Margin="10,10,10,0"
+                    x:Name="PopularListView"
+                    ItemsSource="{Binding ViewModel.PopularBooks}"
+                    ItemTemplate="{StaticResource BookMinicartTemplate}"
+                    ItemContainerStyle="{StaticResource ListViewStretchStyle}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                    ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                    Tapped="GenreRecomendedBooks_OnTapped" />
+                <GridView
+                    x:Name="PopularGridView"
+                    Grid.Row="1"
+                    AutomationProperties.AutomationId="ItemGridView"
+                    AutomationProperties.Name="Grouped Items"
+                    Margin="0,10,0,0"
+                    Padding="0,0,0,0"
+                    BorderThickness="0"
+                    HorizontalAlignment="Left"
+                    HorizontalContentAlignment="Stretch"
+                    ItemsSource="{Binding ViewModel.PopularBooks}"
+                    ItemTemplateSelector="{StaticResource GridViewBookTemplate}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                    ItemClick="PopularGridView_OnItemClick"
+                    SelectionMode="None"
+                    IsSwipeEnabled="false"
+                    IsItemClickEnabled="True"
+                    Visibility="Collapsed">
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <ItemsWrapGrid HorizontalAlignment="Left"
-                            MaximumRowsOrColumns="5"
-                            Margin="10,0,10,0"
-                            GroupPadding="10,10,10,10"
-                            Orientation="Horizontal"/>
+                                           MaximumRowsOrColumns="5"
+                                           Margin="10,0,10,0"
+                                           GroupPadding="10,10,10,10"
+                                           Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
                 </GridView>
 
-        </Grid>
-      </ScrollViewer>
-      
-		<controls:PageHeader x:Name="pageHeader"/>
-  
-  <VisualStateManager.VisualStateGroups>
+            </Grid>
+        </ScrollViewer>
+
+        <controls:PageHeader x:Name="pageHeader" />
+
+        <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
 
                 <VisualState x:Name="TabletState">
@@ -619,7 +619,7 @@
                         <Setter Target="PopularListView.Visibility" Value="Collapsed" />
                         <Setter Target="PopularGridView.Visibility" Value="Visible" />
                         <Setter Target="MinimizerText.Margin" Value="20,0,0,15" />
-                        
+
                     </VisualState.Setters>
 
                 </VisualState>
@@ -632,7 +632,7 @@
 
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-  
-	</Grid>
+
+    </Grid>
 
 </views1:GenreBooksFitting>
