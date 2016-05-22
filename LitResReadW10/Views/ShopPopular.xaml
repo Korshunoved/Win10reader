@@ -192,7 +192,7 @@
                                 Width="100"
                                 Height="36"
                                 Padding="5,0,5,0"
-                                Tapped="BuyButton_OnTapped"
+                                Tapped="BuyButton_OnTapped" 
                                 Visibility="{Binding Path=IsFreeBook, Converter={StaticResource VisibilityConverter}}">
                                 <!--Visibility="Collapsed">-->
                                 <TextBlock TextWrapping="Wrap" Text="БЕСПЛАТНО"
@@ -229,7 +229,7 @@
                                         Width="72"
                                         Height="36"
                                         Padding="5,0,5,0"
-                                        Visibility="Collapsed">
+                                         Visibility="Collapsed">
                                         <!--Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|inverse|visibility, FallbackValue=Collapsed}">-->
                                         <TextBlock TextWrapping="Wrap"
                                                    Text="СКАЧАТЬ"
@@ -403,7 +403,7 @@
                                 Width="100"
                                 Height="36"
                                 Padding="5,0,5,0"
-                                Tapped="BuyButton_OnTapped"
+                                Tapped="BuyButton_OnTapped" 
                                 Visibility="{Binding Path=IsFreeBook, Converter={StaticResource VisibilityConverter}}">
                                 <!--Visibility="Collapsed">-->
                                 <TextBlock TextWrapping="Wrap"
@@ -422,7 +422,7 @@
                                         Width="72"
                                         Height="36"
                                         Padding="5,0,5,0"
-
+                                        
                                         Tapped="BuyButton_OnTapped">
                                         <TextBlock TextWrapping="Wrap"
                                                    MaxLines="2"
@@ -443,7 +443,7 @@
                                         Width="72"
                                         Height="36"
                                         Padding="5,0,5,0"
-                                        Visibility="Collapsed">
+                                         Visibility="Collapsed">
                                         <!--Visibility="{Binding Converter={StaticResource IsFileExistsConverter}, ConverterParameter=full|inverse|visibility, FallbackValue=Collapsed}">-->
                                         <TextBlock TextWrapping="Wrap"
                                                    Text="СКАЧАТЬ"
@@ -475,20 +475,20 @@
 
     <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRoot}">
         <StackPanel
-            x:Name="NoConnection"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Orientation="Vertical"
-            Visibility="Collapsed">
+                        x:Name="NoConnection"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical"
+                        Visibility="Collapsed">
             <Image Source="../Assets/W10Images/NoConnection/error_big.png"
-                   Stretch="None" />
+                               Stretch="None" />
 
             <TextBlock
-                Margin="0,30,0,0"
-                TextAlignment="Center"
-                Foreground="{StaticResource LitresLightGreyBrush}"
-                FontSize="{StaticResource LitresFontSizeBigMedium}"
-                Text="Нет доступа к сети" />
+                            Margin="0,30,0,0"
+                            TextAlignment="Center"
+                            Foreground="{StaticResource LitresLightGreyBrush}"
+                            FontSize="{StaticResource LitresFontSizeBigMedium}"
+                            Text="Нет доступа к сети" />
         </StackPanel>
         <ScrollViewer Grid.Row="0"
                       Padding="0,0,0,0"
@@ -501,14 +501,19 @@
                       ViewChanged="ScrollViewer_OnViewChanged">
             <StackPanel Margin="0" Padding="0">
                 <GridView x:Name="Banners" Visibility="Collapsed"
-                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
                           IsItemClickEnabled="True"
-                          IsSwipeEnabled="True"
                           ScrollViewer.HorizontalScrollMode="Enabled"
-                          ScrollViewer.VerticalScrollMode="Disabled">
+                          ScrollViewer.VerticalScrollMode="Disabled"
+                          IncrementalLoadingTrigger="None"
+                          IsActiveView="True"
+                          IsMultiSelectCheckBoxEnabled="False"
+                          ShowsScrollingPlaceholders="False"
+                          Height="400">
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <ItemsWrapGrid Orientation="Vertical" />
+                            <controls1:LoopItemsPanel x:Name="LoopPanel" />
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
                 </GridView>
@@ -563,7 +568,7 @@
             </StackPanel>
         </ScrollViewer>
         <controls:PageHeader x:Name="pageHeader" Loaded="pageHeader_Loaded" />
-        <VisualStateManager.VisualStateGroups>
+         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="PCState">
                     <VisualState.StateTriggers>
@@ -572,7 +577,7 @@
                     <VisualState.Setters>
                         <Setter Target="PhoneShopStackPanelWithListViews.Visibility" Value="Collapsed" />
                         <Setter Target="WideShopStackPanelWithListViews.Visibility" Value="Visible" />
-                        <Setter Target="Banners.MaxHeight" Value="250" />
+                        <Setter Target="Banners.MaxHeight" Value="368" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -582,9 +587,9 @@
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
+                        <Setter Target="Banners.MaxHeight" Value="368" />
                         <Setter Target="PhoneShopStackPanelWithListViews.Visibility" Value="Collapsed" />
                         <Setter Target="WideShopStackPanelWithListViews.Visibility" Value="Visible" />
-                        <Setter Target="Banners.MaxHeight" Value="250" />
                     </VisualState.Setters>
 
                 </VisualState>
@@ -593,10 +598,12 @@
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="Banners.MaxHeight" Value="150" />
+                    
+                     <VisualState.Setters>
+                        <Setter Target="Banners.MaxHeight" Value="178" />
                     </VisualState.Setters>
                 </VisualState>
+
 
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>

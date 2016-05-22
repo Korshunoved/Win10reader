@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using Windows.UI;
-using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -12,7 +11,6 @@ using LitRes.Models;
 using LitRes.ViewModels;
 using LitResReadW10.Controls;
 using LitResReadW10.Helpers;
-
 
 namespace LitResReadW10.Views
 {
@@ -63,7 +61,7 @@ namespace LitResReadW10.Views
             {
                 Margin = new Thickness(0, 10, 0, 5),
                 Text = "К сожалению на Вашем счете ЛитРес недостаточно средств.",
-                TextWrapping = TextWrapping.Wrap,
+                TextWrapping = TextWrapping.Wrap
             });
 
             var creditButton = new Button
@@ -95,7 +93,7 @@ namespace LitResReadW10.Views
                 Margin = new Thickness(0, 0, 0, 10),
                 Text = "Внимание! К цене будет добавлена комисия Windows Store.",
 
-                TextWrapping = TextWrapping.Wrap,
+                TextWrapping = TextWrapping.Wrap
             });
             dialog.Content = panel;
             await dialog.ShowAsync();
@@ -124,14 +122,14 @@ namespace LitResReadW10.Views
             var listView = sender as ListView;
             if (listView?.SelectedItem != null)
             {
-                var book = listView.SelectedItem as LitRes.Models.Book;
+                var book = listView.SelectedItem as Book;
                 ViewModel.BookSelected.Execute(book);
             }
         }
 
         private void Body_Click(object sender, ItemClickEventArgs e)
         {
-            var book = e.ClickedItem as LitRes.Models.Book;
+            var book = e.ClickedItem as Book;
             ViewModel.BookSelected.Execute(book);
         }
 

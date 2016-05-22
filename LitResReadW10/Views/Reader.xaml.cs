@@ -169,8 +169,15 @@ namespace LitRes.Views
         protected override async void OnDataLoadComplete(Session session)
         {
             Debug.WriteLine("OnDataLoadComplete Enter");
-            if (_readerGridLoaded)
+            if (!_readerGridLoaded) return;
+            try
+            {
                 await HandleLoadedBook();
+            }
+            catch (Exception)
+            {
+                await ShowDownloadError();                    
+            }
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -324,12 +331,17 @@ namespace LitRes.Views
             }
             else if (ViewModel.LoadingException != null)
             {
-                BusyGrid.Visibility = Visibility.Collapsed;
-                BusyProgress.IsIndeterminate = false;
-                PageHeader.ProgressIndicatorVisible = false;
-                await new MessageDialog("Ошибка получения книги. Попробуйте попозже.").ShowAsync();
-                _navigationService.GoBack();
+                await ShowDownloadError();
             }            
+        }
+
+        private async Task ShowDownloadError()
+        {
+            BusyGrid.Visibility = Visibility.Collapsed;
+            BusyProgress.IsIndeterminate = false;
+            PageHeader.ProgressIndicatorVisible = false;
+            await new MessageDialog("Ошибка получения книги. Попробуйте попозже.").ShowAsync();
+            _navigationService.GoBack();
         }
 
         private async Task GetTokenPosition(BookmarkModel bookmark)

@@ -14,6 +14,12 @@ namespace LitResReadW10.Helpers
             return !string.IsNullOrEmpty(deviceFamily) && deviceFamily.Equals("Windows.Desktop");
         }
 
+        public static bool IsMobile()
+        {
+            var deviceFamily = DeviceInfoService.DeviceFamily;
+            return !string.IsNullOrEmpty(deviceFamily) && deviceFamily.Equals("Windows.Mobile");
+        }
+
         public static bool HasInternet()
         {
             var connectionProfile = NetworkInformation.GetInternetConnectionProfile();

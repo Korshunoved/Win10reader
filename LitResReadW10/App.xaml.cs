@@ -9,6 +9,7 @@ using Digillect.Mvvm.Services;
 using LitRes;
 using LitRes.Services;
 using LitRes.Views;
+using LitResReadW10.Controls;
 using Microsoft.ApplicationInsights;
 using Book = LitRes.Models.Book;
 
@@ -25,7 +26,8 @@ namespace LitResReadW10
         internal const int PasswordLength = 3;
         public static string TileBookId;
         public static bool IsLaunched { get; set; }
-        public static bool OpenFromTile;        
+        public static bool OpenFromTile;
+        public static LoopItemsPanel bannerLoopPanel; 
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code

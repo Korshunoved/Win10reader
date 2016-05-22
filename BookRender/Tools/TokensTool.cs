@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
@@ -31,10 +32,36 @@ namespace BookRender.Tools
                 }
                 catch (Exception)
                 {
+                    try
+                    {
+                        file =
+                            FileStorage.Instance.GetFile(
+                                Path.Combine(CatalogPath + id + ".trial" + ModelConstants.BookFileDataRefPath));
+                    }
+                    catch (Exception)
+                    {
+                        using (var isf = IsolatedStorageFile.GetUserStoreForApplication())
+                        {
+                            try
+                            {
+                                isf.DeleteFile(Path.Combine(CatalogPath + id +  ModelConstants.BookFileDataPath));
+                                isf.Dispose();
+                            }
+                            catch (Exception)
+                            {
+                                try
+                                {
+                                    isf.DeleteFile(Path.Combine(CatalogPath + id + ".trial" + ModelConstants.BookFileDataPath));
+                                    isf.Dispose();
+                                }
+                                catch (Exception ex)
+                                {
+                                    throw new Exception(ex.Message);                                    
+                                }
+                            }
+                        }
+                    }
 
-                    file =
-                        FileStorage.Instance.GetFile(
-                            Path.Combine(CatalogPath + id + ".trial" + ModelConstants.BookFileDataRefPath));
                 }
                 using (file)
                 {
