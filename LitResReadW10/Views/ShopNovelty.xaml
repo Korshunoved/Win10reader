@@ -510,7 +510,7 @@
                           IsActiveView="True"
                           IsMultiSelectCheckBoxEnabled="False"
                           ShowsScrollingPlaceholders="False"
-                          Height="400">
+                          Height="368">
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <controls1:LoopItemsPanel x:Name="LoopPanel" />
@@ -568,15 +568,15 @@
 
         </ScrollViewer>
         <controls:PageHeader x:Name="pageHeader" Loaded="pageHeader_Loaded" />
-          <VisualStateManager.VisualStateGroups>
+        <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="PCState">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="1150" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="PhoneShopStackPanelWithListViews.Visibility" Value="Collapsed" />
-                        <Setter Target="WideShopStackPanelWithListViews.Visibility" Value="Visible" />
+                        <Setter Target="PhoneNoveltyStackPanelWithListViews.Visibility" Value="Collapsed" />
+                        <Setter Target="WideNoveltyStackPanelWithListViews.Visibility" Value="Visible" />
                         <Setter Target="Banners.MaxHeight" Value="368" />
                     </VisualState.Setters>
                 </VisualState>
@@ -587,23 +587,20 @@
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
+                        <Setter Target="PhoneNoveltyStackPanelWithListViews.Visibility" Value="Collapsed" />
+                        <Setter Target="WideNoveltyStackPanelWithListViews.Visibility" Value="Visible" />
                         <Setter Target="Banners.MaxHeight" Value="368" />
-                        <Setter Target="PhoneShopStackPanelWithListViews.Visibility" Value="Collapsed" />
-                        <Setter Target="WideShopStackPanelWithListViews.Visibility" Value="Visible" />
                     </VisualState.Setters>
-
                 </VisualState>
 
                 <VisualState x:Name="PhoneState">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
-                    
-                     <VisualState.Setters>
-                        <Setter Target="Banners.MaxHeight" Value="178" />
+                    <VisualState.Setters>
+                        <Setter Target="Banners.MaxHeight" Value="150" />
                     </VisualState.Setters>
                 </VisualState>
-
 
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
