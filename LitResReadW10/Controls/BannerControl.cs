@@ -22,29 +22,30 @@ namespace LitResReadW10.Controls
         {
             _frame = frame;         
             bannerCanv.Items?.Clear();
+            var deviceWidth = Window.Current.CoreWindow.Bounds.Width;
             foreach (Banner banner in banners)
             {
                 var bannerBitmap = new BitmapImage {UriSource = new Uri(banner.Image, UriKind.RelativeOrAbsolute)};
-                var deviceWidth = Window.Current.CoreWindow.Bounds.Width;
-                var bannerImage = !SystemInfoHelper.IsMobile() ? new Image
+
+                var bannerImage = SystemInfoHelper.IsMobile() || deviceWidth < 800 ? new Image
                 {
                     Source = bannerBitmap,
                     Stretch = Stretch.Fill,
-                    MaxHeight = bannerCanv.MaxHeight                    
+                    MaxWidth = deviceWidth + 5
                 } : new Image
                 {
                     Source = bannerBitmap,
                     Stretch = Stretch.Fill,
-                    MaxWidth = deviceWidth
+                    MaxHeight = bannerCanv.MaxHeight                    
                 };
-                if (SystemInfoHelper.IsMobile())
-                    bannerCanv.MaxHeight = bannerImage.MaxWidth/2.46;
                 bannerImage.Tapped += OnBannerTap;                
                 bannerImage.Tag = banner;
                 bannerCanv.Visibility = Visibility.Visible;
                 bannerImage.Visibility = Visibility.Visible;
                 bannerCanv.Items?.Add(bannerImage);
-            }          
+            }
+            if (SystemInfoHelper.IsMobile() || deviceWidth < 800)
+                bannerCanv.MaxHeight = deviceWidth / 2.46;
         }
 
         private void OnBannerTap(object sender, TappedRoutedEventArgs e)
