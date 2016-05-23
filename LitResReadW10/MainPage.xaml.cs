@@ -37,6 +37,7 @@ namespace LitResReadW10
         private readonly INavigationService _navigationService = ((App) App.Current).Scope.Resolve<INavigationService>();
         private readonly IDataCacheService _dataCacheService = ((App) App.Current).Scope.Resolve<IDataCacheService>();
         private readonly ICredentialsProvider _credentialsProvider = ((App) App.Current).Scope.Resolve<ICredentialsProvider>();
+        private readonly IDeviceInfoService _deviceInfoService = ((App) App.Current).Scope.Resolve<IDeviceInfoService>();
 
         public MainPage()
         {
@@ -68,44 +69,44 @@ namespace LitResReadW10
             var firstLaunchDateTime = _dataCacheService.GetItem<DateTime>("FirstLaunchDateTime");
             var lastDateRattingPressed = _dataCacheService.GetItem<DateTime>("LastDateRattingPressed");
             var launchCount = _dataCacheService.GetItem<int>("LaunchCount");
+            var dontAskMoreDate = _dataCacheService.GetItem<DateTime>("DontAskMoreDate");
+            var askLaterDate = _dataCacheService.GetItem<DateTime>("AskLaterDate");
+            var lastVersion = _dataCacheService.GetItem<string>("LastVersion");
             launchCount++;
-            _dataCacheService.PutItem(launchCount, "LaunchCount", CancellationToken.None);
+            
+            if (lastVersion == default(string))
+            {
+                lastVersion = _deviceInfoService.ApplicationVersion;
+                _dataCacheService.PutItem(lastVersion, "LastVersion", CancellationToken.None);
+            }
             if (firstLaunchDateTime == default(DateTime))
             {
+                firstLaunchDateTime = DateTime.Now;
+                _dataCacheService.PutItem(firstLaunchDateTime, "FirstLaunchDateTime", CancellationToken.None);
+            }
+            if (lastVersion != default(string) && lastVersion != _deviceInfoService.ApplicationVersion && launchCount > 5)
+            {
+                launchCount = 1;
                 firstLaunchDateTime = DateTime.Now;
                 _dataCacheService.PutItem(firstLaunchDateTime, "FirstLaunchDateTime", CancellationToken.None);
             }
             
             if (fiveStarRatingPressed)
                 return;
-            if (dontAskMoreButtonPressed)
-            {
-                var dontAskMoreDate = _dataCacheService.GetItem<DateTime>("DontAskMoreDate");
-                //if (dontAskMoreDate.AddMinutes(10) < DateTime.Now)
-                if (dontAskMoreDate.AddMonths(3) < DateTime.Now)
-                {
-                    IsNeedToShowReviewDialog = true;
-                }
-            }
-            else if (askLaterButtonPressed)
-            {
-                var askLaterDate = _dataCacheService.GetItem<DateTime>("AskLaterDate");
-                //if (askLaterDate.AddMinutes(5) < DateTime.Now)
-                if (askLaterDate.AddDays(7) < DateTime.Now)
-                {
-                    IsNeedToShowReviewDialog = true;
-                }
-            }
-            else if (!anyStarRatingPressed && launchCount >= 5)
+            if (dontAskMoreButtonPressed && dontAskMoreDate.AddMonths(3) < DateTime.Now)
             {
                 IsNeedToShowReviewDialog = true;
             }
-            else if (!anyStarRatingPressed && firstLaunchDateTime.AddHours(24) < DateTime.Now)
+            else if (askLaterButtonPressed && askLaterDate.AddDays(7) < DateTime.Now)
+            { 
+                IsNeedToShowReviewDialog = true;
+              
+            }
+            else if (!anyStarRatingPressed && firstLaunchDateTime.AddHours(48) < DateTime.Now && launchCount >= 5)
             {
                 IsNeedToShowReviewDialog = true;
             }
-            else if (lastDateRattingPressed.AddMonths(1) < DateTime.Now &&
-                     lastDateRattingPressed.AddMonths(1) != default(DateTime).AddMonths(1))
+            else if (lastDateRattingPressed.AddMonths(1) < DateTime.Now && lastDateRattingPressed.AddMonths(1) != default(DateTime).AddMonths(1) && lastVersion != _deviceInfoService.ApplicationVersion && firstLaunchDateTime.AddHours(48) < DateTime.Now && launchCount >= 5)
             {
                 IsNeedToShowReviewDialog = true;
             }
@@ -113,10 +114,13 @@ namespace LitResReadW10
             {
                 IsNeedToShowReviewDialog = false;
             }
+
             if (AppSettings.Default.ReaderOpen)
             {
                 IsNeedToShowReviewDialog = false;
             }
+
+            _dataCacheService.PutItem(launchCount, "LaunchCount", CancellationToken.None);
         }
 
         private void OnNavigatingToPage(object sender, NavigatingCancelEventArgs e)

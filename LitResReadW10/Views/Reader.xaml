@@ -186,6 +186,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <TextBlock Name="ChapterTextBlock"
                        Grid.Column="0"
@@ -215,6 +218,38 @@
                     Margin="15,1,15,0"
                     VerticalAlignment="Stretch"
                     Template="{StaticResource LitresSlider}" />
+            <!--<TextBlock 
+                Grid.Row="2" 
+                Grid.Column="0" 
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+                Margin="15,1,15,1"
+                Foreground="Black"
+                FontSize="16"
+                FontWeight="SemiBold"
+                Text="Купите полную версию"/>
+            <TextBlock 
+                Grid.Row="3" 
+                Grid.Column="0" 
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+                Margin="15,1,15,12"
+                Foreground="Black"
+                FontSize="16"
+                FontWeight="SemiBold"
+                Text="и читайте дальше"/>
+            <Button x:Name="BuyFullBookButton" 
+                Grid.Row="4" 
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Style="{StaticResource GreenButtonStyle}" 
+                Margin="15,1,15,12"
+                HorizontalAlignment="Stretch">
+                <TextBlock>
+                    <Run Text="КУПИТЬ ЗА" />
+                    <Run Text="{Binding Path=ViewModel.Entity.PriceInRub}"/><Run Text="₽" />
+                </TextBlock>
+            </Button>-->
         </Grid>
 
         <Grid x:Name="CoverGrid"

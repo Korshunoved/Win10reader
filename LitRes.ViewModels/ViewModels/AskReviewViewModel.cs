@@ -10,11 +10,13 @@ namespace LitRes.ViewModels
     {
         private readonly IDataCacheService _dataCacheService;
         private readonly INavigationService _navigationService;
+        private readonly IDeviceInfoService _deviceInfoService;
 
-        public AskReviewViewModel(IDataCacheService dataCacheService, INavigationService navigationService)
+        public AskReviewViewModel(IDataCacheService dataCacheService, INavigationService navigationService, IDeviceInfoService deviceInfoService)
         {
             _dataCacheService = dataCacheService;
             _navigationService = navigationService;
+            _deviceInfoService = deviceInfoService;
         }
 
         public void AskLatter()
@@ -37,6 +39,7 @@ namespace LitRes.ViewModels
                 {
                     _dataCacheService.PutItem(true, "FiveStarRatingPressed", CancellationToken.None);
                     _dataCacheService.PutItem(DateTime.Now, "LastDateRattingPressed", CancellationToken.None);
+                    _dataCacheService.PutItem(_deviceInfoService.ApplicationVersion, "LastVersion", CancellationToken.None);
                     var uriBing = new Uri(@"ms-windows-store://review/?ProductId=9wzdncrfhvzw");
                     await Windows.System.Launcher.LaunchUriAsync(uriBing);
                     break;
@@ -46,6 +49,7 @@ namespace LitRes.ViewModels
                 {
                     _dataCacheService.PutItem(DateTime.Now, "LastDateRattingPressed", CancellationToken.None);
                     _dataCacheService.PutItem(true, "AnyStarRatingPressed", CancellationToken.None);
+                    _dataCacheService.PutItem(_deviceInfoService.ApplicationVersion, "LastVersion", CancellationToken.None);
                     var uriBing = new Uri(@"ms-windows-store://review/?ProductId=9wzdncrfhvzw");
                     await Windows.System.Launcher.LaunchUriAsync(uriBing);
                     break;
@@ -54,6 +58,7 @@ namespace LitRes.ViewModels
                 {
                     _dataCacheService.PutItem(DateTime.Now, "LastDateRattingPressed", CancellationToken.None);
                     _dataCacheService.PutItem(true, "AnyStarRatingPressed", CancellationToken.None);
+                    _dataCacheService.PutItem(_deviceInfoService.ApplicationVersion, "LastVersion", CancellationToken.None);
                     Analytics.Instance.sendMessage(Analytics.ActionRating13Star);
                     break;
                 }
