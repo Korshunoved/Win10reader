@@ -87,14 +87,25 @@ namespace BookRender.PageRender
                 if(highlight != null)
                     panel.Children.Insert(0, highlight);
             }
-            foreach (WordRenderData wordContext in context.Words)
+            IEnumerable<WordRenderData> words = null;
+            var found = false;
+            foreach (WordRenderData wordContext in context.Words.Where(wordContext => wordContext.Text == "Полный"))
             {
-                var textBlock = RenderWordContext(wordContext);
+                words = context.Words.SkipWhile(a => a != wordContext);
+                var query = words.Aggregate("", (current, word) => current + word.Text);
+                if (!query.Contains("Полный текст доступен на www.litres.ru")) continue;
+                found = true;
+                break;
+            }
+            if (found)
+                context.Words.RemoveAll(a => words.Contains(a));
+
+            foreach (var textBlock in context.Words.Select(RenderWordContext))
+            {
                 panel.Children.Add(textBlock);
             }
-            foreach (ImageRenderData imageContext in context.Images)
+            foreach (var image in context.Images.Select(RenderImageContext))
             {
-                var image = RenderImageContext(imageContext);
                 panel.Children.Add(image);
             }
         }
