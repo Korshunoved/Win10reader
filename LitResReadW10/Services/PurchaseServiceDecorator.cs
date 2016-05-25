@@ -6,6 +6,9 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+using BookParser;
+using Digillect;
 using Digillect.Mvvm.Services;
 using Digillect.Mvvm.UI;
 using LitRes.LibraryTools;
@@ -24,16 +27,18 @@ namespace LitRes.Services
         private readonly IBookProvider _bookProvider;
         private readonly ICredentialsProvider _credentialsProvider;
 	    private readonly IExpirationGuardian _expirationGuardian;
+	    private readonly INavigationService _navigationService;
 		private readonly List<Page> _pages;
 
 		#region Constructors/Disposer
-        public PurchaseServiceDecorator(IExpirationGuardian expirationGuardian, INotificationsProvider notificationsProvider, ICatalogProvider catalogProvider, IBookProvider bookProvider, ICredentialsProvider credentialsProvider)
+        public PurchaseServiceDecorator(IExpirationGuardian expirationGuardian, INotificationsProvider notificationsProvider, ICatalogProvider catalogProvider, IBookProvider bookProvider, ICredentialsProvider credentialsProvider, INavigationService navigationService)
 		{
 			_catalogProvider = catalogProvider;
 			_notificationsProvider = notificationsProvider;
             _bookProvider = bookProvider;
             _credentialsProvider = credentialsProvider;
             _expirationGuardian = expirationGuardian;
+            _navigationService = navigationService;
 			_pages = new List<Page>();
 		}
 		#endregion
@@ -113,6 +118,11 @@ namespace LitRes.Services
                 else if (_catalogProvider.GetBookByCollectionCache((int)BooksByCategoryViewModel.BooksViewModelTypeEnum.NokiaCollection, book.Id) == null)
                 {
                     await new MessageDialog("Книга \"" + book.Description.Hidden.TitleInfo.BookTitle + "\" куплена").ShowAsync();
+                    if ( Reader.Instance != null)
+                    {
+                        AppSettings.Default.SettingsChanged = true;
+                        Reader.Instance.Redraw();
+                    }
                 }
                 else
                 {

@@ -74,11 +74,6 @@ namespace LitResReadW10
             var lastVersion = _dataCacheService.GetItem<string>("LastVersion");
             launchCount++;
             
-            if (lastVersion == default(string))
-            {
-                lastVersion = _deviceInfoService.ApplicationVersion;
-                _dataCacheService.PutItem(lastVersion, "LastVersion", CancellationToken.None);
-            }
             if (firstLaunchDateTime == default(DateTime))
             {
                 firstLaunchDateTime = DateTime.Now;

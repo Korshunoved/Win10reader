@@ -60,67 +60,66 @@ namespace LitRes.Services
 		}
 		#endregion
 
-        public Task BuyBookFromLitres(Book book, CancellationToken cancellationToken)
-        {
-            var task = new Task(async () =>
-            {
-                //If acoount not exits - create
-                CatalitCredentials creds = _credentialsProvider.ProvideCredentials(cancellationToken);
-                if (creds == null)
-                {
-                    creds = await _profileProvider.RegisterDefault(cancellationToken);                    
-                    _credentialsProvider.RegisterCredentials(creds, cancellationToken);
-                }
+	    public async Task BuyBookFromLitres(Book book, CancellationToken cancellationToken)
+	    {
+	        //If acoount not exits - create
+	        CatalitCredentials creds = _credentialsProvider.ProvideCredentials(cancellationToken);
+	        if (creds == null)
+	        {
+	            creds = await _profileProvider.RegisterDefault(cancellationToken);
+	            _credentialsProvider.RegisterCredentials(creds, cancellationToken);
+	        }
 
-                bool isNokiaBook = false;
-                if (_deviceInfoService.IsNokiaDevice && !string.IsNullOrEmpty(book.InGifts) && book.InGifts.Equals("1"))
-                {
-                    var nokiaBook = await _catalogProvider.GetBookByCollection((int)BooksByCategoryViewModel.BooksViewModelTypeEnum.NokiaCollection, book.Id, cancellationToken);
-                    if (nokiaBook != null) isNokiaBook = true;
-                }
+	        bool isNokiaBook = false;
+	        if (_deviceInfoService.IsNokiaDevice && !string.IsNullOrEmpty(book.InGifts) && book.InGifts.Equals("1"))
+	        {
+	            var nokiaBook =
+	                await
+	                    _catalogProvider.GetBookByCollection(
+	                        (int) BooksByCategoryViewModel.BooksViewModelTypeEnum.NokiaCollection, book.Id,
+	                        cancellationToken);
+	            if (nokiaBook != null) isNokiaBook = true;
+	        }
 
-                if (isNokiaBook)
-                {
-                    await _catalogProvider.TakeBookFromCollectionBySubscription(book.Id, cancellationToken);
-                    UpdateBook(book);
-                }
-                else
-                {
-                    var parameters = new Dictionary<string, object>
-				    {
-					    { "art", book.Id }, 
-                        { "lfrom", _deviceInfoService.LitresInnerRefId},
-                        { "pin", _deviceInfoService.DeviceModel}
-				    };
+	        if (isNokiaBook)
+	        {
+	            await _catalogProvider.TakeBookFromCollectionBySubscription(book.Id, cancellationToken);
+	            UpdateBook(book);
+	        }
+	        else
+	        {
+	            var parameters = new Dictionary<string, object>
+	            {
+	                {"art", book.Id},
+	                {"lfrom", _deviceInfoService.LitresInnerRefId},
+	                {"pin", _deviceInfoService.DeviceModel}
+	            };
 
-                    LitresPurchaseResponse purchase = null;
-                    try
-                    {
-                        purchase = await _client.LitresPurchaseBook(parameters, cancellationToken, book.isHiddenBook);
-                    }
-                    catch (CatalitPurchaseException e)
-                    {
-                        if (((CatalitPurchaseException) e).ErrorCode == 3)
-                        {
-                            _inAppPurchaseService.CheckProductIsUsed(book.InappName);
-                        }
-                        purchase = new LitresPurchaseResponse { Account = "-1", Art = "-1" };
-                    }
+	            LitresPurchaseResponse purchase = null;
+	            try
+	            {
+	                purchase = await _client.LitresPurchaseBook(parameters, cancellationToken, book.isHiddenBook);
+	            }
+	            catch (CatalitPurchaseException e)
+	            {
+	                if (((CatalitPurchaseException) e).ErrorCode == 3)
+	                {
+	                    _inAppPurchaseService.CheckProductIsUsed(book.InappName);
+	                }
+	                purchase = new LitresPurchaseResponse {Account = "-1", Art = "-1"};
+	            }
 
-                    if (purchase.Account == "-1" && purchase.Art == "-1") UpdateBookFailed(book);
-                    else
-                    {
-                        if (book.InappName != null)
-                            _inAppPurchaseService.CheckProductIsUsed(book.InappName);
-                        UpdateBook(book);
-                    }
-                }
-            });        
-            task.Start();
-            return task;
-        }
+	            if (purchase.Account == "-1" && purchase.Art == "-1") UpdateBookFailed(book);
+	            else
+	            {
+	                if (book.InappName != null)
+	                    _inAppPurchaseService.CheckProductIsUsed(book.InappName);
+	                UpdateBook(book);
+	            }
+	        }
+	    }
 
-		public async Task BuyBook( Book book, CancellationToken cancellationToken )
+	    public async Task BuyBook( Book book, CancellationToken cancellationToken)
 		{
 			//If acoount not exits - create
 			CatalitCredentials creds = _credentialsProvider.ProvideCredentials( cancellationToken );
@@ -531,7 +530,7 @@ namespace LitRes.Services
             }
         }
 
-		private void UpdateBook( Book curBook )
+		private void UpdateBook( Book curBook, bool withNavigate = false )
 		{
             Analytics.Instance.sendMessage(Analytics.ActionBuyFullCardOk);
             _purchaseServiceDecorator.UpdateBook(curBook);

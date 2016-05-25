@@ -11,6 +11,8 @@ using LitRes.ValueConverters;
 using LitRes.ViewModels;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
@@ -67,6 +69,7 @@ namespace LitRes.Views
         private LinkRenderData _link;
         private ChapterModel _currentChapter;
         private DisplayRequest _displayRequest;
+        private bool _isNeedToShowBuyFullBook;
         public bool IsHardwareBack => ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons");
 
         public static Reader Instance;
@@ -185,7 +188,7 @@ namespace LitRes.Views
             switch (e.PropertyName)
             {
                 case "ShowPopup":
-
+                    ChoosePaymentMethod();
                     break;
                 case "HidePopup":
 
@@ -215,6 +218,10 @@ namespace LitRes.Views
                 case "IncProgress":
                     pageProgress.Value += 1;
                     break;
+                case "ChoosePaymentMethod":
+                    ChoosePaymentMethod();
+                    break;
+                    
             }
         }
 
@@ -280,11 +287,12 @@ namespace LitRes.Views
             Analytics.Instance.sendMessage(Analytics.ViewReader);
             _displayRequest = new DisplayRequest();
             _displayRequest.RequestActive(); //to request keep display on
+            Bottom.Visibility = Visibility.Collapsed;
         }
         
         private async Task HandleLoadedBook()
         {
-            if (App.OpenFromTile)
+            if (App.OpenFromTile || AppSettings.Default.SettingsChanged)
                 await Task.Delay(2000);
             if (ViewModel.Status == ReaderViewModel.LoadingStatus.FullBookLoaded || ViewModel.Status == ReaderViewModel.LoadingStatus.TrialBookLoaded)
             {
@@ -451,14 +459,26 @@ namespace LitRes.Views
         private void HideMenu()
         {           
             MobileTop.Visibility = Visibility.Collapsed;
+            if (_isNeedToShowBuyFullBook) return;
             Bottom.Visibility = Visibility.Collapsed;
-            PagesTextBlock.Visibility=Visibility.Visible;
         }
 
         private void ShowMenu()
         {
-            MobileTop.Visibility = Visibility.Visible;
+            if (!ViewModel.Entity.IsMyBook && !ViewModel.Entity.IsFreeBook)
+            {
+                BuyFullBookButton.Visibility = Visibility.Visible;
+            }
+            if (!_isNeedToShowBuyFullBook)
+            {
+                BuyBookTextFirstLine.Visibility = Visibility.Collapsed;
+                BuyBookTextSecondLine.Visibility = Visibility.Collapsed;
+                ChapterTextBlock.Visibility = Visibility.Visible;
+                PagesTextBlock.Visibility = Visibility.Visible;
+                CurrentPageSlider.Visibility = Visibility.Visible;
+            }
             Bottom.Visibility = Visibility.Visible;
+            MobileTop.Visibility = Visibility.Visible;
         }
 
         public void ExpiredCallBack(Models.Book book)
@@ -534,7 +554,8 @@ namespace LitRes.Views
         {
             if (!_isLoaded)
                 return;
-
+            if (AppSettings.Default.SettingsChanged)
+                await Task.Delay(2000);
             await _event.WaitAsync();
 
             Background = AppSettings.Default.ColorScheme.BackgroundBrush;
@@ -644,7 +665,7 @@ namespace LitRes.Views
             else
                 await _readController.ShowPrevPage();
 
-           _tokenOffset = _readController.Offset;
+            _tokenOffset = _readController.Offset;
             GetCurrentChapter();
             CurrentPageSlider.Value = _readController.CurrentPage;
             CurrentPage = (int) CurrentPageSlider.Value;
@@ -657,8 +678,48 @@ namespace LitRes.Views
             PageCanvas.Manipulator.IsLastPage = _readController.IsLast;
             PageCanvas.Manipulator.UpdatePanelsVisibility();
 
+            CheckIfLast();
+
             _event.Release();
             SaveCurrentBookmark();
+        }
+
+        private void CheckIfLast()
+        {
+            var concantinatedString = PageCanvas.CurrentTexts.Aggregate("", (current, textRenderData) => current + textRenderData.Text);
+            concantinatedString = Regex.Replace(concantinatedString, "[^0-9a-zA-Zа-яА-Я]+", "");
+            _isNeedToShowBuyFullBook = concantinatedString.Contains("Конецознакомительногофрагмента");
+
+            if (_isNeedToShowBuyFullBook)
+                ShowBuyFullBook();
+            else
+                HideBuyFullBook();
+        }
+
+        private void HideBuyFullBook()
+        {
+            if (MobileTop.Visibility == Visibility.Collapsed)
+                Bottom.Visibility = Visibility.Collapsed;
+            if (!ViewModel.Entity.IsMyBook && !ViewModel.Entity.IsFreeBook)
+            {
+                BuyFullBookButton.Visibility = Visibility.Visible;
+            }
+            BuyBookTextFirstLine.Visibility = Visibility.Collapsed;
+            BuyBookTextSecondLine.Visibility = Visibility.Collapsed;
+            ChapterTextBlock.Visibility = Visibility.Visible;
+            PagesTextBlock.Visibility = Visibility.Visible;
+            CurrentPageSlider.Visibility = Visibility.Visible;
+        }
+
+        private void ShowBuyFullBook()
+        {
+            Bottom.Visibility = Visibility.Visible;
+            BuyFullBookButton.Visibility = Visibility.Visible;
+            BuyBookTextFirstLine.Visibility = Visibility.Visible;
+            BuyBookTextSecondLine.Visibility = Visibility.Visible;
+            ChapterTextBlock.Visibility = Visibility.Collapsed;
+            PagesTextBlock.Visibility = Visibility.Collapsed;
+            CurrentPageSlider.Visibility = Visibility.Collapsed;
         }
 
         private bool _isAnchor;
@@ -853,6 +914,66 @@ namespace LitRes.Views
         private void BookmarksFrame_Unloaded(object sender, RoutedEventArgs e)
         {
             BookmarksButton.Background = new SolidColorBrush(Colors.Transparent);          
+        }
+
+        private void BuyFullBookButton_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            ViewModel.BuyBook.Execute(null);
+        }
+
+        private async void ChoosePaymentMethod()
+        {
+            await ViewModel.UpdatePrice();
+            var price = ViewModel.AccoundDifferencePrice;
+
+            var dialog = new ContentDialog
+            {
+                Title = "Необходимо пополнить счет",
+                IsPrimaryButtonEnabled = true,
+                PrimaryButtonText = "Отмена"
+            };
+
+            var panel = new StackPanel();
+            panel.Children.Add(new TextBlock
+            {
+                Margin = new Thickness(0, 10, 0, 5),
+                Text = "К сожалению на Вашем счете ЛитРес недостаточно средств.",
+                TextWrapping = TextWrapping.Wrap
+            });
+
+            var creditButton = new Button
+            {
+                Margin = new Thickness(0, 10, 0, 10),
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                Content = $"пополнить счет на {price} руб.",
+                BorderThickness = new Thickness(2),
+                BorderBrush = new SolidColorBrush(Colors.Gray),
+                Background = new SolidColorBrush(Colors.Transparent)
+            };
+            creditButton.Tapped += (sender, args) => { ViewModel.RunCreditCardPaymentProcess.Execute(null); dialog.Hide(); };
+            panel.Children.Add(creditButton);
+
+            var storeButton = new Button
+            {
+                Margin = new Thickness(0, 10, 0, 5),
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                Content = $"оплатить через Windows Store",
+                BorderThickness = new Thickness(2),
+                BorderBrush = new SolidColorBrush(Colors.Gray),
+                Background = new SolidColorBrush(Colors.Transparent)
+            };
+            storeButton.Tapped += (sender, args) => { ViewModel.BuyBookFromMicrosoft.Execute(null); dialog.Hide(); };
+            panel.Children.Add(storeButton);
+
+            panel.Children.Add(new TextBlock
+            {
+                Margin = new Thickness(0, 0, 0, 10),
+                Text = "Внимание! К цене будет добавлена комисия Windows Store.",
+
+                TextWrapping = TextWrapping.Wrap
+            });
+            dialog.Content = panel;
+            await dialog.ShowAsync();
         }
     }
 
