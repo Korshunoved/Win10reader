@@ -143,6 +143,8 @@ namespace LitRes.Views
             ChapterTextBlock.Foreground = AppSettings.Default.ColorScheme.ChapterTextBrush;
             SecondCurrentPageRun.Foreground = AppSettings.Default.ColorScheme.CurrentPageColorBrush;
             SecondTotalPagesRun.Foreground = AppSettings.Default.ColorScheme.ChapterTextBrush;
+            BuyBookTextFirstLine.Foreground = AppSettings.Default.ColorScheme.ChapterTextBrush;
+            BuyBookTextSecondLine.Foreground = AppSettings.Default.ColorScheme.ChapterTextBrush;
         }
 
         private async void ReaderGridOnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -469,6 +471,10 @@ namespace LitRes.Views
             {
                 BuyFullBookButton.Visibility = Visibility.Visible;
             }
+            else
+            {
+                BuyFullBookButton.Visibility = Visibility.Collapsed;
+            }
             if (!_isNeedToShowBuyFullBook)
             {
                 BuyBookTextFirstLine.Visibility = Visibility.Collapsed;
@@ -555,7 +561,18 @@ namespace LitRes.Views
             if (!_isLoaded)
                 return;
             if (AppSettings.Default.SettingsChanged)
-                await Task.Delay(2000);
+            {
+                await Task.Delay(4000);
+                if (!ViewModel.Entity.IsMyBook && !ViewModel.Entity.IsFreeBook)
+                {
+                    BuyFullBookButton.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    BuyFullBookButton.Visibility = Visibility.Collapsed;
+                }
+                HideBuyFullBook();
+            }
             await _event.WaitAsync();
 
             Background = AppSettings.Default.ColorScheme.BackgroundBrush;
@@ -703,6 +720,10 @@ namespace LitRes.Views
             if (!ViewModel.Entity.IsMyBook && !ViewModel.Entity.IsFreeBook)
             {
                 BuyFullBookButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                BuyFullBookButton.Visibility = Visibility.Collapsed;
             }
             BuyBookTextFirstLine.Visibility = Visibility.Collapsed;
             BuyBookTextSecondLine.Visibility = Visibility.Collapsed;
