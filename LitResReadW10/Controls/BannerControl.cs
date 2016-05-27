@@ -23,7 +23,7 @@ namespace LitResReadW10.Controls
             _frame = frame;         
             bannerCanv.Items?.Clear();
             var deviceWidth = Window.Current.CoreWindow.Bounds.Width;
-            foreach (Banner banner in banners)
+            foreach (var banner in banners)
             {
                 var bannerBitmap = new BitmapImage {UriSource = new Uri(banner.Image, UriKind.RelativeOrAbsolute)};
 
