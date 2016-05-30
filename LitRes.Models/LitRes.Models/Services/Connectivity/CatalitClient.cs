@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Digillect.Collections;
 using LitRes.Models;
 using LitRes.Models.JsonModels;
+using LitRes.Models.Models;
 using Genre = LitRes.Models.Genre;
 
 namespace LitRes.Services.Connectivity
@@ -190,5 +191,10 @@ namespace LitRes.Services.Connectivity
 	    {
             return _connection.ProcessRequest<PurgeRebillsResponse>("catalit_purge_rebills", false, true, cancellationToken);
 	    }
+
+        public Task<OffersResponse> GetOffers(CancellationToken cancellationToken)
+        {
+            return _connection.ProcessRequest<OffersResponse>("catalit_offers", false, true, cancellationToken);
+        }
 	}
 }

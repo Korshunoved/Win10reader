@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using LitRes.Exceptions;
 using LitRes.Models;
+using LitRes.Models.Models;
 using LitRes.Services.Connectivity;
 
 namespace LitRes.Services
@@ -250,5 +251,12 @@ namespace LitRes.Services
 						};
             await _client.ActivateCoupone(parameters, cancellationToken);
         }
-	}
+
+
+        public async Task<OffersResponse> GetOffers(CancellationToken cancellationToken)
+        {
+            var result = await _client.GetOffers(cancellationToken);            
+            return result;
+        }
+    }
 }

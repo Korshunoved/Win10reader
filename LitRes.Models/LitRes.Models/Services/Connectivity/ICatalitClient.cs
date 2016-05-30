@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Digillect.Collections;
 using LitRes.Models;
 using LitRes.Models.JsonModels;
+using LitRes.Models.Models;
 using Genre = LitRes.Models.Genre;
 
 namespace LitRes.Services.Connectivity
@@ -46,6 +44,6 @@ namespace LitRes.Services.Connectivity
 	    Task<ServerTimeResponse> ServerTime(CancellationToken cancellationToken);
         Task<PurgeRebillsResponse> PurgeRebils(CancellationToken cancellationToken);
 	    Task AddBookToBasket(IDictionary<string, object> parameters, CancellationToken cancellationToken);
-
+	    Task<OffersResponse> GetOffers(CancellationToken cancellationToken);
 	}
 }

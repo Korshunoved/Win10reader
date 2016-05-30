@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using LitRes.Models;
+using LitRes.Models.Models;
 
 namespace LitRes.Services
 {
@@ -16,5 +14,6 @@ namespace LitRes.Services
 		Task<CatalitCredentials> RegisterDefault( CancellationToken cancellationToken );
 		Task ChangeUserInfo( UserInformation userInfo, CancellationToken cancellationToken );
 		Task<UserInformation> MergeAccounts(string userAccountSid, CatalitCredentials mergedAccount, CancellationToken cancellationToken);
+	    Task<OffersResponse> GetOffers(CancellationToken cancellationToken);
 	}
 }

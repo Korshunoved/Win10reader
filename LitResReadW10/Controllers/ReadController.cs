@@ -60,9 +60,9 @@ namespace LitResReadW10.Controllers
 
         public bool IsLast => _nextPage == null;
 
-        public int CurrentPage => (int) Math.Ceiling((double) (_currentPage.FirstTokenID + 1)/ AppSettings.WordsPerPage);
+        public int CurrentPage => (int) Math.Ceiling((double) (_currentPage.FirstTokenID + 1)/AppSettings.WordsPerPage);
 
-        public int TotalPages => (int)Math.Ceiling((double)_bookModel.TokenCount / AppSettings.WordsPerPage - 1);
+        public int TotalPages => (int) Math.Ceiling((double) _bookModel.TokenCount/AppSettings.WordsPerPage - 1);
 
         public int Offset => _currentPage.FirstTokenID;
 

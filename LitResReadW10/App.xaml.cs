@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using AppsFlyerLib;
@@ -27,7 +28,10 @@ namespace LitResReadW10
         public static string TileBookId;
         public static bool IsLaunched { get; set; }
         public static bool OpenFromTile;
-        public static LoopItemsPanel bannerLoopPanel; 
+        public static LoopItemsPanel BannerLoopPanel;
+        public static bool PresentAvailable;
+        public static double PresentPrice;
+        public static DateTime PresentValidTime;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code

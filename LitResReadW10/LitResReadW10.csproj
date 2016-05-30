@@ -533,6 +533,10 @@
     <Content Include="Assets\W10Icons\TypeWriter\ill_typewriter_small.scale-150.png" />
     <Content Include="Assets\W10Icons\TypeWriter\ill_typewriter_small.scale-200.png" />
     <Content Include="Assets\W10Icons\TypeWriter\ill_typewriter_small.scale-400.png" />
+    <Content Include="Assets\W10Images\GiftBook\bookborder%401x.png" />
+    <Content Include="Assets\W10Images\GiftBook\close%401x.png" />
+    <Content Include="Assets\W10Images\GiftBook\giftbook.png" />
+    <Content Include="Assets\W10Images\GiftBook\giftbutton.png" />
     <Content Include="Assets\W10Images\MyBookColor\MyBookColor.scale-100.png" />
     <Content Include="Assets\W10Images\MyBookColor\MyBookColor.scale-125.png" />
     <Content Include="Assets\W10Images\MyBookColor\MyBookColor.scale-150.png" />

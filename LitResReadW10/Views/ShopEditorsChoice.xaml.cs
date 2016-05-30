@@ -5,9 +5,11 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Digillect.Mvvm.UI;
 using LitRes.Models;
+using LitRes.ValueConverters;
 using LitRes.ViewModels;
 using LitResReadW10.Controls;
 using LitResReadW10.Helpers;
@@ -34,6 +36,7 @@ namespace LitResReadW10.Views
             CheckWellcomeScreen();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
             ViewModel.LoadMyBooks();
+            ViewModel.LoadGiftInfo();          
             if (!SystemInfoHelper.HasInternet() && ViewModel?.InterestingBooks?.Count == 0)
             {
                 NoConnection.Visibility = Visibility.Visible;
@@ -109,6 +112,24 @@ namespace LitResReadW10.Views
             {
                 var banners = new BannerControl(Banners, ViewModel.Banners, Frame);
             }
+            else if (e.PropertyName == "PresentCovers")
+            {
+                if (!ViewModel.PresentAvailable)
+                {
+                    FirstBookBrush.ImageSource = (BitmapImage)(new UrlToImageConverter().Convert(ViewModel.Covers[0], null, null));
+                    var count = ViewModel.Covers.Count;
+                    if (count > 1)
+                        SecondBookBrush.ImageSource = (BitmapImage)(new UrlToImageConverter().Convert(ViewModel.Covers[1], null, null));
+                    if (count > 2)
+                        ThirdBookBrush.ImageSource = (BitmapImage)(new UrlToImageConverter().Convert(ViewModel.Covers[2], null, null));
+                    PhoneGridBookGift.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    PhonePresentPopup.Visibility=Visibility.Visible;
+                    PhoneGridBookGift.Visibility=Visibility.Collapsed;                    
+                }
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -180,6 +201,16 @@ namespace LitResReadW10.Views
             {
                 ViewModel.LoadMoreInterestingBooks.Execute(null);
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            PhoneGridBookGift.Visibility = Visibility.Collapsed;            
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            PhonePresentPopup.Visibility = Visibility.Collapsed;            
         }
     }
 

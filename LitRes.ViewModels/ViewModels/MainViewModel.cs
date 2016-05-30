@@ -14,8 +14,10 @@ using LitRes.Services;
 using LitRes.Services.Connectivity;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using Windows.UI.Popups;
 using Digillect;
+using LitRes.Models.Models;
 
 
 namespace LitRes.ViewModels
@@ -49,8 +51,9 @@ namespace LitRes.ViewModels
 
         public const string MyBooksPart = "MyBooks";
 		public const string NewBooksPart = "NewBooks";
+	    public const string MyOffersPart = "MyOffers";
 
-		private readonly IGenresProvider _genresProvider;
+        private readonly IGenresProvider _genresProvider;
 		private readonly ICatalogProvider _catalogProvider;
 		private readonly ICredentialsProvider _credentialsProvider;
 		private readonly IProfileProvider _profileProvider;
@@ -88,7 +91,13 @@ namespace LitRes.ViewModels
 		public XCollection<Book> PopularBooks { get; private set; }
 		public XCollection<Book> InterestingBooks { get; private set; }
 
-		public MyBooksViewStateEnum MyBooksViewState
+        public bool PresentAvailable { get; set; }
+        public double PresentPrice { get; set; }
+        public DateTime PresentValidTime { get; set; }
+
+	    public List<string> Covers; 
+
+        public MyBooksViewStateEnum MyBooksViewState
 		{
 			get { return _myBooksViewState; }
 			private set { SetProperty( ref _myBooksViewState, value, "MyBooksViewState" ); }
@@ -163,12 +172,13 @@ namespace LitRes.ViewModels
             }
             ////MyBooks reload allways, may change account information
             RegisterAction(BuyBookPart).AddPart((session) => BuyBookAsync(session, Book), (session) => true);
-            RegisterAction(MyBooksPart).AddPart( session =>  LoadMyBooks(session), session => true);
+            RegisterAction(MyBooksPart).AddPart( LoadMyBooks, session => true);
             RegisterAction(BuyBookLitresPart).AddPart((session) => BuyBookFromLitres(session, Book), (session) => true);
             RegisterAction(CreditCardInfoPart).AddPart(session => CreditCardInfoAsync(session), (session) => true);
             RegisterAction(LoadMoreNoveltyBooksPart).AddPart(session => LoadNoveltyBooks(session), session => true);
             RegisterAction(LoadMorePopularBooksPart).AddPart(session => LoadPopularBooks(session), session => true);
             RegisterAction(LoadMoreInterestingBooksPart).AddPart(session => LoadInterestingBooks(session), session => true);
+            RegisterAction(MyOffersPart).AddPart(LoadOffers, session => true);
             //RegisterPart(MyBooksPart, (session, part) => LoadMyBooks(session), (session, part) => true, false);
             ////RegisterPart(NewBooksPart, (session, part) => LoadNewBooks(session), (session, part) => true, false);
 
@@ -355,14 +365,44 @@ namespace LitRes.ViewModels
 
         #region LoadMyBooks
         public Task LoadMyBooks()
-		{
-		    if (_isLoaded) return null;
-            return Load( new Session( MyBooksPart ) );
-		}
-		#endregion
+        {
+            return _isLoaded ? null : Load(new Session(MyBooksPart));
+        }
 
-		#region LoadGenres
-		private async Task LoadGenres(Session session)
+	    #endregion
+
+        #region GiftBook
+
+        public XCollection<Offer> Offers { get; set; }
+	    public Task LoadGiftInfo()
+	    {
+	        return Load(new Session(MyOffersPart));
+	    }
+
+        public async Task LoadOffers(Session session)
+        {
+            PresentAvailable = false;
+            var result = await _profileProvider.GetOffers(session.Token);
+            Offers = result.Offers;
+            PresentValidTime = DateTime.MaxValue;
+            foreach (var offer in Offers.Where(offer => offer.Campaign != 2))
+            {
+                Offers.Remove(offer);
+            }
+            foreach (var time in Offers.Select(offer => DateTime.ParseExact(offer.ValidTill, "yyyy-MM-dd HH:mm:ss", new CultureInfo("ru-RU"), DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal)).Where(time => time < PresentValidTime))
+            {
+                PresentValidTime = time;
+            }
+            var count = Offers.Count(of => of.Class == 2);
+            if (count <= 0) return;
+            PresentAvailable = true;
+            PresentPrice = Offers.Where(offer => offer.Class == 2).Select(offer => offer.Xml.Hidden.Present.Price).Concat(new double[] {0}).Max();
+        }
+
+	    #endregion
+
+        #region LoadGenres
+        private async Task LoadGenres(Session session)
 		{
 			var genres = await _genresProvider.GetGenres(session.Token);
 
@@ -596,7 +636,15 @@ namespace LitRes.ViewModels
                 catch (Exception) { }
             }
 
-            //if (myBooks == null || myBooks.Count == 0)
+            //Load cover for gift window
+
+		    if (Offers.Count > 0)
+		    {
+                Covers = (from book in myBooks from offer in Offers.Where(o => o.Class == 3) where book.Id.ToString() == offer.Xml.Hidden.Present.Art select book.CoverPreview).ToList();
+                OnPropertyChanged(new PropertyChangedEventArgs("PresentCovers"));
+            }
+
+		    //if (myBooks == null || myBooks.Count == 0)
             //{
             //    if (creds != null)
             //    {

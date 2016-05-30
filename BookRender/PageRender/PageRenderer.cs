@@ -74,7 +74,7 @@ namespace BookRender.PageRender
 
             return context;
         }
-        
+
         private void Draw(PageRenderData context)
         {
             Panel panel = context.Panel;
@@ -84,7 +84,7 @@ namespace BookRender.PageRender
             foreach (BookmarkModel bookmarkModel in GetHighlights(context))
             {
                 var highlight = RenderHighlight(bookmarkModel, panel, context);
-                if(highlight != null)
+                if (highlight != null)
                     panel.Children.Insert(0, highlight);
             }
             IEnumerable<WordRenderData> words = null;
@@ -92,7 +92,7 @@ namespace BookRender.PageRender
             foreach (WordRenderData wordContext in context.Words.Where(wordContext => wordContext.Text == "Полный"))
             {
                 words = context.Words.SkipWhile(a => a != wordContext);
-                var query = words.Aggregate("", (current, word) => current + word.Text);
+                var query = words.Aggregate("", (current, word) => current + word.Text).Replace("-",string.Empty);
                 if (!query.Contains("Полный текст доступен на www.litres.ru")) continue;
                 found = true;
                 break;
