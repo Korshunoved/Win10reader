@@ -9,6 +9,7 @@ namespace LitRes.Services
 	{
         Task Deposit(DepositType deposit, CancellationToken cancellationToken);
 		Task BuyBook( Book book, CancellationToken cancellationToken );
+        Task<string> GiftBook(Book book, CancellationToken cancellationToken);
         Task BuyBookFromLitres(Book book, CancellationToken cancellationToken);
         Task MobileCommerceInit(double sum, string phone,Book book, CancellationToken cancellationToken);
         Task<SmsResponse> GetSmsPaymentInfo(CancellationToken cancellationToken);

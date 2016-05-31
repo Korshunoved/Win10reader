@@ -114,7 +114,7 @@ namespace LitResReadW10.Views
             }
             else if (e.PropertyName == "PresentCovers")
             {
-                if (!ViewModel.PresentAvailable)
+                if (!GiftInfo.GiftAvailable)
                 {
                     FirstBookBrush.ImageSource = (BitmapImage)(new UrlToImageConverter().Convert(ViewModel.Covers[0], null, null));
                     var count = ViewModel.Covers.Count;
@@ -129,6 +129,14 @@ namespace LitResReadW10.Views
                     PhonePresentPopup.Visibility=Visibility.Visible;
                     PhoneGridBookGift.Visibility=Visibility.Collapsed;                    
                 }
+            }
+            else if (e.PropertyName == "PresentOk")
+            {
+                MainPage.Instance.ShowMessageBox("Книга добавлена на ваш аккаунт в качестве подарка.");
+            }
+            else if (e.PropertyName == "PresentError")
+            {
+                MainPage.Instance.ShowMessageBox("Произошла ошибка добавления подарка.");
             }
         }
 
@@ -211,6 +219,23 @@ namespace LitResReadW10.Views
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             PhonePresentPopup.Visibility = Visibility.Collapsed;            
+        }
+
+        private void TextBlock_Tapped(object sender, TappedRoutedEventArgs e)
+        {            
+            MainPage.Instance.DescriptionPanel.Visibility = Visibility.Visible;
+        }
+
+        private void GiftButton_OnClick(object sender, TappedRoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var book = button?.DataContext as Book;
+            if (book == null)
+                return;
+            if (book.IsGiftBook)
+            {
+                ViewModel.GiftBook.Execute(book);
+            }
         }
     }
 

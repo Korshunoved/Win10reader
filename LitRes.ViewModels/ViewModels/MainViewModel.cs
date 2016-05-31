@@ -44,6 +44,7 @@ namespace LitRes.ViewModels
 
         private const string BuyBookLitresPart = "BuyBookLitresPart";
         private const string BuyBookPart = "BuyBook";
+        private const string GiftBookPart = "GiftBook";
         private const string CreditCardInfoPart = "CreditCardInfoPart";
         private const string LoadMoreNoveltyBooksPart = "LoadMoreNoveltyBooks";
         private const string LoadMorePopularBooksPart = "LoadMorePopularBooks";
@@ -116,6 +117,7 @@ namespace LitRes.ViewModels
         public RelayCommand<Book> Read { get; private set; }
         public RelayCommand<Book> BookSelected { get; private set; }
         public RelayCommand<Book> BuyBook { get; private set; }
+        public RelayCommand<Book> GiftBook { get; private set; }
         public RelayCommand ShowInterestingBooks { get; private set; }
 		public RelayCommand ShowPopularBooks { get; private set; }
 		public RelayCommand ShowNewBooks { get; private set; }
@@ -172,6 +174,7 @@ namespace LitRes.ViewModels
             }
             ////MyBooks reload allways, may change account information
             RegisterAction(BuyBookPart).AddPart((session) => BuyBookAsync(session, Book), (session) => true);
+            RegisterAction(GiftBookPart).AddPart((session) => GetGiftAsync(session, Book), (session) => true);
             RegisterAction(MyBooksPart).AddPart( LoadMyBooks, session => true);
             RegisterAction(BuyBookLitresPart).AddPart((session) => BuyBookFromLitres(session, Book), (session) => true);
             RegisterAction(CreditCardInfoPart).AddPart(session => CreditCardInfoAsync(session), (session) => true);
@@ -199,7 +202,8 @@ namespace LitRes.ViewModels
 			InterestingBooks = new XCollection<Book>();
 			ShowMyBooks = new RelayCommand( ToMyBooks );
             BookSelected = new RelayCommand<Book>(book =>  _navigationService.Navigate("Book", XParameters.Create("BookEntity", book)), book => book != null);
-            BuyBook = new RelayCommand<Book>(book => BuyBookFromLitresAsync(book));
+            BuyBook = new RelayCommand<Book>(BuyBookFromLitresAsync);
+            GiftBook = new RelayCommand<Book>(GiftBookFromLitresAsync);
             ShowInterestingBooks = new RelayCommand(() => _navigationService.Navigate("BooksByCategory", XParameters.Create("category", (int) BooksByCategoryViewModel.BooksViewModelTypeEnum.Interesting)));
 			ShowPopularBooks = new RelayCommand(() => _navigationService.Navigate("BooksByCategory", XParameters.Create("category", (int) BooksByCategoryViewModel.BooksViewModelTypeEnum.Popular)));
 			ShowNewBooks = new RelayCommand(() => _navigationService.Navigate("BooksByCategory", XParameters.Create("category", (int) BooksByCategoryViewModel.BooksViewModelTypeEnum.Novelty)));
@@ -350,6 +354,26 @@ namespace LitRes.ViewModels
             await _litresPurchaseService.BuyBook(book, CancellationToken.None);
         }
 
+        private async void GiftBookFromLitresAsync(Book book)
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs("BuyBookStart"));
+            Book = book;
+            await Load(new Session(GiftBookPart));
+        }
+
+        public string ErrorCode { get; set; }
+        private async Task GetGiftAsync(Session session, Book book)
+        {
+            var result = await _litresPurchaseService.GiftBook(book, CancellationToken.None);
+            if (result.Contains("Ok"))
+                OnPropertyChanged(new PropertyChangedEventArgs("PresentOk"));
+            else
+            {
+                OnPropertyChanged(new PropertyChangedEventArgs("PresentError"));
+                ErrorCode = result;
+            }
+        }
+
         public async Task UpdatePrice()
         {
             var userInfo = await _profileProvider.GetUserInfo(CancellationToken.None, false);
@@ -381,22 +405,24 @@ namespace LitRes.ViewModels
 
         public async Task LoadOffers(Session session)
         {
-            PresentAvailable = false;
+            GiftInfo.GiftAvailable = false;
             var result = await _profileProvider.GetOffers(session.Token);
-            Offers = result.Offers;
-            PresentValidTime = DateTime.MaxValue;
-            foreach (var offer in Offers.Where(offer => offer.Campaign != 2))
+            var offers = result.Offers;
+            Offers = new XCollection<Offer>();
+            foreach (var offer in offers.Where(offer => offer.Campaign == 2))
             {
-                Offers.Remove(offer);
+                Offers.Add(offer);
             }
-            foreach (var time in Offers.Select(offer => DateTime.ParseExact(offer.ValidTill, "yyyy-MM-dd HH:mm:ss", new CultureInfo("ru-RU"), DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal)).Where(time => time < PresentValidTime))
+            PresentValidTime = DateTime.MinValue;
+            foreach (var time in Offers.Select(offer => DateTime.ParseExact(offer.ValidTill, "yyyy-MM-dd HH:mm:ss", new CultureInfo("ru-RU"), DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal)).Where(time => time > PresentValidTime))
             {
                 PresentValidTime = time;
             }
             var count = Offers.Count(of => of.Class == 2);
             if (count <= 0) return;
-            PresentAvailable = true;
-            PresentPrice = Offers.Where(offer => offer.Class == 2).Select(offer => offer.Xml.Hidden.Present.Price).Concat(new double[] {0}).Max();
+            GiftInfo.GiftAvailable = true;
+            var giftPrice = (from offer in Offers where offer.Xml.Hidden.Present.Price > 0 select offer.Xml.Hidden.Present.Price).Concat(new double[] {99999}).Min();
+            GiftInfo.MinGiftPrice = giftPrice;
         }
 
 	    #endregion
@@ -638,13 +664,14 @@ namespace LitRes.ViewModels
 
             //Load cover for gift window
 
-		    if (Offers.Count > 0)
-		    {
+            if (Offers?.Count > 0 && !GiftInfo.GiftAvailable)
+            {
                 Covers = (from book in myBooks from offer in Offers.Where(o => o.Class == 3) where book.Id.ToString() == offer.Xml.Hidden.Present.Art select book.CoverPreview).ToList();
-                OnPropertyChanged(new PropertyChangedEventArgs("PresentCovers"));
+                if (Covers.Count > 0)
+                    OnPropertyChanged(new PropertyChangedEventArgs("PresentCovers"));
             }
 
-		    //if (myBooks == null || myBooks.Count == 0)
+            //if (myBooks == null || myBooks.Count == 0)
             //{
             //    if (creds != null)
             //    {

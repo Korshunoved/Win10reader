@@ -45,5 +45,6 @@ namespace LitRes.Services.Connectivity
         Task<PurgeRebillsResponse> PurgeRebils(CancellationToken cancellationToken);
 	    Task AddBookToBasket(IDictionary<string, object> parameters, CancellationToken cancellationToken);
 	    Task<OffersResponse> GetOffers(CancellationToken cancellationToken);
-	}
+        Task<string> GetGiftBook(IDictionary<string, object> parameters, CancellationToken cancellationToken, bool isHidden = false);
+    }
 }

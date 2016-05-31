@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.UI.Xaml.Controls;
 using AppsFlyerLib;
 using Autofac;
 using BookParser;
@@ -29,8 +30,6 @@ namespace LitResReadW10
         public static bool IsLaunched { get; set; }
         public static bool OpenFromTile;
         public static LoopItemsPanel BannerLoopPanel;
-        public static bool PresentAvailable;
-        public static double PresentPrice;
         public static DateTime PresentValidTime;
 
         /// <summary>

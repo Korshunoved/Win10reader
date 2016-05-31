@@ -4,6 +4,7 @@ using System.Threading;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -34,6 +35,8 @@ namespace LitResReadW10
 
         public bool IsNeedToShowReviewDialog { get; set; }
 
+        public StackPanel DescriptionPanel;
+
         private readonly INavigationService _navigationService = ((App) App.Current).Scope.Resolve<INavigationService>();
         private readonly IDataCacheService _dataCacheService = ((App) App.Current).Scope.Resolve<IDataCacheService>();
         private readonly ICredentialsProvider _credentialsProvider = ((App) App.Current).Scope.Resolve<ICredentialsProvider>();
@@ -55,9 +58,14 @@ namespace LitResReadW10
             SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_BackRequested;
             
             CheckNavButton(SystemInfoHelper.HasInternet() ? EditorsChoiceButton : MyBooksButton, false);
-
+            DescriptionPanel = PhonePresentDescriptionStackPanel;
             CheckIfNeedToOpenReviewDialog();
             Instance = this;
+        }
+
+        public async void ShowMessageBox(string message)
+        {
+            await new MessageDialog(message).ShowAsync();
         }
 
         private void CheckIfNeedToOpenReviewDialog()
@@ -474,6 +482,11 @@ namespace LitResReadW10
             {
                 Debug.WriteLine(ex.Message);
             }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            PhonePresentDescriptionStackPanel.Visibility = Visibility.Collapsed;
         }
     }
 }

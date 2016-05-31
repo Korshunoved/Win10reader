@@ -179,7 +179,9 @@
                                         Style="{StaticResource GreenButtonStyle}"
                                         Width="72"
                                         Height="36"
-                                        Padding="5,0,5,0">
+                                        Padding="5,0,5,0"
+                                         Visibility="{Binding Path=IsGiftBook, Converter={StaticResource VisibilityConverter},ConverterParameter=inverse}"
+                                        Tapped="BuyButton_OnTapped">
                                         <TextBlock TextWrapping="Wrap"
                                                    MaxLines="2"
                                                    FontSize="14"
@@ -187,6 +189,18 @@
                                             <Run Text="{Binding Path=PriceInRub}" />
                                             <Run Text="₽" />
                                         </TextBlock>
+                                    </Button>
+                                    <Button
+                                        Width="131"
+                                        Height="40"
+                                        Padding="5,0,5,0"
+                                        Tapped="GiftButton_OnClick"
+                                        Visibility="{Binding Path=IsGiftBook, Converter={StaticResource VisibilityConverter}}" 
+                                        Style="{StaticResource IconButtonStyle}"
+                                        >
+                                        <Button.Background>
+                                            <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/W10Images/GiftBook/button_popupscale_600.png"/>
+                                        </Button.Background>
                                     </Button>
                                 </StackPanel>
                             </StackPanel>
@@ -388,7 +402,9 @@
                                         Style="{StaticResource GreenButtonStyle}"
                                         Width="72"
                                         Height="36"
-                                        Padding="5,0,5,0">
+                                        Padding="5,0,5,0"
+                                         Visibility="{Binding Path=IsGiftBook, Converter={StaticResource VisibilityConverter},ConverterParameter=inverse}"
+                                        Tapped="BuyButton_OnTapped">
                                         <TextBlock TextWrapping="Wrap"
                                                    MaxLines="2"
                                                    FontSize="14"
@@ -396,6 +412,18 @@
                                             <Run Text="{Binding Path=PriceInRub}" />
                                             <Run Text="₽" />
                                         </TextBlock>
+                                    </Button>
+                                    <Button
+                                        Width="131"
+                                        Height="40"
+                                        Padding="5,0,5,0"
+                                        Tapped="GiftButton_OnClick"
+                                        Visibility="{Binding Path=IsGiftBook, Converter={StaticResource VisibilityConverter}}" 
+                                        Style="{StaticResource IconButtonStyle}"
+                                        >
+                                        <Button.Background>
+                                            <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/W10Images/GiftBook/button_popupscale_600.png"/>
+                                        </Button.Background>
                                     </Button>
                                 </StackPanel>
                             </StackPanel>

@@ -121,7 +121,12 @@ namespace LitRes.Services.Connectivity
             return _connection.ProcessRequest<PurchaseResponse>("purchase_book_inapp", false, true, cancellationToken, parameters);
 		}
 
-        public Task<LitresPurchaseResponse> LitresPurchaseBook(IDictionary<string, object> parameters, CancellationToken cancellationToken, bool isHidden = false)
+        public Task<string> GetGiftBook(IDictionary<string, object> parameters, CancellationToken cancellationToken, bool isHidden = false)
+	    {
+            return _connection.ProcessRequest<string>("catalit_get_present", false, true, cancellationToken, parameters);
+        }
+
+	    public Task<LitresPurchaseResponse> LitresPurchaseBook(IDictionary<string, object> parameters, CancellationToken cancellationToken, bool isHidden = false)
         {
             if (isHidden) return _connection.ProcessRequest<LitresPurchaseResponse>("purchase_book", false, true, cancellationToken, parameters, ConnectivityRequestType.POST, "wp8-ebook-hidden.litres.ru");
             return _connection.ProcessRequest<LitresPurchaseResponse>("purchase_book", false, true, cancellationToken, parameters);

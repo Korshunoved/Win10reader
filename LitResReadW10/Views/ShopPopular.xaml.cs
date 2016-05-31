@@ -110,6 +110,14 @@ namespace LitResReadW10.Views
             {
                 var banners = new BannerControl(Banners, ViewModel.Banners, Frame);
             }
+            else if (e.PropertyName == "PresentOk")
+            {
+                MainPage.Instance.ShowMessageBox("Книга добавлена на ваш аккаунт в качестве подарка.");
+            }
+            else if (e.PropertyName == "PresentError")
+            {
+                MainPage.Instance.ShowMessageBox("Произошла ошибка добавления подарка.");
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -181,6 +189,18 @@ namespace LitResReadW10.Views
             if (maxVerticalOffsetValue < 0 || Math.Abs(verticalOffsetValue - maxVerticalOffsetValue) < 1.0)
             {
                 ViewModel.LoadMorePopularBooks.Execute(null);
+            }
+        }
+
+        private void GiftButton_OnClick(object sender, TappedRoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var book = button?.DataContext as Book;
+            if (book == null)
+                return;
+            if (book.IsGiftBook)
+            {
+                ViewModel.GiftBook.Execute(book);
             }
         }
     }

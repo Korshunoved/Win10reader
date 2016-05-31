@@ -12,11 +12,19 @@ using System.Web;
 
 namespace LitRes.Models
 {
-	public partial class Book
+    public static class GiftInfo
+    {
+        public static bool GiftAvailable { get; set; }
+        public static double MinGiftPrice { get; set; }
+    }
+
+    public partial class Book
 	{
         public string PriceInRub => Price.ToString(CultureInfo.InvariantCulture).Replace('.', ',');
 
 	    public bool IsFreeBook => isFreeBook || (InGifts != null && InGifts.Contains("1")) || Price == 0.0;
+
+        public bool IsGiftBook => GiftInfo.GiftAvailable && GiftInfo.MinGiftPrice >= Price;
 	
 
         public partial class Annotation

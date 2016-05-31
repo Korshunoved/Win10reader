@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-
+using System.Xml.Serialization;
 using LitRes.Exceptions;
 using LitRes.Models;
 using LitRes.Services.Connectivity;
 using Windows.UI.Popups;
+using LitRes.Models.Models;
 using LitRes.ViewModels;
 
 namespace LitRes.Services
@@ -117,7 +119,7 @@ namespace LitRes.Services
 	                UpdateBook(book);
 	            }
 	        }
-	    }
+	    }        
 
 	    public async Task BuyBook( Book book, CancellationToken cancellationToken)
 		{
@@ -200,7 +202,33 @@ namespace LitRes.Services
             }
 		}
 
-	    public async Task Deposit(DepositType depositType, CancellationToken cancellationToken)
+	    public async Task<string> GiftBook(Book book, CancellationToken cancellationToken)
+	    {
+            var parameters = new Dictionary<string, object>
+                    {                       
+                        {"art", book.Id}
+                    };
+
+	        string result = "";
+
+            result = await _client.GetGiftBook(parameters, cancellationToken, book.isHiddenBook);
+
+	        if (result.Contains("failed "))
+	        {
+	            var responce = new PresentErrorResponce();
+                using (var textReader = new StringReader(result))
+                {
+                    var serializer = new XmlSerializer(typeof(PresentErrorResponce));
+
+                    responce = (PresentErrorResponce) serializer.Deserialize(textReader);
+                    return responce.ErrorCode.ToString();
+                }
+            }
+	        return "Ok";
+	    }
+
+
+        public async Task Deposit(DepositType depositType, CancellationToken cancellationToken)
 	    {
             CatalitCredentials creds = _credentialsProvider.ProvideCredentials(cancellationToken);
             if (creds == null)

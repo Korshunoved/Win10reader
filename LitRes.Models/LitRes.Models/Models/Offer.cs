@@ -202,4 +202,14 @@ namespace LitRes.Models.Models
         [XmlAttribute("present_price")]
         public double Price { get; set; }
     }
+
+    [XmlRoot("catalit-get-present-failed")]
+    public class PresentErrorResponce : XObject
+    {
+        [XmlAttribute("error")]
+        public int ErrorCode { get; set; }
+
+        [XmlAttribute("comment")]
+        public string ErrorComment { get; set; }
+    }
 }

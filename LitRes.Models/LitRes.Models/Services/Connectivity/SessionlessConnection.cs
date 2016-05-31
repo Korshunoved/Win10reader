@@ -243,8 +243,22 @@ namespace LitRes.Services.Connectivity
 				object rawFile = new RawFile { Raw = response.RawBytes, Zipped =  response.ContentType!=null && response.ContentType.ToString() == "application/zip" };
 				return ( T ) rawFile;
 			}
+            if (typeof( T ) == typeof( string ))
+            {
+                try
+                {
+                    //Check catalit exceptions
+                    CheckException(responseString);
+                }
+                catch (CatalitParseException ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+                object resultString = responseString;
+                return (T) resultString;
+            }
 
-			CheckException(responseString);
+            CheckException(responseString);
 
 			try
 			{
